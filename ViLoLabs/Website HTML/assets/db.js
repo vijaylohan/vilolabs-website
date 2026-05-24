@@ -8,6 +8,7 @@
  *    saveToolShare(tool, config)  → returns { slug, url } for shareable link
  *    getToolShare(slug)           → returns config object or null
  *    trackUsage(tool, action)     → lightweight analytics (no PII)
+ *    saveBlogPost(slug, title, description, category)  → pSEO blog index
  */
 (function () {
   'use strict';
@@ -102,7 +103,28 @@
     }
   }
 
-  /* ── 3. Usage analytics (no PII — just counts) ───────────────── */
+  /* ── 3. Blog posts registry ──────────────────────────────────── */
+  // Called once on blog post load (fire-and-forget).
+  // Registers the post in Supabase so sitemap picks it up.
+  // Duplicate slugs silently ignored (post already registered).
+  async function saveBlogPost(slug, title, description, category) {
+    try {
+      await fetch(SUPABASE_URL + '/rest/v1/blog_posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON,
+          'Authorization': 'Bearer ' + SUPABASE_ANON,
+          'Prefer': 'return=minimal,resolution=ignore-duplicates'
+        },
+        body: JSON.stringify({ slug, title, description, category })
+      });
+    } catch (e) {
+      console.warn('[ViloDB] saveBlogPost failed (non-fatal):', e.message);
+    }
+  }
+
+  /* ── 4. Usage analytics (no PII — just counts) ───────────────── */
   async function trackUsage(tool, action) {
     try {
       await sbFetch('/rest/v1/tool_usage', 'POST', { tool, action });
@@ -112,5 +134,5 @@
   }
 
   /* ── Expose ── */
-  window.ViloDB = { saveWorksheet, saveToolShare, getToolShare, trackUsage };
+  window.ViloDB = { saveWorksheet, saveToolShare, getToolShare, trackUsage, saveBlogPost };
 })();

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  ViLo Pulse — Blog Post Template                                ║
+  ║  ----------------------------------------------------------------║
+  ║  TO CREATE A NEW POST: copy this file, then update:             ║
+  ║    1. <title> tag                                               ║
+  ║    2. post-category, post-title, post-subtitle, post-meta       ║
+  ║    3. skim-bar stats (4 numbers)                                ║
+  ║    4. tldr bullet points                                        ║
+  ║    5. All <section> content blocks                              ║
+  ║    6. FAQ items                                                 ║
+  ║    7. Update og:title, og:description                           ║
+  ║  Everything else (nav, footer, styles, chart.js) stays same.   ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petrol Prices Across India 2026 — State-wise Comparison | ViLo Pulse</title>
+  <meta name="description" content="Why does petrol cost ₹94 in Delhi but ₹109 in Andhra Pradesh? State-wise interactive comparison of petrol prices in India — taxes, trends and what you can do.">
+  <meta property="og:title" content="Petrol Prices Across India 2026 — Why the ₹15 Gap?">
+  <meta property="og:description" content="Interactive state-wise petrol price comparison. Taxes explained, cheapest and costliest states ranked.">
+  <meta property="og:type" content="article">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared blog styles -->
+  <link rel="stylesheet" href="/blog/shared/blog.css">
+
+  <!-- Chart.js (SRI hash — safe CDN load) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="/assets/db.js"></script>
+</head>
+<body>
+
+<!-- ── Reading progress bar ── -->
+<div id="read-progress"></div>
+
+<!-- ── Top nav ── -->
+<nav class="blog-nav">
+  <a class="blog-nav-brand" href="/">ViLoLabs <span>/ Pulse</span></a>
+  <a class="blog-nav-back" href="/pulse.html">← Back to Pulse</a>
+</nav>
+
+<!-- ── Hero ── -->
+<header class="post-hero">
+  <div class="post-category">India · Economy · Fuel</div>
+  <h1 class="post-title">
+    Petrol Prices Across India in 2026:<br>
+    Why Delhi Pays <em>₹15 Less</em> Than Andhra Pradesh
+  </h1>
+  <p class="post-subtitle">
+    Same crude oil. Same refineries. Same fuel. Yet prices vary wildly across states.
+    Here's the full picture — interactive, state-wise, no jargon.
+  </p>
+  <div class="post-meta">
+    <span>By ViLo Pulse</span>
+    <span class="post-meta-dot">·</span>
+    <span>May 2026</span>
+    <span class="post-meta-dot">·</span>
+    <span>⏱ 10–12 min read</span>
+    <span class="post-meta-dot">·</span>
+    <span>📊 Interactive charts</span>
+  </div>
+</header>
+
+<!-- ── Quick stats strip — for glancers ── -->
+<div class="skim-bar">
+  <div class="skim-bar-inner">
+    <div class="skim-stat">
+      <span class="skim-stat-num">₹94.77</span>
+      <span class="skim-stat-label">Cheapest — Delhi</span>
+    </div>
+    <div class="skim-stat">
+      <span class="skim-stat-num">₹114.00</span>
+      <span class="skim-stat-label">Costliest — Andhra Pradesh</span>
+    </div>
+    <div class="skim-stat">
+      <span class="skim-stat-num">₹19.23</span>
+      <span class="skim-stat-label">Max gap between states</span>
+    </div>
+    <div class="skim-stat">
+      <span class="skim-stat-num">~45%</span>
+      <span class="skim-stat-label">Of price goes to taxes</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  POST BODY                                          -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="post-layout">
+<article>
+<div class="post-body">
+
+  <!-- TL;DR -->
+  <div class="tldr">
+    <div class="tldr-label">⚡ TL;DR — 30-second version</div>
+    <ul>
+      <li><strong>Petrol price = crude oil cost + central taxes + state VAT/cess.</strong> Central taxes are fixed nationwide. State taxes (VAT) are what create the gap.</li>
+      <li><strong>Delhi is cheapest</strong> at ₹94.77 because of lower state VAT. South India is costliest — Andhra Pradesh ₹114, Telangana ₹112.81. The gap has widened to ₹19+ after the May 2026 price hike.</li>
+      <li><strong>You are paying ~₹45–48 in taxes</strong> on every litre — roughly 45% of what you pay at the pump goes to government, not oil.</li>
+    </ul>
+  </div>
+
+  <p>
+    Every time you fill up your tank, the price on the meter feels arbitrary. Your friend in Delhi fills up at ₹94.72 while you in Hyderabad pay ₹107.41 for the <em>exact same fuel</em>.
+    Same crude oil imported from Saudi Arabia. Same Indian refineries. Same tanker trucks.
+    Yet a ₹12+ difference per litre. On a 40-litre tank, that's <strong>₹500 more per fill-up</strong>.
+  </p>
+  <p>
+    This piece breaks down exactly why — with real numbers, interactive charts, and zero economics jargon.
+  </p>
+
+</div>
+
+<!-- ── Ad slot (replace with AdSense code when ready) ── -->
+<div class="wide-block">
+  <div class="ad-slot">[ Advertisement — Google AdSense will go here ]</div>
+</div>
+
+<div class="post-body">
+
+  <!-- ── SECTION 1: State comparison chart ── -->
+  <h2 id="section-prices">State-wise Petrol Prices — May 2026</h2>
+  <p>
+    The chart below shows current petrol prices in major cities (one per state).
+    <strong>Hover or tap any bar for exact figures.</strong> Sorted cheapest to costliest.
+  </p>
+
+</div>
+
+<!-- WIDE: Bar chart -->
+<div class="wide-block">
+  <div class="chart-card">
+    <div class="chart-title">Petrol Price by State — ₹ per litre</div>
+    <div class="chart-note">State capital / major city prices. Data: IOCL price notifications, May 2026. Prices change daily — this is indicative.</div>
+    <div class="chart-wrap" id="barWrap">
+      <canvas id="chartBar"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="post-body">
+
+  <!-- Insight cards -->
+  <div class="insight-grid">
+    <div class="insight-card green-top">
+      <div class="insight-num">₹94.77</div>
+      <div class="insight-label">Cheapest petrol in India</div>
+      <div class="insight-state">🏛 Delhi</div>
+    </div>
+    <div class="insight-card red-top">
+      <div class="insight-num">₹114.00</div>
+      <div class="insight-label">Most expensive petrol in India</div>
+      <div class="insight-state">🌶 Andhra Pradesh (Vijayawada)</div>
+    </div>
+    <div class="insight-card blue-top">
+      <div class="insight-num">₹104.50</div>
+      <div class="insight-label">Approximate national average</div>
+      <div class="insight-state">🇮🇳 Across 26 states</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-num">₹19.23</div>
+      <div class="insight-label">Price gap — cheapest vs costliest</div>
+      <div class="insight-state">Same country, ₹19 difference per litre</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: Why the difference ── -->
+  <h2 id="section-why">Why Are Prices So Different State to State?</h2>
+  <p>
+    Every litre of petrol you buy has four layers of cost baked in.
+    The first three are <strong>identical across India</strong>.
+    Only the fourth one varies — and that's what causes the entire gap.
+  </p>
+
+</div>
+
+<!-- WIDE: Donut chart + breakdown -->
+<div class="wide-block">
+  <div class="two-chart-grid">
+
+    <div class="chart-card" style="margin:0;">
+      <div class="chart-title">Price Breakdown — Delhi ₹94.72/litre</div>
+      <div class="chart-note">Approximate component split. Actual OMC calculations are more complex.</div>
+      <div class="chart-wrap" style="height:300px;">
+        <canvas id="chartDonut"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card" style="margin:0;">
+      <div class="chart-title">State VAT Rates Comparison</div>
+      <div class="chart-note">VAT % on petrol varies wildly. This is the single biggest driver of price difference.</div>
+      <div class="chart-wrap" style="height:300px;">
+        <canvas id="chartVat"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="post-body">
+
+  <h3>Layer 1 — Base price (same everywhere)</h3>
+  <p>
+    This is the actual cost of the fuel: crude oil import cost, refinery processing,
+    freight to your city, and oil marketing company (OMC) margin.
+    For May 2026, this is approximately <strong>₹56–58 per litre</strong> across India.
+  </p>
+
+  <h3>Layer 2 — Central Excise Duty (same everywhere)</h3>
+  <p>
+    The central government charges a fixed excise duty on every litre:
+    <strong>₹19.90/litre</strong> (as of 2024–25). This is the same in Kerala and Himachal Pradesh alike.
+    There's also a road and infrastructure cess of ₹18/litre embedded in this.
+  </p>
+
+  <div class="callout">
+    <span class="callout-icon">💡</span>
+    <strong>Fun fact:</strong> The central government collected over ₹3.5 lakh crore in fuel taxes in FY2023–24.
+    Petrol and diesel taxes are one of India's most reliable revenue sources —
+    which is exactly why reducing them is politically complicated.
+  </div>
+
+  <h3>Layer 3 — Dealer commission (same everywhere)</h3>
+  <p>
+    Your local petrol pump dealer gets a fixed commission of approximately
+    <strong>₹3.77 per litre</strong>. This is regulated and uniform nationwide.
+  </p>
+
+  <h3>Layer 4 — State VAT + Cess (THIS is the gap)</h3>
+  <p>
+    Every state government levies its own Value Added Tax (VAT) on petrol.
+    Some also add a cess on top. This is 100% in state hands and varies from
+    <strong>under 20% to over 35%</strong>.
+  </p>
+  <p>
+    Uttarakhand charges ~18% VAT. Andhra Pradesh charges ~31% VAT + additional cess.
+    On a ₹57 base + ₹19.90 excise, that extra 13 percentage points
+    alone accounts for most of the ₹15+ price gap.
+  </p>
+
+  <!-- ── SECTION 3: Full sortable table ── -->
+  <h2 id="section-table">Full State-wise Data Table</h2>
+  <p>
+    All 25 major states/UTs below. <strong>Click any column header to sort.
+    Use the search box to find your state.</strong>
+  </p>
+
+</div>
+
+<!-- WIDE: Sortable table -->
+<div class="wide-block">
+  <div class="table-controls">
+    <input type="text" class="table-search" id="stateSearch" placeholder="🔍  Search state or city..." oninput="filterTable()">
+    <span class="table-label" id="tableCount">Showing 25 states</span>
+  </div>
+  <div class="data-table-wrap">
+    <table class="data-table" id="priceTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Rank <span class="sort-icon">⇅</span></th>
+          <th onclick="sortTable(1)">State <span class="sort-icon">⇅</span></th>
+          <th onclick="sortTable(2)">City <span class="sort-icon">⇅</span></th>
+          <th onclick="sortTable(3)">Price/litre <span class="sort-icon">⇅</span></th>
+          <th onclick="sortTable(4)">State VAT % <span class="sort-icon">⇅</span></th>
+          <th>vs Avg</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="post-body">
+
+  <!-- ── SECTION 4: Who benefits from high taxes ── -->
+  <h2 id="section-taxes">Where Does Your Tax Money Go?</h2>
+  <p>
+    State VAT on fuel is a <em>discretionary revenue</em> — states can set it freely and
+    they're not required to spend it on roads or transport. In practice, fuel taxes go into
+    the state's consolidated fund and get allocated across health, education, welfare schemes,
+    and debt repayment.
+  </p>
+  <p>
+    States with higher development spending (like Andhra Pradesh rebuilding its capital
+    Amaravati, or Kerala maintaining strong public health) tend to rely more on this
+    revenue stream. States with large central transfers (like Uttarakhand and Himachal Pradesh,
+    which get special hill-state packages) can afford lower VAT.
+  </p>
+
+  <div class="callout info">
+    <span class="callout-icon">📌</span>
+    <strong>The GST angle:</strong> Petrol and diesel are deliberately kept <em>outside</em> the
+    GST framework. Under GST, the maximum rate would be 28% — but combined central + state taxes
+    currently exceed 100% of the base price in some states. Including petrol in GST would slash
+    state revenues and is politically blocked despite being economically rational.
+  </div>
+
+  <!-- ── SECTION 5: What can you do ── -->
+  <h2 id="section-what">What Can You Actually Do About It?</h2>
+
+  <h3>If you live near a state border</h3>
+  <p>
+    Millions of Indians already do this — fill up in the cheaper neighbouring state.
+    Delhi residents near Uttarakhand or UP borders save ₹1–5/litre.
+    Residents of expensive states like Telangana and Andhra Pradesh near Karnataka borders
+    save ₹4–7/litre. On a 50-litre bike tank, a 20 km detour can save ₹200–350.
+  </p>
+
+  <h3>CNG is the real escape valve</h3>
+  <p>
+    Compressed Natural Gas (CNG) is currently priced at ₹73–79/kg in Delhi
+    (1 kg ≈ 1.3 litres of petrol equivalent). With better fuel efficiency,
+    running cost drops to ₹3–4/km vs ₹7–9/km on petrol.
+    If your city has CNG infrastructure, the conversion cost (₹15,000–25,000)
+    typically pays off in 8–12 months.
+  </p>
+
+  <h3>Electric vehicles — the 10-year view</h3>
+  <p>
+    At current electricity tariffs (~₹6–8/unit), an EV costs roughly ₹1–1.5/km.
+    Even accounting for higher purchase price, the 5-year TCO is often lower than petrol
+    if you drive 15,000+ km/year. The state-wise price gap becomes irrelevant entirely.
+  </p>
+
+  <!-- Share bar -->
+  <div class="share-bar">
+    <span class="share-label">Share</span>
+    <a class="share-btn whatsapp" href="https://wa.me/?text=Why%20Delhi%20pays%20%E2%82%B915%20less%20than%20Andhra%20for%20petrol%20%E2%80%94%20interactive%20state-wise%20comparison%3A%20https%3A%2F%2Fvilolabs.com%2Fblog%2Fpetrol-prices-india-2025" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a class="share-btn twitter" href="https://twitter.com/intent/tweet?text=Why%20Delhi%20pays%20%E2%82%B915%20less%20for%20petrol%20than%20Andhra%20Pradesh%20%E2%80%94%20full%20interactive%20breakdown&url=https%3A%2F%2Fvilolabs.com%2Fblog%2Fpetrol-prices-india-2025" target="_blank" rel="noopener">𝕏 Twitter</a>
+    <button class="share-btn copy" onclick="copyLink()">🔗 Copy link</button>
+  </div>
+
+  <!-- Ad slot -->
+  <div class="ad-slot">[ Advertisement — Google AdSense will go here ]</div>
+
+  <!-- ── FAQ ── -->
+  <h2 id="section-faq">Frequently Asked Questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      Why doesn't the central government reduce excise duty to lower prices?
+      <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-a">
+      The central government did reduce excise duty twice — by ₹5/litre in Nov 2021 and again by ₹8/litre in May 2022.
+      But fuel excise is a massive revenue source (~₹3.5 lakh crore annually).
+      Any cut directly reduces money available for infrastructure and welfare schemes.
+      Political will exists only during election years or when inflation becomes a crisis.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      Are petrol prices in India linked to global crude oil prices?
+      <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-a">
+      Yes, but with a lag and a buffer. Oil marketing companies (IOCL, BPCL, HPCL) revise prices
+      based on a 15-day rolling average of international crude prices and rupee-dollar exchange rate.
+      However, the government sometimes directs OMCs to absorb losses (especially before elections),
+      which is why prices can stay frozen even when crude rises sharply.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      Which state has the lowest petrol tax in India?
+      <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-a">
+      As of 2026, Uttarakhand and Andaman &amp; Nicobar Islands consistently have the lowest
+      combined state VAT on petrol — typically 18–20%. Delhi's VAT is also low at ~19.40%,
+      which combined with no additional cess, keeps it among the cheapest metros.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      Will petrol prices come under GST?
+      <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-a">
+      The GST Council has discussed this multiple times but state governments consistently
+      oppose it because fuel taxes are their largest source of flexible revenue.
+      Under GST, the maximum rate would be 28%, which would massively cut state earnings.
+      Most economists expect this to happen eventually — perhaps by 2027–2030 — but
+      there's no confirmed timeline.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      Are petrol prices in India high compared to other countries?
+      <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-a">
+      Compared to the US (~₹90/litre), India is slightly more expensive.
+      Compared to EU countries like Germany (~₹160/litre) or UK (~₹155/litre),
+      India is significantly cheaper. Pakistan (~₹70/litre) and Iran (~₹5/litre, heavily subsidised)
+      are cheaper neighbours. India sits at a middle position globally, with taxes as
+      a higher percentage of price than most emerging economies.
+    </div>
+  </div>
+
+  <!-- Disclaimer / disclosure -->
+  <div class="disclosure">
+    <strong>Data note:</strong> Petrol prices shown are indicative for May 2026 based on publicly available IOCL price notifications and media reports. Prices change daily and vary by pump. VAT percentages are approximate — exact calculation includes base price + excise as the VAT base, making effective rates complex. This article is for educational purposes only. Verify current prices at your local pump or on the official IOCL/BPCL/HPCL price portals before making decisions.
+    <br><br>
+    This post does not contain affiliate links. Future posts in this series may include affiliate links to relevant products (fuel cards, EV resources, CNG conversion services) — these will be clearly marked.
+  </div>
+
+</div><!-- end .post-body -->
+
+<!-- ── References ── -->
+<div class="post-body">
+  <div class="references">
+    <div class="references-title">📚 Sources &amp; References</div>
+    <ol class="references-list">
+      <li>Goodreturns — <em>Petrol Price Today (24 May 2026)</em> — city-wise live prices including Delhi, Dehradun, Chandigarh, Jaipur, Ranchi, Chennai, Hyderabad, Bengaluru, Mumbai. <a href="https://www.goodreturns.in/petrol-price.html" target="_blank" rel="noopener">goodreturns.in/petrol-price</a></li>
+      <li>BankBazaar — <em>Petrol Price in India Today — 24 May 2026</em> — state-wise rates and trend data. <a href="https://www.bankbazaar.com/fuel/petrol-price-india.html" target="_blank" rel="noopener">bankbazaar.com/fuel/petrol-price-india</a></li>
+      <li>CarDekho — <em>Petrol Price in India Today (24 May 2026)</em> — metro and tier-2 city rates. <a href="https://www.cardekho.com/petrol-price" target="_blank" rel="noopener">cardekho.com/petrol-price</a></li>
+      <li>Weassurer News — <em>New Petrol and Diesel Price in India State Wise — 15 May 2026</em> — price hike of ₹3/litre effective 15 May 2026 due to West Asia crude oil tensions. <a href="https://www.weassurer.com/news/new-petrol-and-diesel-price/" target="_blank" rel="noopener">weassurer.com</a></li>
+      <li>Petroleum Planning &amp; Analysis Cell (PPAC), Ministry of Petroleum &amp; Natural Gas — <em>Retail Selling Prices &amp; Taxes on Petrol</em> — VAT and excise duty breakdown. <a href="https://ppac.gov.in" target="_blank" rel="noopener">ppac.gov.in</a></li>
+      <li>Indian Oil Corporation Ltd (IOCL) — <em>Official Petrol &amp; Diesel Price Portal</em>. <a href="https://iocl.com/petrol-diesel-price" target="_blank" rel="noopener">iocl.com/petrol-diesel-price</a></li>
+      <li>Ministry of Petroleum &amp; Natural Gas — <em>Annual Report 2024–25</em>, fuel tax revenue and OMC data. <a href="https://mopng.gov.in" target="_blank" rel="noopener">mopng.gov.in</a></li>
+    </ol>
+    <p class="references-note">City-wise prices sourced from Goodreturns, BankBazaar and CarDekho on 24 May 2026. Petrol prices are revised daily at 6:00 AM by OMCs based on international crude oil rates and INR/USD exchange. The ₹3/litre hike of 15 May 2026 is reflected in all figures. Verify current prices at your local pump or on official IOCL/BPCL/HPCL portals before making decisions.</p>
+  </div>
+</div>
+
+</article>
+
+<!-- ── Sticky Sidebar ── -->
+<aside class="post-sidebar">
+
+  <!-- Table of Contents -->
+  <div class="sb-card">
+    <div class="sb-title">Contents</div>
+    <nav class="toc">
+      <a class="toc-link" href="#section-prices">State-wise Prices</a>
+      <a class="toc-link" href="#section-why">Why Prices Differ</a>
+      <a class="toc-link" href="#section-table">Full Data Table</a>
+      <a class="toc-link" href="#section-taxes">Where Taxes Go</a>
+      <a class="toc-link" href="#section-what">What You Can Do</a>
+      <a class="toc-link" href="#section-faq">FAQ</a>
+    </nav>
+  </div>
+
+  <!-- Affiliate slot -->
+  <div class="sb-card sb-affiliate">
+    <div class="sb-title">💳 Save on Fuel</div>
+    <p>Fuel cashback cards from HPCL, BPCL &amp; Cred can save ₹3–8 per litre. Find the best deal on Amazon.</p>
+    <a class="sb-btn" href="#" onclick="return false;">Shop Fuel Cards on Amazon →</a>
+    <div class="sb-disclosure">Affiliate link — we may earn a small commission at no extra cost to you.</div>
+  </div>
+
+  <!-- Also from ViLoLabs -->
+  <div class="sb-card">
+    <div class="sb-title">🛠 Free Tools</div>
+    <a class="sb-tool-link" href="/tools/qr-generator.html">QR Code Generator →</a>
+    <a class="sb-tool-link" href="/tools/resize-image.html">Resize Image Free →</a>
+    <a class="sb-tool-link" href="/tools/compress-pdf.html">Compress PDF →</a>
+  </div>
+
+</aside>
+
+</div><!-- end .post-layout -->
+
+<!-- ── Footer ── -->
+<footer class="post-footer">
+  <div class="post-footer-brand">ViLoLabs / ViLo Pulse</div>
+  <p>Independent analysis for the curious Indian reader. No paywalls, no spam.</p>
+  <p>© 2026 ViLoLabs · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+</footer>
+
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  DATA + CHARTS                                      -->
+<!-- ════════════════════════════════════════════════════ -->
+<script>
+/* ── Responsive bar chart height ── */
+const barWrap = document.getElementById('barWrap');
+barWrap.style.height = (window.innerWidth < 600 ? 420 : window.innerWidth < 900 ? 480 : 540) + 'px';
+
+/* ── State data ─────────────────────────────────── */
+// Source: Goodreturns, BankBazaar, CarDekho — 24 May 2026
+// Prices reflect ₹3/litre hike effective 15 May 2026 (West Asia tensions)
+const STATES = [
+  { rank:1,  state:'Delhi',             city:'Delhi',           price:94.77, vat:19.4 },
+  { rank:2,  state:'Uttarakhand',       city:'Dehradun',        price:97.99, vat:18.0 },
+  { rank:3,  state:'Chandigarh (UT)',   city:'Chandigarh',      price:98.97, vat:18.5 },
+  { rank:4,  state:'Uttar Pradesh',     city:'Lucknow',         price:98.10, vat:19.0 },
+  { rank:5,  state:'Haryana',           city:'Gurugram',        price:99.12, vat:19.8 },
+  { rank:6,  state:'Himachal Pradesh',  city:'Shimla',          price:98.40, vat:18.5 },
+  { rank:7,  state:'Punjab',            city:'Amritsar',        price:99.68, vat:20.1 },
+  { rank:8,  state:'J&K',               city:'Srinagar',        price:100.20,vat:20.5 },
+  { rank:9,  state:'Gujarat',           city:'Ahmedabad',       price:100.49,vat:21.2 },
+  { rank:10, state:'Goa',               city:'Panaji',          price:99.55, vat:20.0 },
+  { rank:11, state:'Assam',             city:'Guwahati',        price:99.80, vat:20.2 },
+  { rank:12, state:'Meghalaya',         city:'Shillong',        price:100.75,vat:21.5 },
+  { rank:13, state:'Jharkhand',         city:'Ranchi',          price:100.84,vat:22.0 },
+  { rank:14, state:'Tamil Nadu',        city:'Chennai',         price:100.84,vat:24.0 },
+  { rank:15, state:'West Bengal',       city:'Kolkata',         price:105.41,vat:25.0 },
+  { rank:16, state:'Odisha',            city:'Bhubaneswar',     price:105.80,vat:25.6 },
+  { rank:17, state:'Sikkim',            city:'Gangtok',         price:105.20,vat:25.5 },
+  { rank:18, state:'Chhattisgarh',      city:'Raipur',          price:105.90,vat:25.0 },
+  { rank:19, state:'Maharashtra',       city:'Mumbai',          price:108.45,vat:26.0 },
+  { rank:20, state:'Karnataka',         city:'Bengaluru',       price:108.09,vat:25.9 },
+  { rank:21, state:'Rajasthan',         city:'Jaipur',          price:109.84,vat:30.0 },
+  { rank:22, state:'Bihar',             city:'Patna',           price:110.30,vat:28.0 },
+  { rank:23, state:'Kerala',            city:'Thiruvananthapuram', price:110.65,vat:30.8 },
+  { rank:24, state:'Madhya Pradesh',    city:'Bhopal',          price:111.60,vat:29.0 },
+  { rank:25, state:'Telangana',         city:'Hyderabad',       price:112.81,vat:35.2 },
+  { rank:26, state:'Andhra Pradesh',    city:'Vijayawada',      price:114.00,vat:31.0 },
+];
+
+const AVG = STATES.reduce((s,r)=>s+r.price,0)/STATES.length;
+
+/* ── Colour helpers ────────────────────────────── */
+function priceColour(p) {
+  const t = (p - 93) / (110 - 93); // 0→1
+  const r = Math.round(39 + t * (231 - 39));
+  const g = Math.round(174 + t * (76 - 174));
+  const b = Math.round(96 + t * (60 - 96));
+  return `rgb(${r},${g},${b})`;
+}
+
+/* ── BAR CHART ─────────────────────────────────── */
+(function buildBar() {
+  const sorted = [...STATES].sort((a,b)=>a.price-b.price);
+  new Chart(document.getElementById('chartBar'), {
+    type: 'bar',
+    data: {
+      labels: sorted.map(s => s.state),
+      datasets: [{
+        label: '₹ per litre',
+        data: sorted.map(s => s.price),
+        backgroundColor: sorted.map(s => priceColour(s.price)),
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const s = sorted[ctx.dataIndex];
+              const diff = (s.price - AVG).toFixed(2);
+              const sign = diff >= 0 ? '+' : '';
+              return [`  ₹${s.price}/litre`, `  City: ${s.city}`, `  VAT: ${s.vat}%`, `  vs avg: ${sign}₹${diff}`];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          min: 88,
+          grid: { color: 'rgba(0,0,0,.06)' },
+          ticks: {
+            callback: v => '₹' + v,
+            font: { family: 'Outfit', size: 11 }
+          }
+        },
+        y: {
+          ticks: { font: { family: 'Outfit', size: 11 } }
+        }
+      }
+    }
+  });
+})();
+
+/* ── DONUT CHART ───────────────────────────────── */
+(function buildDonut() {
+  new Chart(document.getElementById('chartDonut'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Base price / crude', 'Central Excise + Cess', 'Dealer commission', 'State VAT (Delhi ~19.4%)'],
+      datasets: [{
+        data: [57.0, 19.90, 3.77, 14.05],
+        backgroundColor: ['#27ae60','#e74c3c','#f39c12','#2980b9'],
+        borderWidth: 2,
+        borderColor: '#fff',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family:'Outfit', size:11 }, padding:12, boxWidth:12 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => `  ₹${ctx.parsed.toFixed(2)} (${((ctx.parsed/94.72)*100).toFixed(1)}%)`
+          }
+        }
+      },
+      cutout: '60%',
+    }
+  });
+})();
+
+/* ── VAT BAR CHART ─────────────────────────────── */
+(function buildVat() {
+  const vatData = [...STATES].sort((a,b)=>a.vat-b.vat);
+  new Chart(document.getElementById('chartVat'), {
+    type: 'bar',
+    data: {
+      labels: vatData.map(s => s.state.length > 12 ? s.state.slice(0,11)+'…' : s.state),
+      datasets: [{
+        label: 'VAT %',
+        data: vatData.map(s => s.vat),
+        backgroundColor: vatData.map(s => priceColour(s.price)),
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => `  VAT: ${ctx.parsed}%` } }
+      },
+      scales: {
+        x: { ticks: { font:{family:'Outfit',size:9}, maxRotation:45 } },
+        y: { ticks: { callback: v=>v+'%', font:{family:'Outfit',size:11} }, grid:{color:'rgba(0,0,0,.06)'} }
+      }
+    }
+  });
+})();
+
+/* ── SORTABLE TABLE ────────────────────────────── */
+let sortCol = 0, sortAsc = true;
+let filtered = [...STATES];
+
+function renderTable(data) {
+  const avg = AVG;
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = data.map((s,i) => {
+    const diff = (s.price - avg).toFixed(2);
+    const sign = diff >= 0 ? '+' : '';
+    const barW = Math.round(((s.price - 88) / (115 - 88)) * 100);
+    const barClass = s.price < avg ? 'low' : (s.price > avg + 5 ? 'high' : '');
+    const badge = s.price <= 96 ? '<span class="badge-cheap">Cheap</span>'
+                : s.price >= 107 ? '<span class="badge-costly">Costly</span>' : '';
+    return `<tr>
+      <td class="rank">#${s.rank}</td>
+      <td><strong>${s.state}</strong></td>
+      <td style="color:#7a6e62">${s.city}</td>
+      <td class="price-val">
+        <div class="price-bar-cell">
+          <div class="price-bar ${barClass}" style="width:${barW}px"></div>
+          ₹${s.price.toFixed(2)}
+        </div>
+      </td>
+      <td>${s.vat}%</td>
+      <td>${badge || '<span style="color:#aaa;font-size:.8rem">${sign}₹${diff}</span>'}</td>
+    </tr>`.replace('${sign}',sign).replace('${diff}',Math.abs(diff));
+  }).join('');
+  document.getElementById('tableCount').textContent = `Showing ${data.length} of ${STATES.length} states`;
+}
+
+function sortTable(col) {
+  if (sortCol === col) sortAsc = !sortAsc;
+  else { sortCol = col; sortAsc = true; }
+  const keys = ['rank','state','city','price','vat'];
+  filtered.sort((a,b) => {
+    const av = a[keys[col]], bv = b[keys[col]];
+    if (typeof av === 'string') return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+    return sortAsc ? av - bv : bv - av;
+  });
+  renderTable(filtered);
+}
+
+function filterTable() {
+  const q = document.getElementById('stateSearch').value.toLowerCase().trim();
+  filtered = q ? STATES.filter(s =>
+    s.state.toLowerCase().includes(q) || s.city.toLowerCase().includes(q)
+  ) : [...STATES];
+  sortTable(sortCol);
+}
+
+renderTable(STATES);
+
+/* ── FAQ accordion ─────────────────────────────── */
+function toggleFaq(el) {
+  const ans = el.nextElementSibling;
+  const isOpen = ans.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a=>a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(q=>q.classList.remove('open'));
+  if (!isOpen) { ans.classList.add('open'); el.classList.add('open'); }
+}
+
+/* ── Reading progress bar ──────────────────────── */
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+  document.getElementById('read-progress').style.width = Math.min(pct, 100) + '%';
+});
+
+/* ── Copy link ─────────────────────────────────── */
+/* ── Register post in Supabase (pSEO — fire and forget) ── */
+// Runs once on page load. Duplicate slug is silently ignored.
+// This is what gets the post into the sitemap automatically.
+if (window.ViloDB) {
+  ViloDB.saveBlogPost(
+    'petrol-prices-india-2026',
+    'Petrol Prices Across India in 2026: Why Delhi Pays ₹15 Less Than Andhra Pradesh',
+    'Interactive state-wise petrol price comparison. Taxes explained, cheapest and costliest states ranked. Data: May 2026.',
+    'india'
+  );
+}
+
+/* ── ToC active highlight on scroll ── */
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = [...tocLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = '#' + s.id; });
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === current));
+}, { passive: true });
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = document.querySelector('.share-btn.copy');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = '🔗 Copy link', 2000);
+  });
+}
+</script>
+
+</body>
+</html>

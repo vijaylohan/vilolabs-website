@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ViLo Pulse — Blog | ViLoLabs</title>
+  <meta name="description" content="ViLo Pulse — sharp takes on India, technology, money, and everyday life. Interactive, data-driven, readable in minutes.">
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold:   #C8963C;
+      --gold2:  #E8BC72;
+      --char:   #1A1108;
+      --cream:  #F5F0E8;
+      --brown3: #A07860;
+      --bg:     #faf8f4;
+      --bg2:    #f2ede4;
+      --ink:    #1e1a14;
+      --ink2:   #3a342a;
+      --muted:  #7a6e62;
+      --rule:   #e8e2d8;
+      --font-head: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Outfit', 'Segoe UI', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--char); color: var(--cream); -webkit-font-smoothing: antialiased; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(26,17,8,.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,150,60,.2);
+      padding: 0 32px;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: .03em;
+    }
+    .nav-brand span { color: rgba(255,255,255,.5); font-size: .85em; margin-left: 4px; white-space: nowrap; }
+    .nav-brand { white-space: nowrap; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      color: rgba(245,240,232,.55);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold2); }
+    .nav-cta {
+      background: var(--gold);
+      color: var(--char) !important;
+      padding: 7px 18px;
+      border-radius: 6px;
+      font-weight: 700 !important;
+      font-size: .8rem !important;
+    }
+    .nav-cta:hover { background: var(--gold2) !important; color: var(--char) !important; }
+
+    /* ── HERO ── */
+    .pulse-hero {
+      background: var(--char);
+      padding: 72px 32px 56px;
+      text-align: center;
+      border-bottom: 1px solid rgba(200,150,60,.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .pulse-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 800px 400px at 50% 0%, rgba(200,150,60,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .pulse-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(200,150,60,.35);
+      border-radius: 20px;
+      padding: 5px 16px;
+      margin-bottom: 24px;
+    }
+    .pulse-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: blink 1.8s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .pulse-hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .pulse-hero h1 em { color: var(--gold2); font-style: normal; }
+    .pulse-hero p {
+      font-size: 1.05rem;
+      color: rgba(245,240,232,.55);
+      max-width: 540px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .pulse-stats {
+      display: inline-flex; gap: 32px;
+      border: 1px solid rgba(200,150,60,.2);
+      border-radius: 10px;
+      padding: 16px 32px;
+      background: rgba(200,150,60,.05);
+    }
+    .pulse-stat-num {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold2);
+    }
+    .pulse-stat-label {
+      display: block;
+      font-size: .72rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,.4);
+      margin-top: 2px;
+    }
+
+    /* ── CATEGORY TABS ── */
+    .cat-bar {
+      background: rgba(255,255,255,.03);
+      border-bottom: 1px solid rgba(200,150,60,.12);
+      padding: 0 32px;
+      display: flex; gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .cat-bar::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      padding: 14px 20px;
+      border: none;
+      background: transparent;
+      color: rgba(245,240,232,.45);
+      font-family: var(--font-body);
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color .2s, border-color .2s;
+    }
+    .cat-btn:hover { color: var(--gold2); }
+    .cat-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── MAIN LAYOUT ── */
+    .pulse-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 48px;
+      align-items: start;
+    }
+    @media(max-width:900px) {
+      .pulse-main { grid-template-columns: 1fr; padding: 32px 20px 60px; }
+      .sidebar { display: none; }
+      .post-featured { grid-template-columns: 1fr !important; }
+      .post-featured-img { min-height: 200px; }
+      .post-featured-body { padding: 24px 20px; }
+      .post-featured-body h2 { font-size: 1.3rem; }
+    }
+    @media(max-width:600px) {
+      .pulse-main { padding: 16px 12px 50px; }
+      nav { padding: 0 14px; height: 52px; }
+      .nav-brand { font-size: 1.1rem; }
+      .nav-links { gap: 14px; }
+      .nav-links a:not(.nav-cta):not(.active-link) { display: none; }
+      .nav-links a.active { display: inline; }
+      .cat-bar { padding: 0 12px; }
+      .pulse-hero { padding: 36px 14px 28px; }
+      .pulse-hero h1 { font-size: clamp(1.7rem, 7vw, 2.4rem); }
+      .pulse-stats { gap: 12px; padding: 12px 14px; }
+      .posts-grid { grid-template-columns: 1fr; }
+      .post-featured-img { min-height: 160px; }
+      .post-featured-body h2 { font-size: 1.2rem; }
+      .post-featured-body { padding: 20px 16px; }
+    }
+
+    /* ── FEATURED POST (first card, big) ── */
+    .post-featured {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(200,150,60,.2);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 280px;
+      transition: border-color .25s, transform .2s;
+      text-decoration: none;
+    }
+    .post-featured:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .post-featured-img {
+      background: linear-gradient(135deg, #2d1f0a 0%, #1a1108 60%, #0d0a05 100%);
+      position: relative;
+      overflow: hidden;
+      min-height: 240px;
+    }
+    .post-featured-img .feat-chart-preview {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 6px; padding: 24px;
+    }
+    /* Mini bar chart decorative */
+    .mini-bars { display: flex; gap: 5px; align-items: flex-end; height: 80px; }
+    .mini-bar {
+      width: 12px; border-radius: 3px 3px 0 0;
+      background: linear-gradient(180deg, var(--gold2), var(--gold));
+      opacity: .7;
+    }
+    .feat-badge {
+      position: absolute; top: 16px; left: 16px;
+      background: var(--gold);
+      color: var(--char);
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+    .post-featured-body {
+      padding: 32px 28px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .post-cat-tag {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .post-featured-body h2 {
+      font-family: var(--font-head);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .post-featured-body p {
+      font-size: .88rem;
+      color: rgba(245,240,232,.5);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .post-meta-row {
+      display: flex; gap: 14px; align-items: center;
+      font-size: .75rem;
+      color: rgba(245,240,232,.35);
+      flex-wrap: wrap;
+    }
+    .post-meta-row .dot { opacity: .3; }
+    .read-more {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--gold2);
+      font-size: .82rem;
+      font-weight: 600;
+      margin-top: 16px;
+      transition: gap .2s;
+    }
+    .post-featured:hover .read-more { gap: 10px; }
+
+    /* ── REGULAR CARDS GRID ── */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .post-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(200,150,60,.15);
+      border-radius: 12px;
+      padding: 24px;
+      text-decoration: none;
+      display: flex; flex-direction: column;
+      transition: border-color .2s, transform .2s, background .2s;
+    }
+    .post-card:hover { border-color: rgba(200,150,60,.5); transform: translateY(-2px); background: rgba(255,255,255,.06); }
+    .post-card-tag {
+      font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .post-card h3 {
+      font-family: var(--font-head);
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--cream); line-height: 1.3;
+      margin-bottom: 10px;
+    }
+    .post-card p {
+      font-size: .82rem; color: rgba(245,240,232,.45);
+      line-height: 1.6; flex: 1;
+      margin-bottom: 16px;
+    }
+    .post-card-meta {
+      font-size: .73rem; color: rgba(245,240,232,.3);
+      display: flex; gap: 10px;
+    }
+    /* Coming soon card */
+    .post-card.coming {
+      border-style: dashed;
+      opacity: .45;
+      pointer-events: none;
+    }
+    .post-card.coming h3 { color: rgba(245,240,232,.5); }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 80px; }
+    .sidebar-section {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(200,150,60,.15);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .sidebar-title {
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(200,150,60,.15);
+    }
+    .sidebar-link {
+      display: block;
+      text-decoration: none;
+      color: rgba(245,240,232,.6);
+      font-size: .83rem;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      transition: color .2s;
+      line-height: 1.4;
+    }
+    .sidebar-link:hover { color: var(--gold2); }
+    .sidebar-link:last-child { border-bottom: none; }
+    .sidebar-link .s-cat { font-size: .68rem; color: var(--gold); display: block; margin-bottom: 2px; }
+    .topic-pill {
+      display: inline-block;
+      background: rgba(200,150,60,.1);
+      border: 1px solid rgba(200,150,60,.2);
+      color: var(--gold2);
+      font-size: .72rem;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin: 4px 4px 4px 0;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .topic-pill:hover { background: rgba(200,150,60,.2); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: rgba(0,0,0,.3);
+      border-top: 1px solid rgba(200,150,60,.12);
+      padding: 32px;
+      text-align: center;
+    }
+    footer p { font-size: .78rem; color: rgba(245,240,232,.25); line-height: 1.7; }
+    footer a { color: rgba(200,150,60,.5); }
+    .footer-brand { font-family: var(--font-head); color: var(--gold); font-size: 1.1rem; margin-bottom: 8px; }
+
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-brand" href="/">ViLoLabs <span>/ Pulse</span></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/tools.html">Tools</a>
+    <a href="/pulse.html" class="active">Pulse</a>
+    <a href="/sheets.html" class="nav-cta">Worksheets</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="pulse-hero">
+  <div class="pulse-eyebrow">ViLo Pulse — Now Live</div>
+  <h1>Ideas worth your time.<br><em>Data that tells a story.</em></h1>
+  <p>Sharp, data-driven reads on India, money, technology, and everyday life. Interactive charts. No fluff. Readable in 10 minutes or less.</p>
+  <div class="pulse-stats">
+    <div>
+      <span class="pulse-stat-num">1</span>
+      <span class="pulse-stat-label">Posts live</span>
+    </div>
+    <div>
+      <span class="pulse-stat-num">10 min</span>
+      <span class="pulse-stat-label">Avg read time</span>
+    </div>
+    <div>
+      <span class="pulse-stat-num">Free</span>
+      <span class="pulse-stat-label">Always</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── CATEGORY TABS ── -->
+<div class="cat-bar">
+  <button class="cat-btn active" onclick="filterCat(this,'all')">All Posts</button>
+  <button class="cat-btn" onclick="filterCat(this,'india')">India</button>
+  <button class="cat-btn" onclick="filterCat(this,'money')">Money & Economy</button>
+  <button class="cat-btn" onclick="filterCat(this,'tech')">Technology</button>
+  <button class="cat-btn" onclick="filterCat(this,'lifestyle')">Lifestyle</button>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="pulse-main">
+
+  <!-- Posts column -->
+  <main>
+
+    <!-- Featured post -->
+    <a class="post-featured" href="/blog/petrol-prices-india-2025.html" data-cat="india money">
+      <div class="post-featured-img">
+        <span class="feat-badge">⭐ Featured</span>
+        <div class="feat-chart-preview">
+          <!-- Decorative mini bar chart -->
+          <div class="mini-bars">
+            <div class="mini-bar" style="height:32px;opacity:.4"></div>
+            <div class="mini-bar" style="height:38px;opacity:.5"></div>
+            <div class="mini-bar" style="height:42px;opacity:.55"></div>
+            <div class="mini-bar" style="height:50px;opacity:.6"></div>
+            <div class="mini-bar" style="height:55px;opacity:.65"></div>
+            <div class="mini-bar" style="height:62px;opacity:.7"></div>
+            <div class="mini-bar" style="height:58px;opacity:.68"></div>
+            <div class="mini-bar" style="height:72px;opacity:.8"></div>
+            <div class="mini-bar" style="height:76px;opacity:.85"></div>
+            <div class="mini-bar" style="height:80px;opacity:.9"></div>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold2);opacity:.6;margin-top:12px;">₹94 → ₹109</div>
+          <div style="font-size:.7rem;color:rgba(245,240,232,.3);letter-spacing:.08em;text-transform:uppercase">State-wise petrol prices</div>
+        </div>
+      </div>
+      <div class="post-featured-body">
+        <div class="post-cat-tag">India · Economy · Fuel</div>
+        <h2>Petrol Prices Across India in 2026: Why Delhi Pays ₹15 Less Than Andhra Pradesh</h2>
+        <p>Same crude oil, same refineries, yet a ₹15 gap per litre across states. Interactive charts, sortable data, and the full tax breakdown — explained simply.</p>
+        <div class="post-meta-row">
+          <span>May 2026</span>
+          <span class="dot">·</span>
+          <span>⏱ 10–12 min read</span>
+          <span class="dot">·</span>
+          <span>📊 Interactive</span>
+        </div>
+        <span class="read-more">Read full post →</span>
+      </div>
+    </a>
+
+    <!-- Regular cards grid -->
+    <div class="posts-grid" id="postsGrid">
+
+      <!-- Coming soon cards — gives the page a sense of what's coming -->
+      <div class="post-card coming" data-cat="tech">
+        <div class="post-card-tag">Technology</div>
+        <h3>India's UPI in Numbers: The Payments Revolution Nobody Talks About</h3>
+        <p>₹18 lakh crore in monthly transactions. How India built the world's most used real-time payments system.</p>
+        <div class="post-card-meta"><span>Coming soon</span></div>
+      </div>
+
+      <div class="post-card coming" data-cat="money">
+        <div class="post-card-tag">Money</div>
+        <h3>FD vs Mutual Fund vs Gold: Where Should You Put ₹1 Lakh in 2025?</h3>
+        <p>Interactive 10-year return comparison across all three. Real inflation-adjusted numbers.</p>
+        <div class="post-card-meta"><span>Coming soon</span></div>
+      </div>
+
+      <div class="post-card coming" data-cat="india">
+        <div class="post-card-tag">India</div>
+        <h3>Electricity Tariffs Across India: Who Pays the Most and Why</h3>
+        <p>State-wise electricity cost comparison — same analysis as petrol, same surprising gaps.</p>
+        <div class="post-card-meta"><span>Coming soon</span></div>
+      </div>
+
+      <div class="post-card coming" data-cat="lifestyle">
+        <div class="post-card-tag">Lifestyle</div>
+        <h3>Cost of Living in 10 Indian Cities: A Real Data Comparison</h3>
+        <p>Rent, groceries, transport, eating out — what ₹30,000/month actually gets you in Mumbai vs Indore.</p>
+        <div class="post-card-meta"><span>Coming soon</span></div>
+      </div>
+
+      <div class="post-card coming" data-cat="tech">
+        <div class="post-card-tag">Technology</div>
+        <h3>India's Smartphone Market: Who Really Buys What</h3>
+        <p>Sales data, brand breakdown, price segments. The ₹10k–20k segment tells the real story.</p>
+        <div class="post-card-meta"><span>Coming soon</span></div>
+      </div>
+
+      <div class="post-card coming" data-cat="money">
+        <div class="post-card-tag">Money</div>
+        <h3>The Real Cost of Owning a Two-Wheeler in India — All In</h3>
+        <p>Purchase price + insurance + fuel + maintenance over 5 years. Petrol vs electric comparison.</p>
+        <div class="post-card-meta"><span>Coming soon</span></div>
+      </div>
+
+    </div><!-- end grid -->
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Latest Posts</div>
+      <a class="sidebar-link" href="/blog/petrol-prices-india-2025.html">
+        <span class="s-cat">India · Economy</span>
+        Petrol Prices Across India 2026 — State-wise Comparison
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Topics</div>
+      <a class="topic-pill" href="#">India</a>
+      <a class="topic-pill" href="#">Money</a>
+      <a class="topic-pill" href="#">Fuel</a>
+      <a class="topic-pill" href="#">Technology</a>
+      <a class="topic-pill" href="#">Lifestyle</a>
+      <a class="topic-pill" href="#">Data</a>
+      <a class="topic-pill" href="#">Charts</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Also from ViLoLabs</div>
+      <a class="sidebar-link" href="/sheets.html">
+        <span class="s-cat">Tool</span>
+        ViLo Worksheets — Free printable worksheet generator
+      </a>
+      <a class="sidebar-link" href="/tools/resize-image.html">
+        <span class="s-cat">Tool</span>
+        Resize Image — Free online image resizer
+      </a>
+      <a class="sidebar-link" href="/tools/qr-generator.html">
+        <span class="s-cat">Tool</span>
+        QR Generator — UPI, WiFi, vCard & more
+      </a>
+    </div>
+
+  </aside>
+
+</div><!-- end .pulse-main -->
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">ViLoLabs</div>
+  <p>© 2026 ViLoLabs · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+  <p style="margin-top:6px;font-style:italic">Data and analysis for educational purposes. Verify facts before making financial decisions.</p>
+</footer>
+
+<script>
+  function filterCat(btn, cat) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const featured = document.querySelector('.post-featured');
+    const cards = document.querySelectorAll('#postsGrid .post-card');
+    if (cat === 'all') {
+      featured.style.display = '';
+      cards.forEach(c => c.style.display = '');
+    } else {
+      const fd = featured.dataset.cat || '';
+      featured.style.display = fd.includes(cat) ? '' : 'none';
+      cards.forEach(c => {
+        c.style.display = (c.dataset.cat || '').includes(cat) ? '' : 'none';
+      });
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -36,6 +36,7 @@ const STATIC = [
   { loc: '/worksheets/',              priority: '0.9',  changefreq: 'daily'   },
   { loc: '/tools.html',               priority: '0.9',  changefreq: 'weekly'  },
   { loc: '/app.html',                 priority: '0.7',  changefreq: 'monthly' },
+  { loc: '/pulse.html',               priority: '0.9',  changefreq: 'daily'   },
   { loc: '/tools/image-to-pdf.html',  priority: '0.85', changefreq: 'monthly' },
   { loc: '/tools/merge-pdf.html',     priority: '0.85', changefreq: 'monthly' },
   { loc: '/tools/resize-image.html',  priority: '0.85', changefreq: 'monthly' },
@@ -118,6 +119,16 @@ function urlEntry({ loc, lastmod, priority, changefreq }) {
     console.error('  FAILED: ' + e.message);
   }
 
+  console.log('\n> Fetching blog_posts from Supabase ...');
+  let blogPosts = [];
+  try {
+    blogPosts = await fetchAll('blog_posts', 'slug,category,published_at');
+    console.log('  ' + blogPosts.length + ' blog post URLs');
+  } catch (e) {
+    console.error('  FAILED: ' + e.message);
+    console.error('  Sitemap will be built WITHOUT blog posts.');
+  }
+
   // ── Build entries ──
   const allEntries = [];
 
@@ -141,6 +152,14 @@ function urlEntry({ loc, lastmod, priority, changefreq }) {
     lastmod: s.created_at,
     priority: '0.6',
     changefreq: 'monthly',
+  }));
+
+  // Blog posts — high priority, weekly changefreq (data posts get updated)
+  blogPosts.forEach(b => allEntries.push({
+    loc: '/blog/' + b.slug,
+    lastmod: b.published_at,
+    priority: '0.8',
+    changefreq: 'weekly',
   }));
 
   const total = allEntries.length;

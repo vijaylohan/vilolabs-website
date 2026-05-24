@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<!--
+╔══════════════════════════════════════════════════════════════════════╗
+║  ViLo Pulse — Data Comparison Post Template                         ║
+║  ──────────────────────────────────────────────────────────────────  ║
+║  USE CASE: Any state-wise / city-wise / item-wise data comparison   ║
+║  Examples: Gold prices, Silver rates, LPG cylinder prices,          ║
+║            Electricity tariffs, Internet speeds, Petrol, CNG, etc.  ║
+║                                                                      ║
+║  HOW TO USE:                                                         ║
+║  1. Copy this file to /blog/your-post-slug.html                     ║
+║  2. Fill in the CONFIG block (lines ~50-120) — that's 80% of work   ║
+║  3. Fill in DATA array (lines ~400+)                                 ║
+║  4. Update FAQ items                                                 ║
+║  5. Update Sources & References                                      ║
+║  6. Done — all charts, table, sidebar auto-generate from CONFIG      ║
+║                                                                      ║
+║  SEARCH FOR: ← CHANGE THIS  to find every spot you must edit        ║
+╚══════════════════════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION A — META (change for every post)               -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <title>Gold Prices Across India in 2026 — State-wise Comparison | ViLo Pulse</title>   <!-- ← CHANGE THIS -->
+  <meta name="description" content="Why does gold cost more in some Indian cities? State-wise interactive comparison of gold rates in India — taxes, making charges, trends explained.">  <!-- ← CHANGE THIS (150-160 chars) -->
+  <meta property="og:title" content="Gold Prices Across India 2026 — State-wise Comparison">  <!-- ← CHANGE THIS -->
+  <meta property="og:description" content="Interactive state-wise gold rate comparison. Taxes explained, cheapest and costliest states ranked.">  <!-- ← CHANGE THIS -->
+  <meta property="og:type" content="article">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blog/shared/blog.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="/assets/db.js"></script>
+</head>
+<body>
+<div id="read-progress"></div>
+
+<nav class="blog-nav">
+  <a class="blog-nav-brand" href="/">ViLoLabs <span>/ Pulse</span></a>
+  <a class="blog-nav-back" href="/pulse.html">← Back to Pulse</a>
+</nav>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   SECTION B — POST CONFIG  ← CHANGE THIS ENTIRE BLOCK
+   This drives the hero, stats strip, charts, table, and SEO.
+   ══════════════════════════════════════════════════════════════ */
+const POST = {
+  // ── SEO / DB registration ──
+  slug:        'gold-prices-india-2026',           // ← CHANGE: matches filename (no .html)
+  title:       'Gold Prices Across India in 2026: Why Mumbai Pays More Than Delhi',  // ← CHANGE
+  description: 'Interactive state-wise gold rate comparison. Making charges, taxes, and tips explained.',  // ← CHANGE
+  category:    'india',                            // ← CHANGE: india | money | tech | lifestyle
+
+  // ── Hero ──
+  heroCategory: 'India · Finance · Gold',          // ← CHANGE
+  heroTitle:    'Gold Prices Across India in 2026: <em>Why Your City Matters</em>',  // ← CHANGE (em = gold highlight)
+  heroSubtitle: 'Same international gold price. Yet rates vary city to city. Here\'s why — interactive, state-wise, no jargon.',  // ← CHANGE
+  heroMeta:     'May 2026 · 10–12 min read · 📊 Interactive',  // ← CHANGE
+
+  // ── Stats strip (4 key numbers — shown above the fold for skimmers) ──
+  stats: [
+    { num: '₹7,450',    label: 'Cheapest — Delhi (per gram 22K)' },    // ← CHANGE all 4
+    { num: '₹7,820',    label: 'Costliest — Kerala (per gram 22K)' },
+    { num: '₹370',      label: 'Max gap between cities' },
+    { num: '~3%',       label: 'GST on gold purchases' },
+  ],
+
+  // ── TL;DR (3 bullet points) ──
+  tldr: [
+    '<strong>Gold price = international rate (MCX) + GST (3%) + making charges.</strong> The international rate is identical everywhere. Making charges and local jeweller margins create the gap.',  // ← CHANGE
+    '<strong>South India and Kerala pay the most</strong> — higher making charges, stronger gold-buying culture. North India cities like Delhi tend to be cheaper.',   // ← CHANGE
+    '<strong>You can save ₹5,000–15,000</strong> on a 20-gram purchase by comparing jewellers and choosing digital gold or hallmarked BIS coins over jewellery.',    // ← CHANGE
+  ],
+
+  // ── Section headings (used in ToC and page) ──
+  sections: [
+    { id: 'section-prices', label: 'City-wise Gold Rates' },      // ← CHANGE labels
+    { id: 'section-why',    label: 'Why Prices Differ' },
+    { id: 'section-table',  label: 'Full Data Table' },
+    { id: 'section-taxes',  label: 'Taxes & Charges' },
+    { id: 'section-what',   label: 'How to Save' },
+    { id: 'section-faq',    label: 'FAQ' },
+  ],
+
+  // ── Insight cards (4 key callouts below bar chart) ──
+  insights: [
+    { color: 'green-top', num: '₹7,450', label: 'Cheapest gold in India', state: '🏛 Delhi (22K, per gram)' },   // ← CHANGE
+    { color: 'red-top',   num: '₹7,820', label: 'Most expensive gold in India', state: '🌴 Kerala (22K, per gram)' },
+    { color: 'blue-top',  num: '₹7,610', label: 'Approximate national average', state: '🇮🇳 Across major cities' },
+    { color: '',          num: '₹370',   label: 'Gap between cheapest and costliest', state: 'Same country, different price' },
+  ],
+
+  // ── Bar chart ──
+  chartBarTitle: 'Gold Price by City — ₹ per gram (22K)',           // ← CHANGE
+  chartBarNote:  'Data: GoodReturns, BankBazaar. Prices indicative for May 2026. Change daily.',  // ← CHANGE
+
+  // ── Donut chart (price breakdown for one reference city) ──
+  chartDonutTitle:    'Price Breakdown — Delhi ₹7,450/gram (22K)',  // ← CHANGE
+  chartDonutNote:     'Approximate component split for standard purchase.',  // ← CHANGE
+  chartDonutReferenceTotal: 7450,                                    // ← CHANGE: total price for reference city
+  chartDonutData: [
+    { label: 'Base gold value (MCX)',    value: 6840, color: '#27ae60' },   // ← CHANGE all slices
+    { label: 'GST (3%)',                 value: 206,  color: '#e74c3c' },
+    { label: 'Making charges (~5%)',     value: 342,  color: '#f39c12' },
+    { label: 'Jeweller margin',          value: 62,   color: '#2980b9' },
+  ],
+
+  // ── Second chart (comparison — VAT/tax/charge % by city) ──
+  chartCompTitle: 'Making Charges % by City',                        // ← CHANGE
+  chartCompNote:  'Higher making charges = higher final price',      // ← CHANGE
+
+  // ── Table column headers ──
+  tableCols: ['Rank', 'City', 'State', 'Price (22K/g)', 'Making %', 'vs Avg'],  // ← CHANGE
+  tableUnit: '₹',                                                    // ← CHANGE
+
+  // ── Affiliate sidebar ──
+  affiliateTitle:  '🥇 Buy Gold Safely',                             // ← CHANGE
+  affiliateText:   'Compare certified 24K gold coins on Amazon India. BIS hallmarked, best prices.',  // ← CHANGE
+  affiliateCTA:    'Shop Gold Coins on Amazon →',                    // ← CHANGE
+  affiliateLink:   '#',                                              // ← CHANGE: real Amazon affiliate URL
+};
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION C — DATA ROWS  ← CHANGE THIS ARRAY
+   Each row: { rank, state, city, price, comp }
+     price = main value (₹ per gram / ₹ per litre / etc.)
+     comp  = secondary % or value shown in second chart + table
+   ══════════════════════════════════════════════════════════════ */
+const DATA = [
+  { rank:1,  state:'Delhi',          city:'Delhi',            price:7450, comp:5.0  },  // ← CHANGE all rows
+  { rank:2,  state:'Uttar Pradesh',  city:'Lucknow',          price:7490, comp:5.2  },
+  { rank:3,  state:'Haryana',        city:'Gurugram',         price:7510, comp:5.3  },
+  { rank:4,  state:'Rajasthan',      city:'Jaipur',           price:7530, comp:5.4  },
+  { rank:5,  state:'Punjab',         city:'Chandigarh',       price:7540, comp:5.5  },
+  { rank:6,  state:'Gujarat',        city:'Ahmedabad',        price:7560, comp:5.6  },
+  { rank:7,  state:'Maharashtra',    city:'Mumbai',           price:7590, comp:5.8  },
+  { rank:8,  state:'West Bengal',    city:'Kolkata',          price:7600, comp:5.9  },
+  { rank:9,  state:'Karnataka',      city:'Bengaluru',        price:7620, comp:6.0  },
+  { rank:10, state:'Tamil Nadu',     city:'Chennai',          price:7650, comp:6.2  },
+  { rank:11, state:'Telangana',      city:'Hyderabad',        price:7670, comp:6.3  },
+  { rank:12, state:'Andhra Pradesh', city:'Vijayawada',       price:7700, comp:6.5  },
+  { rank:13, state:'Kerala',         city:'Kochi',            price:7820, comp:7.5  },
+];
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION D — NARRATIVE CONTENT
+   Replace <p> and <h3> blocks below with your article text.
+   Keep the section IDs (they power the ToC).
+   ══════════════════════════════════════════════════════════════ */
+</script>
+
+<!-- ── Hero (auto-generated from POST config) ── -->
+<header class="post-hero" id="post-hero"></header>
+
+<!-- ── Stats strip ── -->
+<div class="skim-bar"><div class="skim-bar-inner" id="skim-bar-inner"></div></div>
+
+<!-- ── POST LAYOUT ── -->
+<div class="post-layout">
+<article>
+
+<!-- Ad slot -->
+<div class="wide-block">
+  <div class="ad-slot">[ Advertisement — Google AdSense will go here ]</div>
+</div>
+
+<!-- TL;DR (auto-generated) -->
+<div class="post-body" id="tldr-section"></div>
+
+<!-- Section 1: Bar chart -->
+<div class="post-body">
+  <h2 id="section-prices"></h2><!-- label filled by JS -->
+  <p>The chart below shows current rates across major cities. <strong>Hover or tap any bar for details.</strong> Sorted cheapest to costliest.</p>
+</div>
+<div class="wide-block">
+  <div class="chart-card">
+    <div class="chart-title" id="chartBarTitle"></div>
+    <div class="chart-note" id="chartBarNote"></div>
+    <div class="chart-wrap" id="barWrap"><canvas id="chartBar"></canvas></div>
+  </div>
+</div>
+
+<!-- Insight cards (auto-generated) -->
+<div class="post-body"><div class="insight-grid" id="insight-grid"></div></div>
+
+<!-- Section 2: Why prices differ -->
+<div class="post-body">
+  <h2 id="section-why"></h2><!-- label filled by JS -->
+
+  <!-- ← CHANGE THIS SECTION: explain why prices differ for your topic -->
+  <p>Replace this paragraph with your explanation of why prices vary. Keep it simple — no jargon. Explain the 3-4 factors that drive the price difference.</p>
+
+  <h3>Factor 1 — Base/International Price (same everywhere)</h3>
+  <p>Replace with explanation of the base component. For gold: MCX rate. For petrol: crude oil. For LPG: import parity price.</p>
+
+  <h3>Factor 2 — National Tax (same everywhere)</h3>
+  <p>Replace with the national tax component. For gold: 3% GST. For petrol: central excise duty.</p>
+
+  <div class="callout">
+    <span class="callout-icon">💡</span>
+    <strong>Quick fact:</strong> Replace with a memorable quick fact about your topic.
+  </div>
+
+  <h3>Factor 3 — Local/Variable Component (THIS is the gap)</h3>
+  <p>Replace with explanation of what varies by city/state. For gold: making charges. For petrol: state VAT.</p>
+</div>
+
+<!-- Two charts side by side -->
+<div class="wide-block">
+  <div class="two-chart-grid">
+    <div class="chart-card" style="margin:0;">
+      <div class="chart-title" id="chartDonutTitle"></div>
+      <div class="chart-note" id="chartDonutNote"></div>
+      <div class="chart-wrap" style="height:300px;"><canvas id="chartDonut"></canvas></div>
+    </div>
+    <div class="chart-card" style="margin:0;">
+      <div class="chart-title" id="chartCompTitle"></div>
+      <div class="chart-note" id="chartCompNote"></div>
+      <div class="chart-wrap" style="height:300px;"><canvas id="chartComp"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: Full data table -->
+<div class="post-body">
+  <h2 id="section-table"></h2>
+  <p>All major cities below. <strong>Click any column header to sort. Search by city or state.</strong></p>
+</div>
+<div class="wide-block">
+  <div class="table-controls">
+    <input type="text" class="table-search" id="dataSearch" placeholder="🔍  Search city or state..." oninput="filterTable()">
+    <span class="table-label" id="tableCount"></span>
+  </div>
+  <div class="data-table-wrap">
+    <table class="data-table" id="dataTable">
+      <thead><tr id="tableHead"></tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Section 4: Taxes & what they fund -->
+<div class="post-body">
+  <h2 id="section-taxes"></h2>
+
+  <!-- ← CHANGE THIS SECTION -->
+  <p>Replace with explanation of where the tax money goes. Who benefits, why rates are set this way, any recent changes.</p>
+
+  <div class="callout info">
+    <span class="callout-icon">📌</span>
+    <strong>Policy note:</strong> Replace with any relevant government policy angle — GST council decisions, state government stance, reform proposals.
+  </div>
+</div>
+
+<!-- Section 5: What can you do -->
+<div class="post-body">
+  <h2 id="section-what"></h2>
+
+  <!-- ← CHANGE THIS SECTION -->
+  <h3>Tip 1</h3>
+  <p>Replace with actionable tip 1 — something readers can do today to save money or get a better deal.</p>
+
+  <h3>Tip 2</h3>
+  <p>Replace with actionable tip 2.</p>
+
+  <h3>Tip 3</h3>
+  <p>Replace with actionable tip 3.</p>
+
+  <!-- Share bar -->
+  <div class="share-bar">
+    <span class="share-label">Share</span>
+    <a class="share-btn whatsapp" id="shareWA" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a class="share-btn twitter"  id="shareTW" target="_blank" rel="noopener">𝕏 Twitter</a>
+    <button class="share-btn copy" onclick="copyLink()">🔗 Copy link</button>
+  </div>
+
+  <div class="ad-slot">[ Advertisement — Google AdSense will go here ]</div>
+</div>
+
+<!-- Section 6: FAQ -->
+<div class="post-body">
+  <h2 id="section-faq">Frequently Asked Questions</h2>
+
+  <!-- ← CHANGE: add/remove faq-item blocks as needed -->
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      Replace with FAQ question 1?
+      <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-a">Replace with the answer to question 1. Keep it factual and concise.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      Replace with FAQ question 2?
+      <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-a">Replace with the answer to question 2.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      Replace with FAQ question 3?
+      <span class="faq-icon">+</span>
+    </div>
+    <div class="faq-a">Replace with the answer to question 3.</div>
+  </div>
+
+  <div class="disclosure">
+    <strong>Data note:</strong> <!-- ← CHANGE: describe your data source and date -->
+    Prices shown are indicative for [Month Year]. Rates change daily. Verify at official sources before making financial decisions.
+    <br><br>
+    <!-- ← CHANGE if you have affiliate links: -->
+    This post may contain affiliate links to Amazon India. If you purchase through these links, ViLoLabs may earn a small commission at no extra cost to you.
+  </div>
+</div>
+
+<!-- References -->
+<div class="post-body">
+  <div class="references">
+    <div class="references-title">📚 Sources &amp; References</div>
+    <ol class="references-list">
+      <!-- ← CHANGE: list all your actual sources with links -->
+      <li>Source 1 — <em>Article/Page Title</em>, Month Year. <a href="#" target="_blank" rel="noopener">source1.com</a></li>
+      <li>Source 2 — <em>Article/Page Title</em>, Month Year. <a href="#" target="_blank" rel="noopener">source2.com</a></li>
+      <li>Source 3 — Official government portal. <a href="#" target="_blank" rel="noopener">gov.in</a></li>
+    </ol>
+    <p class="references-note">
+      <!-- ← CHANGE: data disclaimer specific to your topic -->
+      Prices shown are indicative for [Month Year]. [Topic] rates change [daily/weekly]. Verify current rates at official portals before making decisions.
+    </p>
+  </div>
+</div>
+
+</article>
+
+<!-- Sticky Sidebar (auto-generated from POST config) -->
+<aside class="post-sidebar" id="post-sidebar"></aside>
+
+</div><!-- end .post-layout -->
+
+<footer class="post-footer">
+  <div class="post-footer-brand">ViLoLabs / ViLo Pulse</div>
+  <p>Independent analysis for the curious Indian reader. No paywalls, no spam.</p>
+  <p>© 2026 ViLoLabs · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════
+     ENGINE — Do NOT edit below unless adding new chart types
+     ══════════════════════════════════════════════════════════ -->
+<script>
+/* ── Register post in Supabase (pSEO) ── */
+if (window.ViloDB) {
+  ViloDB.saveBlogPost(POST.slug, POST.title, POST.description, POST.category);
+}
+
+/* ── Colour gradient: green (cheap) → red (costly) ── */
+function priceColour(p, min, max) {
+  const t = (p - min) / (max - min || 1);
+  const r = Math.round(39  + t * (231 - 39));
+  const g = Math.round(174 + t * (76  - 174));
+  const b = Math.round(96  + t * (60  - 96));
+  return `rgb(${r},${g},${b})`;
+}
+
+/* ── Build hero ── */
+document.getElementById('post-hero').innerHTML = `
+  <div class="post-category">${POST.heroCategory}</div>
+  <h1 class="post-title">${POST.heroTitle}</h1>
+  <p class="post-subtitle">${POST.heroSubtitle}</p>
+  <div class="post-meta"><span>${POST.heroMeta}</span></div>`;
+
+/* ── Build stats strip ── */
+document.getElementById('skim-bar-inner').innerHTML = POST.stats.map(s =>
+  `<div class="skim-stat">
+    <span class="skim-stat-num">${s.num}</span>
+    <span class="skim-stat-label">${s.label}</span>
+  </div>`).join('');
+
+/* ── Build TL;DR ── */
+document.getElementById('tldr-section').innerHTML = `
+  <div class="tldr">
+    <div class="tldr-label">⚡ TL;DR — 30-second version</div>
+    <ul>${POST.tldr.map(t => `<li>${t}</li>`).join('')}</ul>
+  </div>`;
+
+/* ── Section headings ── */
+POST.sections.forEach(s => {
+  const el = document.getElementById(s.id);
+  if (el) el.textContent = s.label;
+});
+
+/* ── Insight cards ── */
+document.getElementById('insight-grid').innerHTML = POST.insights.map(i => `
+  <div class="insight-card ${i.color}">
+    <div class="insight-num">${i.num}</div>
+    <div class="insight-label">${i.label}</div>
+    <div class="insight-state">${i.state}</div>
+  </div>`).join('');
+
+/* ── Chart labels ── */
+['chartBarTitle','chartBarNote','chartDonutTitle','chartDonutNote','chartCompTitle','chartCompNote'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.textContent = POST[id];
+});
+
+/* ── BAR CHART ── */
+const sorted = [...DATA].sort((a,b) => a.price - b.price);
+const minP = sorted[0].price, maxP = sorted[sorted.length-1].price;
+const barWrap = document.getElementById('barWrap');
+barWrap.style.height = (window.innerWidth < 600 ? 380 : window.innerWidth < 900 ? 440 : Math.max(400, sorted.length * 22)) + 'px';
+new Chart(document.getElementById('chartBar'), {
+  type: 'bar',
+  data: {
+    labels: sorted.map(s => s.state),
+    datasets: [{ label: POST.tableUnit, data: sorted.map(s => s.price),
+      backgroundColor: sorted.map(s => priceColour(s.price, minP, maxP)),
+      borderRadius: 4, borderSkipped: false }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const s = sorted[ctx.dataIndex];
+        return [`  ${POST.tableUnit}${s.price}`, `  City: ${s.city}`];
+      }}}
+    },
+    scales: {
+      x: { ticks: { callback: v => POST.tableUnit + v, font: { family:'Outfit', size:11 } }, grid: { color:'rgba(0,0,0,.06)' } },
+      y: { ticks: { font: { family:'Outfit', size:11 } } }
+    }
+  }
+});
+
+/* ── DONUT CHART ── */
+new Chart(document.getElementById('chartDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: POST.chartDonutData.map(d => d.label),
+    datasets: [{ data: POST.chartDonutData.map(d => d.value),
+      backgroundColor: POST.chartDonutData.map(d => d.color),
+      borderWidth: 2, borderColor: '#fff' }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '60%',
+    plugins: {
+      legend: { position:'bottom', labels:{ font:{family:'Outfit',size:11}, padding:12, boxWidth:12 } },
+      tooltip: { callbacks: { label: ctx => `  ${POST.tableUnit}${ctx.parsed} (${((ctx.parsed/POST.chartDonutReferenceTotal)*100).toFixed(1)}%)` }}
+    }
+  }
+});
+
+/* ── COMPARISON BAR ── */
+const compSorted = [...DATA].sort((a,b) => a.comp - b.comp);
+new Chart(document.getElementById('chartComp'), {
+  type: 'bar',
+  data: {
+    labels: compSorted.map(s => s.state.length > 12 ? s.state.slice(0,11)+'…' : s.state),
+    datasets: [{ data: compSorted.map(s => s.comp),
+      backgroundColor: compSorted.map(s => priceColour(s.price, minP, maxP)),
+      borderRadius: 3 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{ display:false } },
+    scales: {
+      x: { ticks:{ font:{family:'Outfit',size:9}, maxRotation:45 } },
+      y: { ticks:{ font:{family:'Outfit',size:11} }, grid:{color:'rgba(0,0,0,.06)'} }
+    }
+  }
+});
+
+/* ── SORTABLE TABLE ── */
+const AVG = DATA.reduce((s,r)=>s+r.price,0)/DATA.length;
+let sortCol = 0, sortAsc = true, filtered = [...DATA];
+
+/* Build header */
+document.getElementById('tableHead').innerHTML = POST.tableCols.map((c,i) =>
+  `<th onclick="sortTable(${i})">${c} <span class="sort-icon">⇅</span></th>`).join('');
+
+function renderTable(data) {
+  document.getElementById('tableBody').innerHTML = data.map(s => {
+    const diff = (s.price - AVG).toFixed(0);
+    const sign = diff >= 0 ? '+' : '';
+    const barW = Math.round(((s.price - minP) / (maxP - minP || 1)) * 100);
+    const barClass = s.price <= AVG ? 'low' : (s.price >= AVG * 1.05 ? 'high' : '');
+    const badge = s.price <= sorted[Math.floor(sorted.length*0.2)].price
+      ? '<span class="badge-cheap">Cheap</span>'
+      : s.price >= sorted[Math.floor(sorted.length*0.8)].price
+        ? '<span class="badge-costly">Costly</span>' : '';
+    return `<tr>
+      <td class="rank">#${s.rank}</td>
+      <td><strong>${s.city}</strong></td>
+      <td style="color:#7a6e62">${s.state}</td>
+      <td class="price-val"><div class="price-bar-cell">
+        <div class="price-bar ${barClass}" style="width:${barW}px"></div>
+        ${POST.tableUnit}${s.price}
+      </div></td>
+      <td>${s.comp}%</td>
+      <td>${badge || `<span style="color:#aaa;font-size:.8rem">${sign}${POST.tableUnit}${Math.abs(diff)}</span>`}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tableCount').textContent = `Showing ${data.length} of ${DATA.length} cities`;
+}
+
+function sortTable(col) {
+  if (sortCol === col) sortAsc = !sortAsc; else { sortCol = col; sortAsc = true; }
+  const keys = ['rank','city','state','price','comp','price'];
+  filtered.sort((a,b) => {
+    const av = a[keys[col]], bv = b[keys[col]];
+    return typeof av === 'string'
+      ? (sortAsc ? av.localeCompare(bv) : bv.localeCompare(av))
+      : (sortAsc ? av - bv : bv - av);
+  });
+  renderTable(filtered);
+}
+
+function filterTable() {
+  const q = document.getElementById('dataSearch').value.toLowerCase().trim();
+  filtered = q ? DATA.filter(s => s.state.toLowerCase().includes(q) || s.city.toLowerCase().includes(q)) : [...DATA];
+  sortTable(sortCol);
+}
+
+renderTable(DATA);
+
+/* ── SIDEBAR ── */
+document.getElementById('post-sidebar').innerHTML = `
+  <div class="sb-card">
+    <div class="sb-title">Contents</div>
+    <nav class="toc">
+      ${POST.sections.map(s => `<a class="toc-link" href="#${s.id}">${s.label}</a>`).join('')}
+    </nav>
+  </div>
+  <div class="sb-card sb-affiliate">
+    <div class="sb-title">${POST.affiliateTitle}</div>
+    <p>${POST.affiliateText}</p>
+    <a class="sb-btn" href="${POST.affiliateLink}" target="_blank" rel="noopener sponsored">${POST.affiliateCTA}</a>
+    <div class="sb-disclosure">Affiliate link — we may earn a small commission at no extra cost to you.</div>
+  </div>
+  <div class="sb-card">
+    <div class="sb-title">🛠 Free Tools</div>
+    <a class="sb-tool-link" href="/tools/qr-generator.html">QR Code Generator →</a>
+    <a class="sb-tool-link" href="/tools/resize-image.html">Resize Image Free →</a>
+    <a class="sb-tool-link" href="/tools/compress-pdf.html">Compress PDF →</a>
+  </div>`;
+
+/* ── Share buttons ── */
+const shareText = encodeURIComponent(POST.title);
+const shareUrl  = encodeURIComponent(location.href);
+const waEl = document.getElementById('shareWA');
+const twEl = document.getElementById('shareTW');
+if (waEl) waEl.href = `https://wa.me/?text=${shareText}%20${shareUrl}`;
+if (twEl) twEl.href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+
+/* ── Reading progress bar ── */
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  document.getElementById('read-progress').style.width =
+    Math.min((doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100, 100) + '%';
+}, { passive: true });
+
+/* ── ToC active on scroll ── */
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = [...tocLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = '#' + s.id; });
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === cur));
+}, { passive: true });
+
+/* ── FAQ accordion ── */
+function toggleFaq(el) {
+  const ans = el.nextElementSibling;
+  const isOpen = ans.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
+  if (!isOpen) { ans.classList.add('open'); el.classList.add('open'); }
+}
+
+/* ── Copy link ── */
+function copyLink() {
+  navigator.clipboard.writeText(location.href).then(() => {
+    const btn = document.querySelector('.share-btn.copy');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = '🔗 Copy link', 2000);
+  });
+}
+</script>
+</body>
+</html>
