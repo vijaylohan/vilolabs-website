@@ -1,0 +1,36 @@
+# ViLoLabs — robots.txt
+# Everything is crawlable. Replace the Sitemap URL below once your real domain is set up.
+
+User-agent: *
+Allow: /
+Disallow: /Worksheet/Sample/
+Disallow: /Resources/
+
+# Block aggressive SEO scrapers that drain bandwidth without sending traffic
+User-agent: AhrefsBot
+Disallow: /
+User-agent: SemrushBot
+Disallow: /
+User-agent: DotBot
+Disallow: /
+User-agent: MJ12bot
+Disallow: /
+User-agent: PetalBot
+Disallow: /
+User-agent: BLEXBot
+Disallow: /
+User-agent: SeznamBot
+Disallow: /
+
+# Block AI training crawlers (until you decide otherwise)
+User-agent: GPTBot
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: anthropic-ai
+Disallow: /
+User-agent: Claude-Web
+Disallow: /
+
+# TODO: when domain is registered, replace this with the real URL
+Sitemap: https://vilolabs.netlify.app/sitemap.xml

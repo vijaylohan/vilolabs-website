@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image to PDF Converter — Free, No Watermark, No Sign Up | ViLoLabs</title>
+<meta name="description" content="Free Image to PDF converter. Combine JPG, PNG and WebP images into one clean PDF — fast, private, no sign up, no watermark. Runs in your browser.">
+<meta name="keywords" content="image to pdf, jpg to pdf, png to pdf, combine images into pdf, free image to pdf, no watermark, online converter">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Image to PDF Converter — Free, No Watermark | ViLoLabs">
+<meta property="og:description" content="Combine JPG, PNG, WebP images into one PDF. Free, private, in-browser.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
+<script src="/tools/tool-seo.js"></script>
+<script src="/assets/db.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" integrity="sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Image to PDF Converter","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<div id="cursor"></div><div id="cursor-ring"></div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="logo">ViLo<em>Labs</em></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../tools.html">Tools</a></li>
+    <li><a href="../app.html">Apps</a></li>
+    <li><a href="../sheets.html">Worksheets</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+  <p class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="../tools.html">Tools</a><span class="sep">/</span>Image to PDF</p>
+</div>
+
+<header class="hero">
+  <p class="eyebrow">Free Online Tool · PDF</p>
+  <h1>Image to PDF <em>Converter</em></h1>
+  <p class="lead">Combine JPG, PNG or WebP images into a single PDF. Reorder pages, pick page size — done in seconds. Your files never leave your device.</p>
+  <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
+</header>
+
+<section class="wrap">
+  <div class="app-sec">
+    <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please review your PDF before sharing or printing important documents.</span></div>
+    <div class="drop" id="drop">
+      <div class="di">📂</div>
+      <div class="dt">Click to choose images, or drop them here</div>
+      <div class="ds">JPG · PNG · WebP — add as many as you like</div>
+    </div>
+    <input type="file" id="file" accept="image/*" multiple hidden>
+
+    <div class="thumbs" id="thumbs"></div>
+
+    <div class="opts" id="opts" style="display:none">
+      <div class="opt">
+        <label>Page Size</label>
+        <select id="opt-size">
+          <option value="fit">Fit to image</option>
+          <option value="a4" selected>A4</option>
+          <option value="letter">Letter</option>
+        </select>
+      </div>
+      <div class="opt">
+        <label>Orientation</label>
+        <select id="opt-orient">
+          <option value="auto" selected>Auto</option>
+          <option value="p">Portrait</option>
+          <option value="l">Landscape</option>
+        </select>
+      </div>
+      <div class="opt">
+        <label>Margin</label>
+        <select id="opt-margin">
+          <option value="0">None</option>
+          <option value="8" selected>Small</option>
+          <option value="18">Medium</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions" id="actions" style="display:none">
+      <button class="go-btn" id="go">Download PDF</button>
+      <button class="clear-btn" id="clr">Clear all</button>
+      <span class="status" id="status"></span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section-pad">
+  <p class="sec-tag">Good to Know</p>
+  <h2 class="sec-h">Common <em>questions</em>.</h2>
+  <div class="faq-item"><h3>Is this Image to PDF converter free?</h3><p>Yes — completely free, with no sign up and no watermark. Use it as many times as you need.</p></div>
+  <div class="faq-item"><h3>Are my images uploaded to a server?</h3><p>No. The conversion runs inside your browser. Your images never leave your device.</p></div>
+  <div class="faq-item"><h3>Which formats are supported?</h3><p>JPG, JPEG, PNG and WebP. Combine several into one multi-page PDF.</p></div>
+  <div class="faq-item"><h3>Can I reorder pages?</h3><p>Yes — use the arrow buttons on each thumbnail to move it earlier or later in the PDF.</p></div>
+</section>
+
+<footer class="site-foot">
+  <div class="fl"><a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../app.html">Apps</a><a href="../sheets.html">Worksheets</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></div>
+  <p class="cp">© <span id="yr"></span> ViLoLabs · Free online tools, built in India for the world.</p>
+  <p class="disclaimer">ViLoLabs tools can make mistakes. Please verify your output before sharing or printing.</p>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+(function(){const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');if(window.matchMedia('(hover:none),(pointer:coarse)').matches){cur.style.display='none';ring.style.display='none';document.documentElement.style.cursor='auto';return;}let rx=0,ry=0,cx=0,cy=0;document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});(function loop(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();})();
+
+const stamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;};
+// ── IMAGE TO PDF ──
+const imgs=[];
+const drop=document.getElementById('drop');
+const fileInput=document.getElementById('file');
+const thumbsEl=document.getElementById('thumbs');
+const statusEl=document.getElementById('status');
+drop.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',e=>addFiles(e.target.files));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>{if(e.dataTransfer.files)addFiles(e.dataTransfer.files);});
+document.getElementById('go').addEventListener('click',buildPDF);
+document.getElementById('clr').addEventListener('click',clearAll);
+
+function loadImage(url){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=url;});}
+function fileToDataURL(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f);});}
+async function addFiles(list){
+  const files=[...list].filter(f=>f.type.startsWith('image/'));
+  if(!files.length)return;
+  for(const f of files){
+    try{
+      const dataURL=await fileToDataURL(f);
+      const img=await loadImage(dataURL);
+      const w=img.naturalWidth,h=img.naturalHeight;
+      let bytes,mime,previewURL=dataURL;
+      if(f.type==='image/jpeg'||f.type==='image/jpg'){
+        bytes=new Uint8Array(await f.arrayBuffer());mime='JPEG';
+      }else if(f.type==='image/png'){
+        bytes=new Uint8Array(await f.arrayBuffer());mime='PNG';
+      }else{
+        // WebP or other — re-encode as JPEG so pdf-lib can embed
+        const c=document.createElement('canvas');c.width=w;c.height=h;
+        const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.drawImage(img,0,0);
+        const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
+        bytes=new Uint8Array(await blob.arrayBuffer());mime='JPEG';
+        previewURL=await fileToDataURL(blob);
+      }
+      imgs.push({dataURL:previewURL,bytes,w,h,name:f.name,mime});
+    }catch(e){console.error(e);}
+  }
+  render();
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function render(){
+  thumbsEl.innerHTML=imgs.map((im,i)=>`<div class="thumb"><span class="tnum">${i+1}</span><img src="${im.dataURL}" alt="${esc(im.name)}"><div class="trow"><button onclick="move(${i},-1)" ${i===0?'disabled style=opacity:.25':''}>◀</button><button class="del" onclick="rmv(${i})">✕</button><button onclick="move(${i},1)" ${i===imgs.length-1?'disabled style=opacity:.25':''}>▶</button></div></div>`).join('');
+  const has=imgs.length>0;
+  document.getElementById('opts').style.display=has?'flex':'none';
+  document.getElementById('actions').style.display=has?'flex':'none';
+  document.getElementById('go').disabled=!has;
+  statusEl.textContent=has?`${imgs.length} image${imgs.length>1?'s':''} ready`:'';
+}
+function move(i,dir){const j=i+dir;if(j<0||j>=imgs.length)return;[imgs[i],imgs[j]]=[imgs[j],imgs[i]];render();}
+function rmv(i){imgs.splice(i,1);render();}
+function clearAll(){imgs.length=0;fileInput.value='';render();}
+
+async function buildPDF(){
+  if(!imgs.length)return;
+  const {PDFDocument}=PDFLib;
+  const fmt=document.getElementById('opt-size').value;
+  const orientOpt=document.getElementById('opt-orient').value;
+  const marginMM=parseFloat(document.getElementById('opt-margin').value);
+  statusEl.classList.remove('err');statusEl.textContent='Building PDF…';
+  const go=document.getElementById('go');go.disabled=true;
+  try{
+    const pdf=await PDFDocument.create();
+    const SIZES={a4:[595.28,841.89],letter:[612,792]};
+    const MM_PT=2.83465;
+    let origTotal=0;
+    for(const im of imgs){
+      origTotal+=im.bytes.length;
+      const emb=im.mime==='PNG'?await pdf.embedPng(im.bytes):await pdf.embedJpg(im.bytes);
+      const iw=im.w,ih=im.h;
+      let pageW,pageH;
+      if(fmt==='fit'){
+        pageW=iw*72/96;pageH=ih*72/96;
+      }else{
+        const [W,H]=SIZES[fmt];
+        const orientation=orientOpt==='auto'?(iw>ih?'l':'p'):orientOpt;
+        pageW=orientation==='l'?H:W;pageH=orientation==='l'?W:H;
+      }
+      const page=pdf.addPage([pageW,pageH]);
+      const m=fmt==='fit'?0:marginMM*MM_PT;
+      const availW=pageW-2*m,availH=pageH-2*m;
+      const scale=Math.min(availW/iw,availH/ih);
+      const dw=iw*scale,dh=ih*scale;
+      page.drawImage(emb,{x:(pageW-dw)/2,y:(pageH-dh)/2,width:dw,height:dh});
+    }
+    const bytes=await pdf.save({useObjectStreams:true});
+    const blob=new Blob([bytes],{type:'application/pdf'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-Image-to-PDF_${stamp()}.pdf`;
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+    const outKB=Math.round(bytes.length/1024),origKB=Math.round(origTotal/1024);
+    statusEl.textContent=`✓ PDF downloaded · ${outKB} KB (images: ${origKB} KB)`;
+    // ── pSEO: canonical preset URL for matched page/orient combination
+    const orientResolved=(orientOpt==='auto'?(imgs[0].w>imgs[0].h?'l':'p'):orientOpt);
+    _tsAfterAction({page:fmt, orient:(fmt==='fit'?'auto':orientResolved)});
+  }catch(err){
+    console.error(err);
+    statusEl.classList.add('err');
+    statusEl.textContent='Build failed: '+(err.message||'unknown — try a different image');
+  }
+  go.disabled=false;
+}
+window.move=move;window.rmv=rmv;
+
+// ──────────────────────────────────────────────────────────────────
+// pSEO: preset URL + dynamic title/meta (image-to-pdf)
+// ──────────────────────────────────────────────────────────────────
+const TOOL='image-to-pdf';
+let _tsKw=null;
+if(window.TSeo) TSeo.loadKeywords().then(k=>{_tsKw=k; _tsRestoreFromUrl();});
+
+function _tsAfterAction(cfg){
+  if(!window.TSeo||!_tsKw||!window.ViloDB) return;
+  const presetKey=TSeo.matchPreset(TOOL, cfg, _tsKw);
+  if(!presetKey) return;
+  const slug=TSeo.buildToolSlug(TOOL, presetKey, _tsKw);
+  ViloDB.saveToolShare(TOOL, cfg, slug);
+  try{ history.replaceState({slug},'','/tools/'+TOOL+'/'+slug); }catch(e){}
+  _tsApplyMeta(presetKey);
+}
+
+function _tsApplyMeta(presetKey){
+  if(!window.TSeo||!_tsKw) return;
+  const id=presetKey;
+  document.title =TSeo.renderTitle(TOOL, presetKey, id, _tsKw);
+  const md=document.querySelector('meta[name="description"]');
+  if(md) md.setAttribute('content', TSeo.renderDesc(TOOL, presetKey, id, _tsKw));
+  let canon=document.querySelector('link[rel="canonical"]');
+  if(!canon){canon=document.createElement('link');canon.rel='canonical';document.head.appendChild(canon);}
+  canon.href=location.origin+'/tools/'+TOOL+'/'+presetKey;
+}
+
+function _tsRestoreFromUrl(){
+  const m=location.pathname.match(/^\/tools\/image-to-pdf\/([^/?#]+)\/?$/);
+  if(!m||!window.TSeo||!_tsKw) return;
+  const parsed=TSeo.parseToolSlug(TOOL, m[1], _tsKw);
+  if(!parsed||!parsed.presetKey) return;
+  const preset=(_tsKw.tools[TOOL].presets||{})[parsed.presetKey];
+  if(!preset||!preset.match) return;
+  if(preset.match.page)   document.getElementById('opt-size').value  =preset.match.page;
+  if(preset.match.orient) document.getElementById('opt-orient').value=preset.match.orient;
+  _tsApplyMeta(parsed.presetKey);
+}
+</script>
+</body>
+</html>

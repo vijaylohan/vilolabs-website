@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merge PDF Online — Free, No Watermark, No Sign Up | ViLoLabs</title>
+<meta name="description" content="Free online tool to merge PDF files. Combine multiple PDFs into one document in seconds — no watermark, no sign up, files stay private in your browser.">
+<meta name="keywords" content="merge pdf, combine pdf, join pdf files, free pdf merger, online pdf merge, no watermark, no sign up, pdf joiner">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Merge PDF Online — Free, No Watermark | ViLoLabs">
+<meta property="og:description" content="Combine multiple PDFs into one in seconds. Free, private, in-browser.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" integrity="sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Merge PDF Online","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+.pdf-list{list-style:none;margin-top:1.2rem;display:flex;flex-direction:column;gap:.55rem;}
+.pdf-item{display:flex;align-items:center;gap:.8rem;padding:.7rem 1rem;border:1px solid rgba(200,150,60,.18);
+  border-radius:10px;background:rgba(200,150,60,.04);}
+.pdf-item .ico{font-size:1.4rem;}
+.pdf-item .meta{flex:1;min-width:0;}
+.pdf-item .nm{font-size:.9rem;color:var(--cream);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pdf-item .sub{font-size:.74rem;color:var(--brown3);}
+.pdf-item .pos{font-size:.74rem;font-weight:700;color:var(--gold);background:rgba(200,150,60,.12);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.pdf-item .act{display:flex;gap:.2rem;}
+.pdf-item .act button{background:none;border:1px solid rgba(200,150,60,.18);color:var(--brown3);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:.85rem;}
+.pdf-item .act button:hover{border-color:var(--gold);color:var(--gold);}
+.pdf-item .act button.del:hover{border-color:#e8867a;color:#e8867a;}
+.pdf-item .act button:disabled{opacity:.25;cursor:not-allowed;}
+</style>
+</head>
+<body>
+<div id="cursor"></div><div id="cursor-ring"></div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="logo">ViLo<em>Labs</em></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../tools.html">Tools</a></li>
+    <li><a href="../app.html">Apps</a></li>
+    <li><a href="../sheets.html">Worksheets</a></li>
+  </ul>
+</nav>
+
+<div class="wrap"><p class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="../tools.html">Tools</a><span class="sep">/</span>Merge PDF</p></div>
+
+<header class="hero">
+  <p class="eyebrow">Free Online Tool · PDF</p>
+  <h1>Merge PDF <em>Files</em></h1>
+  <p class="lead">Combine multiple PDFs into a single document. Drag to reorder, then download — instantly. Files stay on your device.</p>
+  <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
+</header>
+
+<section class="wrap">
+  <div class="app-sec">
+    <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please review your merged PDF before sharing or printing important documents.</span></div>
+    <div class="drop" id="drop">
+      <div class="di">📚</div>
+      <div class="dt">Click to choose PDF files, or drop them here</div>
+      <div class="ds">Add 2 or more PDFs — merged in the order shown below</div>
+    </div>
+    <input type="file" id="file" accept="application/pdf,.pdf" multiple hidden>
+
+    <ul class="pdf-list" id="list"></ul>
+
+    <div class="actions" id="actions" style="display:none">
+      <button class="go-btn" id="go">Merge &amp; Download</button>
+      <button class="clear-btn" id="clr">Clear all</button>
+      <span class="status" id="status"></span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section-pad">
+  <p class="sec-tag">Good to Know</p>
+  <h2 class="sec-h">Common <em>questions</em>.</h2>
+  <div class="faq-item"><h3>How many PDFs can I merge?</h3><p>As many as your browser memory can hold — typically dozens of normal-size PDFs without trouble.</p></div>
+  <div class="faq-item"><h3>Is this free and watermark-free?</h3><p>Yes. No sign up, no watermark, and the merged PDF is exactly your originals stitched together.</p></div>
+  <div class="faq-item"><h3>Are my files uploaded?</h3><p>No. The merge happens entirely in your browser using the open-source pdf-lib library. Files never leave your device.</p></div>
+  <div class="faq-item"><h3>Will bookmarks or links survive?</h3><p>Pages, text and embedded images are preserved exactly. Some PDF metadata and bookmarks may not carry over from every PDF.</p></div>
+</section>
+
+<footer class="site-foot">
+  <div class="fl"><a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../app.html">Apps</a><a href="../sheets.html">Worksheets</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></div>
+  <p class="cp">© <span id="yr"></span> ViLoLabs · Free online tools, built in India for the world.</p>
+  <p class="disclaimer">ViLoLabs tools can make mistakes. Please verify your output before sharing or printing.</p>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+(function(){const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');if(window.matchMedia('(hover:none),(pointer:coarse)').matches){cur.style.display='none';ring.style.display='none';document.documentElement.style.cursor='auto';return;}let rx=0,ry=0,cx=0,cy=0;document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});(function loop(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();})();
+
+const stamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;};
+// ── MERGE PDF ──
+const items=[];   // {file, name, size, pages}
+const drop=document.getElementById('drop');
+const fileInput=document.getElementById('file');
+const listEl=document.getElementById('list');
+const statusEl=document.getElementById('status');
+drop.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',e=>addPDFs(e.target.files));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>{if(e.dataTransfer.files)addPDFs(e.dataTransfer.files);});
+document.getElementById('go').addEventListener('click',merge);
+document.getElementById('clr').addEventListener('click',()=>{items.length=0;fileInput.value='';render();});
+
+async function addPDFs(list){
+  const files=[...list].filter(f=>f.type==='application/pdf'||/\.pdf$/i.test(f.name));
+  for(const f of files){
+    let pages=0;
+    try{
+      const bytes=await f.arrayBuffer();
+      const doc=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+      pages=doc.getPageCount();
+      items.push({file:f,name:f.name,size:f.size,pages,bytes});
+    }catch(err){
+      statusEl.classList.add('err');
+      statusEl.textContent=`Couldn't read "${f.name}" — it may be encrypted or corrupt.`;
+    }
+  }
+  render();
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function render(){
+  listEl.innerHTML=items.map((it,i)=>`<li class="pdf-item">
+    <span class="pos">${i+1}</span>
+    <span class="ico">📄</span>
+    <span class="meta"><span class="nm">${esc(it.name)}</span><span class="sub">${it.pages} page${it.pages!==1?'s':''} · ${(it.size/1024).toFixed(0)} KB</span></span>
+    <span class="act">
+      <button onclick="mv(${i},-1)" ${i===0?'disabled':''}>▲</button>
+      <button onclick="mv(${i},1)" ${i===items.length-1?'disabled':''}>▼</button>
+      <button class="del" onclick="rm(${i})">✕</button>
+    </span></li>`).join('');
+  const has=items.length>0;
+  document.getElementById('actions').style.display=has?'flex':'none';
+  document.getElementById('go').disabled=items.length<2;
+  if(!statusEl.classList.contains('err'))
+    statusEl.textContent=has?`${items.length} PDF${items.length>1?'s':''} ready${items.length<2?' — add one more to merge':''}`:'';
+}
+function mv(i,d){const j=i+d;if(j<0||j>=items.length)return;[items[i],items[j]]=[items[j],items[i]];render();}
+function rm(i){items.splice(i,1);render();}
+window.mv=mv;window.rm=rm;
+
+async function merge(){
+  if(items.length<2)return;
+  const go=document.getElementById('go');go.disabled=true;
+  statusEl.classList.remove('err');statusEl.textContent='Merging…';
+  try{
+    const {PDFDocument}=PDFLib;
+    const out=await PDFDocument.create();
+    for(const it of items){
+      const src=await PDFDocument.load(it.bytes,{ignoreEncryption:true});
+      const pages=await out.copyPages(src,src.getPageIndices());
+      pages.forEach(p=>out.addPage(p));
+    }
+    const bytes=await out.save();
+    const blob=new Blob([bytes],{type:'application/pdf'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=`ViLoLabs-Merged_${stamp()}.pdf`;
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+    statusEl.textContent=`✓ Merged ${items.length} PDFs · ${(bytes.length/1024).toFixed(0)} KB`;
+  }catch(err){
+    console.error(err);
+    statusEl.classList.add('err');statusEl.textContent='Merge failed: '+(err.message||'unknown error');
+  }
+  go.disabled=false;
+}
+</script>
+</body>
+</html>

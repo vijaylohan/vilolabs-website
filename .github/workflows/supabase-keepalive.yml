@@ -1,0 +1,41 @@
+# ──────────────────────────────────────────────────────────────────
+# Supabase free-tier projects pause after 7 days of zero activity.
+# This workflow fires a tiny HTTPS GET once per day, registering as
+# activity and resetting the idle timer indefinitely.
+#
+# Cost: 0 (uses ~5 seconds of GitHub Actions free-tier minutes/month).
+# Auth: uses the public ANON key — safe to commit, read-only via RLS.
+# ──────────────────────────────────────────────────────────────────
+name: Supabase Keepalive
+
+on:
+  schedule:
+    # Daily at 03:17 UTC (offset minute avoids the common :00 cron stampede
+    # that often causes GitHub to delay scheduled runs by 30-60 minutes)
+    - cron: '17 3 * * *'
+  workflow_dispatch:  # lets you click "Run workflow" manually from the UI
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping Supabase REST endpoint
+        env:
+          SUPABASE_URL: https://nosskzzzkpadxakjbzdt.supabase.co
+          SUPABASE_ANON: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vc3Nrenp6a3BhZHhha2piemR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NzY3NTIsImV4cCI6MjA5NTE1Mjc1Mn0.pwBuchMlGi6KZ6vrYAfJtcQlraCdtB4DT1WKq9nnQ5I
+        run: |
+          set -e
+          echo "Pinging Supabase at $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          http_code=$(curl -s -o /tmp/body -w "%{http_code}" \
+            -H "apikey: $SUPABASE_ANON" \
+            -H "Authorization: Bearer $SUPABASE_ANON" \
+            "$SUPABASE_URL/rest/v1/worksheets?select=id&limit=1")
+          echo "HTTP $http_code"
+          cat /tmp/body
+          # Accept 200 (rows) or 206 (partial — Range header behaviour)
+          if [ "$http_code" != "200" ] && [ "$http_code" != "206" ]; then
+            echo "::error::Supabase ping failed with HTTP $http_code"
+            exit 1
+          fi
+          echo "✓ Supabase activity registered"

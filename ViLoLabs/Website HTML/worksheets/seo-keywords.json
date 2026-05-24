@@ -1,0 +1,150 @@
+{
+  "_comment": "ViLoLabs Worksheets SEO data. Built from real search patterns observed on worksheetfun.com, k5learning.com, education.com (top-ranked worksheet sites globally). Slug values are URL-safe and match high-volume search queries. Update any time — all worksheet pages pick up changes within 30 seconds.",
+  "_lastUpdated": "2026-05-21",
+  "_version": 2,
+
+  "grades": {
+    "prekg": {
+      "slug": "preschool",
+      "names": ["Preschool", "Pre-K", "Pre-Kindergarten"],
+      "ages": "Ages 3-4"
+    },
+    "kg": {
+      "slug": "kindergarten",
+      "names": ["Kindergarten", "KG", "Pre-Primary"],
+      "ages": "Ages 5-6"
+    },
+    "1": {
+      "slug": "grade-1",
+      "names": ["1st Grade", "Grade 1", "First Grade", "Class 1"],
+      "ages": "Ages 6-7"
+    },
+    "2": {
+      "slug": "grade-2",
+      "names": ["2nd Grade", "Grade 2", "Second Grade", "Class 2"],
+      "ages": "Ages 7-8"
+    },
+    "3": {
+      "slug": "grade-3",
+      "names": ["3rd Grade", "Grade 3", "Third Grade", "Class 3"],
+      "ages": "Ages 8-9"
+    },
+    "4": {
+      "slug": "grade-4",
+      "names": ["4th Grade", "Grade 4", "Fourth Grade", "Class 4"],
+      "ages": "Ages 9-10"
+    },
+    "5": {
+      "slug": "grade-5",
+      "names": ["5th Grade", "Grade 5", "Fifth Grade", "Class 5"],
+      "ages": "Ages 10-11"
+    },
+    "colouring": {
+      "slug": "for-kids",
+      "names": ["Kids", "Children", "All Ages"],
+      "ages": "Ages 3-10"
+    },
+    "sudoku": {
+      "slug": "for-kids",
+      "names": ["Kids", "Beginners"],
+      "ages": "Ages 6-12"
+    },
+    "maze": {
+      "slug": "for-kids",
+      "names": ["Kids", "Children"],
+      "ages": "Ages 5-12"
+    }
+  },
+
+  "categories": {
+    "animals":     { "slug": "animals",     "names": ["Animal", "Wild Animal", "Cute Animal"] },
+    "fruits":      { "slug": "fruits",      "names": ["Fruit", "Fresh Fruit"] },
+    "vegetables":  { "slug": "vegetables",  "names": ["Vegetable", "Veggie"] },
+    "food":        { "slug": "food",        "names": ["Food", "Yummy Food"] },
+    "transport":   { "slug": "transport",   "names": ["Transport", "Vehicle"] },
+    "nature":      { "slug": "nature",      "names": ["Nature", "Outdoor"] },
+    "school":      { "slug": "school",      "names": ["School", "Back to School"] },
+    "sports":      { "slug": "sports",      "names": ["Sports", "Games"] },
+    "space":       { "slug": "space",       "names": ["Space", "Solar System", "Astronomy"] },
+    "insects":     { "slug": "insects",     "names": ["Insect", "Bugs"] },
+    "instruments": { "slug": "music",       "names": ["Music", "Musical Instrument"] },
+    "objects":     { "slug": "objects",     "names": ["Everyday Object", "Household"] },
+    "mix":         { "slug": "themed",      "names": ["Themed", "Fun"] }
+  },
+
+  "_activityComment": "Each activity has: slug=URL phrase that matches real search volume, names=display names for titles. Slugs come directly from observed top-ranking worksheet URLs.",
+  "activities": {
+    "maze":            { "slug": "maze-worksheets",         "names": ["Maze", "Maze Puzzle"] },
+    "sudoku":          { "slug": "sudoku",                  "names": ["Sudoku", "Picture Sudoku"] },
+    "colouring":       { "slug": "coloring-pages",          "names": ["Coloring", "Coloring Page"] },
+    "trace-path":      { "slug": "tracing-worksheets",      "names": ["Path Tracing", "Tracing"] },
+    "letter-trace":    { "slug": "letter-tracing",          "names": ["Letter Tracing", "Alphabet Tracing"] },
+    "number-trace":    { "slug": "number-tracing",          "names": ["Number Tracing", "Number Writing"] },
+    "word-trace":      { "slug": "sight-word-tracing",      "names": ["Word Tracing", "Sight Word Tracing"] },
+    "counting-small":  { "slug": "counting-worksheets",     "names": ["Counting", "Count and Color"] },
+    "counting-medium": { "slug": "counting-worksheets",     "names": ["Counting"] },
+    "matching-pic":    { "slug": "matching-worksheets",     "names": ["Picture Matching", "Match-Up"] },
+    "matching-word":   { "slug": "vocabulary-worksheets",   "names": ["Word Matching", "Vocabulary"] },
+    "odd-one-out":     { "slug": "odd-one-out",             "names": ["Odd One Out", "Find the Different"] },
+    "pattern-ab":      { "slug": "pattern-worksheets",      "names": ["AB Pattern", "Pattern Practice"] },
+    "pattern-abc":     { "slug": "pattern-worksheets",      "names": ["ABC Pattern", "Pattern Sequence"] },
+    "size-order":      { "slug": "size-sorting",            "names": ["Size Sorting", "Bigger or Smaller"] },
+    "shadow-match":    { "slug": "shadow-matching",         "names": ["Shadow Matching", "Silhouette Match"] },
+    "spot-diff":       { "slug": "spot-the-difference",     "names": ["Spot the Difference", "Find Differences"] },
+    "circle-match":    { "slug": "matching-worksheets",     "names": ["Circle the Match"] },
+    "things-together": { "slug": "things-that-go-together", "names": ["Things That Go Together", "Sort the Pairs"] },
+    "missing-number":  { "slug": "missing-number",          "names": ["Missing Number", "Number Sequence"] },
+    "missing-letter":  { "slug": "missing-letter",          "names": ["Missing Letter", "Complete the Word"] },
+    "missing-alphabet":{ "slug": "alphabet-worksheets",     "names": ["Missing Alphabet", "Complete the Alphabet"] },
+    "complete-word":   { "slug": "word-building",           "names": ["Word Building", "Complete the Word"] },
+    "alphabet-id":     { "slug": "alphabet-worksheets",     "names": ["Alphabet Recognition", "ABC"] },
+    "shape-id":        { "slug": "shapes-worksheets",       "names": ["Shape Recognition", "Shapes"] },
+    "colour-id":       { "slug": "colors-worksheets",       "names": ["Color Recognition", "Colors"] },
+    "sequence":        { "slug": "sequencing-worksheets",   "names": ["Sequencing", "Put in Order"] },
+    "sort":            { "slug": "sorting-worksheets",      "names": ["Sorting", "Sort by Category"] },
+    "dot-to-dot":      { "slug": "dot-to-dot",              "names": ["Dot-to-Dot", "Connect the Dots"] },
+    "simple-add":      { "slug": "addition-worksheets",     "names": ["Addition", "Simple Addition"] },
+    "add-column":      { "slug": "addition-worksheets",     "names": ["Column Addition", "Vertical Addition"] },
+    "subtract-column": { "slug": "subtraction-worksheets",  "names": ["Column Subtraction", "Vertical Subtraction"] },
+    "multiply":        { "slug": "multiplication-worksheets","names": ["Multiplication", "Times Tables"] },
+    "skip-count":      { "slug": "skip-counting",           "names": ["Skip Counting", "Number Patterns"] },
+    "compare-numbers": { "slug": "comparing-numbers",       "names": ["Comparing Numbers", "Greater Than Less Than"] },
+    "positions":       { "slug": "position-words",          "names": ["Position Words", "Left Right Up Down"] },
+    "word-search":     { "slug": "word-search-for-kids",    "names": ["Word Search", "Word Find Puzzle"] },
+    "mix":             { "slug": "free-printable-worksheets","names": ["Printable Worksheets", "Activity Pack", "Worksheet Pack", "Learning Activities", "Practice Worksheets"] }
+  },
+
+  "_titleComment": "Title templates use {activity} (display name), {grade} (display name), {category} (display name), {ages}. Picked deterministically from URL ID — same URL always renders same title.",
+  "title_templates": [
+    "Free {activity} for {grade} — Printable PDF | ViLoLabs",
+    "{activity} for {grade} {category} Theme — Free Printable | ViLoLabs",
+    "Printable {activity} for {grade} — Free Download | ViLoLabs",
+    "Free {category} {activity} for {grade} | ViLoLabs Worksheets",
+    "{grade} {activity} — Free Printable Activity | ViLoLabs"
+  ],
+
+  "_descComment": "First 3 templates have NO {category} — safe for mixed worksheets (Grade 1-5). Last 3 use {category} — picked only for single-theme worksheets (Pre-KG, KG, Colouring).",
+  "description_templates": [
+    "Free printable {activity} for {grade}. No sign up, instant PDF download. Great for classroom, homework, and homeschool.",
+    "Download this free {activity} worksheet for {grade}. Print at home or share digitally. No watermark, no registration.",
+    "A {activity} sheet built for {grade} students. Free PDF download, no sign up, no watermark. Ready in seconds — made by ViLoLabs.",
+    "Free printable {activity} for {grade} students with a {category} theme. No sign up, instant PDF download. Great for classroom, homework, and homeschool.",
+    "Help your {grade} child practice with this free {category} {activity}. Built for {ages} and made by ViLoLabs — free, printable, and ready to download.",
+    "Printable {activity} for {grade}. Engaging {category} theme keeps kids interested. Free PDF download from ViLoLabs."
+  ],
+
+  "h1_templates": [
+    "Free {activity} for {grade}",
+    "{activity} for {grade}",
+    "{grade} {activity}",
+    "{category} {activity} for {grade}"
+  ],
+
+  "body_intros": [
+    "This is a free printable {activity} for {grade} students. Download the PDF below, or click Generate to create a fresh variation.",
+    "A {activity} sheet built for {grade}. Use it in the classroom, at home, or as a quick learning break. Every download is free and contains no watermark.",
+    "Practice {activity} with this free printable for {grade}. Generate a new version any time, or download this one as a PDF.",
+    "This is a free printable {activity} for {grade}, featuring a {category} theme. Download the PDF below, or click Generate to create a fresh variation.",
+    "Practice {activity} with a fun {category} theme — perfect for {grade}. Generate a new version any time, or download this one as a printable PDF."
+  ]
+}

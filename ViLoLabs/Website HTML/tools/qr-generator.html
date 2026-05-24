@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator — URL, WiFi, UPI, vCard, Free, No Watermark | ViLoLabs</title>
+<meta name="description" content="Free QR code generator. Create QR codes for URLs, plain text, WiFi networks, UPI payments and vCards. Pick colors, download as PNG — no sign up, no watermark, fully private.">
+<meta name="keywords" content="qr code generator, free qr generator, qr code maker, upi qr code, wifi qr code, vcard qr, custom qr colors, no watermark, online qr">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="QR Code Generator — URL, WiFi, UPI, vCard | ViLoLabs">
+<meta property="og:description" content="Free QR code maker with UPI preset for Indian payments. Custom colors. Private.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous"></script>
+<!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
+<script src="/tools/tool-seo.js"></script>
+<script src="/assets/db.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"QR Code Generator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+.qr-layout{display:grid;grid-template-columns:1fr 320px;gap:1.6rem;margin-top:.5rem;}
+@media(max-width:780px){.qr-layout{grid-template-columns:1fr;}}
+.type-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.1rem;}
+.t-tab{padding:.5rem 1rem;border:1px solid rgba(200,150,60,.2);background:rgba(200,150,60,.04);color:var(--brown3);
+  border-radius:6px;cursor:pointer;font-size:.78rem;letter-spacing:.06em;font-family:inherit;}
+.t-tab.on{background:var(--gold);color:var(--char);border-color:var(--gold);font-weight:700;}
+.field{margin-bottom:.85rem;}
+.field label{display:block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown3);margin-bottom:.3rem;}
+.field input,.field textarea,.field select{width:100%;background:var(--char2);color:var(--cream);border:1px solid rgba(200,150,60,.25);
+  border-radius:6px;padding:.6rem .85rem;font-family:inherit;font-size:.9rem;}
+.field textarea{resize:vertical;min-height:80px;}
+.field .hint{font-size:.7rem;color:var(--brown3);margin-top:.25rem;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+.colors{display:flex;gap:.7rem;align-items:center;}
+.color-pick{display:flex;align-items:center;gap:.4rem;font-size:.74rem;color:var(--brown3);}
+.color-pick input[type=color]{width:32px;height:32px;border:1px solid rgba(200,150,60,.25);background:none;border-radius:6px;cursor:pointer;padding:2px;}
+.qr-out{background:#fff;border:1px solid rgba(200,150,60,.22);border-radius:14px;padding:1.2rem;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;position:sticky;top:6rem;align-self:start;}
+.qr-canvas-wrap{width:100%;display:flex;justify-content:center;align-items:center;min-height:260px;}
+.qr-canvas-wrap canvas{max-width:260px;width:100%;height:auto;image-rendering:pixelated;}
+.qr-out .qr-data{margin-top:.7rem;font-size:.72rem;color:#6B4A38;word-break:break-all;max-height:60px;overflow:auto;}
+.qr-out .qr-meta{font-size:.7rem;color:#A07860;margin-top:.4rem;}
+.qr-actions{display:flex;gap:.5rem;margin-top:.8rem;flex-wrap:wrap;justify-content:center;}
+.qr-actions button{padding:.55rem 1rem;border:none;background:#1A1108;color:#F5F0E8;border-radius:5px;cursor:pointer;
+  font-family:inherit;font-size:.74rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.qr-actions button:hover{background:#C8963C;color:#1A1108;}
+.qr-actions button.gold{background:#C8963C;color:#1A1108;}
+.qr-actions button.gold:hover{background:#1A1108;color:#F5F0E8;}
+</style>
+</head>
+<body>
+<div id="cursor"></div><div id="cursor-ring"></div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="logo">ViLo<em>Labs</em></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../tools.html">Tools</a></li>
+    <li><a href="../app.html">Apps</a></li>
+    <li><a href="../sheets.html">Worksheets</a></li>
+  </ul>
+</nav>
+
+<div class="wrap"><p class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="../tools.html">Tools</a><span class="sep">/</span>QR Generator</p></div>
+
+<header class="hero">
+  <p class="eyebrow">Free Online Tool · QR</p>
+  <h1>QR Code <em>Generator.</em></h1>
+  <p class="lead">Make QR codes for URLs, text, WiFi, UPI payments and vCards. Pick your colors, download as PNG or SVG. Free, watermark-free, fully private.</p>
+  <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>UPI Preset</span></div>
+</header>
+
+<section class="wrap">
+  <div class="app-sec">
+    <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please scan the QR with your phone and check it goes to the right place before printing or sharing it.</span></div>
+    <div class="qr-layout">
+      <div>
+        <div class="type-tabs">
+          <button class="t-tab on" data-t="url">URL / Text</button>
+          <button class="t-tab" data-t="wifi">WiFi</button>
+          <button class="t-tab" data-t="upi">UPI Payment</button>
+          <button class="t-tab" data-t="vcard">vCard</button>
+        </div>
+
+        <!-- URL / Text -->
+        <div class="pane" id="p-url">
+          <div class="field"><label>URL or text</label>
+            <textarea id="i-url" placeholder="https://vilolabs.com">https://vilolabs.com</textarea>
+          </div>
+        </div>
+
+        <!-- WiFi -->
+        <div class="pane" id="p-wifi" style="display:none">
+          <div class="field"><label>Network name (SSID)</label><input id="w-ssid" placeholder="MyHomeWiFi"></div>
+          <div class="row2">
+            <div class="field"><label>Password</label><input id="w-pass" placeholder="leave blank for open"></div>
+            <div class="field"><label>Encryption</label><select id="w-enc"><option value="WPA">WPA / WPA2</option><option value="WEP">WEP</option><option value="nopass">Open (no password)</option></select></div>
+          </div>
+          <div class="field" style="margin-bottom:0"><label><input type="checkbox" id="w-hidden" style="width:auto;margin-right:.4rem;accent-color:var(--gold)">Hidden network</label></div>
+        </div>
+
+        <!-- UPI -->
+        <div class="pane" id="p-upi" style="display:none">
+          <div class="field"><label>UPI ID</label><input id="u-id" placeholder="yourname@upi"><div class="hint">e.g. yourname@okhdfcbank, yourname@paytm</div></div>
+          <div class="row2">
+            <div class="field"><label>Payee name</label><input id="u-name" placeholder="Your Name"></div>
+            <div class="field"><label>Amount (₹) — optional</label><input id="u-amt" type="number" min="0" step="0.01" placeholder="leave blank for any"></div>
+          </div>
+          <div class="field" style="margin-bottom:0"><label>Note (optional)</label><input id="u-note" placeholder="Coffee, Invoice #123, …"></div>
+        </div>
+
+        <!-- vCard -->
+        <div class="pane" id="p-vcard" style="display:none">
+          <div class="row2">
+            <div class="field"><label>First name</label><input id="v-fn" placeholder="Vijay"></div>
+            <div class="field"><label>Last name</label><input id="v-ln" placeholder="Lohan"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label>Phone</label><input id="v-tel" placeholder="+91…"></div>
+            <div class="field"><label>Email</label><input id="v-em" placeholder="you@example.com"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label>Organization</label><input id="v-org" placeholder="ViLoLabs"></div>
+            <div class="field"><label>Website</label><input id="v-url" placeholder="https://"></div>
+          </div>
+        </div>
+
+        <div class="opts" style="margin-top:1.3rem">
+          <div class="opt">
+            <label>Error correction</label>
+            <select id="o-ec">
+              <option value="L">Low (7%)</option>
+              <option value="M" selected>Medium (15%)</option>
+              <option value="Q">Quartile (25%)</option>
+              <option value="H">High (30%) — for logos</option>
+            </select>
+          </div>
+          <div class="opt">
+            <label>Margin</label>
+            <select id="o-margin"><option value="2">Tight</option><option value="4" selected>Normal</option><option value="8">Wide</option></select>
+          </div>
+          <div class="opt" style="flex:1;min-width:200px">
+            <label>Colors</label>
+            <div class="colors">
+              <span class="color-pick"><input type="color" id="o-fg" value="#000000"> Dot</span>
+              <span class="color-pick"><input type="color" id="o-bg" value="#ffffff"> Bg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-out">
+        <div class="qr-canvas-wrap"><canvas id="qr-canvas" width="260" height="260"></canvas></div>
+        <div class="qr-meta" id="qr-meta">—</div>
+        <div class="qr-data" id="qr-data"></div>
+        <div class="qr-actions">
+          <button class="gold" id="dl-png">Download PNG</button>
+          <button id="dl-svg">SVG</button>
+          <button id="copy-data">Copy data</button>
+          <button id="share-qr" title="Save & copy a shareable link">↗ Share</button>
+        </div>
+        <span class="status" id="status" style="margin-top:.6rem"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section-pad">
+  <p class="sec-tag">Good to Know</p>
+  <h2 class="sec-h">Common <em>questions</em>.</h2>
+  <div class="faq-item"><h3>How does UPI QR work?</h3><p>You enter your UPI ID (like <em>name@okhdfcbank</em>) and an optional amount and note. Any UPI app (Google Pay, PhonePe, Paytm, BHIM) can scan the QR and pay you directly. You can leave the amount blank to let the payer choose.</p></div>
+  <div class="faq-item"><h3>What error correction should I pick?</h3><p>Medium is fine for most uses. Pick High if you plan to put a logo over the centre — High recovers up to 30% damage, so the QR still scans with the logo on top.</p></div>
+  <div class="faq-item"><h3>Are the colors safe?</h3><p>Use dark dots on a light background. The bigger the contrast, the more reliable the scan. Inverted colors (light on dark) often fail on older phone cameras.</p></div>
+  <div class="faq-item"><h3>Is any data sent to a server?</h3><p>No — the QR is generated entirely in your browser. Even your UPI ID stays on your device.</p></div>
+</section>
+
+<footer class="site-foot">
+  <div class="fl"><a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../app.html">Apps</a><a href="../sheets.html">Worksheets</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></div>
+  <p class="cp">© <span id="yr"></span> ViLoLabs · Free online tools, built in India for the world.</p>
+  <p class="disclaimer">ViLoLabs tools can make mistakes. Please verify your output before sharing or printing.</p>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+(function(){const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');if(window.matchMedia('(hover:none),(pointer:coarse)').matches){cur.style.display='none';ring.style.display='none';document.documentElement.style.cursor='auto';return;}let rx=0,ry=0,cx=0,cy=0;document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});(function loop(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();})();
+
+const stamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;};
+// ── QR GENERATOR ──
+let curType='url';
+let curData='';
+const canvas=document.getElementById('qr-canvas');
+const statusEl=document.getElementById('status');
+
+document.querySelectorAll('.t-tab').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.t-tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  curType=b.dataset.t;
+  ['url','wifi','upi','vcard'].forEach(t=>document.getElementById('p-'+t).style.display=t===curType?'block':'none');
+  render();
+}));
+
+// listen to all inputs
+document.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',render));
+document.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('change',render));
+
+function escWifi(s){return (s||'').replace(/([\\;,:"])/g,'\\$1');}
+function buildData(){
+  if(curType==='url') return document.getElementById('i-url').value.trim();
+  if(curType==='wifi'){
+    const ssid=escWifi(document.getElementById('w-ssid').value);
+    const pass=escWifi(document.getElementById('w-pass').value);
+    const enc=document.getElementById('w-enc').value;
+    const hidden=document.getElementById('w-hidden').checked?'true':'false';
+    if(!ssid)return '';
+    return `WIFI:T:${enc};S:${ssid};${enc==='nopass'?'':'P:'+pass+';'}${hidden==='true'?'H:true;':''};`;
+  }
+  if(curType==='upi'){
+    const id=document.getElementById('u-id').value.trim();
+    if(!id)return '';
+    const name=encodeURIComponent(document.getElementById('u-name').value.trim());
+    const amt=document.getElementById('u-amt').value.trim();
+    const note=encodeURIComponent(document.getElementById('u-note').value.trim());
+    let s=`upi://pay?pa=${encodeURIComponent(id)}&pn=${name}&cu=INR`;
+    if(amt) s+=`&am=${encodeURIComponent(amt)}`;
+    if(note) s+=`&tn=${note}`;
+    return s;
+  }
+  if(curType==='vcard'){
+    const fn=document.getElementById('v-fn').value.trim();
+    const ln=document.getElementById('v-ln').value.trim();
+    if(!fn && !ln) return '';
+    const tel=document.getElementById('v-tel').value.trim();
+    const em=document.getElementById('v-em').value.trim();
+    const org=document.getElementById('v-org').value.trim();
+    const url=document.getElementById('v-url').value.trim();
+    return `BEGIN:VCARD\nVERSION:3.0\nN:${ln};${fn}\nFN:${fn} ${ln}\n${tel?'TEL:'+tel+'\n':''}${em?'EMAIL:'+em+'\n':''}${org?'ORG:'+org+'\n':''}${url?'URL:'+url+'\n':''}END:VCARD`;
+  }
+  return '';
+}
+
+function render(){
+  const data=buildData();
+  curData=data;
+  document.getElementById('qr-data').textContent=data?(data.length>180?data.slice(0,180)+'…':data):'(enter data on the left)';
+  if(!data){
+    const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+    document.getElementById('qr-meta').textContent='—';return;
+  }
+  try{
+    const ec=document.getElementById('o-ec').value;
+    const qr=qrcode(0,ec);qr.addData(data);qr.make();
+    const n=qr.getModuleCount();
+    const margin=+document.getElementById('o-margin').value;
+    const totalUnits=n+margin*2;
+    const px=560;
+    canvas.width=px;canvas.height=px;
+    const cell=px/totalUnits;
+    const ctx=canvas.getContext('2d');
+    ctx.fillStyle=document.getElementById('o-bg').value;ctx.fillRect(0,0,px,px);
+    ctx.fillStyle=document.getElementById('o-fg').value;
+    for(let r=0;r<n;r++)for(let c=0;c<n;c++){
+      if(qr.isDark(r,c)){const x=(c+margin)*cell,y=(r+margin)*cell;ctx.fillRect(Math.floor(x),Math.floor(y),Math.ceil(cell)+1,Math.ceil(cell)+1);}
+    }
+    document.getElementById('qr-meta').textContent=`${n}×${n} modules · ${ec} correction · ${data.length} chars`;
+    statusEl.classList.remove('err');statusEl.textContent='';
+  }catch(err){
+    console.error(err);
+    statusEl.classList.add('err');statusEl.textContent='Too much data — switch to higher error correction or shorten the input.';
+  }
+}
+
+document.getElementById('dl-png').addEventListener('click',()=>{
+  if(!curData)return;
+  canvas.toBlob(b=>{const url=URL.createObjectURL(b);const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-QR_${stamp()}.png`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);},'image/png');
+});
+document.getElementById('dl-svg').addEventListener('click',()=>{
+  if(!curData)return;
+  try{
+    const ec=document.getElementById('o-ec').value;
+    const qr=qrcode(0,ec);qr.addData(curData);qr.make();
+    const n=qr.getModuleCount();
+    const margin=+document.getElementById('o-margin').value;
+    const fg=document.getElementById('o-fg').value, bg=document.getElementById('o-bg').value;
+    const total=n+margin*2;
+    let rects='';
+    for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(qr.isDark(r,c))rects+=`<rect x="${c+margin}" y="${r+margin}" width="1" height="1"/>`;
+    const svg=`<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${total}" shape-rendering="crispEdges"><rect width="${total}" height="${total}" fill="${bg}"/><g fill="${fg}">${rects}</g></svg>`;
+    const blob=new Blob([svg],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-QR_${stamp()}.svg`;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }catch(err){console.error(err);}
+});
+document.getElementById('copy-data').addEventListener('click',()=>{
+  if(!curData)return;
+  navigator.clipboard&&navigator.clipboard.writeText(curData).then(()=>{statusEl.textContent='✓ Data copied.';},()=>{statusEl.textContent='Copy failed.';});
+});
+
+// ──────────────────────────────────────────────────────────────────
+// pSEO: share + restore + dynamic title/meta
+// Each share = unique slug (e.g. upi-payment-qr-9x4k2m). Config is the
+// QR type + its fields; we store the SAME data the QR itself encodes,
+// so opening the link prefills the form and regenerates an identical QR.
+// ──────────────────────────────────────────────────────────────────
+const TOOL='qr-generator';
+let _tsKw=null;
+if(window.TSeo) TSeo.loadKeywords().then(k=>{_tsKw=k; _tsRestoreFromUrl();});
+
+function _tsSnapshot(){
+  // Capture the current form state per QR type — minimum needed to replay.
+  const o={type:curType};
+  if(curType==='url'){o.url=document.getElementById('i-url').value.trim();}
+  else if(curType==='wifi'){
+    o.ssid=document.getElementById('w-ssid').value.trim();
+    o.pass=document.getElementById('w-pass').value;
+    o.enc =document.getElementById('w-enc').value;
+    o.hidden=document.getElementById('w-hidden').checked;
+  } else if(curType==='upi'){
+    o.vpa =document.getElementById('u-id').value.trim();
+    o.name=document.getElementById('u-name').value.trim();
+    o.amt =document.getElementById('u-amt').value;
+    o.note=document.getElementById('u-note').value.trim();
+  } else if(curType==='vcard'){
+    o.fn =document.getElementById('v-fn').value.trim();
+    o.ln =document.getElementById('v-ln').value.trim();
+    o.tel=document.getElementById('v-tel').value.trim();
+    o.em =document.getElementById('v-em').value.trim();
+    o.org=document.getElementById('v-org').value.trim();
+    o.url=document.getElementById('v-url').value.trim();
+  }
+  return o;
+}
+
+document.getElementById('share-qr').addEventListener('click', async ()=>{
+  if(!curData){statusEl.classList.add('err');statusEl.textContent='Generate a QR first.';return;}
+  if(!window.TSeo||!_tsKw||!window.ViloDB){statusEl.textContent='Sharing unavailable.';return;}
+  const cfg=_tsSnapshot();
+  const presetKey=TSeo.matchPreset(TOOL, cfg, _tsKw) ||
+                  (_tsKw.tools[TOOL].fallback && _tsKw.tools[TOOL].fallback.slug);
+  // Unique slug (each share = new URL — these are user-personal QR codes)
+  const slug=TSeo.buildToolSlug(TOOL, presetKey, _tsKw, {unique:true});
+  const res=await ViloDB.saveToolShare(TOOL, cfg, slug);
+  if(!res){statusEl.classList.add('err');statusEl.textContent='Share failed (offline?).';return;}
+  try{ history.replaceState({slug},'','/tools/'+TOOL+'/'+slug); }catch(e){}
+  _tsApplyMeta(presetKey, slug);
+  // Copy URL to clipboard
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(res.url).then(()=>{
+      statusEl.classList.remove('err');statusEl.textContent='✓ Link copied to clipboard.';
+    });
+  } else {
+    statusEl.textContent='Link: '+res.url;
+  }
+});
+
+function _tsApplyMeta(presetKey, id){
+  if(!window.TSeo||!_tsKw) return;
+  const seedStr=id||presetKey;
+  const title=TSeo.renderTitle(TOOL, presetKey, seedStr, _tsKw);
+  const desc =TSeo.renderDesc (TOOL, presetKey, seedStr, _tsKw);
+  document.title=title;
+  const md=document.querySelector('meta[name="description"]');
+  if(md) md.setAttribute('content', desc);
+  const og=document.querySelector('meta[property="og:title"]');
+  if(og) og.setAttribute('content', title);
+  const ogd=document.querySelector('meta[property="og:description"]');
+  if(ogd) ogd.setAttribute('content', desc);
+}
+
+async function _tsRestoreFromUrl(){
+  const m=location.pathname.match(/^\/tools\/qr-generator\/([^/?#]+)\/?$/);
+  if(!m||!window.TSeo||!_tsKw||!window.ViloDB) return;
+  const slug=m[1];
+  const row=await ViloDB.getToolShare(slug);
+  if(!row||!row.config) return;
+  const cfg=row.config;
+  // Switch type tab
+  if(cfg.type){
+    document.querySelectorAll('.t-tab').forEach(b=>b.classList.toggle('on', b.dataset.t===cfg.type));
+    curType=cfg.type;
+    ['url','wifi','upi','vcard'].forEach(t=>{
+      const el=document.getElementById('p-'+t);
+      if(el) el.style.display=t===curType?'block':'none';
+    });
+  }
+  // Prefill fields
+  if(cfg.type==='url' && cfg.url) document.getElementById('i-url').value=cfg.url;
+  else if(cfg.type==='wifi'){
+    if(cfg.ssid) document.getElementById('w-ssid').value=cfg.ssid;
+    if(cfg.pass!=null) document.getElementById('w-pass').value=cfg.pass;
+    if(cfg.enc)  document.getElementById('w-enc').value=cfg.enc;
+    if(cfg.hidden) document.getElementById('w-hidden').checked=true;
+  } else if(cfg.type==='upi'){
+    if(cfg.vpa)  document.getElementById('u-id').value=cfg.vpa;
+    if(cfg.name) document.getElementById('u-name').value=cfg.name;
+    if(cfg.amt)  document.getElementById('u-amt').value=cfg.amt;
+    if(cfg.note) document.getElementById('u-note').value=cfg.note;
+  } else if(cfg.type==='vcard'){
+    if(cfg.fn)  document.getElementById('v-fn').value=cfg.fn;
+    if(cfg.ln)  document.getElementById('v-ln').value=cfg.ln;
+    if(cfg.tel) document.getElementById('v-tel').value=cfg.tel;
+    if(cfg.em)  document.getElementById('v-em').value=cfg.em;
+    if(cfg.org) document.getElementById('v-org').value=cfg.org;
+    if(cfg.url) document.getElementById('v-url').value=cfg.url;
+  }
+  render();
+  // Apply title/meta using the parsed preset
+  const parsed=TSeo.parseToolSlug(TOOL, slug, _tsKw);
+  if(parsed&&parsed.presetKey) _tsApplyMeta(parsed.presetKey, parsed.id);
+}
+
+// initial
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+# ViLoLabs Website — Project Context
+
+## Who I Am
+Solo independent developer based in India. Operating under the brand **ViLoLabs**.
+No company/registered entity — individual developer. Budget-conscious, legally cautious.
+
+## Project Structure
+Two top folders: **ViLoLabs** = active dev/site/assets · **Resources** = reference-only.
+```
+E:\Website\
+├── CLAUDE.md                  ← this file (project root)
+├── .claude/launch.json        ← preview config (runs ViLoLabs/server.js)
+│
+├── ViLoLabs/                  ← ACTIVE PROJECT — dev, website, worksheets, assets
+│   ├── Website HTML/          ← MAIN DEPLOYABLE FOLDER (drag this to Netlify)
+│   │   ├── index.html         ← Main website
+│   │   ├── sheets.html        ← ViLo Worksheets tool
+│   │   ├── privacy/terms/cookies.html
+│   │   ├── worksheet-sample-*.html, *-sample.html  ← worksheet samples
+│   │   └── assets/
+│   │       ├── library/       ← clipart PNG library (23 category folders)
+│   │       ├── emoji/         ← Fluent Color emoji SVGs (extracted)
+│   │       ├── pages/         ← page assets (maze/trace/coloring/dot-to-dot)
+│   │       └── library.json   ← generated registry the web page reads
+│   ├── tools/                 ← Node build scripts (build-all.js etc.)
+│   ├── server.js              ← local dev server (port 3456)
+│   ├── activity-catalog.md    ← worksheet activity spec
+│   └── package.json, node_modules/
+│
+└── Resources/                 ← REFERENCE ONLY (not deployed, not in build)
+    ├── Worksheet/             ← sample worksheet PDFs/PNGs
+    ├── Image creation/        ← raw emoji download + old source images
+    ├── library-originals-backup/  ← pre-processing image backups
+    └── trials/                ← old prototype html files
+```
+
+## Asset / build workflow
+- Add new images into the right `ViLoLabs/Website HTML/assets/library/<cat>/` folder
+- Then run ONE command:  `cd ViLoLabs && node tools/build-all.js`
+  (cleans backgrounds, matches emoji, updates lists, rebuilds library.json)
+
+## Running Local Preview
+```powershell
+# From E:\Website
+node ViLoLabs/server.js
+# Opens at http://localhost:3456
+```
+Preview is also wired up in Claude Code via `.claude/launch.json` — use the Preview pane.
+
+## Design System
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--char` | `#1A1108` | Page background |
+| `--cream` | `#F5F0E8` | Primary text |
+| `--gold` | `#C8963C` | Accents, headings |
+| `--gold2` | `#E8BC72` | Lighter gold highlights |
+| `--brown3` | `#A07860` | Muted text |
+
+**Fonts:** Cormorant Garamond (serif headings) + Outfit (body/UI)
+**Style:** Dark luxury, premium minimal, gold accents throughout
+
+## Site Sections (index.html)
+1. Nav — sticky, glassmorphism on scroll, mobile hamburger
+2. Hero — two-column, SVG illustration, CTA buttons
+3. Ticker — scrolling marquee strip
+4. Tools — ViLo Pulse (coming soon) + ViLo Worksheets (live)
+5. Coming Soon — Project Three/Four/Five placeholders
+6. About — quote, body, values cards
+7. Newsletter — email signup (coming soon overlay)
+8. Stats strip — animated counters
+9. Contact — form (coming soon overlay) + contact info
+10. Footer — brand, links, social icons, legal
+
+## What's "Coming Soon" (not yet live)
+- **ViLo Pulse** (blog) — badge shows "Coming Soon", link disabled
+- **Newsletter form** — has frosted overlay, not functional yet
+- **Contact form** — has frosted overlay, not functional yet
+- **hello@violabs.com** — marked "soon", not active
+- **Social media** (Twitter/X, LinkedIn, Instagram) — all marked "soon"
+
+## What's Live and Working
+- **ViLo Worksheets** → `sheets.html` (fully functional tool)
+- **Legal pages** — privacy.html, terms.html, cookies.html (all linked)
+- All navigation scroll links
+- Particle animation, cursor (desktop only), scroll reveals
+- Stats counter animation
+- Back-to-top button
+- Mobile responsive layout
+
+## CSS Architecture
+- All styles are in a single `<style>` block in index.html
+- Premium UI overhaul block added at end of style tag (clearly marked)
+- Key CSS classes:
+  - `.na` — unavailable/greyed out, pointer-events:none
+  - `.na-wrap` / `.na-badge` — "soon" badge wrapper
+  - `.cs-wrap` / `.cs-overlay` — coming soon frosted overlay on sections
+  - `.rv` / `.rvl` / `.rvr` — scroll reveal animations
+  - `.btn-mag` / `.btn-fill` / `.btn-outline` — button styles
+  - `.tool-row` — two-column tool layout
+  - `.coming-card` — coming soon project cards
+
+## Deployment
+**Platform:** Netlify (free tier, no credit card)
+**Method:** Drag and drop `Website HTML/` folder onto Netlify deploy zone
+**Update process:** Edit files → drag folder again → live in 30 seconds
+**Rollback:** Netlify Deploys tab → click old version → Publish deploy
+
+**Future plan:** Migrate to Cloudflare Pages when adding PDFs/images
+- Cloudflare Pages = unlimited bandwidth, fastest CDN, Mumbai/Chennai servers
+- PDFs should go on Google Drive (not hosted on any web host)
+
+## Domain
+- Not yet purchased
+- Recommended registrars: Porkbun or Cloudflare Registrar
+- DNS just needs to point to Netlify — works with any registrar
+
+## Forms (not yet wired up)
+- Contact form: `handleContact()` in index.html — currently fakes success
+- Newsletter: `handleNewsletter()` in index.html — currently fakes success
+- When ready to activate:
+  - **Netlify Forms**: add `netlify` attribute to `<form>` tag, done
+  - **Formspree**: free 50 submissions/month, no card needed
+
+## Legal Pages
+All three pages protect the operator as an individual developer:
+- Liability capped at ₹1,000
+- "As Is / As Available" disclaimer
+- India governing law (IT Act 2000)
+- Solo developer declared upfront
+- No warranty of any kind
+
+## User-awareness principle (always apply on new pages/tools)
+Every page or tool that generates output the user might rely on (PDFs, images, QR codes, worksheets, extracted text, calculations) MUST include:
+1. **Visible in-context tip** at the point of action — gold ⓘ icon, "Tools can make mistakes" lead, page-specific advice (e.g. "scan the QR with your phone before printing"). Use `.use-tip` class (tools/shared.css) for tool pages, `.gen-tip` on sheets.html.
+2. **Footer disclaimer** — italic, low-contrast, sits under © line. `.disclaimer` class in shared.css; inline-styled on index/app/sheets.
+3. **Hide visible tips from print/PDF** — add the tip's class to existing `@media print` and `.pdfmode` rules so they don't appear on printed worksheets or generated documents.
+
+Wording must be page-specific (not generic). Don't be alarmist — italic, muted styling, gold ⓘ. The brand promise is "reliable, repeatable, responsible" — responsible = honest about limits. See `memory/principle_transparency.md` for the full pattern.
+
+## User-data readiness checklist (DO NOT SKIP when going beyond static)
+
+Today the site is **100% static, no user data leaves the device**. The threat model is correspondingly tiny. The moment we accept ANY user input that crosses the network — even one email — the checklist below applies. Walk through it in order; don't skip a tier.
+
+### Tier 1 — Contact / newsletter form goes live
+- [ ] Use **Netlify Forms** (built-in, free 100 subs/mo) OR **Formspree** (free 50/mo). Never write a custom form handler.
+- [ ] Add a hidden honeypot field: `<input name="bot-field" style="display:none">`. Reject submissions where it's filled.
+- [ ] Add **Cloudflare Turnstile** (free, invisible captcha) on the form. ~30 min.
+- [ ] Update privacy.html: add a paragraph stating what email is collected, why, and how to unsubscribe / delete.
+- [ ] Add an "I agree to the privacy policy" checkbox on the form (required, default unchecked). Log timestamp + IP of the submission.
+- [ ] Add `/contact` email address that handles deletion requests. Actually act on them.
+
+### Tier 2 — User accounts / saved data
+- [ ] Decide: can this be solved with **localStorage / IndexedDB** (browser-only, no server, no risk)? If yes, do that. No further checklist needed.
+- [ ] If you need real cloud storage: use **Supabase** or **Firebase**. Never roll your own auth.
+- [ ] Never store passwords. The provider does bcrypt/argon2 — that's their job.
+- [ ] Enable email verification. Required.
+- [ ] Turn on rate limiting on login/signup in the provider dashboard.
+- [ ] Supabase: write **Row Level Security** policies so the DB enforces who sees what. Don't rely on app code.
+- [ ] Provider SDK handles `HttpOnly`, `Secure`, `SameSite=Lax` cookies — verify these are set, don't override.
+
+### Tier 3 — Payments / paid plans
+- [ ] Use **Razorpay** (India-first) or **Stripe** (international). Never see card numbers — embed their iframe.
+- [ ] Verify webhook signatures on every callback. The provider docs show how.
+- [ ] Provider handles PCI compliance.
+- [ ] Add a refund policy page (legal requirement in India for online transactions).
+
+### Tier 4 — File uploads accepted to server
+- [ ] Whitelist MIME types AND check magic bytes server-side. Never trust file extension.
+- [ ] Enforce max file size server-side (not just client-side).
+- [ ] Virus scan uploads — **Cloudinary** scans automatically, or run ClamAV on a Cloudflare R2 worker.
+- [ ] Serve uploaded files from a different subdomain than the app. No execute permissions on the bucket.
+
+### Always — add the day forms go live
+- [ ] Create Netlify `_headers` file with: `Content-Security-Policy`, `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`.
+- [ ] Verify HTTPS-only (Netlify does this by default — confirm in dashboard).
+
+### Privacy law triggers — know when which applies
+| Law | Trigger | Minimum response |
+|---|---|---|
+| **India DPDP Act 2023** | ANY personal data of Indian users | Consent at collection, stated purpose, deletion on request, breach notice within 72h |
+| **GDPR** | ANY EU user (residency, not citizenship) | All of above + right-to-access + data portability + named lawful basis |
+| **CCPA** | California user + you "sell" data | "Do not sell my data" link (you don't sell, so just declare it) |
+
+**Practical minimum** when collecting anything: consent checkbox on every form, log consent timestamp+IP, honour deletion requests within 30 days.
+
+### Pre-launch hardening (already shipped 2026-05-20)
+The static site has the following in place — keep them in place during any rebuild:
+- `robots.txt` (blocks aggressive SEO scrapers and AI training crawlers; references sitemap)
+- `sitemap.xml` (14 pages, placeholder base URL — update when domain is registered)
+- **SRI hashes** with `crossorigin="anonymous"` on every CDN script (pdf-lib, pdf.js, qrcode-generator, jsPDF, html2canvas). If a CDN ever gets compromised, browsers refuse the tampered script instead of running it on users.
+- Filename HTML-escaping in tool UIs (image-to-pdf, merge-pdf) — closes the self-XSS hole in `alt` / `innerHTML` paths.
+
+## PDF Strategy
+- Sample PDFs are in `Worksheet/Sample/` — large files (17–27 MB each)
+- Do NOT commit or host PDFs directly on Netlify (bandwidth risk)
+- Future plan: host PDFs on Google Drive, link from site
+
+## Known Remaining Gaps (to fix when ready)
+1. `og:image` / `twitter:image` — no social preview image yet
+2. `sitemap.xml` — not created yet (create after domain is confirmed)
+3. `robots.txt` — not created yet
+4. `<link rel="canonical">` — add after domain confirmed
+5. Contact form backend — use Netlify Forms or Formspree
+6. Newsletter backend — use Mailchimp or ConvertKit free tier
+7. Social media URLs — when accounts are created
+8. Real email (hello@violabs.com) — when email is set up
+9. Coming Soon projects 3/4/5 — replace placeholder names/descriptions
+
+## Developer Notes
+- **Do NOT rewrite the full file** — always use targeted edits (Edit tool)
+- **Grep before editing** — find exact line numbers first
+- SVG illustrations are inline in index.html (lines ~380–910) — avoid touching these
+- The file is 1300+ lines — read in slices of 50–100 lines at a time
+- All legal pages share the same CSS pattern — copy from privacy.html as template
+- sheets.html is a copy — original source is `Worksheet/WebCode HTML/sheets.html`

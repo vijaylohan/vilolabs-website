@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Circle the Two Matching Pictures — Sample</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#3a3a3a;font-family:'Arial Black',Impact,sans-serif;padding:2rem 1rem;display:flex;flex-direction:column;align-items:center;gap:2rem}
+
+  .page{
+    background:#fff;
+    width:100%;max-width:620px;
+    aspect-ratio:1 / 1.414;          /* A4 portrait */
+    padding:22px;
+    display:flex;flex-direction:column;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);
+  }
+
+  /* red title banner */
+  .banner{
+    background:#E53E3E;
+    border-radius:14px;
+    padding:14px 10px;
+    text-align:center;
+    margin-bottom:18px;
+  }
+  .banner span{
+    color:#fff;font-size:1.5rem;font-weight:900;
+    letter-spacing:.5px;line-height:1.1;
+    text-shadow:2px 2px 0 rgba(0,0,0,.18);
+  }
+
+  /* 3x3 grid */
+  .grid{
+    flex:1;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(3,1fr);
+    border:5px solid #E53E3E;
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .cell{
+    border:2px solid #E53E3E;
+    display:flex;align-items:center;justify-content:center;
+    padding:10px;
+    background:#fff;
+  }
+  .cell img{
+    max-width:100%;max-height:100%;
+    object-fit:contain;
+  }
+
+  .pagelabel{
+    text-align:center;color:#888;font-size:.7rem;
+    font-family:Arial,sans-serif;font-weight:bold;
+    margin-top:8px;letter-spacing:.1em;
+  }
+
+  @media print{
+    body{background:#fff;padding:0;gap:0}
+    .page{box-shadow:none;max-width:none;width:100%;height:100vh;page-break-after:always}
+    .pagelabel{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════ PAGE 1 — matching pair: BEAR ════════ -->
+<div class="page">
+  <div class="banner"><span>Circle the Two Matching Pictures</span></div>
+  <div class="grid">
+    <div class="cell"><img src="assets/library/animals/cat.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/bear.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/fox.png" alt=""></div>
+
+    <div class="cell"><img src="assets/library/animals/lion.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/panda.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/bear.png" alt=""></div>
+
+    <div class="cell"><img src="assets/library/animals/rabbit.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/dog.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/wolf.png" alt=""></div>
+  </div>
+  <div class="pagelabel">ViLo Worksheets — Page 1</div>
+</div>
+
+<!-- ════════ PAGE 2 — matching pair: ELEPHANT ════════ -->
+<div class="page">
+  <div class="banner"><span>Circle the Two Matching Pictures</span></div>
+  <div class="grid">
+    <div class="cell"><img src="assets/library/animals/deer.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/horse.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/elephant.png" alt=""></div>
+
+    <div class="cell"><img src="assets/library/animals/hedgehog.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/elephant.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/squirrel.png" alt=""></div>
+
+    <div class="cell"><img src="assets/library/birds/owl.png" alt=""></div>
+    <div class="cell"><img src="assets/library/animals/pig.png" alt=""></div>
+    <div class="cell"><img src="assets/library/birds/parrot.png" alt=""></div>
+  </div>
+  <div class="pagelabel">ViLo Worksheets — Page 2</div>
+</div>
+
+</body>
+</html>

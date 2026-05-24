@@ -1,0 +1,116 @@
+/*  ViLoLabs — Universal Supabase client
+ *  ─────────────────────────────────────────────────────────────────
+ *  Single file wired into any page that needs DB access.
+ *  All calls are fire-and-forget (never block UI on DB errors).
+ *
+ *  Exposes window.ViloDB with:
+ *    saveWorksheet(slug, activity, grade, category, seed)  → pSEO index
+ *    saveToolShare(tool, config)  → returns { slug, url } for shareable link
+ *    getToolShare(slug)           → returns config object or null
+ *    trackUsage(tool, action)     → lightweight analytics (no PII)
+ */
+(function () {
+  'use strict';
+
+  const SUPABASE_URL = 'https://nosskzzzkpadxakjbzdt.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vc3Nrenp6a3BhZHhha2piemR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NzY3NTIsImV4cCI6MjA5NTE1Mjc1Mn0.pwBuchMlGi6KZ6vrYAfJtcQlraCdtB4DT1WKq9nnQ5I';
+
+  /* ── Low-level fetch wrapper ── */
+  function sbFetch(path, method, body) {
+    return fetch(SUPABASE_URL + path, {
+      method: method || 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON,
+        'Authorization': 'Bearer ' + SUPABASE_ANON,
+        'Prefer': 'return=minimal'
+      },
+      body: body ? JSON.stringify(body) : undefined
+    });
+  }
+
+  function sbSelect(path) {
+    return fetch(SUPABASE_URL + path, {
+      headers: {
+        'apikey': SUPABASE_ANON,
+        'Authorization': 'Bearer ' + SUPABASE_ANON
+      }
+    });
+  }
+
+  /* ── 1. Worksheets ────────────────────────────────────────────── */
+  // Called after every worksheet generation (fire-and-forget).
+  // Stores slug once — duplicate slugs (same seed regenerated) are ignored
+  // via ON CONFLICT DO NOTHING in the DB.
+  async function saveWorksheet(slug, activity, grade, category, seed, libraryVersion) {
+    try {
+      const row = { slug, activity, grade, category, seed };
+      if (libraryVersion != null) row.library_version = libraryVersion;
+      await sbFetch('/rest/v1/worksheets', 'POST', row);
+    } catch (e) {
+      // Never surface DB errors to the user
+      console.warn('[ViloDB] saveWorksheet failed (non-fatal):', e.message);
+    }
+  }
+
+  /* ── 2. Tool shares ───────────────────────────────────────────── */
+  // Stores a tool config and returns the pretty URL.
+  //   tool   = 'resize-image' | 'qr-generator' | etc.
+  //   config = plain object with settings to restore (NO file data, just params)
+  //   slug   = REQUIRED. Caller decides:
+  //             - canonical preset slug (e.g. "indian-passport-photo")
+  //             - or unique slug w/ id   (e.g. "upi-payment-qr-9x4k2m")
+  // For canonical slugs the same row may already exist — we ignore duplicates.
+  async function saveToolShare(tool, config, slug) {
+    if (!slug) {
+      console.warn('[ViloDB] saveToolShare called without slug');
+      return null;
+    }
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/tool_shares', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON,
+          'Authorization': 'Bearer ' + SUPABASE_ANON,
+          // resolution=ignore-duplicates makes the unique-slug conflict
+          // silently return 201/200 instead of 409 (perfect for canonical slugs)
+          'Prefer': 'return=minimal,resolution=ignore-duplicates'
+        },
+        body: JSON.stringify({ tool, config, slug })
+      });
+      if (!res.ok && res.status !== 409) throw new Error('HTTP ' + res.status);
+      return { slug, url: location.origin + '/tools/' + tool + '/' + slug };
+    } catch (e) {
+      console.warn('[ViloDB] saveToolShare failed (non-fatal):', e.message);
+      return null;
+    }
+  }
+
+  // Retrieves a stored tool config by slug.
+  async function getToolShare(slug) {
+    try {
+      const res = await sbSelect(
+        '/rest/v1/tool_shares?slug=eq.' + encodeURIComponent(slug) + '&select=tool,config&limit=1'
+      );
+      if (!res.ok) return null;
+      const rows = await res.json();
+      return rows[0] || null;
+    } catch (e) {
+      console.warn('[ViloDB] getToolShare failed (non-fatal):', e.message);
+      return null;
+    }
+  }
+
+  /* ── 3. Usage analytics (no PII — just counts) ───────────────── */
+  async function trackUsage(tool, action) {
+    try {
+      await sbFetch('/rest/v1/tool_usage', 'POST', { tool, action });
+    } catch (e) {
+      // Silently ignore
+    }
+  }
+
+  /* ── Expose ── */
+  window.ViloDB = { saveWorksheet, saveToolShare, getToolShare, trackUsage };
+})();

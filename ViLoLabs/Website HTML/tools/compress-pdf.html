@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compress PDF Online — Smart, Keeps Text Selectable | ViLoLabs</title>
+<meta name="description" content="Free online PDF compressor. Smart image-only compression keeps your text crisp and selectable while shrinking embedded photos. No watermark, no sign up, fully private.">
+<meta name="keywords" content="compress pdf, reduce pdf size, smart pdf compressor, keep text selectable, free pdf compress, online pdf compression, no watermark">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Compress PDF — Smart, Keeps Text Selectable | ViLoLabs">
+<meta property="og:description" content="Smart PDF compression that preserves text. Free, private, in-browser.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
+<script src="/tools/tool-seo.js"></script>
+<script src="/assets/db.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" integrity="sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Compress PDF Online","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+.preset-row{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.5rem;}
+.preset{padding:.45rem .95rem;border:1px solid rgba(200,150,60,.2);background:rgba(200,150,60,.04);
+  color:var(--brown3);border-radius:6px;cursor:pointer;font-size:.74rem;font-family:inherit;letter-spacing:.06em;}
+.preset:hover,.preset.on{background:var(--gold);color:var(--char);border-color:var(--gold);font-weight:700;}
+.preset .px{font-size:.62rem;display:block;color:inherit;opacity:.85;font-weight:400;}
+.progress{width:100%;height:6px;background:rgba(200,150,60,.1);border-radius:3px;overflow:hidden;margin-top:.8rem;display:none;}
+.progress.show{display:block;}
+.progress .bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;transition:width .25s;}
+.analysis{margin-top:1rem;padding:.9rem 1.1rem;background:rgba(200,150,60,.04);border:1px solid rgba(200,150,60,.18);
+  border-radius:10px;font-size:.86rem;color:rgba(245,240,232,.7);display:none;}
+.analysis.show{display:block;}
+.analysis .row{display:flex;justify-content:space-between;padding:.18rem 0;}
+.analysis .row .l{color:var(--brown3);}
+.analysis .row .v{color:var(--gold2);font-variant-numeric:tabular-nums;font-weight:600;}
+.before-after{margin-top:1.3rem;display:flex;gap:1rem;flex-wrap:wrap;}
+.ba-card{flex:1;min-width:180px;padding:1rem 1.2rem;border:1px solid rgba(200,150,60,.18);border-radius:10px;background:rgba(200,150,60,.04);}
+.ba-card h5{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brown3);margin-bottom:.4rem;}
+.ba-card .v{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--gold);}
+.ba-card .s{font-size:.78rem;color:var(--brown3);}
+.save-pill{margin-top:.7rem;display:inline-block;padding:.4rem .9rem;background:rgba(80,180,90,.14);color:var(--green);
+  border:1px solid rgba(120,200,120,.3);border-radius:20px;font-size:.78rem;font-weight:700;}
+</style>
+</head>
+<body>
+<div id="cursor"></div><div id="cursor-ring"></div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="logo">ViLo<em>Labs</em></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../tools.html">Tools</a></li>
+    <li><a href="../app.html">Apps</a></li>
+    <li><a href="../sheets.html">Worksheets</a></li>
+  </ul>
+</nav>
+
+<div class="wrap"><p class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="../tools.html">Tools</a><span class="sep">/</span>Compress PDF</p></div>
+
+<header class="hero">
+  <p class="eyebrow">Free Online Tool · PDF</p>
+  <h1>Compress PDF <em>(smart).</em></h1>
+  <p class="lead">Shrinks the embedded photos inside your PDF while keeping every character of text crisp and selectable. Files stay on your device.</p>
+  <div class="trust"><span>100% Free</span><span>Keeps Text</span><span>No Watermark</span><span>Private</span></div>
+</header>
+
+<section class="wrap">
+  <div class="app-sec">
+    <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please open the compressed PDF and verify text, images and layout before sharing.</span></div>
+    <div class="drop" id="drop">
+      <div class="di">📉</div>
+      <div class="dt">Click to choose a PDF, or drop it here</div>
+      <div class="ds">Single PDF · we re-compress the JPEG images inside</div>
+    </div>
+    <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+
+    <div id="panel" style="display:none">
+
+      <div class="analysis" id="analysis">
+        <div class="row"><span class="l">Pages</span><span class="v" id="a-pages">—</span></div>
+        <div class="row"><span class="l">Embedded JPEG images</span><span class="v" id="a-imgs">—</span></div>
+        <div class="row"><span class="l">Image bytes (estimate)</span><span class="v" id="a-imgbytes">—</span></div>
+        <div class="row"><span class="l">File size</span><span class="v" id="a-size">—</span></div>
+        <div id="a-hint" style="margin-top:.6rem;font-size:.78rem;color:var(--brown3)"></div>
+      </div>
+
+      <div class="opts">
+        <div class="opt">
+          <label>Image quality</label>
+          <div class="preset-row">
+            <button class="preset" data-q="0.80">Light<span class="px">80% · best look</span></button>
+            <button class="preset on" data-q="0.60">Medium<span class="px">60% · balanced</span></button>
+            <button class="preset" data-q="0.40">Strong<span class="px">40% · smallest</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice"><strong>How this works:</strong> we walk through the PDF's internal object tree, find every embedded JPEG photo, re-encode it at the quality you pick, and stitch the PDF back together. Text, fonts, vectors and document structure are left exactly as they were — so your text stays sharp and selectable.</div>
+
+      <div class="progress" id="progress"><div class="bar" id="bar"></div></div>
+
+      <div class="actions">
+        <button class="go-btn" id="go">Compress &amp; Download</button>
+        <button class="clear-btn" id="clr">Choose another</button>
+        <span class="status" id="status"></span>
+      </div>
+
+      <div class="before-after" id="result" style="display:none">
+        <div class="ba-card"><h5>Original</h5><div class="v" id="b-orig">—</div><div class="s" id="s-orig">—</div></div>
+        <div class="ba-card"><h5>Compressed</h5><div class="v" id="b-out">—</div><div class="s" id="s-out">—</div></div>
+        <div class="ba-card"><h5>You saved</h5><div class="v" id="b-save">—</div><div class="save-pill" id="save-pill"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section-pad">
+  <p class="sec-tag">Good to Know</p>
+  <h2 class="sec-h">Common <em>questions</em>.</h2>
+  <div class="faq-item"><h3>Does this keep text selectable?</h3><p>Yes. The smart compressor only re-encodes embedded photos. Text, fonts, links, vector graphics and the document outline are untouched — exactly as in your original.</p></div>
+  <div class="faq-item"><h3>Which quality level should I pick?</h3><p><strong>Medium</strong> is a safe default for most PDFs. Pick <strong>Light</strong> for PDFs where image detail matters (product catalogues, photo reports). Pick <strong>Strong</strong> when the goal is fitting the file under an email or upload limit.</p></div>
+  <div class="faq-item"><h3>Why didn't my PDF shrink much (or at all)?</h3><p>Smart compression works on the embedded JPEG photos inside your PDF. If your PDF is mostly text and vector graphics, there are no photos to shrink — and your file is already efficient. We won't push a worse file back to you.</p></div>
+  <div class="faq-item"><h3>What about PNG-style or scanned images?</h3><p>Currently the smart compressor handles JPEG images inside PDFs, which is the most common case. PNG-style image streams are detected and left untouched (they may be re-encoded in a future update).</p></div>
+  <div class="faq-item"><h3>Is anything uploaded?</h3><p>No. Everything runs inside your browser using the open-source pdf-lib library. Your file never leaves your device.</p></div>
+</section>
+
+<footer class="site-foot">
+  <div class="fl"><a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../app.html">Apps</a><a href="../sheets.html">Worksheets</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></div>
+  <p class="cp">© <span id="yr"></span> ViLoLabs · Free online tools, built in India for the world.</p>
+  <p class="disclaimer">ViLoLabs tools can make mistakes. Please verify your output before sharing or printing.</p>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+(function(){const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');if(window.matchMedia('(hover:none),(pointer:coarse)').matches){cur.style.display='none';ring.style.display='none';document.documentElement.style.cursor='auto';return;}let rx=0,ry=0,cx=0,cy=0;document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});(function loop(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();})();
+
+const stamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;};
+// ── SMART COMPRESS PDF ──
+let pdfFile=null;
+let analysis=null;     // {pages, imageRefs:[], jpegImageBytes:0, otherImageRefs:[]}
+const drop=document.getElementById('drop');
+const fileInput=document.getElementById('file');
+const statusEl=document.getElementById('status');
+const barEl=document.getElementById('bar');
+const progEl=document.getElementById('progress');
+
+drop.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',e=>e.target.files[0]&&load(e.target.files[0]));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f&&(f.type==='application/pdf'||/\.pdf$/i.test(f.name)))load(f);});
+
+document.querySelectorAll('.preset').forEach(p=>p.addEventListener('click',()=>{
+  document.querySelectorAll('.preset').forEach(x=>x.classList.remove('on'));p.classList.add('on');
+}));
+document.getElementById('go').addEventListener('click',doCompress);
+document.getElementById('clr').addEventListener('click',()=>{pdfFile=null;analysis=null;fileInput.value='';document.getElementById('panel').style.display='none';document.getElementById('result').style.display='none';document.getElementById('analysis').classList.remove('show');});
+
+function fmtSize(bytes){
+  if(bytes>=1024*1024) return (bytes/1024/1024).toFixed(2)+' MB';
+  if(bytes>=1024) return (bytes/1024).toFixed(0)+' KB';
+  return bytes+' B';
+}
+
+async function load(f){
+  pdfFile=f;
+  document.getElementById('panel').style.display='block';
+  document.getElementById('result').style.display='none';
+  document.getElementById('analysis').classList.remove('show');
+  statusEl.classList.remove('err');statusEl.textContent='Analysing PDF…';
+  try{
+    const bytes=new Uint8Array(await f.arrayBuffer());
+    const pdf=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+    const ctx=pdf.context;
+    const ImageName=PDFLib.PDFName.of('Image');
+    const SubtypeKey=PDFLib.PDFName.of('Subtype');
+    const FilterKey=PDFLib.PDFName.of('Filter');
+    const DCTName=PDFLib.PDFName.of('DCTDecode');
+    const jpegRefs=[],otherRefs=[];let jpegBytes=0;
+    for(const [ref,obj] of ctx.indirectObjects){
+      if(!(obj instanceof PDFLib.PDFRawStream))continue;
+      const dict=obj.dict;
+      const subtype=dict.lookup(SubtypeKey);
+      if(subtype!==ImageName)continue;
+      const filter=dict.lookup(FilterKey);
+      let isJpeg=false;
+      if(filter===DCTName)isJpeg=true;
+      else if(filter && filter.array){
+        const a=filter.array;
+        if(a.length>0 && a[a.length-1]===DCTName)isJpeg=true;
+      }
+      if(isJpeg){jpegRefs.push(ref);jpegBytes+=obj.contents.length;}
+      else otherRefs.push(ref);
+    }
+    analysis={pages:pdf.getPageCount(),jpegRefs,otherRefs,jpegBytes,size:f.size,bytes};
+    // populate analysis
+    document.getElementById('a-pages').textContent=analysis.pages;
+    document.getElementById('a-imgs').textContent=jpegRefs.length+(otherRefs.length?` (+ ${otherRefs.length} non-JPEG)`:'');
+    document.getElementById('a-imgbytes').textContent=fmtSize(jpegBytes);
+    document.getElementById('a-size').textContent=fmtSize(f.size);
+    const hint=document.getElementById('a-hint');
+    if(jpegRefs.length===0){
+      hint.style.color='#e8867a';
+      hint.textContent='⚠ No JPEG images found inside this PDF — smart compression won\'t shrink it. Your file is likely already efficient.';
+    } else {
+      const ratio=jpegBytes/f.size;
+      hint.style.color=ratio>0.5?'#86d995':'var(--brown3)';
+      hint.textContent=`Photos account for ~${Math.round(ratio*100)}% of this PDF. ${ratio>0.5?'Strong savings expected.':ratio>0.2?'Moderate savings expected.':'Modest savings expected.'}`;
+    }
+    document.getElementById('analysis').classList.add('show');
+    statusEl.classList.remove('err');
+    statusEl.textContent=`${f.name} · ${fmtSize(f.size)} — pick a quality and Compress.`;
+  }catch(err){
+    console.error(err);statusEl.classList.add('err');statusEl.textContent='Couldn\'t read PDF: '+(err.message||'unknown')+' — it may be encrypted.';
+  }
+}
+
+function recompressJpeg(bytes,quality){
+  return new Promise(resolve=>{
+    const blob=new Blob([bytes],{type:'image/jpeg'});
+    const url=URL.createObjectURL(blob);
+    const img=new Image();
+    img.onload=()=>{
+      const c=document.createElement('canvas');
+      c.width=img.naturalWidth;c.height=img.naturalHeight;
+      const ctx=c.getContext('2d');
+      ctx.drawImage(img,0,0);
+      c.toBlob(async b=>{
+        URL.revokeObjectURL(url);
+        if(!b)return resolve(null);
+        resolve(new Uint8Array(await b.arrayBuffer()));
+      },'image/jpeg',quality);
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);resolve(null);};
+    img.src=url;
+  });
+}
+
+async function doCompress(){
+  if(!pdfFile||!analysis)return;
+  const sel=document.querySelector('.preset.on');
+  const q=+sel.dataset.q;
+  const go=document.getElementById('go');go.disabled=true;
+  statusEl.classList.remove('err');
+  progEl.classList.add('show');barEl.style.width='0%';
+  document.getElementById('result').style.display='none';
+  try{
+    const pdf=await PDFLib.PDFDocument.load(analysis.bytes,{ignoreEncryption:true});
+    const ctx=pdf.context;
+    const total=analysis.jpegRefs.length;
+    let recompressed=0,savedBytes=0,skipped=0;
+    for(let i=0;i<total;i++){
+      const ref=analysis.jpegRefs[i];
+      const obj=ctx.lookup(ref);
+      if(!obj||!(obj instanceof PDFLib.PDFRawStream)){skipped++;continue;}
+      const origBytes=obj.contents;
+      statusEl.textContent=`Re-encoding image ${i+1} / ${total}…`;
+      const newBytes=await recompressJpeg(origBytes,q);
+      if(newBytes && newBytes.length<origBytes.length){
+        const newStream=PDFLib.PDFRawStream.of(obj.dict,newBytes);
+        ctx.assign(ref,newStream);
+        recompressed++;savedBytes+=(origBytes.length-newBytes.length);
+      } else skipped++;
+      barEl.style.width=Math.round((i+1)/Math.max(1,total)*100)+'%';
+      await new Promise(r=>setTimeout(r,0));
+    }
+    statusEl.textContent='Stitching PDF back together…';
+    const outBytes=await pdf.save({useObjectStreams:true});
+    // results display
+    const oSize=pdfFile.size,nSize=outBytes.length;
+    const saved=oSize-nSize,pct=oSize>0?Math.round(saved/oSize*100):0;
+    document.getElementById('b-orig').textContent=fmtSize(oSize);
+    document.getElementById('s-orig').textContent=`${analysis.pages} page${analysis.pages>1?'s':''}`;
+    document.getElementById('b-out').textContent=fmtSize(nSize);
+    document.getElementById('s-out').textContent=`${recompressed}/${total} image${total!==1?'s':''} recompressed · q ${(q*100).toFixed(0)}%`;
+    document.getElementById('result').style.display='flex';
+    const pill=document.getElementById('save-pill');
+    if(nSize>=oSize){
+      document.getElementById('b-save').textContent='—';
+      pill.textContent='✗ Output bigger — keeping your original';
+      pill.style.background='rgba(232,134,122,.16)';pill.style.color='#e8867a';pill.style.borderColor='rgba(232,134,122,.3)';
+      statusEl.classList.add('err');
+      statusEl.textContent=`This PDF didn't shrink at this level. Try a Strong setting, or your PDF may already be fully optimised.`;
+    } else {
+      document.getElementById('b-save').textContent=fmtSize(saved);
+      pill.textContent=`▼ ${pct}% smaller`;
+      pill.style.background='';pill.style.color='';pill.style.borderColor='';
+      const blob=new Blob([outBytes],{type:'application/pdf'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-Compressed_${stamp()}.pdf`;
+      document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+      statusEl.textContent=`✓ Compressed PDF downloaded · ${recompressed} image${recompressed!==1?'s':''} re-encoded · text preserved.`;
+      // ── pSEO: canonical preset URL by quality
+      _tsAfterAction({q});
+    }
+  }catch(err){
+    console.error(err);statusEl.classList.add('err');statusEl.textContent='Compress failed: '+(err.message||'unknown');
+  }
+  progEl.classList.remove('show');go.disabled=false;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// pSEO: preset URL + dynamic title/meta (compress-pdf)
+// ──────────────────────────────────────────────────────────────────
+const TOOL='compress-pdf';
+let _tsKw=null;
+if(window.TSeo) TSeo.loadKeywords().then(k=>{_tsKw=k; _tsRestoreFromUrl();});
+
+function _tsAfterAction(cfg){
+  if(!window.TSeo||!_tsKw||!window.ViloDB) return;
+  const presetKey=TSeo.matchPreset(TOOL, cfg, _tsKw);
+  if(!presetKey) return;
+  const slug=TSeo.buildToolSlug(TOOL, presetKey, _tsKw);
+  ViloDB.saveToolShare(TOOL, cfg, slug);
+  try{ history.replaceState({slug},'','/tools/'+TOOL+'/'+slug); }catch(e){}
+  _tsApplyMeta(presetKey);
+}
+function _tsApplyMeta(presetKey){
+  if(!window.TSeo||!_tsKw) return;
+  document.title=TSeo.renderTitle(TOOL, presetKey, presetKey, _tsKw);
+  const md=document.querySelector('meta[name="description"]');
+  if(md) md.setAttribute('content', TSeo.renderDesc(TOOL, presetKey, presetKey, _tsKw));
+  let canon=document.querySelector('link[rel="canonical"]');
+  if(!canon){canon=document.createElement('link');canon.rel='canonical';document.head.appendChild(canon);}
+  canon.href=location.origin+'/tools/'+TOOL+'/'+presetKey;
+}
+function _tsRestoreFromUrl(){
+  const m=location.pathname.match(/^\/tools\/compress-pdf\/([^/?#]+)\/?$/);
+  if(!m||!window.TSeo||!_tsKw) return;
+  const parsed=TSeo.parseToolSlug(TOOL, m[1], _tsKw);
+  if(!parsed||!parsed.presetKey) return;
+  const preset=(_tsKw.tools[TOOL].presets||{})[parsed.presetKey];
+  if(!preset||!preset.match) return;
+  // Snap the quality preset button on
+  document.querySelectorAll('.preset').forEach(b=>{
+    b.classList.toggle('on', +b.dataset.q===preset.match.q);
+  });
+  _tsApplyMeta(parsed.presetKey);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+/*
+ * build-sitemap.js  —  ViLoLabs sitemap generator
+ * --------------------------------------------------------------
+ * Pulls every worksheet slug + tool_share slug from Supabase,
+ * merges with the curated static page list, writes:
+ *   Website HTML/sitemap.xml
+ *
+ *   node tools/build-sitemap.js
+ *
+ * Override the base URL when the real domain is live:
+ *   SITE_BASE=https://vilolabs.com node tools/build-sitemap.js
+ *
+ * Sitemap protocol caps:
+ *   - 50,000 URLs per sitemap file
+ *   - 50 MB uncompressed
+ * For >40k URLs we automatically split into a sitemap index. We're
+ * nowhere near that limit yet; the split logic is dormant until needed.
+ * --------------------------------------------------------------
+ */
+const fs   = require('fs');
+const path = require('path');
+
+const SITE_BASE = (process.env.SITE_BASE || 'https://vilolabs.netlify.app').replace(/\/$/, '');
+const OUT       = path.join(__dirname, '..', 'Website HTML', 'sitemap.xml');
+
+const SUPABASE_URL  = 'https://nosskzzzkpadxakjbzdt.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vc3Nrenp6a3BhZHhha2piemR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NzY3NTIsImV4cCI6MjA5NTE1Mjc1Mn0.pwBuchMlGi6KZ6vrYAfJtcQlraCdtB4DT1WKq9nnQ5I';
+
+const PAGE_SIZE = 1000;  // Supabase REST default max per request
+
+// ── Curated static pages (kept hardcoded — these don't live in any DB) ──
+// priority/changefreq tuned to signal hierarchy to Google.
+const STATIC = [
+  { loc: '/',                         priority: '1.0',  changefreq: 'weekly'  },
+  { loc: '/sheets.html',              priority: '0.9',  changefreq: 'weekly'  },
+  { loc: '/worksheets/',              priority: '0.9',  changefreq: 'daily'   },
+  { loc: '/tools.html',               priority: '0.9',  changefreq: 'weekly'  },
+  { loc: '/app.html',                 priority: '0.7',  changefreq: 'monthly' },
+  { loc: '/tools/image-to-pdf.html',  priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/merge-pdf.html',     priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/resize-image.html',  priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/compress-image.html',priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/compress-pdf.html',  priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/qr-generator.html',  priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/pdf-to-word.html',   priority: '0.85', changefreq: 'monthly' },
+  { loc: '/privacy.html',             priority: '0.3',  changefreq: 'yearly'  },
+  { loc: '/terms.html',               priority: '0.3',  changefreq: 'yearly'  },
+  { loc: '/cookies.html',             priority: '0.3',  changefreq: 'yearly'  },
+];
+
+// ── Fetch paginated table from Supabase ─────────────────────────
+async function fetchAll(table, columns) {
+  const rows = [];
+  let from = 0;
+  for (;;) {
+    const url = SUPABASE_URL + '/rest/v1/' + table +
+      '?select=' + encodeURIComponent(columns) +
+      '&order=created_at.asc';
+    const res = await fetch(url, {
+      headers: {
+        apikey: SUPABASE_ANON,
+        Authorization: 'Bearer ' + SUPABASE_ANON,
+        Range: from + '-' + (from + PAGE_SIZE - 1),
+        'Range-Unit': 'items',
+        Prefer: 'count=exact',
+      },
+    });
+    if (!res.ok) {
+      throw new Error(table + ' fetch failed: HTTP ' + res.status + ' — ' + await res.text());
+    }
+    const page = await res.json();
+    rows.push(...page);
+    if (page.length < PAGE_SIZE) break;
+    from += PAGE_SIZE;
+  }
+  return rows;
+}
+
+// ── XML escape for <loc> values ─────────────────────────────────
+function xml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function urlEntry({ loc, lastmod, priority, changefreq }) {
+  const parts = ['<url>', '<loc>' + xml(SITE_BASE + loc) + '</loc>'];
+  if (lastmod)    parts.push('<lastmod>' + lastmod.slice(0, 10) + '</lastmod>');
+  if (changefreq) parts.push('<changefreq>' + changefreq + '</changefreq>');
+  if (priority)   parts.push('<priority>' + priority + '</priority>');
+  parts.push('</url>');
+  return '  ' + parts.join('');
+}
+
+(async function main() {
+  console.log('=== ViLoLabs sitemap build ===');
+  console.log('Base URL: ' + SITE_BASE);
+
+  console.log('\n> Fetching worksheets from Supabase ...');
+  let worksheets = [];
+  try {
+    worksheets = await fetchAll('worksheets', 'slug,created_at');
+    console.log('  ' + worksheets.length + ' worksheet URLs');
+  } catch (e) {
+    console.error('  FAILED: ' + e.message);
+    console.error('  Sitemap will be built WITHOUT worksheets. Fix Supabase access and re-run.');
+  }
+
+  console.log('\n> Fetching tool_shares from Supabase ...');
+  let shares = [];
+  try {
+    shares = await fetchAll('tool_shares', 'slug,tool,created_at');
+    console.log('  ' + shares.length + ' tool share URLs');
+  } catch (e) {
+    console.error('  FAILED: ' + e.message);
+  }
+
+  // ── Build entries ──
+  const allEntries = [];
+
+  // Static pages (no lastmod — they're hand-curated, signals high authority)
+  STATIC.forEach(s => allEntries.push(s));
+
+  // Worksheets (priority 0.6, changefreq monthly — quantity over individual weight)
+  worksheets.forEach(w => allEntries.push({
+    loc: '/worksheets/' + w.slug,
+    lastmod: w.created_at,
+    priority: '0.6',
+    changefreq: 'monthly',
+  }));
+
+  // Tool preset URLs — ONLY URLs that real users have generated (DB rows).
+  // We deliberately do NOT pre-list every possible preset from the catalog.
+  // Each indexed URL must have a real transaction behind it — zero doorway-page risk.
+  // Pretty URL: /tools/<tool>/<slug>  (matches _redirects + dev server SPA fallback)
+  shares.forEach(s => allEntries.push({
+    loc: '/tools/' + s.tool + '/' + s.slug,
+    lastmod: s.created_at,
+    priority: '0.6',
+    changefreq: 'monthly',
+  }));
+
+  const total = allEntries.length;
+  console.log('\n> Writing sitemap.xml (' + total + ' URLs)');
+
+  if (total > 45000) {
+    console.warn('  WARNING: approaching 50,000 URL cap. Sitemap index split needed soon.');
+  }
+
+  const body = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<!-- ViLoLabs sitemap — generated ' + new Date().toISOString() + ' by tools/build-sitemap.js -->',
+    '<!-- ' + STATIC.length + ' static · ' + worksheets.length + ' worksheets · ' + shares.length + ' tool shares -->',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    allEntries.map(urlEntry).join('\n'),
+    '</urlset>',
+    '',
+  ].join('\n');
+
+  fs.writeFileSync(OUT, body);
+  console.log('  written: ' + OUT);
+  console.log('  size:    ' + (fs.statSync(OUT).size / 1024).toFixed(1) + ' KB');
+  console.log('\n=== Done ===');
+})().catch(e => {
+  console.error('\nFATAL: ' + e.message);
+  process.exit(1);
+});

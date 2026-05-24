@@ -1,0 +1,2642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<!-- <base href="/"> forces all relative URLs (images, fonts, scripts, fetches) to
+     resolve against the site root, NOT against the current location.pathname.
+     Critical because we use history.pushState to update the URL to /worksheets/<slug>
+     after generation — without <base>, any image not yet loaded would get re-resolved
+     against /worksheets/ and 404. -->
+<base href="/">
+<title>ViLo Worksheets — Smart Worksheet Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous"></script>
+<script src="worksheets/worksheet-seo.js"></script>
+<script src="assets/db.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#C8963C;--gold2:#E8BC72;--cream:#F7F3EE;--dark:#1A1108;--brown:#6B4A38;--g:#34A853;--r:#D32F2F;--border:#D4C8B8;--bg:#FFFDF8;}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);overflow-x:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.hdr{background:var(--dark);padding:.85rem 1.4rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(0,0,0,.4)}
+.hdr-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:#F7F3EE;text-decoration:none}
+.hdr-logo em{font-style:normal;color:var(--gold)}
+.hdr-back{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.5);text-decoration:none;padding:.35rem .8rem;border:1px solid rgba(200,150,60,.3);border-radius:20px;transition:all .2s}
+.hdr-back:hover{color:var(--gold);border-color:var(--gold)}
+.screen{display:none}.screen.active{display:block}
+.setup{max-width:520px;margin:0 auto;padding:1rem 1rem 2rem}
+.s-hero{text-align:center;padding:.6rem 0 .4rem}
+.s-emoji{font-size:2.4rem;display:block;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.s-h{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--dark);line-height:1.1;margin:.25rem 0}
+.s-h em{font-style:italic;color:var(--gold)}
+.s-p{font-size:.85rem;color:var(--brown);line-height:1.65;max-width:360px;margin:0 auto}
+.step-lbl{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:800;text-align:center;margin:.9rem 0 .55rem}
+.lvl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem}
+@media(max-width:400px){.lvl-grid{grid-template-columns:repeat(3,1fr)}}
+.lvl-btn{background:#fff;border:2.5px solid #EDE4D6;border-radius:14px;padding:.8rem .35rem .65rem;text-align:center;cursor:pointer;transition:all .2s cubic-bezier(.23,1,.32,1);box-shadow:0 2px 8px rgba(61,43,31,.06);width:100%}
+.lvl-btn:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 20px rgba(61,43,31,.12)}
+.lvl-btn.sel{border-color:var(--gold);background:linear-gradient(145deg,#FFF9F0,#FFFDF9);box-shadow:0 0 0 3px rgba(200,150,60,.18)}
+.lvl-e{font-size:1.75rem;display:block;margin-bottom:.25rem}
+.lvl-n{font-size:.7rem;font-weight:900;color:var(--dark);display:block}
+.lvl-d{font-size:.57rem;color:#A07860;font-weight:600;display:block;margin-top:.08rem}
+.lvl-btn.colouring-btn{border-color:rgba(200,150,60,.4);background:linear-gradient(145deg,#FFF8EE,#FFF3E0)}
+.lvl-btn.colouring-btn.sel{border-color:var(--gold);background:linear-gradient(145deg,#FFF5E0,#FFE8C0)}
+.top-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.55rem}
+.top-btn{background:#fff;border:2px solid #EDE4D6;border-radius:12px;padding:.65rem .85rem;cursor:pointer;display:flex;align-items:center;gap:.55rem;transition:all .2s;font-family:'Nunito',sans-serif;width:100%;text-align:left}
+.top-btn:hover{border-color:var(--gold);transform:translateY(-2px)}
+.top-btn.sel{border-color:var(--gold);background:#FFF8EE;box-shadow:0 0 0 2px rgba(200,150,60,.15)}
+.top-e{font-size:1.25rem;flex-shrink:0}.top-l{font-size:.76rem;font-weight:800;color:var(--dark)}
+/* Generate button placement
+   ─ Desktop/laptop (>720px): natural document flow — sits below the tiles with
+     proper spacing, never overlaps. Content fits, no scroll needed.
+   ─ Mobile (≤720px): sticky to bottom so it's always reachable as user scrolls
+     through tiles. Overlap with content behind is acceptable here because the
+     button has its own dark background + shadow that keep it readable. */
+.gen-wrap{text-align:center;margin-top:1.4rem}
+@media(max-width:720px){
+  .gen-wrap{position:sticky;bottom:.7rem;z-index:50;pointer-events:none}
+  .gen-wrap > *{pointer-events:auto}
+}
+.gen-btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--dark);color:#fff;font-family:'Nunito',sans-serif;font-size:.92rem;font-weight:900;padding:.9rem 2.2rem;border-radius:50px;border:none;cursor:pointer;box-shadow:0 6px 22px rgba(61,43,31,.3);transition:all .25s cubic-bezier(.23,1,.32,1)}
+.gen-btn:hover{background:var(--gold);transform:translateY(-3px);box-shadow:0 14px 34px rgba(200,150,60,.4)}
+.gen-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.gen-tip{margin-top:.9rem;font-size:.78rem;color:rgba(61,43,31,.62);line-height:1.55;max-width:520px;margin-left:auto;margin-right:auto;text-align:center;padding:.55rem .8rem;background:rgba(200,150,60,.08);border:1px solid rgba(200,150,60,.25);border-radius:8px;}
+.gen-tip strong{color:var(--dark);font-weight:800;}
+.ws-scr{padding:1rem}
+.tbar{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:14px;padding:.75rem 1rem;margin-bottom:.85rem;box-shadow:0 4px 20px rgba(61,43,31,.09);flex-wrap:wrap;gap:.55rem}
+.tbar-info{display:flex;flex-direction:column}
+.tbar-lbl{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:800}
+.tbar-title{font-size:.88rem;font-weight:900;color:var(--dark)}
+.tbar-acts{display:flex;gap:.45rem;flex-wrap:wrap}
+.tbtn{display:inline-flex;align-items:center;gap:.3rem;padding:.44rem .9rem;border-radius:50px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:800;transition:all .2s}
+.tbtn-dark{background:var(--dark);color:#fff}.tbtn-dark:hover{background:var(--gold)}
+.tbtn-out{background:#fff;color:var(--dark);border:1.5px solid #EDE4D6}.tbtn-out:hover{border-color:var(--gold);color:var(--gold)}
+.pg-nav{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-bottom:.85rem}
+.pg-dot{width:32px;height:32px;border-radius:50%;border:2px solid #EDE4D6;background:#fff;cursor:pointer;font-size:.7rem;font-weight:900;display:flex;align-items:center;justify-content:center;transition:all .2s;color:#A07860}
+.pg-dot.act{background:var(--dark);border-color:var(--dark);color:#fff;transform:scale(1.15)}
+.pg-dot:hover:not(.act){border-color:var(--gold);color:var(--gold)}
+.ws-page{background:var(--bg);border-radius:16px;box-shadow:0 4px 24px rgba(61,43,31,.09);max-width:560px;margin:0 auto;overflow:hidden;display:none;border:1.5px solid #EDE4D6}
+.ws-page.act{display:block}
+.pg-hdr{background:var(--dark);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between}
+.pg-brand{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-weight:600;color:rgba(245,240,232,.7)}
+.pg-brand em{font-style:normal;color:var(--gold)}
+.pg-num{font-size:.6rem;font-weight:700;color:rgba(245,240,232,.4);letter-spacing:.1em}
+.pg-meta{padding:.38rem 1rem;font-size:.58rem;color:#A07860;font-weight:700;display:flex;gap:.5rem;flex-wrap:wrap;border-bottom:1px solid #EDE4D6;background:#FDFAF5}
+.pg-nameline{display:flex;gap:1.2rem;padding:.38rem 1rem;border-bottom:1.5px solid #EDE4D6;font-size:.65rem;font-weight:700;color:#A07860}
+.nl{display:flex;align-items:center;gap:.35rem;flex:1}
+.nl-line{flex:1;border-bottom:1.5px solid var(--border)}
+.act-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr) minmax(0,1fr);min-height:460px}
+.act-frame{position:relative;padding:25px 23px;display:flex;flex-direction:column}
+.bstrip{position:absolute;display:flex;overflow:hidden;line-height:1;pointer-events:none}
+.bstrip-t{top:0;left:0;right:0;height:25px;align-items:center;justify-content:space-around;font-size:15px}
+.bstrip-b{bottom:0;left:0;right:0;height:25px;align-items:center;justify-content:space-around;font-size:15px}
+.bstrip-l{left:0;top:0;bottom:0;width:23px;flex-direction:column;align-items:center;justify-content:space-around;font-size:14px}
+.bstrip-r{right:0;top:0;bottom:0;width:23px;flex-direction:column;align-items:center;justify-content:space-around;font-size:14px}
+.cell{padding:1rem .95rem;border-right:1.5px solid #EDE4D6;border-bottom:1.5px solid #EDE4D6;display:flex;flex-direction:column;min-height:200px;overflow:hidden}
+.cell:nth-child(2n){border-right:none}
+/* worksheet tool-promotion block (half-page, last page) */
+.promo-cell{grid-column:1 / -1;border-right:none!important;padding:.85rem 1rem!important;display:flex!important;align-items:stretch;justify-content:center}
+.promo-inner{display:flex;gap:1.1rem;align-items:center;width:100%;border:2px solid var(--gold);border-radius:16px;
+  padding:.9rem 1.2rem;background:linear-gradient(135deg,#FFF8EC,#FBEFD6)}
+.promo-text{flex:1;min-width:0}
+.promo-eyebrow{font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:900}
+.promo-name{font-size:1.15rem;font-weight:900;color:var(--dark);margin-top:.1rem}
+.promo-tag{font-size:.58rem;font-weight:800;color:var(--brown);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.3rem}
+.promo-desc{font-size:.68rem;color:var(--brown);line-height:1.45;margin-bottom:.4rem}
+.promo-link{display:inline-block;font-size:.64rem;font-weight:900;color:#fff;background:var(--dark);
+  padding:.32rem .7rem;border-radius:20px;text-decoration:none;word-break:break-all}
+.promo-qr{flex-shrink:0;text-align:center}
+.promo-qr img{width:84px;height:84px;display:block;border:4px solid #fff;border-radius:8px;box-shadow:0 2px 8px rgba(61,43,31,.18)}
+.promo-qr-cap{font-size:.5rem;color:var(--brown);margin-top:.25rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.cell:nth-child(3),.cell:nth-child(4){border-bottom:none}
+.act-hdr{margin-bottom:.45rem}
+.act-type{font-size:.52rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.2rem}
+.act-instr{font-size:.82rem;color:#241608;font-weight:800;line-height:1.5}
+.act-body{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.5rem;padding-top:.3rem}
+.wimg{width:1em;height:1em;object-fit:contain;vertical-align:middle;display:block}
+/* PDF capture mode — renders each page at exact A4 (794x1123 @96dpi) */
+.pdfmode .ws-page{display:flex!important;flex-direction:column!important;width:794px!important;height:1123px!important;max-width:794px!important;border-radius:0!important;box-shadow:none!important;margin:0 auto 10px!important;border:none!important;overflow:hidden!important}
+.pdfmode .act-frame{flex:1!important;min-height:0!important;min-width:0!important;overflow:hidden!important}
+.pdfmode .act-grid{flex:1!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;min-height:0!important}
+/* act-body must NOT stretch to its content — it has to stay the cell's size so
+   fitCells measures the true available space and shrinks tall content to fit */
+.pdfmode .cell{overflow:hidden!important}
+.pdfmode .act-body{min-height:0!important;min-width:0!important;overflow:hidden!important}
+.pdfmode .cell{min-height:0!important;overflow:hidden!important}
+/* ── SUDOKU ── */
+.su-title{text-align:center;font-size:1.5rem;font-weight:900;color:var(--dark);letter-spacing:.05em;padding:.55rem 0 .15rem}
+.su-instr{text-align:center;font-size:.8rem;font-weight:800;color:#241608;padding:0 1rem .3rem;line-height:1.45}
+.su-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.65rem;padding:.5rem 1rem .3rem}
+.su-grid{width:100%;max-width:600px}
+.su-cut{display:flex;flex-wrap:wrap;gap:.55rem;width:100%;max-width:600px;justify-content:center}
+.su-cut-box{flex:1 1 calc(25% - .42rem);max-width:calc(25% - .42rem);border:2.5px dashed #1A1108;border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:.35rem;background:#fff;min-height:84px}
+.su-cut-box img{width:100%;height:auto;max-height:90px;object-fit:contain}
+.su-sci{font-size:1rem;align-self:flex-start;line-height:1;margin-bottom:.1rem}
+/* ── MAZE CATEGORY ── */
+#mazeOptsSec{margin-top:1.1rem}
+.mz-row{margin-bottom:.9rem}
+.mz-lbl{font-size:.72rem;font-weight:900;color:var(--dark);letter-spacing:.04em;margin-bottom:.45rem;text-transform:uppercase}
+.mz-slider{width:100%;accent-color:#2E9E62;cursor:pointer;height:6px}
+.mz-age-badge{display:flex;align-items:center;justify-content:center;gap:.55rem;margin-top:.55rem}
+.mz-age-badge b{font-size:1.1rem;font-weight:900;color:#1A4A30;background:#C0EDD4;padding:.2rem .85rem;border-radius:20px;white-space:nowrap}
+.mz-age-badge span{font-size:.82rem;font-weight:800;color:#A07860}
+.mz-shape-grid{display:flex;flex-wrap:wrap;gap:.4rem}
+.mz-shape-btn{border:2px solid #D5C9B8;border-radius:10px;padding:.3rem .6rem;font-size:.82rem;cursor:pointer;background:#FDFAF5;color:var(--dark);font-weight:700;transition:all .15s}
+.mz-shape-btn.sel{border-color:#2E9E62;background:#D0F0E0;color:#1A4A30}
+.mz-ak-row{display:flex;align-items:center;gap:.6rem;padding:.45rem .7rem;border:2px dashed #D5C9B8;border-radius:10px;cursor:pointer;background:#FDFAF5}
+.mz-ak-row input{width:17px;height:17px;accent-color:#2E9E62;cursor:pointer;flex-shrink:0}
+.mz-ak-lbl{font-size:.78rem;font-weight:800;color:var(--dark);line-height:1.3}
+.mz-ak-note{font-size:.65rem;color:#A07860}
+/* Full-page maze */
+.mz-page-title{text-align:center;font-size:1.4rem;font-weight:900;color:var(--dark);letter-spacing:.05em;padding:.5rem 0 .1rem}
+.mz-page-instr{text-align:center;font-size:.78rem;font-weight:800;color:#241608;padding:0 1rem .3rem}
+.mz-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:.2rem .6rem;min-height:0}
+.mz-wrap svg{width:100%;height:auto;display:block;max-height:680px}
+/* Multi-maze grid — small mazes pack 2 or 4 per page so the sheet never looks sparse */
+.mz-grid{flex:1;display:grid;gap:.5rem .6rem;padding:.25rem .7rem;min-height:0}
+.mz-grid-2{grid-template-columns:1fr;grid-template-rows:1fr 1fr}
+.mz-grid-4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.mz-cell{display:flex;align-items:center;justify-content:center;min-height:0;min-width:0;overflow:hidden}
+.mz-cell svg{height:100%;width:auto;max-width:100%;display:block}
+.mz-svg{display:block}
+/* Answer key page */
+.mzk-grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:.7rem;padding:.3rem .8rem;min-height:0}
+.mzk-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.mzk-num{font-size:.63rem;font-weight:900;color:#A07860;margin-bottom:.15rem}
+
+/* ── COLOURING PAGE STYLES ── */
+.col-page-inner{display:flex;flex-direction:column}
+.col-title-row{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1rem;border-bottom:1.5px solid #EDE4D6;background:#FDFAF5}
+.col-title-main{font-size:1.1rem;font-weight:900;color:var(--dark)}
+.col-title-sub{font-size:.62rem;color:#A07860;font-weight:700;margin-top:.15rem}
+.col-ref-wrap{display:flex;flex-direction:column;align-items:center;gap:.2rem;flex-shrink:0}
+.col-ref-svg{border:2px solid #EDE4D6;border-radius:10px;background:white;overflow:hidden}
+.col-ref-lbl{font-size:.5rem;font-weight:900;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
+.col-main-wrap{padding:.8rem 1rem;display:flex;justify-content:center;align-items:center;background:white;flex:1}
+.col-main-svg{width:100%;height:auto;max-width:360px;display:block}
+.col-act-svg{width:100%;height:auto;border:2.5px dashed var(--border);border-radius:12px;background:#FFFAF4;display:block;}
+.col-crayon-row{padding:.4rem 1rem;display:flex;gap:.5rem;align-items:center;border-top:1px solid #EDE4D6;background:#FDFAF5;flex-wrap:wrap}
+.col-crayon-lbl{font-size:.58rem;font-weight:900;color:var(--brown)}
+.crayon-swatch{width:16px;height:28px;border-radius:3px 3px 6px 6px;border:1.5px solid rgba(0,0,0,.12)}
+
+/* ── ACTIVITY-SPECIFIC ── */
+.match-wrap{display:flex;justify-content:space-between;align-items:flex-start;width:100%;gap:.3rem}
+.match-col{display:flex;flex-direction:column;gap:.7rem}
+.match-item{display:flex;align-items:center;gap:.3rem}
+.match-dot{width:10px;height:10px;border-radius:50%;border:2.5px solid var(--dark);flex-shrink:0}
+.match-word{font-size:.84rem;font-weight:900;color:var(--dark);background:#F0EAE0;padding:.26rem .65rem;border-radius:20px;white-space:nowrap}
+.odd-grid{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.odd-item{border:2.5px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;background:#fff}
+.odd-item.is-odd{border:3px dashed var(--r);background:#FFF5F5}
+.pat-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;justify-content:center}
+.pat-blank{border:2.5px dashed var(--border);border-radius:9px;background:#FDFAF5;display:flex;align-items:center;justify-content:center}
+.sz-row{display:flex;align-items:flex-end;gap:.9rem;justify-content:center}
+.sz-item{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.sz-num-box{width:26px;height:26px;border:2.5px solid var(--dark);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900}
+.shad-col{display:flex;flex-direction:column;gap:.6rem}
+.spot-grid{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.spot-item{border:2.5px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;background:#fff}
+.spot-item.diff{border:3px dashed var(--r);background:#FFF5F5}
+.wt-word{font-weight:800;letter-spacing:.16em;text-align:center;color:#CFC1AA;font-family:'Nunito',sans-serif;line-height:1.3}
+.wt-line{border-bottom:2px solid var(--border);width:100%;height:32px;margin-top:.6rem}
+.lt-char{font-weight:800;color:#CFC1AA;font-family:'Nunito',sans-serif;line-height:1;text-align:center}
+.lt-box{border:2px solid var(--border);border-radius:8px}
+.nt-num{font-weight:800;color:#CFC1AA;font-family:'Nunito',sans-serif;line-height:1}
+.add-row{display:flex;align-items:center;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.add-group{display:flex;flex-wrap:wrap;gap:.25rem;justify-content:center;max-width:92px}
+.add-box{border:2.5px solid var(--dark);border-radius:8px}
+.cnt-emojis{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center;width:100%}
+.cnt-box{border:3px solid var(--dark);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900}
+.ml-word{font-weight:900;letter-spacing:.25em;color:var(--dark);text-align:center}
+.ml-blank{display:inline-block;border-bottom:3.5px solid var(--dark);vertical-align:bottom;margin:0 .1rem}
+.ml-opts{display:flex;gap:.55rem;justify-content:center;margin-top:.6rem}
+.ml-opt{border:2.5px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900}
+.bs-item{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+.bs-circle{border-radius:50%;border:2.5px solid var(--dark)}
+
+/* LOADING + TOAST */
+.loader{position:fixed;inset:0;background:rgba(26,17,8,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:opacity .3s}
+.loader.on{opacity:1;pointer-events:all}
+.spin{width:52px;height:52px;border-radius:50%;border:3px solid rgba(200,150,60,.2);border-top-color:var(--gold);animation:spin .8s linear infinite;margin-bottom:1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-e{font-size:2rem;animation:bob 1s ease-in-out infinite;margin-bottom:.5rem}
+.load-t{color:#fff;font-size:.9rem;font-weight:700}
+.toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(70px);background:var(--dark);color:#fff;padding:.6rem 1.3rem;border-radius:50px;font-size:.75rem;font-weight:700;z-index:9999;transition:transform .35s cubic-bezier(.23,1,.32,1);white-space:nowrap}
+.toast.on{transform:translateX(-50%) translateY(0)}
+
+/* ── COMING SOON LEVEL BUTTONS ── */
+.lvl-btn.cs{opacity:.5;cursor:not-allowed;position:relative;overflow:hidden;pointer-events:none;}
+.lvl-btn.cs::after{content:'Soon';position:absolute;bottom:5px;right:5px;font-size:.44rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;background:var(--gold);color:#fff;padding:.12rem .35rem;border-radius:4px;line-height:1.4;}
+.lvl-btn.cs:hover{transform:none!important;box-shadow:0 2px 8px rgba(61,43,31,.06)!important;border-color:#EDE4D6!important;}
+/* ── COLORFUL LEVEL BUTTON TINTS ── */
+.lvl-btn[data-level="prekg"]{border-color:#FFB3C6!important;background:linear-gradient(145deg,#FFF0F4,#FFE4EC)!important;}
+.lvl-btn[data-level="prekg"]:hover,.lvl-btn[data-level="prekg"].sel{border-color:#FF6B9A!important;background:linear-gradient(145deg,#FFD8E8,#FFC0D8)!important;}
+.lvl-btn[data-level="kg"]{border-color:#B3EEC6!important;background:linear-gradient(145deg,#F0FFF5,#E0FFE9)!important;}
+.lvl-btn[data-level="kg"]:hover,.lvl-btn[data-level="kg"].sel{border-color:#34C968!important;background:linear-gradient(145deg,#C8FFDA,#B0FFD0)!important;}
+.lvl-btn[data-level="1"]{border-color:#B3D4FF!important;background:linear-gradient(145deg,#F0F6FF,#E0ECFF)!important;}
+.lvl-btn[data-level="1"]:hover,.lvl-btn[data-level="1"].sel{border-color:#4A8FFF!important;background:linear-gradient(145deg,#C8DCFF,#B0CDFF)!important;}
+.lvl-btn[data-level="2"]{border-color:#FFD9A0!important;background:linear-gradient(145deg,#FFFBF0,#FFF3D8)!important;}
+.lvl-btn[data-level="2"]:hover,.lvl-btn[data-level="2"].sel{border-color:#E8A23C!important;background:linear-gradient(145deg,#FFE8C0,#FFDCA0)!important;}
+.lvl-btn[data-level="3"]{border-color:#C9B3FF!important;background:linear-gradient(145deg,#F6F0FF,#ECE0FF)!important;}
+.lvl-btn[data-level="3"]:hover,.lvl-btn[data-level="3"].sel{border-color:#8A5CFF!important;background:linear-gradient(145deg,#DCC8FF,#CDB0FF)!important;}
+.lvl-btn[data-level="4"]{border-color:#A0E0E8!important;background:linear-gradient(145deg,#F0FCFF,#E0F7FF)!important;}
+.lvl-btn[data-level="4"]:hover,.lvl-btn[data-level="4"].sel{border-color:#3CB8C8!important;background:linear-gradient(145deg,#C8F0F8,#B0E8F0)!important;}
+.lvl-btn[data-level="5"]{border-color:#FFB3A0!important;background:linear-gradient(145deg,#FFF4F0,#FFE8E0)!important;}
+.lvl-btn[data-level="5"]:hover,.lvl-btn[data-level="5"].sel{border-color:#FF6B4A!important;background:linear-gradient(145deg,#FFD8C8,#FFC4B0)!important;}
+.lvl-btn.colouring-btn{border-color:#FFD9A0!important;background:linear-gradient(145deg,#FFFBF0,#FFF3D8)!important;}
+.lvl-btn.colouring-btn:hover,.lvl-btn.colouring-btn.sel{border-color:var(--gold)!important;background:linear-gradient(145deg,#FFE8C0,#FFDCA0)!important;}
+.lvl-btn.sudoku-btn{border-color:#B9A0FF!important;background:linear-gradient(145deg,#F2EEFF,#E6DCFF)!important;}
+.lvl-btn.sudoku-btn:hover,.lvl-btn.sudoku-btn.sel{border-color:#8A5CFF!important;background:linear-gradient(145deg,#DDCFFF,#C9B0FF)!important;}
+.lvl-btn.maze-btn{border-color:#88D4AB!important;background:linear-gradient(145deg,#E8F8F0,#D0F0E0)!important;}
+.lvl-btn.maze-btn:hover,.lvl-btn.maze-btn.sel{border-color:#2E9E62!important;background:linear-gradient(145deg,#C0EDD4,#A0E0C0)!important;}
+/* ── FUN ACTIVITY TYPE LABELS ── */
+.act-type{display:inline-block;background:linear-gradient(135deg,#FFF3D8,#FFEAD0);border:1.5px solid rgba(200,150,60,.25);border-radius:6px;padding:.12rem .45rem;margin-bottom:.3rem!important;}
+
+.site-disclaimer{padding:1.2rem 1rem 2rem;text-align:center;font-size:.7rem;color:rgba(61,43,31,.55);font-style:italic;max-width:560px;margin:1rem auto 0;line-height:1.55;}
+@media print{
+  .hdr,.tbar,.pg-nav,.setup,.loader,.toast,.site-disclaimer,.gen-tip{display:none!important}
+  html{font-size:19px!important}
+  body{background:#fff!important}
+  .ws-scr{padding:0!important;display:block!important}
+  @page{size:A4 portrait;margin:0;}
+  .ws-page{display:flex!important;flex-direction:column!important;width:210mm!important;height:297mm!important;box-shadow:none!important;border-radius:0!important;margin:0!important;page-break-after:always;max-width:210mm!important;border:none!important;overflow:hidden!important;}
+  .ws-page:last-child{page-break-after:auto}
+  .act-frame{flex:1!important;min-height:0!important;min-width:0!important;overflow:hidden!important;}
+  .act-grid{flex:1!important;min-height:0!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;}
+  .cell{min-height:0!important;min-width:0!important;overflow:hidden!important;}
+  .act-body{min-height:0!important;min-width:0!important;overflow:hidden!important;}
+  .col-page-inner{flex:1!important;display:flex!important;flex-direction:column!important;}
+  .col-main-wrap{flex:1!important;min-height:auto!important;}
+  .col-main-svg{max-width:none!important;width:100%!important;max-height:none!important;}
+  .col-act-svg{max-height:none!important;flex:1!important;min-height:0!important;}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <a href="index.html" class="hdr-logo">ViLo<em>Labs</em></a>
+  <a href="index.html" class="hdr-back">← Home</a>
+</header>
+
+<div class="loader" id="loader">
+  <div class="load-e" id="loadE">✨</div>
+  <div class="spin"></div>
+  <div class="load-t">Building your worksheet…</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- SETUP -->
+<div class="screen active" id="setupScreen">
+<div class="setup">
+  <div class="s-hero">
+    <span class="s-emoji">📝</span>
+    <h1 class="s-h">ViLo <em>Worksheets</em></h1>
+    <p class="s-p">Pick a level and topic — 5 pages, 4 different activities per page. Print or save as PDF.</p>
+  </div>
+  <p class="step-lbl">① Pick a level and hit Generate!</p>
+  <div class="lvl-grid" id="lvlGrid">
+    <button class="lvl-btn" data-level="prekg" onclick="selLvl(this)"><span class="lvl-e">👶</span><span class="lvl-n">Pre-KG</span><span class="lvl-d">Age 2–4</span></button>
+    <button class="lvl-btn" data-level="kg" onclick="selLvl(this)"><span class="lvl-e">🌱</span><span class="lvl-n">KG</span><span class="lvl-d">Age 4–5</span></button>
+    <button class="lvl-btn" data-level="1" onclick="selLvl(this)"><span class="lvl-e">⭐</span><span class="lvl-n">Class 1</span><span class="lvl-d">Age 6</span></button>
+    <button class="lvl-btn" data-level="2" onclick="selLvl(this)"><span class="lvl-e">🌟</span><span class="lvl-n">Class 2</span><span class="lvl-d">Age 7</span></button>
+    <button class="lvl-btn" data-level="3" onclick="selLvl(this)"><span class="lvl-e">🚀</span><span class="lvl-n">Class 3</span><span class="lvl-d">Age 8</span></button>
+    <button class="lvl-btn" data-level="4" onclick="selLvl(this)"><span class="lvl-e">💡</span><span class="lvl-n">Class 4</span><span class="lvl-d">Age 9</span></button>
+    <button class="lvl-btn" data-level="5" onclick="selLvl(this)"><span class="lvl-e">🏆</span><span class="lvl-n">Class 5</span><span class="lvl-d">Age 10</span></button>
+    <button class="lvl-btn colouring-btn" data-level="colouring" onclick="selLvl(this)"><span class="lvl-e">🎨</span><span class="lvl-n">Colouring</span><span class="lvl-d">All ages</span></button>
+    <button class="lvl-btn sudoku-btn" data-level="sudoku" onclick="selLvl(this)"><span class="lvl-e">🧩</span><span class="lvl-n">Sudoku</span><span class="lvl-d">All ages</span></button>
+    <button class="lvl-btn maze-btn" data-level="maze" onclick="selLvl(this)"><span class="lvl-e">🌀</span><span class="lvl-n">Maze</span><span class="lvl-d">All ages</span></button>
+  </div>
+  <div id="topicSec" style="display:none">
+    <p class="step-lbl" style="margin-top:1.5rem">② Choose a topic</p>
+    <div class="top-grid" id="topicGrid"></div>
+  </div>
+  <div id="mazeOptsSec" style="display:none">
+    <p class="step-lbl" style="margin-top:1.4rem">② Customise your maze</p>
+    <div class="mz-row">
+      <div class="mz-lbl">👶 Who is it for?</div>
+      <input type="range" class="mz-slider" id="mzAge" min="3" max="12" step="1" value="7" oninput="updateMzAge(this.value)">
+      <div class="mz-age-badge" id="mzAgeVal"><b>Age 7</b><span>⭐⭐⭐ Medium</span></div>
+    </div>
+    <div class="mz-row">
+      <div class="mz-lbl">🔷 Shape</div>
+      <div class="mz-shape-grid" id="mzShapeGrid">
+        <button class="mz-shape-btn sel" data-shape="square" onclick="selMzShape(this)">□ Square</button>
+        <button class="mz-shape-btn" data-shape="circle" onclick="selMzShape(this)">● Circle</button>
+        <button class="mz-shape-btn" data-shape="triangle" onclick="selMzShape(this)">▲ Triangle</button>
+        <button class="mz-shape-btn" data-shape="heart" onclick="selMzShape(this)">♥ Heart</button>
+        <button class="mz-shape-btn" data-shape="star" onclick="selMzShape(this)">★ Star</button>
+        <button class="mz-shape-btn" data-shape="diamond" onclick="selMzShape(this)">◆ Diamond</button>
+        <button class="mz-shape-btn" data-shape="hexagon" onclick="selMzShape(this)">⬡ Hexagon</button>
+      </div>
+    </div>
+    <div class="mz-row">
+      <label class="mz-ak-row" for="mzAK">
+        <input type="checkbox" id="mzAK" onchange="updateMzAK()">
+        <div>
+          <div class="mz-ak-lbl">Include Answer Key page</div>
+          <div class="mz-ak-note">Adds a 6th page showing all 5 solutions in gold</div>
+        </div>
+      </label>
+    </div>
+  </div>
+  <div class="gen-wrap">
+    <button class="gen-btn" id="genBtn" onclick="generate()" disabled>
+      <span>✨</span> <span id="genBtnTxt">Generate Worksheet</span>
+    </button>
+  </div>
+  <p class="gen-tip">ⓘ <strong>Worksheets are generated automatically and can occasionally make mistakes.</strong> Please review each sheet before printing or sharing with children.</p>
+</div>
+</div>
+
+<!-- WORKSHEET -->
+<div class="screen ws-scr" id="wsScreen">
+  <div class="tbar">
+    <div class="tbar-info">
+      <span class="tbar-lbl" id="tbLbl">Level</span>
+      <span class="tbar-title" id="tbTitle">Worksheet</span>
+    </div>
+    <div class="tbar-acts">
+      <button class="tbtn tbtn-out" onclick="regen()">🔀 New</button>
+      <button class="tbtn tbtn-out" onclick="goBack()">← Back</button>
+      <div class="share-wrap" style="position:relative;display:inline-block">
+        <button class="tbtn tbtn-out" onclick="toggleSharePop()" id="shareBtn">↗ Share</button>
+        <div id="sharePop" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid #EDE4D6;border-radius:10px;box-shadow:0 8px 28px rgba(61,43,31,.18);padding:.55rem;z-index:50;min-width:200px">
+          <div style="font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#A07860;font-weight:800;padding:.3rem .5rem .4rem">Share this worksheet</div>
+          <button class="tbtn tbtn-out" style="width:100%;justify-content:flex-start;margin-bottom:.3rem" onclick="shareTo('whatsapp')">💬 WhatsApp</button>
+          <button class="tbtn tbtn-out" style="width:100%;justify-content:flex-start;margin-bottom:.3rem" onclick="shareTo('pinterest')">📌 Pinterest</button>
+          <button class="tbtn tbtn-out" style="width:100%;justify-content:flex-start;margin-bottom:.3rem" onclick="shareTo('email')">✉ Email</button>
+          <button class="tbtn tbtn-out" style="width:100%;justify-content:flex-start" onclick="shareTo('copy')" id="copyBtn">⎘ Copy Link</button>
+        </div>
+      </div>
+      <button class="tbtn tbtn-dark" onclick="doPrint()">⬇ PDF</button>
+    </div>
+  </div>
+  <div class="pg-nav" id="pgNav"></div>
+  <div id="wsContainer"></div>
+</div>
+
+<script>
+// ══════════════════════════
+// EMOJI DATABASE
+// ══════════════════════════
+const DB = {
+  animals:[
+    {e:'🐶',n:'Dog',l:'D'},{e:'🐱',n:'Cat',l:'C'},{e:'🐭',n:'Mouse',l:'M'},
+    {e:'🐰',n:'Rabbit',l:'R'},{e:'🦊',n:'Fox',l:'F'},{e:'🐻',n:'Bear',l:'B'},
+    {e:'🐼',n:'Panda',l:'P'},{e:'🐨',n:'Koala',l:'K'},{e:'🐯',n:'Tiger',l:'T'},
+    {e:'🦁',n:'Lion',l:'L'},{e:'🐮',n:'Cow',l:'C'},{e:'🐷',n:'Pig',l:'P'},
+    {e:'🐸',n:'Frog',l:'F'},{e:'🐵',n:'Monkey',l:'M'},{e:'🐔',n:'Hen',l:'H'},
+    {e:'🐧',n:'Penguin',l:'P'},{e:'🦆',n:'Duck',l:'D'},{e:'🦉',n:'Owl',l:'O'},
+    {e:'🐴',n:'Horse',l:'H'},{e:'🦒',n:'Giraffe',l:'G'},{e:'🐘',n:'Elephant',l:'E'},
+    {e:'🦓',n:'Zebra',l:'Z'},{e:'🦋',n:'Butterfly',l:'B'},{e:'🐢',n:'Turtle',l:'T'},
+    {e:'🦈',n:'Shark',l:'S'},{e:'🐬',n:'Dolphin',l:'D'},{e:'🐠',n:'Fish',l:'F'},
+    {e:'🦜',n:'Parrot',l:'P'},{e:'🐝',n:'Bee',l:'B'},{e:'🐊',n:'Croc',l:'C'}
+  ],
+  fruits:[
+    {e:'🍎',n:'Apple',l:'A'},{e:'🍊',n:'Orange',l:'O'},{e:'🍋',n:'Lemon',l:'L'},
+    {e:'🍌',n:'Banana',l:'B'},{e:'🍉',n:'Watermelon',l:'W'},{e:'🍇',n:'Grapes',l:'G'},
+    {e:'🍓',n:'Strawberry',l:'S'},{e:'🍒',n:'Cherry',l:'C'},{e:'🍑',n:'Peach',l:'P'},
+    {e:'🥭',n:'Mango',l:'M'},{e:'🍍',n:'Pineapple',l:'P'},{e:'🥝',n:'Kiwi',l:'K'},
+    {e:'🍐',n:'Pear',l:'P'},{e:'🥥',n:'Coconut',l:'C'},{e:'🫐',n:'Blueberry',l:'B'}
+  ],
+  vegetables:[
+    {e:'🥕',n:'Carrot',l:'C'},{e:'🌽',n:'Corn',l:'C'},{e:'🥦',n:'Broccoli',l:'B'},
+    {e:'🥒',n:'Cucumber',l:'C'},{e:'🧅',n:'Onion',l:'O'},{e:'🥔',n:'Potato',l:'P'},
+    {e:'🍆',n:'Eggplant',l:'E'},{e:'🌶️',n:'Chilli',l:'C'},{e:'🧄',n:'Garlic',l:'G'},
+    {e:'🥬',n:'Lettuce',l:'L'},{e:'🍅',n:'Tomato',l:'T'},{e:'🫛',n:'Peas',l:'P'}
+  ],
+  transport:[
+    {e:'🚗',n:'Car',l:'C'},{e:'🚌',n:'Bus',l:'B'},{e:'🚑',n:'Ambulance',l:'A'},
+    {e:'🚒',n:'Fire Truck',l:'F'},{e:'🚲',n:'Bicycle',l:'B'},{e:'✈️',n:'Airplane',l:'A'},
+    {e:'🚀',n:'Rocket',l:'R'},{e:'🚁',n:'Helicopter',l:'H'},{e:'⛵',n:'Boat',l:'B'},
+    {e:'🚂',n:'Train',l:'T'},{e:'🛵',n:'Scooter',l:'S'},{e:'🚢',n:'Ship',l:'S'},
+    {e:'🚜',n:'Tractor',l:'T'},{e:'🏎️',n:'Race Car',l:'R'},{e:'🛸',n:'UFO',l:'U'}
+  ],
+  food:[
+    {e:'🍕',n:'Pizza',l:'P'},{e:'🍔',n:'Burger',l:'B'},{e:'🍟',n:'Fries',l:'F'},
+    {e:'🍦',n:'Ice Cream',l:'I'},{e:'🎂',n:'Cake',l:'C'},{e:'🍩',n:'Donut',l:'D'},
+    {e:'🍪',n:'Cookie',l:'C'},{e:'🍜',n:'Noodles',l:'N'},{e:'🥞',n:'Pancakes',l:'P'},
+    {e:'🧁',n:'Cupcake',l:'C'},{e:'🥐',n:'Croissant',l:'C'},{e:'🍿',n:'Popcorn',l:'P'}
+  ],
+  nature:[
+    {e:'🌸',n:'Blossom',l:'B'},{e:'🌻',n:'Sunflower',l:'S'},{e:'🌹',n:'Rose',l:'R'},
+    {e:'🌷',n:'Tulip',l:'T'},{e:'🌲',n:'Tree',l:'T'},{e:'🌴',n:'Palm',l:'P'},
+    {e:'🌵',n:'Cactus',l:'C'},{e:'🍄',n:'Mushroom',l:'M'},{e:'☀️',n:'Sun',l:'S'},
+    {e:'🌙',n:'Moon',l:'M'},{e:'⭐',n:'Star',l:'S'},{e:'🌈',n:'Rainbow',l:'R'},
+    {e:'❄️',n:'Snowflake',l:'S'},{e:'🌊',n:'Wave',l:'W'},{e:'⛰️',n:'Mountain',l:'M'}
+  ],
+  school:[
+    {e:'📚',n:'Books',l:'B'},{e:'✏️',n:'Pencil',l:'P'},{e:'📏',n:'Ruler',l:'R'},
+    {e:'✂️',n:'Scissors',l:'S'},{e:'🖍️',n:'Crayon',l:'C'},{e:'🎨',n:'Palette',l:'P'},
+    {e:'📓',n:'Notebook',l:'N'},{e:'🔬',n:'Microscope',l:'M'},{e:'💡',n:'Bulb',l:'B'},
+    {e:'🎒',n:'Backpack',l:'B'},{e:'🖊️',n:'Pen',l:'P'},{e:'🖥️',n:'Computer',l:'C'}
+  ],
+  space:[
+    {e:'🚀',n:'Rocket',l:'R'},{e:'🛸',n:'UFO',l:'U'},{e:'🌍',n:'Earth',l:'E'},
+    {e:'🌙',n:'Moon',l:'M'},{e:'⭐',n:'Star',l:'S'},{e:'☀️',n:'Sun',l:'S'},
+    {e:'🪐',n:'Saturn',l:'S'},{e:'☄️',n:'Comet',l:'C'},{e:'🔭',n:'Telescope',l:'T'},
+    {e:'🌠',n:'Shooting Star',l:'S'},{e:'💫',n:'Dizzy',l:'D'},{e:'🌌',n:'Galaxy',l:'G'}
+  ],
+  sports:[
+    {e:'⚽',n:'Soccer',l:'S'},{e:'🏀',n:'Basketball',l:'B'},{e:'🏈',n:'Football',l:'F'},
+    {e:'🎾',n:'Tennis',l:'T'},{e:'🏸',n:'Badminton',l:'B'},{e:'🏓',n:'Ping Pong',l:'P'},
+    {e:'🥊',n:'Boxing',l:'B'},{e:'🎯',n:'Dart',l:'D'},{e:'🏊',n:'Swimming',l:'S'},
+    {e:'🚴',n:'Cycling',l:'C'},{e:'⛷️',n:'Skiing',l:'S'},{e:'🏄',n:'Surfing',l:'S'}
+  ],
+  insects:[
+    {e:'🐝',n:'Bee',l:'B'},{e:'🦋',n:'Butterfly',l:'B'},{e:'🐛',n:'Caterpillar',l:'C'},
+    {e:'🐞',n:'Ladybug',l:'L'},{e:'🐜',n:'Ant',l:'A'},{e:'🦗',n:'Cricket',l:'C'},
+    {e:'🪲',n:'Beetle',l:'B'},{e:'🦟',n:'Mosquito',l:'M'},{e:'🪰',n:'Fly',l:'F'},
+    {e:'🕷️',n:'Spider',l:'S'},{e:'🐌',n:'Snail',l:'S'},{e:'🪱',n:'Worm',l:'W'}
+  ],
+  instruments:[
+    {e:'🎸',n:'Guitar',l:'G'},{e:'🥁',n:'Drum',l:'D'},{e:'🎹',n:'Keyboard',l:'K'},
+    {e:'🎺',n:'Trumpet',l:'T'},{e:'🎻',n:'Violin',l:'V'},{e:'🪗',n:'Accordion',l:'A'},
+    {e:'🎷',n:'Saxophone',l:'S'},{e:'🎙️',n:'Microphone',l:'M'},{e:'🎵',n:'Music Notes',l:'M'},
+    {e:'🎼',n:'Music Stand',l:'M'},{e:'🔊',n:'Speaker',l:'S'},{e:'🎧',n:'Headphones',l:'H'},
+    {e:'🪘',n:'Maracas',l:'M'},{e:'🎶',n:'Xylophone',l:'X'}
+  ]
+};
+
+const LEVEL_TOPICS={prekg:['animals','fruits','insects','nature'],kg:['animals','fruits','vegetables','insects','nature','transport'],
+  '1':['animals','fruits','vegetables','transport','food','insects','instruments','nature','school'],
+  '2':['animals','food','transport','insects','instruments','nature','school','sports'],
+  '3':['animals','food','transport','nature','school','sports','space'],
+  '4':['food','transport','nature','school','sports','space'],
+  '5':['transport','nature','school','sports','space','food']};
+
+const TOPIC_META={animals:{e:'🐾',l:'Animals'},fruits:{e:'🍎',l:'Fruits'},vegetables:{e:'🥦',l:'Vegetables'},
+  food:{e:'🍕',l:'Food'},transport:{e:'🚗',l:'Transport'},nature:{e:'🌿',l:'Nature'},
+  school:{e:'📚',l:'School'},sports:{e:'⚽',l:'Sports'},space:{e:'🚀',l:'Space'},
+  insects:{e:'🐝',l:'Insects'},
+  instruments:{e:'🎸',l:'Instruments'}};
+
+const COL_TOPICS={all:{e:'🎨',l:'All Subjects'},animals:{e:'🐾',l:'Animals'},fruits:{e:'🍎',l:'Fruits & Food'},objects:{e:'🏠',l:'Objects & Nature'}};
+
+const LEVEL_NAMES={prekg:'Pre-KG',kg:'Kindergarten','1':'Class 1','2':'Class 2','3':'Class 3','4':'Class 4','5':'Class 5',colouring:'Colouring Book',sudoku:'Sudoku',maze:'Maze'};
+
+// EMOJI SIZES per level — main/grid/small (sized generously for children)
+const ESIZES={prekg:{m:'7rem',g:'6.5rem',s:'4.2rem',cnt:'3rem',box:90},
+  kg:{m:'6.1rem',g:'5.4rem',s:'3.7rem',cnt:'2.5rem',box:77},
+  '1':{m:'5.3rem',g:'4.6rem',s:'3.2rem',cnt:'2.2rem',box:68},
+  '2':{m:'4.6rem',g:'4rem',s:'2.75rem',cnt:'2rem',box:59},
+  '3':{m:'4.05rem',g:'3.6rem',s:'2.45rem',cnt:'1.8rem',box:54},
+  '4':{m:'3.55rem',g:'3.2rem',s:'2.2rem',cnt:'1.6rem',box:50},
+  '5':{m:'3.3rem',g:'2.9rem',s:'2.05rem',cnt:'1.5rem',box:45}};
+let ES = ESIZES['1'];
+
+const ACT_POOLS={
+  prekg:['trace-path','colouring','counting-small','matching-pic','odd-one-out','pattern-ab','size-order','colour-id','shape-id','circle-match'],
+  kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together'],
+  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','letter-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together'],
+  '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search'],
+  '3':  ['matching-word','things-together','odd-one-out','pattern-abc','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
+  '4':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
+  '5':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','pattern-abc','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search']};
+
+const PAGE_TITLES=['Let\'s Explore!','Think & Match','Trace & Write','Count & Sort','Challenge Time!'];
+
+// themed decorative page borders — one theme per page
+const BORDER_THEMES=[
+  {bg:'#EAF6E8',icons:['🌳','🌲','🌴','🍃']},
+  {bg:'#FDF3DE',icons:['⭐','🌟','✨','💫']},
+  {bg:'#FCEAF2',icons:['🌸','🌻','🌷','🌼']},
+  {bg:'#FBECEC',icons:['💛','💖','💙','💚']},
+  {bg:'#E3F2FA',icons:['🐠','🐚','🌊','⭐']}
+];
+function borderStrip(th,n){let s='';for(let i=0;i<n;i++)s+=`<span>${th.icons[i%th.icons.length]}</span>`;return s;}
+
+// word bank for word-search — kid words by length (all <=5 to fit a 5x5 grid)
+const WORD_BANK={
+  s3:'cat dog sun bee hen pig bus cup box fox owl ant bat cow bag bed cap car ear egg eye fan hat jam key leg log map mat mud net nut pan pen pie pin pot rat run sea six sky toy van web wig zip arm cub fig fin gum hop hug ice ink jar jet kid kit lip mom nap oil paw ram rib rug ski tag tap tin top tub tug zoo cot den dew elf fog fun gap gem hut jog joy lap lid mug oak pea pet pup saw tea tie war wax yak'.split(' '),
+  s4:'tree star fish bird frog cake milk boat duck lion bear ball bell blue book corn deer doll door drum farm flag gift goat gold hand jump kite leaf moon nest nose pink plum rain ring road rose ship shoe sock swim tent toad wing wolf yarn bath cave coat crab desk dish fire game gate hill king lake lamp lime nail palm park pear pond pony rake rock sand seed snow song wave worm bone cart'.split(' '),
+  s5:'apple tiger horse plant house train zebra panda snake mouse sheep grape lemon mango bread bench brush chair clock cloud crown dance eagle field fruit ghost grass green heart juice koala light money night ocean piano queen river robot smile snail spoon sugar table teeth water whale beach candy chick dream flute otter tulip'.split(' ')
+};
+
+// ══════════════════════════════════════════
+// SVG COLOURING LIBRARY — 25 subjects
+// Each draw(col) returns SVG inner elements
+// col=false → outline only (to colour)
+// col=true  → filled reference version
+// ══════════════════════════════════════════
+const sw='stroke="#1A1108" stroke-linecap="round" stroke-linejoin="round"';
+const sw4=`${sw} stroke-width="4"`;
+const sw3=`${sw} stroke-width="3"`;
+const sw2=`${sw} stroke-width="2.5"`;
+
+const COL_LIB={
+  cat:{name:'Cat',cat:'animals',emoji:'🐱',palette:['#FFA07A','#FF8080','#34A853'],
+    draw(c){const b=c?'#FFA07A':'white';const pk=c?'#FFB6A0':'white';const acc=c?'#FF8080':'#1A1108';const ey=c?'#34A853':'#1A1108';return`
+    <path d="M148,188 C185,170 190,142 168,128" fill="none" ${sw4}/>
+    <ellipse cx="100" cy="194" rx="54" ry="40" fill="${b}" ${sw4}/>
+    <circle cx="100" cy="116" r="50" fill="${b}" ${sw4}/>
+    <polygon points="66,80 50,38 88,68" fill="${b}" ${sw4}/>
+    <polygon points="134,80 150,38 112,68" fill="${b}" ${sw4}/>
+    <polygon points="70,78 56,44 85,67" fill="${pk}" stroke="${c?'none':'#C4B8AC'}" stroke-width="1.5"/>
+    <polygon points="130,78 144,44 115,67" fill="${pk}" stroke="${c?'none':'#C4B8AC'}" stroke-width="1.5"/>
+    <ellipse cx="81" cy="110" rx="12" ry="14" fill="${ey}"/>
+    <ellipse cx="119" cy="110" rx="12" ry="14" fill="${ey}"/>
+    <ellipse cx="81" cy="113" rx="6" ry="9" fill="#1A1108"/>
+    <ellipse cx="119" cy="113" rx="6" ry="9" fill="#1A1108"/>
+    <circle cx="84" cy="106" r="3.5" fill="white"/>
+    <circle cx="122" cy="106" r="3.5" fill="white"/>
+    <ellipse cx="100" cy="132" rx="6" ry="4" fill="${acc}"/>
+    <path d="M93,136 Q100,146 107,136" fill="none" ${sw2}/>
+    <line x1="46" y1="124" x2="85" y2="127" stroke="#1A1108" stroke-width="1.8"/>
+    <line x1="46" y1="133" x2="85" y2="131" stroke="#1A1108" stroke-width="1.8"/>
+    <line x1="154" y1="124" x2="115" y2="127" stroke="#1A1108" stroke-width="1.8"/>
+    <line x1="154" y1="133" x2="115" y2="131" stroke="#1A1108" stroke-width="1.8"/>
+    <ellipse cx="77" cy="228" rx="17" ry="11" fill="${b}" ${sw4}/>
+    <ellipse cx="123" cy="228" rx="17" ry="11" fill="${b}" ${sw4}/>
+    `;}},
+
+  dog:{name:'Dog',cat:'animals',emoji:'🐶',palette:['#D2915A','#FF6B6B','#1A1108'],
+    draw(c){const b=c?'#D2915A':'white';const ear=c?'#C07840':'white';const tng=c?'#FF6B6B':'white';return`
+    <path d="M48,190 C22,172 18,148 34,132" fill="none" ${sw4}/>
+    <ellipse cx="100" cy="196" rx="52" ry="40" fill="${b}" ${sw4}/>
+    <ellipse cx="58" cy="120" rx="22" ry="36" fill="${ear}" ${sw4}/>
+    <ellipse cx="142" cy="120" rx="22" ry="36" fill="${ear}" ${sw4}/>
+    <circle cx="100" cy="108" r="50" fill="${b}" ${sw4}/>
+    <circle cx="82" cy="98" r="13" fill="#1A1108"/>
+    <circle cx="118" cy="98" r="13" fill="#1A1108"/>
+    <circle cx="86" cy="93" r="4.5" fill="white"/>
+    <circle cx="122" cy="93" r="4.5" fill="white"/>
+    <ellipse cx="100" cy="126" rx="16" ry="11" fill="#1A1108"/>
+    <ellipse cx="94" cy="126" rx="3.5" ry="2.5" fill="#3A2018"/>
+    <ellipse cx="106" cy="126" rx="3.5" ry="2.5" fill="#3A2018"/>
+    <path d="M83,137 Q100,148 117,137" fill="none" ${sw2}/>
+    <ellipse cx="100" cy="150" rx="11" ry="14" fill="${tng}" ${sw3}/>
+    <line x1="100" y1="137" x2="100" y2="164" stroke="#1A1108" stroke-width="1.5"/>
+    <ellipse cx="77" cy="230" rx="16" ry="11" fill="${b}" ${sw4}/>
+    <ellipse cx="123" cy="230" rx="16" ry="11" fill="${b}" ${sw4}/>
+    `;}},
+
+  fish:{name:'Fish',cat:'animals',emoji:'🐠',palette:['#FF6B35','#FFD700','#4FC3F7'],
+    draw(c){const b=c?'#FF6B35':'white';const fn=c?'#FF8C42':'white';const ey=c?'#FFD700':'white';return`
+    <polygon points="28,120 8,88 8,152" fill="${fn}" ${sw4}/>
+    <ellipse cx="110" cy="120" rx="76" ry="50" fill="${b}" ${sw4}/>
+    <ellipse cx="110" cy="90" rx="30" ry="18" fill="${fn}" ${sw3}/>
+    <ellipse cx="110" cy="150" rx="22" ry="14" fill="${fn}" ${sw3}/>
+    <circle cx="158" cy="108" r="14" fill="${ey}" ${sw3}/>
+    <circle cx="162" cy="104" r="5" fill="#1A1108"/>
+    <circle cx="163" cy="102" r="2" fill="white"/>
+    <path d="M70,110 Q90,95 110,108" fill="none" stroke="#1A1108" stroke-width="1.5" opacity="0.5"/>
+    <path d="M70,120 Q90,105 110,118" fill="none" stroke="#1A1108" stroke-width="1.5" opacity="0.5"/>
+    <path d="M70,130 Q90,115 110,128" fill="none" stroke="#1A1108" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="128" cy="128" r="4" fill="${c?'white':'none'}" stroke="#1A1108" stroke-width="1.5"/>
+    `;}},
+
+  butterfly:{name:'Butterfly',cat:'animals',emoji:'🦋',palette:['#FF6B6B','#FFD700','#7B1FA2'],
+    draw(c){const uw=c?'#FF6B6B':'white';const lw=c?'#FFD700':'white';const bd=c?'#1A1108':'#1A1108';return`
+    <path d="M100,60 C80,40 30,35 22,65 C14,95 45,118 100,120" fill="${uw}" ${sw3}/>
+    <path d="M100,60 C120,40 170,35 178,65 C186,95 155,118 100,120" fill="${uw}" ${sw3}/>
+    <path d="M100,120 C72,122 38,140 40,165 C42,190 72,195 100,190" fill="${lw}" ${sw3}/>
+    <path d="M100,120 C128,122 162,140 160,165 C158,190 128,195 100,190" fill="${lw}" ${sw3}/>
+    <ellipse cx="100" cy="125" rx="10" ry="65" fill="${bd}"/>
+    <path d="M100,58 C96,42 88,32 84,20" fill="none" stroke="#1A1108" stroke-width="2.5"/>
+    <path d="M100,58 C104,42 112,32 116,20" fill="none" stroke="#1A1108" stroke-width="2.5"/>
+    <circle cx="84" cy="19" r="5" fill="${c?'#FF6B6B':'white'}" ${sw2}/>
+    <circle cx="116" cy="19" r="5" fill="${c?'#FF6B6B':'white'}" ${sw2}/>
+    ${c?`<circle cx="60" cy="78" r="10" fill="rgba(255,255,255,0.3)" stroke="none"/>
+    <circle cx="140" cy="78" r="10" fill="rgba(255,215,0,0.4)" stroke="none"/>
+    <circle cx="60" cy="155" r="7" fill="rgba(255,255,255,0.3)" stroke="none"/>
+    <circle cx="140" cy="155" r="7" fill="rgba(255,215,0,0.4)" stroke="none"/>`:''}
+    `;}},
+
+  elephant:{name:'Elephant',cat:'animals',emoji:'🐘',palette:['#90A4AE','#78909C','#FF8080'],
+    draw(c){const b=c?'#90A4AE':'white';const ear=c?'#78909C':'white';const pk=c?'#FFCDD2':'white';return`
+    <ellipse cx="100" cy="170" rx="75" ry="60" fill="${b}" ${sw4}/>
+    <ellipse cx="40" cy="155" rx="35" ry="48" fill="${ear}" ${sw4}/>
+    <ellipse cx="44" cy="152" rx="22" ry="32" fill="${pk}" stroke="${c?'none':'#C4B8AC'}" stroke-width="1.5"/>
+    <circle cx="115" cy="105" r="52" fill="${b}" ${sw4}/>
+    <path d="M88,145 C82,168 76,192 86,220 Q92,232 100,220 Q106,208 98,186" fill="${b}" ${sw4}/>
+    <circle cx="105" cy="90" r="10" fill="#1A1108"/>
+    <circle cx="109" cy="86" r="3.5" fill="white"/>
+    <ellipse cx="112" cy="82" rx="5" ry="3" fill="${c?'#FFB6C1':'white'}" ${sw2}/>
+    <ellipse cx="128" cy="82" rx="5" ry="3" fill="${c?'#FFB6C1':'white'}" ${sw2}/>
+    <ellipse cx="70" cy="225" rx="20" ry="10" fill="${b}" ${sw4}/>
+    <ellipse cx="110" cy="228" rx="20" ry="10" fill="${b}" ${sw4}/>
+    <ellipse cx="148" cy="223" rx="20" ry="10" fill="${b}" ${sw4}/>
+    `;}},
+
+  rabbit:{name:'Rabbit',cat:'animals',emoji:'🐰',palette:['#F5F5F5','#FFB6C1','#FF8080'],
+    draw(c){const b=c?'#F5F5F5':'white';const pk=c?'#FFB6C1':'white';const acc=c?'#FF8080':'#1A1108';return`
+    <ellipse cx="72" cy="75" rx="16" ry="52" fill="${b}" ${sw4}/>
+    <ellipse cx="128" cy="75" rx="16" ry="52" fill="${b}" ${sw4}/>
+    <ellipse cx="72" cy="72" rx="9" ry="40" fill="${pk}" stroke="${c?'none':'#D4C8B8'}" stroke-width="1.5"/>
+    <ellipse cx="128" cy="72" rx="9" ry="40" fill="${pk}" stroke="${c?'none':'#D4C8B8'}" stroke-width="1.5"/>
+    <ellipse cx="100" cy="185" rx="58" ry="50" fill="${b}" ${sw4}/>
+    <circle cx="100" cy="132" r="42" fill="${b}" ${sw4}/>
+    <ellipse cx="82" cy="125" rx="10" ry="12" fill="#1A1108"/>
+    <ellipse cx="118" cy="125" rx="10" ry="12" fill="#1A1108"/>
+    <circle cx="85" cy="120" r="3.5" fill="white"/>
+    <circle cx="121" cy="120" r="3.5" fill="white"/>
+    <ellipse cx="100" cy="142" rx="7" ry="5" fill="${acc}"/>
+    <path d="M92,147 Q100,157 108,147" fill="none" ${sw2}/>
+    <ellipse cx="160" cy="195" rx="22" ry="18" fill="${b}" ${sw4}/>
+    <ellipse cx="78" cy="228" rx="16" ry="11" fill="${b}" ${sw4}/>
+    <ellipse cx="122" cy="228" rx="16" ry="11" fill="${b}" ${sw4}/>
+    `;}},
+
+  frog:{name:'Frog',cat:'animals',emoji:'🐸',palette:['#4CAF50','#66BB6A','#FF8080'],
+    draw(c){const b=c?'#4CAF50':'white';const lt=c?'#A5D6A7':'white';const acc=c?'#FF8080':'#1A1108';return`
+    <ellipse cx="100" cy="160" rx="80" ry="60" fill="${b}" ${sw4}/>
+    <ellipse cx="100" cy="180" rx="65" ry="40" fill="${lt}" stroke="${c?'none':'#C4B8AC'}" stroke-width="1.5"/>
+    <circle cx="65" cy="102" r="28" fill="${b}" ${sw4}/>
+    <circle cx="135" cy="102" r="28" fill="${b}" ${sw4}/>
+    <circle cx="65" cy="100" r="18" fill="#1A1108"/>
+    <circle cx="135" cy="100" r="18" fill="#1A1108"/>
+    <circle cx="70" cy="94" r="6" fill="white"/>
+    <circle cx="140" cy="94" r="6" fill="white"/>
+    <path d="M76,175 Q100,195 124,175" fill="none" stroke="#1A1108" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="100" cy="170" rx="8" ry="5" fill="${acc}"/>
+    <path d="M24,185 Q10,200 18,218 Q26,232 44,228 Q56,224 60,210" fill="${b}" ${sw4}/>
+    <path d="M176,185 Q190,200 182,218 Q174,232 156,228 Q144,224 140,210" fill="${b}" ${sw4}/>
+    `;}},
+
+  bee:{name:'Bee',cat:'animals',emoji:'🐝',palette:['#FFD700','#1A1108','#FF8080'],
+    draw(c){const y=c?'#FFD700':'white';const s=c?'#FF8080':'white';return`
+    <ellipse cx="92" cy="155" rx="58" ry="78" fill="${y}" stroke="#1A1108" stroke-width="4" stroke-linecap="round"/>
+    <rect x="34" y="112" width="116" height="18" rx="9" fill="#1A1108"/>
+    <rect x="34" y="148" width="116" height="18" rx="9" fill="#1A1108"/>
+    <rect x="34" y="184" width="116" height="18" rx="9" fill="#1A1108"/>
+    <polygon points="92,232 78,215 106,215" fill="${c?'#FF8C00':'white'}" stroke="#1A1108" stroke-width="3"/>
+    <circle cx="126" cy="95" r="32" fill="${y}" stroke="#1A1108" stroke-width="4"/>
+    <circle cx="120" cy="88" r="9" fill="#1A1108"/>
+    <circle cx="138" cy="88" r="9" fill="#1A1108"/>
+    <circle cx="123" cy="84" r="3" fill="white"/>
+    <circle cx="141" cy="84" r="3" fill="white"/>
+    <path d="M112,105 Q126,115 140,105" fill="none" stroke="#1A1108" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M126,65 C122,50 112,38 108,26" fill="none" stroke="#1A1108" stroke-width="2.5"/>
+    <path d="M126,65 C130,50 140,38 144,26" fill="none" stroke="#1A1108" stroke-width="2.5"/>
+    <circle cx="107" cy="24" r="5" fill="${c?'#FFD700':'white'}" stroke="#1A1108" stroke-width="2"/>
+    <circle cx="145" cy="24" r="5" fill="${c?'#FFD700':'white'}" stroke="#1A1108" stroke-width="2"/>
+    <ellipse cx="54" cy="88" rx="42" ry="22" fill="${c?'rgba(200,240,255,0.6)':'white'}" stroke="#1A1108" stroke-width="2" opacity="0.85"/>
+    <ellipse cx="58" cy="72" rx="38" ry="18" fill="${c?'rgba(200,240,255,0.5)':'white'}" stroke="#1A1108" stroke-width="2" opacity="0.75"/>
+    `;}},
+
+  turtle:{name:'Turtle',cat:'animals',emoji:'🐢',palette:['#5BBF4A','#9CD67A','#3C9A2E'],
+    draw(c){const sh=c?'#5BBF4A':'white';const pt=c?'#3C9A2E':'#C4B8AC';const sk=c?'#9CD67A':'white';return`
+    <ellipse cx="62" cy="180" rx="18" ry="24" fill="${sk}" ${sw4}/>
+    <ellipse cx="138" cy="180" rx="18" ry="24" fill="${sk}" ${sw4}/>
+    <path d="M48,142 Q24,140 32,121 Q44,132 56,141 Z" fill="${sk}" ${sw3}/>
+    <ellipse cx="158" cy="120" rx="31" ry="28" fill="${sk}" ${sw4}/>
+    <circle cx="171" cy="111" r="7" fill="#1A1108"/>
+    <circle cx="174" cy="108" r="2.6" fill="white"/>
+    <path d="M149,131 Q159,139 170,130" fill="none" ${sw2}/>
+    <path d="M36,150 Q38,62 100,60 Q162,62 164,150 Q100,178 36,150 Z" fill="${sh}" ${sw4}/>
+    <polygon points="100,80 132,106 121,144 79,144 68,106" fill="none" stroke="${pt}" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M100,60 V80 M68,106 L40,100 M132,106 L160,100 M79,144 L64,170 M121,144 L136,170" fill="none" stroke="${pt}" stroke-width="3.5" stroke-linecap="round"/>
+    `;}},
+
+  lion:{name:'Lion',cat:'animals',emoji:'🦁',palette:['#FFA726','#FF8F00','#F5F5DC'],
+    draw(c){const mn=c?'#FFA726':'white';const fc=c?'#FFD54F':'white';const bdy=c?'#FFB74D':'white';return`
+    <ellipse cx="100" cy="195" rx="60" ry="42" fill="${bdy}" ${sw4}/>
+    ${[0,45,90,135,180,225,270,315].map(a=>{const r=a*Math.PI/180;const x=100+72*Math.cos(r);const y=115+72*Math.sin(r);return`<ellipse cx="${x}" cy="${y}" rx="22" ry="28" fill="${mn}" stroke="#1A1108" stroke-width="3" transform="rotate(${a},${x},${y})"/>`;}).join('')}
+    <circle cx="100" cy="115" r="55" fill="${fc}" ${sw4}/>
+    <ellipse cx="80" cy="106" rx="12" ry="14" fill="#1A1108"/>
+    <ellipse cx="120" cy="106" rx="12" ry="14" fill="#1A1108"/>
+    <circle cx="84" cy="101" r="4" fill="white"/>
+    <circle cx="124" cy="101" r="4" fill="white"/>
+    <ellipse cx="100" cy="128" rx="16" ry="10" fill="${c?'#FF8F00':'white'}" ${sw3}/>
+    <ellipse cx="90" cy="127" rx="4" ry="3" fill="${c?'#3A2018':'#3A2018'}"/>
+    <ellipse cx="110" cy="127" rx="4" ry="3" fill="${c?'#3A2018':'#3A2018'}"/>
+    <path d="M85,138 Q100,150 115,138" fill="none" ${sw2}/>
+    <line x1="48" y1="126" x2="82" y2="130" stroke="#1A1108" stroke-width="1.8"/>
+    <line x1="48" y1="135" x2="82" y2="133" stroke="#1A1108" stroke-width="1.8"/>
+    <line x1="152" y1="126" x2="118" y2="130" stroke="#1A1108" stroke-width="1.8"/>
+    <line x1="152" y1="135" x2="118" y2="133" stroke="#1A1108" stroke-width="1.8"/>
+    <ellipse cx="75" cy="230" rx="18" ry="11" fill="${bdy}" ${sw4}/>
+    <ellipse cx="125" cy="230" rx="18" ry="11" fill="${bdy}" ${sw4}/>
+    `;}},
+
+  apple:{name:'Apple',cat:'fruits',emoji:'🍎',palette:['#F44336','#4CAF50','#8B4513'],
+    draw(c){const b=c?'#F44336':'white';const lf=c?'#4CAF50':'white';return`
+    <path d="M100,42 C100,34 112,24 122,28" fill="none" stroke="#8B4513" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="134" cy="26" rx="16" ry="10" fill="${lf}" stroke="#1A1108" stroke-width="3" transform="rotate(-30,134,26)"/>
+    <path d="M100,55 C80,50 35,62 30,100 C22,155 55,215 100,218 C145,215 178,155 170,100 C165,62 120,50 100,55 Z" fill="${b}" ${sw4}/>
+    <path d="M100,55 C100,55 100,218 100,218" fill="none" stroke="${c?'rgba(0,0,0,0.12)':'#D4C8B8'}" stroke-width="2"/>
+    <path d="M100,55 C100,40 98,36 100,30" fill="none" stroke="#8B4513" stroke-width="4" stroke-linecap="round"/>
+    ${c?`<ellipse cx="72" cy="90" rx="18" ry="25" fill="rgba(255,255,255,0.25)" stroke="none" transform="rotate(-20,72,90)"/>`:''}
+    `;}},
+
+  strawberry:{name:'Strawberry',cat:'fruits',emoji:'🍓',palette:['#F44336','#4CAF50','#FFFFFF'],
+    draw(c){const b=c?'#F44336':'white';const lf=c?'#4CAF50':'white';return`
+    <path d="M100,210 Q55,190 40,145 Q28,100 58,70 Q80,48 100,55 Q120,48 142,70 Q172,100 160,145 Q145,190 100,210 Z" fill="${b}" ${sw4}/>
+    ${[[-12,-8],[12,-8],[-6,10],[6,10],[0,25],[-14,22],[14,22]].map(([x,y])=>`<ellipse cx="${100+x}" cy="${120+y}" rx="5" ry="6" fill="${c?'rgba(255,255,255,0.7)':'white'}" stroke="#1A1108" stroke-width="1.5"/>`).join('')}
+    <path d="M100,58 C95,38 82,26 74,14" fill="${lf}" stroke="#1A1108" stroke-width="3" stroke-linecap="round"/>
+    <path d="M100,58 C100,38 100,26 100,14" fill="${lf}" stroke="#1A1108" stroke-width="3" stroke-linecap="round"/>
+    <path d="M100,58 C105,38 118,26 126,14" fill="${lf}" stroke="#1A1108" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="82" cy="28" rx="12" ry="7" fill="${lf}" stroke="#1A1108" stroke-width="2.5" transform="rotate(-25,82,28)"/>
+    <ellipse cx="118" cy="28" rx="12" ry="7" fill="${lf}" stroke="#1A1108" stroke-width="2.5" transform="rotate(25,118,28)"/>
+    `;}},
+
+  banana:{name:'Banana',cat:'fruits',emoji:'🍌',palette:['#FFD54F','#F9A825','#5D4037'],
+    draw(c){const b=c?'#FFD54F':'white';const tip=c?'#5D4037':'white';return`
+    <g transform="rotate(-20 100 132)">
+      <path d="M18,140 A82,82 0 0 1 182,140 L154,140 A54,54 0 0 0 46,140 Z" fill="${b}" ${sw4}/>
+      <ellipse cx="32" cy="140" rx="12" ry="15" fill="${tip}" ${sw3}/>
+      <ellipse cx="168" cy="140" rx="12" ry="15" fill="${tip}" ${sw3}/>
+      <path d="M54,150 A64,64 0 0 1 146,150" fill="none" stroke="${c?'#F9A825':'#C4B8AC'}" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    `;}},
+
+  watermelon:{name:'Watermelon',cat:'fruits',emoji:'🍉',palette:['#F44336','#4CAF50','#1A1108'],
+    draw(c){const flesh=c?'#F44336':'white';const rind=c?'#4CAF50':'white';const rin2=c?'#F1F8E9':'white';return`
+    <path d="M18,120 A82,82 0 0,1 182,120 Z" fill="${rind}" ${sw4}/>
+    <path d="M22,120 A78,78 0 0,1 178,120 Z" fill="${rin2}" stroke="none"/>
+    <path d="M32,120 A68,68 0 0,1 168,120 Z" fill="${flesh}" stroke="#1A1108" stroke-width="2"/>
+    <line x1="18" y1="120" x2="182" y2="120" stroke="#1A1108" stroke-width="4"/>
+    ${[[65,95],[100,80],[135,95],[78,108],[122,108]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="6" ry="9" fill="#1A1108" transform="rotate(${(x-100)*0.5},${x},${y})"/>`).join('')}
+    `;}},
+
+  grapes:{name:'Grapes',cat:'fruits',emoji:'🍇',palette:['#7B1FA2','#9C27B0','#4CAF50'],
+    draw(c){const b=c?'#7B1FA2':'white';const lf=c?'#4CAF50':'white';
+    const gpos=[[100,80],[78,98],[122,98],[60,118],[100,118],[140,118],[78,138],[122,138],[100,158],[60,138],[140,138]];
+    return`
+    <path d="M100,40 C100,28 100,16 100,10" stroke="#8B4513" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <ellipse cx="122" cy="32" rx="22" ry="14" fill="${lf}" stroke="#1A1108" stroke-width="3" transform="rotate(25,122,32)"/>
+    ${gpos.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="20" fill="${b}" ${sw3}/>`).join('')}
+    `;}},
+
+  pineapple:{name:'Pineapple',cat:'fruits',emoji:'🍍',palette:['#FFD700','#4CAF50','#FFA000'],
+    draw(c){const b=c?'#FFD700':'white';const lf=c?'#4CAF50':'white';const acc=c?'#FFA000':'white';return`
+    ${[100,80,88,100,112].map((x,i)=>`<path d="M${x},${60-i*5} L${x-8},${30-i*5} M${x},${60-i*5} L${x+6},${28-i*5}" stroke="${c?'#2E7D32':'#1A1108'}" stroke-width="3" fill="none" stroke-linecap="round"/>`).join('')}
+    ${[83,95,107,119].map(x=>`<path d="M${x},55 L${x-4},30" stroke="${c?'#2E7D32':'#1A1108'}" stroke-width="3" fill="none" stroke-linecap="round"/>`).join('')}
+    <ellipse cx="100" cy="152" rx="58" ry="88" fill="${b}" ${sw4}/>
+    ${[[-1,-1],[1,-1],[-1,1],[1,1]].map(([dx,dy])=>`<path d="M${52+dx},${80+dy} Q${76+dx},${65+dy} ${100+dx},${80+dy} Q${124+dx},${65+dy} ${148+dx},${80+dy}" fill="none" stroke="#1A1108" stroke-width="1.5"/>`).join('')}
+    ${[80,100,120,140,160].map(y=>`<path d="M44,${y} Q100,${y-15} 156,${y}" fill="none" stroke="#1A1108" stroke-width="1.5"/>`).join('')}
+    `;}},
+
+  sun:{name:'Sun',cat:'nature',emoji:'☀️',palette:['#FFD700','#FFA000','#FF8F00'],
+    draw(c){const b=c?'#FFD700':'white';const ray=c?'#FFA000':'white';
+    const rays=Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180;const r1=72;const r2=i%2===0?110:95;return`<line x1="${100+r1*Math.cos(a)}" y1="${120+r1*Math.sin(a)}" x2="${100+r2*Math.cos(a)}" y2="${120+r2*Math.sin(a)}" stroke="#1A1108" stroke-width="${i%2===0?5:3}" stroke-linecap="round"/>`;}).join('');
+    return`
+    ${rays}
+    <circle cx="100" cy="120" r="68" fill="${b}" ${sw4}/>
+    <circle cx="82" cy="108" r="9" fill="#1A1108"/>
+    <circle cx="118" cy="108" r="9" fill="#1A1108"/>
+    <circle cx="86" cy="103" r="3" fill="white"/>
+    <circle cx="122" cy="103" r="3" fill="white"/>
+    <path d="M83,130 Q100,145 117,130" fill="none" stroke="#1A1108" stroke-width="3" stroke-linecap="round"/>
+    `;}},
+
+  flower:{name:'Flower',cat:'nature',emoji:'🌸',palette:['#FF80AB','#FFD700','#4CAF50'],
+    draw(c){const pt=c?'#FF80AB':'white';const ct=c?'#FFD700':'white';const st=c?'#4CAF50':'white';
+    const petals=Array.from({length:8},(_,i)=>{const a=i*45*Math.PI/180;const cx=100+55*Math.cos(a);const cy=118+55*Math.sin(a);return`<ellipse cx="${cx}" cy="${cy}" rx="22" ry="34" fill="${pt}" stroke="#1A1108" stroke-width="3" transform="rotate(${i*45},${cx},${cy})"/>`;}).join('');
+    return`
+    <rect x="94" y="170" width="12" height="65" rx="6" fill="${st}" ${sw4}/>
+    <ellipse cx="72" cy="205" rx="28" ry="15" fill="${st}" stroke="#1A1108" stroke-width="3" transform="rotate(-30,72,205)"/>
+    ${petals}
+    <circle cx="100" cy="118" r="30" fill="${ct}" ${sw4}/>
+    <circle cx="88" cy="112" r="5" fill="#1A1108"/>
+    <circle cx="112" cy="112" r="5" fill="#1A1108"/>
+    <path d="M88,126 Q100,136 112,126" fill="none" stroke="#1A1108" stroke-width="2.5" stroke-linecap="round"/>
+    `;}},
+
+  tree:{name:'Tree',cat:'nature',emoji:'🌲',palette:['#4CAF50','#2E7D32','#8D6E63'],
+    draw(c){const lf=c?'#4CAF50':'white';const dk=c?'#2E7D32':'white';const tr=c?'#8D6E63':'white';return`
+    <rect x="86" y="168" width="28" height="68" rx="6" fill="${tr}" ${sw4}/>
+    <rect x="78" y="192" width="44" height="14" rx="5" fill="${c?'#6D4C41':'white'}" ${sw3}/>
+    <circle cx="100" cy="140" r="58" fill="${lf}" ${sw4}/>
+    <circle cx="70" cy="125" r="44" fill="${lf}" ${sw3}/>
+    <circle cx="130" cy="125" r="44" fill="${lf}" ${sw3}/>
+    <circle cx="100" cy="95" r="38" fill="${dk}" ${sw3}/>
+    ${c?`<circle cx="78" cy="135" r="7" fill="#F44336" stroke="#1A1108" stroke-width="2"/>
+    <circle cx="116" cy="128" r="7" fill="#F44336" stroke="#1A1108" stroke-width="2"/>
+    <circle cx="96" cy="152" r="7" fill="#F44336" stroke="#1A1108" stroke-width="2"/>`:''}
+    `;}},
+
+  house:{name:'House',cat:'objects',emoji:'🏠',palette:['#FF7043','#5C6BC0','#4CAF50','#8D6E63'],
+    draw(c){const wall=c?'#FFCCBC':'white';const rf=c?'#FF7043':'white';const dr=c?'#8D6E63':'white';const wn=c?'#90CAF9':'white';const grs=c?'#4CAF50':'white';return`
+    <rect x="20" y="215" width="160" height="18" rx="4" fill="${grs}" ${sw3}/>
+    <rect x="32" y="130" width="136" height="88" fill="${wall}" ${sw4}/>
+    <polygon points="18,135 100,45 182,135" fill="${rf}" ${sw4}/>
+    <rect x="8" y="127" width="184" height="14" rx="4" fill="${c?'#BF360C':'white'}" ${sw3}/>
+    <rect x="80" y="154" width="40" height="64" rx="6" fill="${dr}" ${sw4}/>
+    <circle cx="116" cy="188" r="4" fill="${c?'#FFD700':'white'}" ${sw2}/>
+    <rect x="38" y="148" width="35" height="32" rx="4" fill="${wn}" ${sw3}/>
+    <rect x="127" y="148" width="35" height="32" rx="4" fill="${wn}" ${sw3}/>
+    <line x1="55" y1="148" x2="55" y2="180" stroke="#1A1108" stroke-width="1.5"/>
+    <line x1="38" y1="164" x2="73" y2="164" stroke="#1A1108" stroke-width="1.5"/>
+    <line x1="144" y1="148" x2="144" y2="180" stroke="#1A1108" stroke-width="1.5"/>
+    <line x1="127" y1="164" x2="162" y2="164" stroke="#1A1108" stroke-width="1.5"/>
+    <rect x="120" y="55" width="20" height="40" rx="4" fill="${c?'#795548':'white'}" stroke="#1A1108" stroke-width="3"/>
+    <ellipse cx="130" cy="48" rx="10" ry="14" fill="${c?'#FF5722':'white'}" stroke="#1A1108" stroke-width="2.5"/>
+    `;}},
+
+  rocket:{name:'Rocket',cat:'objects',emoji:'🚀',palette:['#5C6BC0','#F44336','#FFD700'],
+    draw(c){const b=c?'#5C6BC0':'white';const rd=c?'#F44336':'white';const yw=c?'#FFD700':'white';return`
+    <polygon points="100,15 130,80 70,80" fill="${rd}" ${sw4}/>
+    <rect x="68" y="75" width="64" height="120" rx="12" fill="${b}" ${sw4}/>
+    <polygon points="68,185 42,218 68,195" fill="${rd}" ${sw4}/>
+    <polygon points="132,185 158,218 132,195" fill="${rd}" ${sw4}/>
+    <circle cx="100" cy="125" r="22" fill="${c?'#90CAF9':'white'}" ${sw3}/>
+    <circle cx="100" cy="125" r="14" fill="${c?'#1976D2':'white'}" stroke="${c?'none':'#C4B8AC'}" stroke-width="1.5"/>
+    <ellipse cx="90" cy="118" rx="6" ry="8" fill="${c?'rgba(255,255,255,0.5)':'white'}" stroke="none"/>
+    <ellipse cx="68" cy="222" rx="12" ry="22" fill="${yw}" ${sw3}/>
+    <ellipse cx="100" cy="230" rx="14" ry="18" fill="${yw}" ${sw3}/>
+    <ellipse cx="132" cy="222" rx="12" ry="22" fill="${yw}" ${sw3}/>
+    <ellipse cx="72" cy="220" rx="6" ry="14" fill="${c?'#FF8F00':'white'}" stroke="none"/>
+    <ellipse cx="100" cy="226" rx="7" ry="10" fill="${c?'#FF8F00':'white'}" stroke="none"/>
+    <ellipse cx="128" cy="220" rx="6" ry="14" fill="${c?'#FF8F00':'white'}" stroke="none"/>
+    `;}},
+
+  star:{name:'Star',cat:'objects',emoji:'⭐',palette:['#FFD700','#FFA000','#FF8F00'],
+    draw(c){const b=c?'#FFD700':'white';const acc=c?'#FFA000':'white';
+    const pts=Array.from({length:5},(_,i)=>{const a=(i*72-90)*Math.PI/180;const b2=(i*72-54)*Math.PI/180;return`${100+90*Math.cos(a)},${120+90*Math.sin(a)} ${100+40*Math.cos(b2)},${120+40*Math.sin(b2)}`;}).join(' ');
+    return`
+    <polygon points="${pts}" fill="${b}" ${sw4}/>
+    <circle cx="85" cy="108" r="9" fill="#1A1108"/>
+    <circle cx="115" cy="108" r="9" fill="#1A1108"/>
+    <circle cx="88" cy="103" r="3" fill="white"/>
+    <circle cx="118" cy="103" r="3" fill="white"/>
+    <path d="M85,128 Q100,142 115,128" fill="none" stroke="#1A1108" stroke-width="3" stroke-linecap="round"/>
+    ${c?`<ellipse cx="74" cy="88" rx="12" ry="16" fill="rgba(255,255,255,0.3)" stroke="none" transform="rotate(-25,74,88)"/>`:''}
+    `;}},
+
+  mushroom:{name:'Mushroom',cat:'nature',emoji:'🍄',palette:['#F44336','#FFFFFF','#8D6E63'],
+    draw(c){const cap=c?'#F44336':'white';const wh=c?'#FAFAFA':'white';const st=c?'#EF9A9A':'white';return`
+    <ellipse cx="100" cy="208" rx="36" ry="18" fill="${wh}" ${sw4}/>
+    <path d="M66,165 Q62,215 100,225 Q138,215 134,165" fill="${st}" ${sw3}/>
+    <path d="M22,140 Q18,75 100,50 Q182,75 178,140 Q165,168 134,165 Q100,170 66,165 Q35,168 22,140 Z" fill="${cap}" ${sw4}/>
+    ${[[75,90],[110,75],[130,105],[70,118],[88,108],[118,95]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="${10+(x+y)%4}" fill="${wh}" ${sw3}/>`).join('')}
+    `;}},
+
+  icecream:{name:'Ice Cream',cat:'food',emoji:'🍦',palette:['#FF80AB','#A5D6A7','#FFD700','#8D6E63'],
+    draw(c){const s1=c?'#FF80AB':'white';const s2=c?'#A5D6A7':'white';const s3=c?'#FFD700':'white';const cn=c?'#BCAAA4':'white';return`
+    <polygon points="100,235 60,148 140,148" fill="${cn}" ${sw4}/>
+    ${[[55,148],[75,148],[95,148],[115,148],[135,148]].map(x=>`<line x1="${x}" y1="${x===55?148:148}" x2="${x<100?x+20:x-20}" y2="235" stroke="#1A1108" stroke-width="1.2" opacity="0.5"/>`).join('')}
+    <ellipse cx="100" cy="148" rx="40" ry="20" fill="${cn}" ${sw3}/>
+    <circle cx="100" cy="118" r="38" fill="${s1}" ${sw4}/>
+    <circle cx="72" cy="90" r="32" fill="${s2}" ${sw4}/>
+    <circle cx="128" cy="90" r="32" fill="${s3}" ${sw4}/>
+    <circle cx="100" cy="65" r="26" fill="${c?'#FF6B6B':'white'}" ${sw4}/>
+    ${c?`<ellipse cx="116" cy="76" rx="8" ry="12" fill="rgba(255,255,255,0.3)" stroke="none" transform="rotate(-20,116,76)"/>
+    <circle cx="100" cy="58" r="8" fill="#F44336" stroke="#1A1108" stroke-width="2.5"/>`:''}
+    `;}},
+
+  moon:{name:'Moon',cat:'nature',emoji:'🌙',palette:['#FFD700','#FFA000','#B0BEC5'],
+    draw(c){const b=c?'#FFD700':'white';const cr=c?'#B0BEC5':'white';return`
+    <path d="M100,20 A90,90 0 1 1 100,220 A60,60 0 1 0 100,20 Z" fill="${b}" ${sw4}/>
+    <circle cx="72" cy="88" r="14" fill="${cr}" ${sw3}/>
+    <circle cx="88" cy="125" r="9" fill="${cr}" ${sw3}/>
+    <circle cx="60" cy="135" r="11" fill="${cr}" ${sw3}/>
+    ${[{x:120,y:55,r:4},{x:145,y:75,r:3},{x:155,y:55,r:5},{x:135,y:45,r:3},{x:160,y:90,r:4}].map(s=>`<circle cx="${s.x}" cy="${s.y}" r="${s.r}" fill="${c?'#FFD700':'white'}" stroke="#1A1108" stroke-width="2"/>`).join('')}
+    `;}},
+
+  rainbow:{name:'Rainbow',cat:'nature',emoji:'🌈',palette:['#F44336','#FF9800','#FFD54F','#66BB6A','#42A5F5'],
+    draw(c){
+    const cols=['#F44336','#FF9800','#FFD54F','#66BB6A','#42A5F5'];
+    const rad=[96,82,68,54,40,26];
+    let bands='';
+    for(let i=0;i<5;i++){const Ro=rad[i],Ri=rad[i+1];
+      bands+=`<path d="M${100-Ro},172 A${Ro},${Ro} 0 0 1 ${100+Ro},172 L${100+Ri},172 A${Ri},${Ri} 0 0 0 ${100-Ri},172 Z" fill="${c?cols[i]:'white'}" stroke="#1A1108" stroke-width="2.5" stroke-linejoin="round"/>`;}
+    const cloud=cx=>`<ellipse cx="${cx}" cy="178" rx="33" ry="24" fill="${c?'#ECEFF1':'white'}" ${sw4}/>`;
+    return`${bands}${cloud(40)}${cloud(160)}`;}},
+
+  cake:{name:'Cake',cat:'food',emoji:'🎂',palette:['#FF80AB','#F8BBD9','#FFD700','#F44336'],
+    draw(c){const b=c?'#FF80AB':'white';const fr=c?'#F8BBD9':'white';const acc=c?'#FFD700':'white';
+    return`
+    <rect x="28" y="155" width="144" height="72" rx="8" fill="${b}" ${sw4}/>
+    <rect x="38" y="112" width="124" height="50" rx="8" fill="${c?'#CE93D8':'white'}" ${sw4}/>
+    <path d="M28,155 Q60,142 100,150 Q140,142 172,155" fill="${fr}" stroke="#1A1108" stroke-width="2.5"/>
+    <path d="M38,112 Q70,100 100,108 Q130,100 162,112" fill="${c?'#E1BEE7':'white'}" stroke="#1A1108" stroke-width="2.5"/>
+    ${[[62,112],[100,108],[138,112]].map(([x,y])=>`
+      <rect x="${x-4}" y="${y-32}" width="8" height="32" rx="4" fill="${c?'#F44336':'white'}" ${sw3}/>
+      <ellipse cx="${x}" cy="${y-36}" rx="6" ry="10" fill="${c?'#FFD700':'white'}" ${sw2}/>
+    `).join('')}
+    <circle cx="62" cy="175" r="10" fill="white" stroke="#1A1108" stroke-width="2"/>
+    <circle cx="100" cy="175" r="10" fill="white" stroke="#1A1108" stroke-width="2"/>
+    <circle cx="138" cy="175" r="10" fill="white" stroke="#1A1108" stroke-width="2"/>
+    `;}},
+};
+
+// Colouring category pools
+// curated list — only the subjects that clearly read as what they are
+// (elephant, lion, pineapple, moon dropped — too ambiguous)
+const COL_CATS={
+  all:['cat','dog','fish','butterfly','rabbit','frog','bee','turtle','apple','strawberry','banana','watermelon','grapes','sun','flower','tree','house','rocket','star','mushroom','icecream','rainbow','cake'],
+  animals:['cat','dog','fish','butterfly','rabbit','frog','bee','turtle'],
+  fruits:['apple','strawberry','banana','watermelon','grapes'],
+  objects:['sun','flower','tree','house','rocket','star','mushroom','icecream','rainbow','cake']
+};
+
+// ══════════════════════════
+// STATE
+// ══════════════════════════
+let curLvl=null,curTopic=null,curPage=0;
+let mzAge=7,mzShape='square',mzAK=false;
+// s=start char, e=real goal, d=decoy goal — a real, tempting treat (NOT the goal) for the trap opening
+const MZ_PAIRS=[
+  {s:'🐭',e:'🧀',d:'🍰'},{s:'🐰',e:'🥕',d:'🥬'},{s:'🐝',e:'🌸',d:'🌻'},{s:'🦊',e:'🍇',d:'🍓'},
+  {s:'🐻',e:'🍯',d:'🍓'},{s:'🐿️',e:'🌰',d:'🥜'},{s:'🐱',e:'🐟',d:'🍗'},{s:'🐶',e:'🦴',d:'🍖'},
+  {s:'🦋',e:'🌺',d:'🌷'},{s:'🐸',e:'🪲',d:'🦗'},{s:'🐼',e:'🎋',d:'🥬'},{s:'🦔',e:'🍄',d:'🍓'}
+];
+// age → maze spec: size + Growing-Tree randomness (0=easy winding … 1=hard branchy)
+function ageSpec(age){
+  const i=Math.max(0,Math.min(9,(+age)-3));
+  const size=[6,7,8,10,12,13,15,16,18,20][i];
+  const genRand=Math.max(0.04,0.55-i/9*0.51); // young=short branchy … old=long winding
+  const pick=0.12+i/9*0.76;                    // 0.12 … 0.88 — high challenge, no harsh outliers
+  const tiers=[['⭐','Beginner'],['⭐','Beginner'],['⭐⭐','Easy'],['⭐⭐','Easy'],
+    ['⭐⭐⭐','Medium'],['⭐⭐⭐','Medium'],['⭐⭐⭐⭐','Hard'],['⭐⭐⭐⭐','Hard'],
+    ['🔥🔥','Expert'],['🔥🔥🔥','Master']];
+  return{age:+age,size,genRand,pick,stars:tiers[i][0],diff:tiers[i][1]};
+}
+function updateMzAge(v){
+  mzAge=+v;
+  const sp=ageSpec(mzAge);
+  document.getElementById('mzAgeVal').innerHTML='<b>Age '+(mzAge>=12?'12+':mzAge)+'</b><span>'+sp.stars+' '+sp.diff+'</span>';
+  if(mzAge>=9){document.getElementById('mzAK').checked=true;mzAK=true;}
+}
+function selMzShape(b){document.querySelectorAll('.mz-shape-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');mzShape=b.dataset.shape;}
+function updateMzAK(){mzAK=document.getElementById('mzAK').checked;}
+// ── Seeded RNG wrapper ────────────────────────────────────────────
+// When wsSetSeed(n) is called BEFORE generate(), every shuffle/rnd/
+// Math.random-style pick uses mulberry32(seed) instead of real random.
+// Result: same seed → exactly the same worksheet, every time, forever.
+// Without a seed, behaves identically to before (live Math.random).
+let _wsSeed=null;
+let _wsRng=Math.random;
+function wsSetSeed(s){_wsSeed=(s>>>0);let a=_wsSeed;_wsRng=function(){a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
+function wsClearSeed(){_wsSeed=null;_wsRng=Math.random;}
+function wsRand(){return _wsRng();}
+function shuffle(a){return [...a].sort(()=>wsRand()-.5)}
+function pick(arr,n){return shuffle(arr).slice(0,n)}
+// shuffle so NO item stays in its original slot — keeps matching activities a
+// real challenge (answer is never the item sitting directly across)
+function derange(a){
+  if(a.length<2) return a.slice();
+  let s,t=0;
+  do{ s=shuffle(a); t++; }while(t<25 && s.some((x,i)=>x===a[i]));
+  return s;
+}
+// QUALITY CHECK — pick n items that are each VALID (have image + name)
+// and DISTINCT BY IMAGE, so no two look alike in a match/trace activity.
+// Shadow helper — emits a marker <img> that paintShadows() later repaints into a
+// real recolored silhouette. CSS filters are ignored by html2canvas (PDF engine),
+// so the only reliable shadow is one baked into the image pixels themselves.
+function shadowOf(x,sz,bxPx){
+  const dim=`width:${bxPx}px;height:${bxPx}px;object-fit:contain;display:block`;
+  if(x.src){
+    return`<img class="shad-img" data-shadow="png" data-shadow-src="${x.src}" src="${x.src}" style="${dim}">`;
+  }
+  return`<img class="shad-img" data-shadow="emoji" data-shadow-emoji="${encodeURIComponent(x.e||'')}" style="${dim}">`;
+}
+// ── IMAGE AUTO-TRIM ──────────────────────────────────────────────
+// Source clipart often has uneven transparent padding, so artwork looks
+// off-centre and small inside its box. We rasterise each image, find the
+// tight bounding box of visible pixels, and crop to it — the artwork then
+// fills the box and is perfectly centred. Results are cached by src.
+const _imgCache=new Map();   // src -> trimmed colour data URL
+const _shadCache=new Map();  // src -> trimmed + recoloured silhouette data URL
+function _rasterize(src){
+  return new Promise(res=>{
+    const img=new Image(); img.crossOrigin='anonymous';
+    img.onload=()=>{
+      try{
+        const isSvg=/\.svg(\?|$)/i.test(src);
+        const nw=img.naturalWidth||64, nh=img.naturalHeight||64;
+        const base=isSvg?340:Math.min(Math.max(nw,64),640);
+        const w=Math.round(base), h=Math.round(base*(nh/nw||1));
+        const c=document.createElement('canvas'); c.width=w; c.height=h;
+        const ctx=c.getContext('2d'); ctx.drawImage(img,0,0,w,h);
+        const d=ctx.getImageData(0,0,w,h).data;
+        let x0=w,y0=h,x1=-1,y1=-1;
+        for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+          if(d[(y*w+x)*4+3]>14){
+            if(x<x0)x0=x; if(x>x1)x1=x;
+            if(y<y0)y0=y; if(y>y1)y1=y;
+          }
+        }
+        res({canvas:c,bbox:x1<0?null:{x:x0,y:y0,w:x1-x0+1,h:y1-y0+1}});
+      }catch(e){res(null);}
+    };
+    img.onerror=()=>res(null);
+    img.src=src;
+  });
+}
+// Crop to the tight bbox, then re-compose onto a SQUARE canvas with the
+// artwork centred and a small even margin. A square image in a square box
+// needs no object-fit — so it renders identically on web and in the PDF
+// (html2canvas does not honour object-fit reliably).
+function _square(canvas,b,recolor){
+  const side=Math.round(Math.max(b.w,b.h)*1.14);   // 14% even breathing room
+  const o=document.createElement('canvas'); o.width=side; o.height=side;
+  const ctx=o.getContext('2d');
+  const dx=Math.round((side-b.w)/2), dy=Math.round((side-b.h)/2);
+  ctx.drawImage(canvas,b.x,b.y,b.w,b.h,dx,dy,b.w,b.h);
+  if(recolor){
+    try{
+      const d=ctx.getImageData(0,0,side,side),p=d.data;
+      for(let i=0;i<p.length;i+=4){ if(p[i+3]>14){p[i]=44;p[i+1]=44;p[i+2]=48;} }
+      ctx.putImageData(d,0,0);
+    }catch(e){}
+  }
+  return o.toDataURL('image/png');
+}
+async function trimURL(src){
+  if(_imgCache.has(src))return _imgCache.get(src);
+  const r=await _rasterize(src);
+  const out=(r&&r.bbox)?_square(r.canvas,r.bbox,false):src;
+  _imgCache.set(src,out); return out;
+}
+// Trim + recolour into a centred, square dark silhouette → data URL.
+async function silhouetteURL(src){
+  if(_shadCache.has(src))return _shadCache.get(src);
+  const r=await _rasterize(src);
+  const out=(r&&r.bbox)?_square(r.canvas,r.bbox,true):src;
+  _shadCache.set(src,out); return out;
+}
+// Trim every worksheet image so artwork fills its box. Idempotent.
+async function paintImages(root){
+  const els=[...(root||document).querySelectorAll('img.wimg:not([data-trimmed])')];
+  for(const el of els){
+    el.dataset.trimmed='1';
+    const orig=el.getAttribute('src');
+    if(orig&&!orig.startsWith('data:')) el.src=await trimURL(orig);
+  }
+}
+// Embed maze start/end icons as data URIs so they survive into the PDF.
+async function paintMazeIcons(root){
+  const els=[...(root||document).querySelectorAll('image.maze-ico:not([data-painted])')];
+  for(const el of els){
+    el.dataset.painted='1';
+    const src=el.dataset.icoSrc;
+    if(src&&!src.startsWith('data:')){
+      const url=await trimURL(src);
+      el.setAttribute('href',url);
+      el.setAttributeNS('http://www.w3.org/1999/xlink','href',url);
+    }
+  }
+}
+// Render an emoji char to a dark silhouette → data URL (synchronous).
+function emojiSilhouetteURL(ch){
+  const px=160;
+  const c=document.createElement('canvas'); c.width=c.height=px;
+  const ctx=c.getContext('2d');
+  ctx.font=Math.round(px*0.78)+'px serif';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(ch,px/2,px/2+px*0.04);
+  try{
+    const d=ctx.getImageData(0,0,px,px),p=d.data;
+    for(let i=0;i<p.length;i+=4){ if(p[i+3]>18){p[i]=44;p[i+1]=44;p[i+2]=48;} }
+    ctx.putImageData(d,0,0);
+  }catch(e){}
+  return c.toDataURL('image/png');
+}
+// Repaint every shadow marker into a baked silhouette. Idempotent.
+async function paintShadows(root){
+  const els=[...(root||document).querySelectorAll('img.shad-img:not([data-painted])')];
+  for(const el of els){
+    el.dataset.painted='1';
+    if(el.dataset.shadow==='emoji'){
+      const ch=decodeURIComponent(el.dataset.shadowEmoji||'');
+      if(ch) el.src=emojiSilhouetteURL(ch);
+    }else{
+      el.src=await silhouetteURL(el.dataset.shadowSrc||el.src);
+    }
+  }
+}
+
+function pickDistinct(pool,n){
+  const seen=new Set(),out=[];
+  for(const x of shuffle(pool)){
+    if(!x||!x.e||!x.n)continue;            // must have an image and a name
+    const k=x.src||x.e;
+    if(seen.has(k))continue;               // skip if same image already used
+    seen.add(k);out.push(x);
+    if(out.length>=n)break;
+  }
+  if(out.length<n){                        // safety pad if pool is tiny
+    for(const x of pool){if(out.length>=n)break;if(x&&x.e&&x.n)out.push(x);}
+  }
+  return out;
+}
+function rnd(min,max){return Math.floor(wsRand()*(max-min+1))+min}
+
+// Per-sheet registry — same activity type may repeat across pages, but the
+// EXACT same set of images/pattern must not. Reset at the start of each build.
+let _sheetUsed=new Set();
+function _sig(tag,arr){return tag+'|'+arr.map(x=>(x&&(x.src||x.e))||'').sort().join('~');}
+// pickDistinct, but retries to avoid a combination already used on this sheet.
+function pickFresh(pool,n,tag){
+  let last=null;
+  for(let t=0;t<14;t++){
+    const got=pickDistinct(pool,n);
+    const sig=_sig(tag||'p',got);
+    if(!_sheetUsed.has(sig)){_sheetUsed.add(sig);return got;}
+    last=got;
+  }
+  return last||pickDistinct(pool,n);
+}
+
+// ══════════════════════════
+// LIBRARY.JSON — PNG + emoji clipart pool
+// (falls back to the emoji DB above if it can't load)
+// ══════════════════════════
+let LIB=null;          // library.json items, or null = use DB fallback
+let LIB_VERSION=null;  // libraryVersion from library.json — stamped on each saved worksheet
+let curMode='emoji';   // render style of current worksheet: 'png' | 'emoji'
+fetch('assets/library.json').then(r=>r.json())
+  .then(d=>{LIB=(d.items||[]).filter(it=>it.png||it.emoji);LIB_VERSION=d.libraryVersion||null;})
+  .catch(()=>{LIB=null;});
+
+// library item -> the {e,n,l,src} shape every activity expects.
+// e is an <img> sized 1em, so it scales with the parent's font-size —
+// every existing activity keeps working with no changes.
+function libItem(it,mode){
+  const src=(mode==='png')?(it.png||it.emoji):(it.emoji||it.png);
+  return{src,
+    e:`<img src="${src}" class="wimg" alt="">`,
+    n:it.label||it.name||'',
+    l:((it.name||'a').replace(/[^a-zA-Z]/g,'')[0]||'A').toUpperCase()};
+}
+function libPool(mode){
+  return LIB.filter(it=>mode==='png'?it.png:it.emoji).map(it=>libItem(it,mode));
+}
+// pairs of items that "go together" (cow+milk) from library pairWith tags
+function libPairs(mode){
+  if(!LIB) return [];
+  const byId={}; LIB.forEach(it=>byId[it.id]=it);
+  const out=[],used=new Set(),seenSrc=new Set();
+  for(const it of shuffle(LIB)){
+    if(used.has(it.id)||!it.tags||!it.tags.pairWith) continue;
+    const partner=byId[it.tags.pairWith.replace(/\.png$/,'')];
+    if(!partner||used.has(partner.id)) continue;
+    const a=mode==='png'?it.png:it.emoji, b=mode==='png'?partner.png:partner.emoji;
+    if(!a||!b||a===b||seenSrc.has(a)||seenSrc.has(b)) continue;  // distinct images only
+    out.push([libItem(it,mode),libItem(partner,mode)]);
+    used.add(it.id);used.add(partner.id);seenSrc.add(a);seenSrc.add(b);
+  }
+  return out;
+}
+// place an icon inside an SVG (maze etc.) — <image> for library, <text> for emoji.
+// The <image> is marked so paintMazeIcons() can embed it as a data URI — an SVG
+// with an external href does not render in the PDF (html2canvas serialises the
+// SVG standalone, and a relative path can no longer resolve).
+function svgIco(it,cx,cy,sz){
+  if(it&&it.src) return`<image class="maze-ico" data-ico-src="${it.src}" href="${it.src}" x="${cx-sz/2}" y="${cy-sz/2}" width="${sz}" height="${sz}" preserveAspectRatio="xMidYMid meet"/>`;
+  return`<text x="${cx}" y="${cy+sz*0.36}" text-anchor="middle" font-size="${sz}">${(it&&it.e)||'⭐'}</text>`;
+}
+
+// ── SETUP
+function selLvl(btn){
+  document.querySelectorAll('.lvl-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  curLvl=btn.dataset.level;
+  ES=ESIZES[curLvl]||ESIZES['3'];
+  const topicSec=document.getElementById('topicSec');
+  const topicGrid=document.getElementById('topicGrid');
+
+  document.getElementById('mazeOptsSec').style.display='none';
+  if(curLvl==='colouring'){
+    curTopic=null;
+    document.getElementById('genBtn').disabled=true;
+    document.getElementById('genBtnTxt').textContent='Choose a Colouring Topic →';
+    topicSec.style.display='block';
+    topicGrid.innerHTML=Object.entries(COL_TOPICS).map(([k,v])=>`
+      <button class="top-btn" data-topic="${k}" onclick="selTopic(this)">
+        <span class="top-e">${v.e}</span><span class="top-l">${v.l}</span>
+      </button>`).join('');
+  } else if(curLvl==='maze'){
+    curTopic='mixed';
+    topicSec.style.display='none';
+    document.getElementById('mazeOptsSec').style.display='block';
+    document.getElementById('genBtn').disabled=false;
+    document.getElementById('genBtnTxt').textContent='🌀 Generate Maze!';
+  } else {
+    curTopic='mixed';
+    topicSec.style.display='none';
+    document.getElementById('genBtn').disabled=false;
+    document.getElementById('genBtnTxt').textContent='✨ Generate Worksheet!';
+  }
+}
+function selTopic(btn){
+  document.querySelectorAll('.top-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  curTopic=btn.dataset.topic;
+  document.getElementById('genBtn').disabled=false;
+}
+
+// ── GENERATE  (now SEO-aware: each generate produces a permanent URL)
+// Flow:  1) Set seed (fresh or from URL ?w=)   2) buildAll() uses seeded RNG
+//        3) Build SEO slug + history.pushState   4) Show worksheet screen
+function generate(opts){
+  if(!curLvl)return;
+  if(curLvl==='colouring'&&!curTopic)return;
+  opts=opts||{};
+  // Seed: if URL provided one, use it; else fresh.
+  const seed=(opts.seed!=null)?opts.seed:(window.WSeo?WSeo.newSeed():((Math.random()*0x100000000)>>>0));
+  wsSetSeed(seed);
+  showLoader();
+  setTimeout(()=>{
+    buildAll();
+    hideLoader();
+    showScreen('wsScreen');
+    _wsUpdateUrlAfterGenerate(seed);
+  },900);
+}
+function regen(){
+  // "Generate another" — fresh seed, same level/topic
+  const seed=window.WSeo?WSeo.newSeed():((Math.random()*0x100000000)>>>0);
+  wsSetSeed(seed);
+  showLoader();
+  setTimeout(()=>{
+    buildAll();
+    hideLoader();
+    showPage(0);
+    _wsUpdateUrlAfterGenerate(seed);
+  },700);
+}
+
+// ── SEO slug builder + URL rewriter ────────────────────────────
+// Picks an honest (activity,grade,category) triple from current state.
+// For mixed-content modes (Grade 1-5), category is forced to 'mix' so the URL
+// never claims a single theme that the worksheet doesn't actually have.
+function _wsCurrentConfig(){
+  // GRADE
+  let gradeKey;
+  if(curLvl==='colouring'||curLvl==='sudoku'||curLvl==='maze') gradeKey=curLvl;
+  else gradeKey=curLvl; // 'prekg','kg','1'..'5'
+  // ACTIVITY (headline) — HONESTY: only modes that genuinely build a single-activity
+  // worksheet get a specific activity in the URL. Grade 1-5 worksheets contain ~20
+  // different activities mixed together, so claiming any one of them in the title
+  // would mislead users (and search engines). For mixed worksheets we use 'mix',
+  // which renders as generic terms like "Free Printable Worksheets".
+  let activityKey;
+  if(curLvl==='colouring') activityKey='colouring';
+  else if(curLvl==='sudoku') activityKey='sudoku';
+  else if(curLvl==='maze') activityKey='maze';
+  else activityKey='mix';  // prekg, kg, 1-5 all build mixed-activity sheets
+  // CATEGORY — honest: only set if mode genuinely uses ONE theme
+  let categoryKey='mix';
+  if(curLvl==='colouring' && curTopic) categoryKey=curTopic; // user picked it
+  // For prekg/kg, the worksheet picks from LEVEL_TOPICS — pick one deterministically
+  else if((curLvl==='prekg'||curLvl==='kg') && typeof LEVEL_TOPICS!=='undefined'){
+    const t=LEVEL_TOPICS[curLvl]||[];
+    if(t.length) categoryKey=t[Math.floor(wsRand()*t.length)];
+  }
+  return {activity:activityKey,grade:gradeKey,category:categoryKey};
+}
+
+async function _wsUpdateUrlAfterGenerate(seed){
+  if(!window.WSeo){console.warn('[WSeo] window.WSeo missing — worksheet-seo.js failed to load');return;}
+  const kw=await WSeo.loadKeywords();
+  if(!kw){console.warn('[WSeo] keywords.json failed to load');return;}
+  const cfg=_wsCurrentConfig();
+  console.log('[WSeo] config:',cfg);
+  const a=kw.activities[cfg.activity]||kw.activities.mix;
+  const g=kw.grades[cfg.grade]||kw.grades['1'];
+  const c=kw.categories[cfg.category]||kw.categories.mix;
+  if(!a||!g||!c){console.warn('[WSeo] missing lookup',{a,g,c});return;}
+  const id=WSeo.encodeId(seed);
+  const slug=WSeo.buildSlug({
+    activitySlug:a.slug,
+    gradeSlug:g.slug,
+    // pass 'mix' (the key) when category is mixed — buildSlug drops it from URL
+    categorySlug:(cfg.category==='mix'?'mix':c.slug),
+    id:id
+  });
+  const newUrl='/worksheets/'+slug;
+  try{ history.pushState({slug:slug,seed:seed},'',newUrl); console.log('[WSeo] URL updated →',newUrl);}
+  catch(e){console.error('[WSeo] pushState failed:',e);}
+  try{ document.title=WSeo.renderTitle({activity:cfg.activity,grade:cfg.grade,category:cfg.category,id:id},kw);}
+  catch(e){console.error('[WSeo] title render failed:',e);}
+  // Fire-and-forget: persist slug to DB for sitemap + pSEO indexing
+  // LIB_VERSION lets future code replay this URL against the same library snapshot.
+  if(window.ViloDB) ViloDB.saveWorksheet(slug,cfg.activity,cfg.grade,cfg.category,seed,LIB_VERSION);
+}
+
+// ── Share popover (toolbar) ─────────────────────────────────────
+function toggleSharePop(){
+  const pop=document.getElementById('sharePop');
+  pop.style.display=(pop.style.display==='none'||!pop.style.display)?'block':'none';
+}
+function shareTo(target){
+  const url=location.href;
+  const text=document.title;
+  if(target==='whatsapp') window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(text+' '+url),'_blank');
+  else if(target==='pinterest') window.open('https://pinterest.com/pin/create/button/?url='+encodeURIComponent(url)+'&description='+encodeURIComponent(text),'_blank');
+  else if(target==='email') window.location.href='mailto:?subject='+encodeURIComponent(text)+'&body='+encodeURIComponent(url);
+  else if(target==='copy'){
+    navigator.clipboard&&navigator.clipboard.writeText(url).then(()=>{
+      const b=document.getElementById('copyBtn');const o=b.textContent;b.textContent='✓ Copied!';
+      setTimeout(()=>b.textContent=o,1600);
+    });
+  }
+  if(target!=='copy') document.getElementById('sharePop').style.display='none';
+}
+// Close popover when clicking outside
+document.addEventListener('click',e=>{
+  const pop=document.getElementById('sharePop');const btn=document.getElementById('shareBtn');
+  if(pop&&pop.style.display==='block'&&!pop.contains(e.target)&&e.target!==btn) pop.style.display='none';
+});
+
+// ── On-load: if URL has ?w=<slug>, restore that exact worksheet ──
+(function _wsRestoreFromUrl(){
+  if(!window.WSeo) return;
+  const params=new URLSearchParams(location.search);
+  const slug=params.get('w');
+  if(!slug) return;
+  WSeo.loadKeywords().then(kw=>{
+    if(!kw) return;
+    const cfg=WSeo.parseSlugWith(slug,kw);
+    if(!cfg) return;
+    // Restore curLvl + curTopic state before generate()
+    curLvl=cfg.grade;
+    if(cfg.grade==='colouring') curTopic=cfg.category;
+    // Trigger generate with the seed from URL — produces identical worksheet
+    setTimeout(()=>generate({seed:cfg.seed}),50);
+  });
+})();
+
+function buildAll(){
+  const lvlName=LEVEL_NAMES[curLvl];
+  const topicName=curLvl==='colouring'?(COL_TOPICS[curTopic]?.l||'Colouring'):'Fun Mix';
+  document.getElementById('tbLbl').textContent=lvlName;
+  document.getElementById('tbTitle').textContent=
+    curLvl==='colouring'?(topicName+' — Colouring Book'):
+    curLvl==='sudoku'?'Picture Sudoku':
+    curLvl==='maze'?(mzShape.charAt(0).toUpperCase()+mzShape.slice(1)+' Maze · Age '+(mzAge>=12?'12+':mzAge)):
+    (topicName+' — Worksheet');
+  const container=document.getElementById('wsContainer');
+  const nav=document.getElementById('pgNav');
+  container.innerHTML='';nav.innerHTML='';
+
+  if(curLvl==='colouring'){buildColouringAll(container,nav,lvlName,topicName);}
+  else if(curLvl==='sudoku'){buildSudokuAll(container,nav);}
+  else if(curLvl==='maze'){buildMazeAll(container,nav);}
+  else{buildWorksheetAll(container,nav,lvlName,topicName);}
+  curPage=0;
+  requestAnimationFrame(()=>fitCells());
+  paintImages(container);
+  paintShadows(container);
+  paintMazeIcons(container);
+}
+
+// ── COLOURING BOOK
+function buildColouringAll(container,nav,lvlName,topicName){
+  const pool=shuffle([...COL_CATS[curTopic]||COL_CATS.all]);
+  const subjects=pool.slice(0,5);
+  subjects.forEach((key,p)=>{
+    const subj=COL_LIB[key];
+    const pg=document.createElement('div');
+    pg.className='ws-page'+(p===0?' act':'');
+    pg.id='pg'+p;
+    pg.innerHTML=buildColouringPage(p,subj,lvlName,topicName);
+    container.appendChild(pg);
+    const dot=document.createElement('button');
+    dot.className='pg-dot'+(p===0?' act':'');
+    dot.textContent=p+1;dot.onclick=()=>showPage(p);
+    nav.appendChild(dot);
+  });
+}
+
+function buildColouringPage(idx,subj,lvlName,topicName){
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const refSVG=`<svg viewBox="0 0 200 240" width="80" height="96" class="col-ref-svg">${subj.draw(true)}</svg>`;
+  const bigSVG=`<svg viewBox="0 0 200 240" class="col-main-svg">${subj.draw(false)}</svg>`;
+  const palRow=subj.palette.map(col=>`<div class="crayon-swatch" style="background:${col}"></div>`).join('');
+  return`
+    <div class="pg-hdr">
+      <span class="pg-brand">ViLo<em>Labs</em> Colouring</span>
+      <span class="pg-num">Page ${idx+1} / 5</span>
+    </div>
+    <div class="col-title-row">
+      <div>
+        <div class="col-title-main">🎨 Colour the ${subj.name}! ${subj.emoji}</div>
+        <div class="col-title-sub">Use the small picture as your colour guide →</div>
+      </div>
+      <div class="col-ref-wrap">
+        ${refSVG}
+        <div class="col-ref-lbl">Colour Guide</div>
+      </div>
+    </div>
+    <div class="col-main-wrap">${bigSVG}</div>
+    <div class="col-crayon-row">
+      <span class="col-crayon-lbl">🖍️ Suggested colours:</span>${palRow}
+    </div>
+    <div class="pg-nameline" style="border-top:1px solid #EDE4D6">
+      <div class="nl"><span>Name:</span><div class="nl-line"></div></div>
+      <div class="nl"><span>Date:</span><div class="nl-line" style="max-width:80px"></div></div>
+    </div>
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600">
+      ViLoLabs.com · Free Colouring Page · ${date}
+    </div>`;
+}
+
+// ── SUDOKU (4x4 picture sudoku)
+function makeSudoku(){
+  let g=[[0,1,2,3],[2,3,0,1],[1,0,3,2],[3,2,1,0]];
+  const perm=shuffle([0,1,2,3]);
+  g=g.map(row=>row.map(v=>perm[v]));
+  if(wsRand()<.5){const t=g[0];g[0]=g[1];g[1]=t;}
+  if(wsRand()<.5){const t=g[2];g[2]=g[3];g[3]=t;}
+  if(wsRand()<.5){let t=g[0];g[0]=g[2];g[2]=t;t=g[1];g[1]=g[3];g[3]=t;}
+  const sc=(a,b)=>g.forEach(r=>{const t=r[a];r[a]=r[b];r[b]=t;});
+  if(wsRand()<.5)sc(0,1);
+  if(wsRand()<.5)sc(2,3);
+  if(wsRand()<.5){sc(0,2);sc(1,3);}
+  if(wsRand()<.5){const t=[[],[],[],[]];for(let r=0;r<4;r++)for(let c=0;c<4;c++)t[c][r]=g[r][c];g=t;}
+  return g;
+}
+function buildSudokuAll(container,nav){
+  for(let p=0;p<5;p++){
+    const pg=document.createElement('div');
+    pg.className='ws-page'+(p===0?' act':'');pg.id='pg'+p;
+    pg.innerHTML=buildSudokuPage(p);
+    container.appendChild(pg);
+    const dot=document.createElement('button');
+    dot.className='pg-dot'+(p===0?' act':'');
+    dot.textContent=p+1;dot.onclick=()=>showPage(p);
+    nav.appendChild(dot);
+  }
+}
+function buildSudokuPage(idx){
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  // pick a themed set of 4 pictures from one library category
+  let cat='Pictures',pool=null;
+  if(LIB&&LIB.length){
+    for(const c of shuffle([...new Set(LIB.map(i=>i.category))])){
+      const png=LIB.filter(i=>i.category===c&&i.png);
+      const emo=LIB.filter(i=>i.category===c&&i.emoji);
+      if(png.length>=4){cat=c;pool=pick(png,4).map(i=>i.png);break;}
+      if(emo.length>=4){cat=c;pool=pick(emo,4).map(i=>i.emoji);break;}
+    }
+  }
+  if(!pool) pool=['','','',''];
+  const sol=makeSudoku();
+  // blank a random 4–8 cells; the cut-out strip is built from these so it always fits exactly
+  const blanks=new Set();
+  // at least one blank per picture type so all 4 pictures appear in the cut strip
+  for(let v=0;v<4;v++){
+    const cells=[];
+    for(let r=0;r<4;r++)for(let c=0;c<4;c++)if(sol[r][c]===v)cells.push(r*4+c);
+    blanks.add(cells[rnd(0,cells.length-1)]);
+  }
+  const target=rnd(4,8);
+  for(const i of shuffle([...Array(16).keys()])){if(blanks.size>=target)break;blanks.add(i);}
+  // never leave a whole row empty
+  for(let r=0;r<4;r++){
+    if([0,1,2,3].every(c=>blanks.has(r*4+c))){
+      blanks.delete(r*4+rnd(0,3));
+      const open=[...Array(16).keys()].filter(i=>!blanks.has(i));
+      if(open.length)blanks.add(open[rnd(0,open.length-1)]);
+    }
+  }
+  let svg='<svg viewBox="0 0 404 404" style="width:100%;height:auto;display:block">';
+  svg+='<rect x="2" y="2" width="400" height="400" fill="#fff" stroke="#1A1108" stroke-width="3.5"/>';
+  [102,302].forEach(x=>{svg+=`<line x1="${x}" y1="2" x2="${x}" y2="402" stroke="#1A1108" stroke-width="1.6"/>`;});
+  [102,302].forEach(y=>{svg+=`<line x1="2" y1="${y}" x2="402" y2="${y}" stroke="#1A1108" stroke-width="1.6"/>`;});
+  svg+='<line x1="202" y1="2" x2="202" y2="402" stroke="#1A1108" stroke-width="3.5"/>';
+  svg+='<line x1="2" y1="202" x2="402" y2="202" stroke="#1A1108" stroke-width="3.5"/>';
+  for(let r=0;r<4;r++)for(let c=0;c<4;c++){
+    const i=r*4+c;if(blanks.has(i))continue;
+    svg+=`<image href="${pool[sol[r][c]]}" x="${2+c*100+14}" y="${2+r*100+14}" width="72" height="72"/>`;
+  }
+  svg+='</svg>';
+  // cut strip = exactly the pieces the blanks need (one per empty cell), shuffled
+  const need=shuffle([...blanks].map(i=>sol[(i/4)|0][i%4]));
+  const cut=need.map(v=>`<div class="su-cut-box"><div class="su-sci">✂️</div><img src="${pool[v]}" alt=""></div>`).join('');
+  const title=cat.replace(/-/g,' ').toUpperCase();
+  return`
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Sudoku</span><span class="pg-num">Page ${idx+1} / 5</span></div>
+    <div class="su-title">🧩 ${title}</div>
+    <div class="su-instr">Every row, every column and every bold box must have all 4 pictures.</div>
+    <div class="su-wrap">
+      <div class="su-grid">${svg}</div>
+      <div style="font-size:.72rem;font-weight:800;color:#A07860;text-align:center">✂️ Cut out the pictures and paste them in the empty squares</div>
+      <div class="su-cut">${cut}</div>
+    </div>
+    <div class="pg-nameline">
+      <div class="nl"><span>Name:</span><div class="nl-line"></div></div>
+      <div class="nl"><span>Date:</span><div class="nl-line" style="max-width:80px"></div></div>
+    </div>
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.com · Free Picture Sudoku · ${date}</div>`;
+}
+
+// ── MAZE ENGINE (recursive-backtracker — perfect maze, one unique solution path)
+function genMaze(cols,rows,mask){
+  const N=cols*rows;
+  const inb=i=>{if(i<0||i>=N)return false;const c=i%cols,r=(i/cols)|0;return mask?mask(c,r):true;};
+  const walls=[];for(let i=0;i<N;i++)walls.push({n:1,e:1,s:1,w:1});
+  const vis=new Array(N).fill(false);
+  const cells=[];for(let i=0;i<N;i++)if(inb(i))cells.push(i);
+  if(!cells.length)return{cols,rows,walls,inb};
+  const opp={n:'s',e:'w',s:'n',w:'e'};
+  const start=cells[0],stack=[start];vis[start]=true;let seen=1;
+  while(seen<cells.length&&stack.length){
+    const cur=stack[stack.length-1],c=cur%cols,r=(cur/cols)|0,nb=[];
+    if(r>0&&inb(cur-cols)&&!vis[cur-cols])nb.push(['n',cur-cols]);
+    if(c<cols-1&&inb(cur+1)&&!vis[cur+1])nb.push(['e',cur+1]);
+    if(r<rows-1&&inb(cur+cols)&&!vis[cur+cols])nb.push(['s',cur+cols]);
+    if(c>0&&inb(cur-1)&&!vis[cur-1])nb.push(['w',cur-1]);
+    if(nb.length){
+      const[dir,nx]=nb[rnd(0,nb.length-1)];
+      walls[cur][dir]=0;walls[nx][opp[dir]]=0;
+      vis[nx]=true;seen++;stack.push(nx);
+    }else stack.pop();
+  }
+  return{cols,rows,walls,inb};
+}
+// Growing Tree — ONE algorithm spanning the whole difficulty range.
+// randomness 0 → recursive-backtracker (easy, long winding paths)
+// randomness 1 → Prim's-like (hard, dense dead-ends). The age slider drives this.
+function genMazeGrowingTree(cols,rows,mask,randomness){
+  const N=cols*rows;
+  const inb=i=>{if(i<0||i>=N)return false;const c=i%cols,r=(i/cols)|0;return mask?mask(c,r):true;};
+  const walls=[];for(let i=0;i<N;i++)walls.push({n:1,e:1,s:1,w:1});
+  const vis=new Array(N).fill(false);
+  const cells=[];for(let i=0;i<N;i++)if(inb(i))cells.push(i);
+  if(!cells.length)return{cols,rows,walls,inb};
+  const opp={n:'s',e:'w',s:'n',w:'e'};
+  const active=[cells[0]];vis[cells[0]]=true;
+  while(active.length){
+    const idx=wsRand()<randomness?rnd(0,active.length-1):active.length-1;
+    const cur=active[idx],c=cur%cols,r=(cur/cols)|0,nb=[];
+    if(r>0&&inb(cur-cols)&&!vis[cur-cols])nb.push(['n',cur-cols]);
+    if(c<cols-1&&inb(cur+1)&&!vis[cur+1])nb.push(['e',cur+1]);
+    if(r<rows-1&&inb(cur+cols)&&!vis[cur+cols])nb.push(['s',cur+cols]);
+    if(c>0&&inb(cur-1)&&!vis[cur-1])nb.push(['w',cur-1]);
+    if(nb.length){
+      const[dir,nx]=nb[rnd(0,nb.length-1)];
+      walls[cur][dir]=0;walls[nx][opp[dir]]=0;
+      vis[nx]=true;active.push(nx);
+    }else active.splice(idx,1);
+  }
+  return{cols,rows,walls,inb};
+}
+function mazeSolve(mz,a,b){
+  const{cols,rows,walls}=mz,N=cols*rows,prev=new Array(N).fill(-2);
+  const q=[a];prev[a]=-1;
+  while(q.length){
+    const cur=q.shift();if(cur===b)break;
+    const w=walls[cur],mv=[];
+    if(!w.n)mv.push(cur-cols);
+    if(!w.e)mv.push(cur+1);
+    if(!w.s)mv.push(cur+cols);
+    if(!w.w)mv.push(cur-1);
+    for(const m of mv)if(m>=0&&m<N&&prev[m]===-2){prev[m]=cur;q.push(m);}
+  }
+  const path=[];let c=b;while(c>=0){path.push(c);c=prev[c];}
+  return path.reverse();
+}
+// hardness score of a solved maze — higher = longer path, more turns, more decision points
+function mazeHardness(mz,path){
+  if(path.length<2)return 0;
+  let turns=0;
+  for(let i=2;i<path.length;i++)if(path[i]-path[i-1]!==path[i-1]-path[i-2])turns++;
+  let junc=0;
+  for(const cell of path){
+    const w=mz.walls[cell];
+    if((!w.n)+(!w.e)+(!w.s)+(!w.w)>=3)junc++;
+  }
+  return path.length+turns*1.5+junc*3;
+}
+function mazeWallPath(mz,cs){
+  const{cols,rows,walls}=mz;let d='';
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const i=r*cols+c;if(mz.inb&&!mz.inb(i))continue;
+    const x=c*cs,y=r*cs,w=walls[i];
+    if(w.n)d+=`M${x} ${y}h${cs}`;
+    if(w.w)d+=`M${x} ${y}v${cs}`;
+    if(w.e)d+=`M${x+cs} ${y}v${cs}`;
+    if(w.s)d+=`M${x} ${y+cs}h${cs}`;
+  }
+  return d;
+}
+// worksheet in-cell maze (rectangular, sized by class level)
+function mazeActSVG(cols,rows,i0,i1){
+  const mz=genMaze(cols,rows);
+  mz.walls[0].w=0;mz.walls[cols*rows-1].e=0;
+  const cs=16,sw=2.6,W=cols*cs,H=rows*cs,pad=cs*1.15;
+  return`<svg viewBox="${-pad} -3 ${W+pad*2} ${H+6}" style="width:100%;height:auto;display:block">
+    <path d="${mazeWallPath(mz,cs)}" stroke="#2A1F18" stroke-width="${sw}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="0" cy="${cs/2}" r="${cs*0.28}" fill="#34A853"/>
+    <circle cx="${W}" cy="${H-cs/2}" r="${cs*0.28}" fill="#D32F2F"/>
+    ${svgIco(i0,-pad/2,cs/2,cs*1.05)}
+    ${svgIco(i1,W+pad/2,H-cs/2,cs*1.05)}
+  </svg>`;
+}
+
+// ── MAZE CATEGORY — shape masks, builders, answer key
+function getMazeMask(shape,cols,rows){
+  if(!shape||shape==='square')return null;
+  const cx=(cols-1)/2,cy=(rows-1)/2,rx=cols/2,ry=rows/2;
+  if(shape==='circle')return(c,r)=>{const nx=(c-cx)/rx,ny=(r-cy)/ry;return nx*nx+ny*ny<=1.02;};
+  if(shape==='diamond')return(c,r)=>Math.abs(c-cx)/rx+Math.abs(r-cy)/ry<=1.02;
+  if(shape==='hexagon')return(c,r)=>{const nx=Math.abs(c-cx)/rx,ny=Math.abs(r-cy)/ry;return nx<=0.88&&ny<=0.99&&nx*0.58+ny<=1.01;};
+  if(shape==='triangle')return(c,r)=>{const hw=(r+0.8)/(rows-0.2)*cx;return c>=cx-hw&&c<=cx+hw;};
+  if(shape==='heart')return(c,r)=>{const x=(c-cx)/rx*2,y=-(r-cy)/ry*2+0.25;return Math.pow(x*x+y*y-1,3)<=x*x*y*y*y+0.04;};
+  if(shape==='star'){
+    const v=[];for(let i=0;i<10;i++){const a=i*Math.PI/5-Math.PI/2,rd=i%2?0.5:1.0;v.push([rd*Math.cos(a),rd*Math.sin(a)]);}
+    return(c,r)=>{
+      const nx=(c-cx)/rx,ny=(r-cy)/ry;let inside=false;
+      for(let i=0,j=9;i<10;j=i++){const[xi,yi]=v[i],[xj,yj]=v[j];if(((yi>ny)!==(yj>ny))&&(nx<(xj-xi)*(ny-yi)/(yj-yi)+xi))inside=!inside;}
+      return inside;
+    };
+  }
+  return null;
+}
+// keep only the largest connected blob of a shape mask — prevents a pinched-off
+// tip (star points, heart bottom) from orphaning the entry/exit → guarantees solvable
+function largestComponent(cols,rows,mask){
+  const N=cols*rows;
+  const inb=i=>{if(i<0||i>=N)return false;const c=i%cols,r=(i/cols)|0;return mask(c,r);};
+  const comp=new Int32Array(N).fill(-1);
+  let best=null;
+  for(let s=0;s<N;s++){
+    if(!inb(s)||comp[s]>=0)continue;
+    const stack=[s],cells=[];comp[s]=s;
+    while(stack.length){
+      const cur=stack.pop();cells.push(cur);
+      const c=cur%cols,r=(cur/cols)|0;
+      const nbs=[];
+      if(r>0)nbs.push(cur-cols);
+      if(r<rows-1)nbs.push(cur+cols);
+      if(c>0)nbs.push(cur-1);
+      if(c<cols-1)nbs.push(cur+1);
+      for(const nb of nbs)if(inb(nb)&&comp[nb]<0){comp[nb]=s;stack.push(nb);}
+    }
+    if(!best||cells.length>best.length)best=cells;
+  }
+  const keep=new Set(best||[]);
+  return(c,r)=>keep.has(r*cols+c);
+}
+function mazeEntryExit(mz,shape){
+  const{cols,rows,walls,inb}=mz;
+  if(shape==='square'){walls[0].w=0;walls[cols*rows-1].e=0;return{entry:0,exit:cols*rows-1};}
+  let entry=-1,exit=-1;
+  for(let r=0;r<rows&&entry<0;r++){const vc=[];for(let c=0;c<cols;c++)if(inb(r*cols+c))vc.push(r*cols+c);if(vc.length)entry=vc[Math.floor(vc.length/2)];}
+  for(let r=rows-1;r>=0&&exit<0;r--){const vc=[];for(let c=0;c<cols;c++)if(inb(r*cols+c))vc.push(r*cols+c);if(vc.length)exit=vc[Math.floor(vc.length/2)];}
+  if(entry>=0)walls[entry].n=0;
+  if(exit>=0)walls[exit].s=0;
+  return{entry:Math.max(0,entry),exit:Math.max(0,exit)};
+}
+// age 12+ only — punch one extra "decoy" hole in the border at a dead-end near the exit.
+// it does NOT affect the real entry→exit solution (a border hole adds no internal loop).
+function addMazeDecoy(mz,entry,exit){
+  const{cols,rows,walls}=mz,N=cols*rows,inb=mz.inb||(()=>true);
+  const ex=exit%cols,ey=(exit/cols)|0,cand=[];
+  for(let i=0;i<N;i++){
+    if(i===entry||i===exit||!inb(i))continue;
+    const w=walls[i];
+    if((!w.n)+(!w.e)+(!w.s)+(!w.w)!==1)continue;            // dead-end cells only
+    const c=i%cols,r=(i/cols)|0,sides=[];
+    if(w.n&&(r===0||!inb(i-cols)))sides.push('n');
+    if(w.e&&(c===cols-1||!inb(i+1)))sides.push('e');
+    if(w.s&&(r===rows-1||!inb(i+cols)))sides.push('s');
+    if(w.w&&(c===0||!inb(i-1)))sides.push('w');
+    if(!sides.length)continue;                              // must touch the outer border
+    cand.push({i,side:sides[0],d:Math.abs(c-ex)+Math.abs(r-ey)});
+  }
+  if(!cand.length)return null;
+  cand.sort((a,b)=>a.d-b.d);
+  const near=cand.slice(0,Math.max(1,Math.floor(cand.length*0.4)));
+  const pk=near[rnd(0,near.length-1)];
+  walls[pk.i][pk.side]=0;
+  return pk;
+}
+function mazeSolutionPath(mz,entry,exit,cs){
+  const path=mazeSolve(mz,entry,exit);
+  const pts=path.map(i=>`${((i%mz.cols)+0.5)*cs},${(Math.floor(i/mz.cols)+0.5)*cs}`).join(' ');
+  return`<polyline points="${pts}" stroke="#C8963C" stroke-width="${Math.max(1,cs*0.45)}" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>`;
+}
+// small mazes look lost alone on a big page — pack 2 or 4 per page by size
+function mazesPerPage(size){
+  if(size<=8) return 4;    // tiny mazes (age 3-5) — 2×2 grid
+  if(size<=14) return 2;   // small/medium (age 6-8) — stacked pair
+  return 1;                // big mazes (age 9-12+) — one per page
+}
+function buildMazeAll(container,nav){
+  const mzDataArr=[];
+  const sp=ageSpec(mzAge);
+  const per=mazesPerPage(sp.size);
+  for(let p=0;p<5;p++){
+    const pg=document.createElement('div');
+    pg.className='ws-page'+(p===0?' act':'');pg.id='pg'+p;
+    const pd=buildMazePage(p,sp,mzShape,per);
+    pd.mazes.forEach(m=>mzDataArr.push(m));
+    pg.innerHTML=pd.html;container.appendChild(pg);
+    const dot=document.createElement('button');
+    dot.className='pg-dot'+(p===0?' act':'');dot.textContent=p+1;dot.onclick=()=>showPage(p);nav.appendChild(dot);
+  }
+  if(mzAK){
+    const pg=document.createElement('div');pg.className='ws-page';pg.id='pg5';
+    pg.innerHTML=buildMazeKeyPage(mzDataArr);container.appendChild(pg);
+    const dot=document.createElement('button');dot.className='pg-dot';dot.innerHTML='🗝️';dot.onclick=()=>showPage(5);nav.appendChild(dot);
+  }
+}
+// build ONE maze → its data + an <svg> string. decoy only when allowed (1-up, age 12+)
+function buildOneMaze(sp,shape,allowDecoy){
+  const size=sp.size,cols=size,rows=size;
+  let mask=getMazeMask(shape,cols,rows);
+  if(mask)mask=largestComponent(cols,rows,mask); // drop pinched-off bits → always solvable
+  // rejection sampling — build 20 mazes, keep the one matching this age's difficulty
+  const K=20,cands=[];
+  for(let k=0;k<K;k++){
+    const cm=genMazeGrowingTree(cols,rows,mask,sp.genRand);
+    const ce=mazeEntryExit(cm,shape);
+    cands.push({mz:cm,entry:ce.entry,exit:ce.exit,score:mazeHardness(cm,mazeSolve(cm,ce.entry,ce.exit))});
+  }
+  cands.sort((a,b)=>a.score-b.score);
+  const chosen=cands[Math.round(sp.pick*(K-1))];
+  const mz=chosen.mz,entry=chosen.entry,exit=chosen.exit;
+  const decoy=allowDecoy&&sp.age>=12?addMazeDecoy(mz,entry,exit):null; // 12+ gets one trap opening
+  const cs=Math.max(14,Math.min(30,Math.floor(560/size)));
+  const W=cols*cs,H=rows*cs,isRect=shape==='square';
+  const pad=cs*1.65;
+  const pair=MZ_PAIRS[rnd(0,MZ_PAIRS.length-1)];
+  const fs=cs*1.3; // icon font size
+  const ipos=(cell,side)=>{
+    const c=cell%cols,r=(cell/cols)|0,o=cs*0.85;
+    if(side==='n')return[(c+0.5)*cs,r*cs-o];
+    if(side==='s')return[(c+0.5)*cs,(r+1)*cs+o];
+    if(side==='w')return[c*cs-o,(r+0.5)*cs];
+    return[(c+1)*cs+o,(r+0.5)*cs];
+  };
+  const[sx,sy]=ipos(entry,isRect?'w':'n');
+  const[ex,ey]=ipos(exit,isRect?'e':'s');
+  let decoyEl='';
+  if(decoy){const[dx,dy]=ipos(decoy.i,decoy.side);decoyEl=`<text x="${dx}" y="${dy+fs*0.38}" text-anchor="middle" font-size="${fs}">${pair.d}</text>`;}
+  // green START arrow inside the entry cell, pointing the way into the maze
+  const eC=entry%cols,eR=(entry/cols)|0,aL=cs*0.22,aT=cs*0.16;
+  const arrowEl=isRect
+    ?`<polygon points="${eC*cs+cs*0.16},${(eR+0.5)*cs-aT} ${eC*cs+cs*0.16},${(eR+0.5)*cs+aT} ${eC*cs+cs*0.16+aL},${(eR+0.5)*cs}" fill="#2E9E62"/>`
+    :`<polygon points="${(eC+0.5)*cs-aT},${eR*cs+cs*0.16} ${(eC+0.5)*cs+aT},${eR*cs+cs*0.16} ${(eC+0.5)*cs},${eR*cs+cs*0.16+aL}" fill="#2E9E62"/>`;
+  const sw=Math.max(1.5,cs*0.18);
+  const svgEl=`<svg viewBox="${-pad} ${-pad} ${W+pad*2} ${H+pad*2}" class="mz-svg">
+    <path d="${mazeWallPath(mz,cs)}" stroke="#1A1108" stroke-width="${sw}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    ${arrowEl}
+    <text x="${sx}" y="${sy+fs*0.38}" text-anchor="middle" font-size="${fs}">${pair.s}</text>
+    <text x="${ex}" y="${ey+fs*0.38}" text-anchor="middle" font-size="${fs}">${pair.e}</text>
+    ${decoyEl}
+  </svg>`;
+  return{mz,entry,exit,svgEl,pair};
+}
+function buildMazePage(idx,sp,shape,per){
+  const built=[];
+  for(let i=0;i<per;i++) built.push(buildOneMaze(sp,shape,per===1));
+  const mazes=built.map(o=>({mz:o.mz,entry:o.entry,exit:o.exit}));
+  const shLbl={square:'Maze',circle:'Circle Maze',triangle:'Triangle Maze',heart:'Heart Maze',star:'Star Maze',diamond:'Diamond Maze',hexagon:'Hexagon Maze'};
+  const diff=sp.stars+' '+sp.diff;
+  const ageTxt=sp.age>=12?'Age 12+':'Age '+sp.age;
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const instr=per===1
+    ?`Help ${built[0].pair.s} find the way out! Draw a line through the open passages.`
+    :`Help every animal find the way out! Draw a line through the open passages.`;
+  const body=per===1
+    ?`<div class="mz-wrap">${built[0].svgEl}</div>`
+    :`<div class="mz-grid mz-grid-${per}">${built.map(o=>`<div class="mz-cell">${o.svgEl}</div>`).join('')}</div>`;
+  const html=`
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Maze</span><span class="pg-num">Page ${idx+1} / 5</span></div>
+    <div class="mz-page-title">🌀 ${shLbl[shape]||'Maze'} &nbsp;<span style="font-size:.85rem;font-weight:700">${ageTxt} · ${diff}</span></div>
+    <div class="mz-page-instr">${instr}</div>
+    ${body}
+    <div class="pg-nameline"><div class="nl"><span>Name:</span><div class="nl-line"></div></div><div class="nl"><span>Date:</span><div class="nl-line" style="max-width:80px"></div></div></div>
+    <div style="padding:.35rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.com · Free Printable Maze · ${date}</div>`;
+  return{mazes,html};
+}
+function buildMazeKeyPage(arr){
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const cells=arr.map((d,i)=>{
+    const{mz,entry,exit}=d;
+    const cs=Math.max(3,Math.min(8,Math.floor(150/Math.max(mz.cols,mz.rows))));
+    const W=mz.cols*cs,H=mz.rows*cs,sw=Math.max(0.6,cs*0.18);
+    const ec=entry%mz.cols,er=Math.floor(entry/mz.cols),xc=exit%mz.cols,xr=Math.floor(exit/mz.cols);
+    return`<div class="mzk-cell"><div class="mzk-num">Maze ${i+1}</div>
+      <svg viewBox="-2 -2 ${W+4} ${H+4}" style="width:100%;height:auto;display:block">
+        ${mazeSolutionPath(mz,entry,exit,cs)}
+        <path d="${mazeWallPath(mz,cs)}" stroke="#1A1108" stroke-width="${sw}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="${(ec+.5)*cs}" cy="${(er+.5)*cs}" r="${cs*.4}" fill="#34A853" opacity=".9"/>
+        <circle cx="${(xc+.5)*cs}" cy="${(xr+.5)*cs}" r="${cs*.4}" fill="#D32F2F" opacity=".9"/>
+      </svg></div>`;
+  });
+  // columns scale with maze count (5 / 10 / 20); filler only fills a near-complete row
+  const cols=cells.length<=6?3:cells.length<=12?4:5;
+  if(cells.length%cols===cols-1)
+    cells.push('<div class="mzk-cell" style="opacity:.25;display:flex;align-items:center;justify-content:center;font-size:3rem">🌀</div>');
+  return`<div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Maze</span><span class="pg-num">Answer Key</span></div>
+    <div style="text-align:center;padding:.5rem 0 .1rem;font-size:1.25rem;font-weight:900;color:var(--dark)">🗝️ Answer Key</div>
+    <div style="text-align:center;font-size:.72rem;font-weight:800;color:#A07860;padding-bottom:.4rem">Don't peek until you've tried! Solution paths shown in gold.</div>
+    <div class="mzk-grid" style="grid-template-columns:repeat(${cols},1fr)">${cells.join('')}</div>
+    <div style="padding:.35rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.com · Free Printable Maze · ${date}</div>`;
+}
+
+// ── WORKSHEET PAGES
+function buildWorksheetAll(container,nav,lvlName,topicName){
+  _sheetUsed.clear();
+  const pool=shuffle([...(ACT_POOLS[curLvl]||ACT_POOLS['1'])]);
+  // pick ONE render style for the whole worksheet (never mix on a page)
+  curMode=wsRand()<0.5?'png':'emoji';
+  let srcItems;
+  if(LIB&&LIB.length){
+    let lp=libPool(curMode);
+    if(lp.length<10){curMode=(curMode==='png'?'emoji':'png');lp=libPool(curMode);}
+    srcItems=lp;
+  } else { srcItems=Object.values(DB).flat(); }
+  const allItems=pick(shuffle(srcItems),20);
+  for(let p=0;p<5;p++){
+    // re-shuffle per page so every page has a DIFFERENT set of 4 activities
+    const pageActs=shuffle(pool).slice(0,4);
+    while(pageActs.length<4)pageActs.push(pool[rnd(0,pool.length-1)]);
+    const pageItems=shuffle(allItems);
+    const pg=document.createElement('div');
+    pg.className='ws-page'+(p===0?' act':'');
+    pg.id='pg'+p;
+    pg.innerHTML=buildPage(p,pageActs,pageItems,lvlName,topicName);
+    container.appendChild(pg);
+    const dot=document.createElement('button');
+    dot.className='pg-dot'+(p===0?' act':'');
+    dot.textContent=p+1;dot.onclick=()=>showPage(p);
+    nav.appendChild(dot);
+  }
+}
+
+// ── TOOL PROMOTION ────────────────────────────────────────────
+// Half-page cross-promo on the last worksheet page — one promo picked at random.
+// TODO: replace PROMO_BASE with the live site URL once the domain is set up.
+const PROMO_BASE='https://vilolabs.netlify.app';
+const PROMOS=[
+  // Each tool gets its own slot so different worksheets promote different tools.
+  {emoji:'📐',name:'Resize Image',tag:'Free · 200 KB Preset for Govt Forms',
+   desc:'Resize photos to an exact KB size for UPSC, SSC, bank and exam forms — or any pixel size you need.',
+   path:'/tools/resize-image.html'},
+  {emoji:'📄',name:'Image to PDF',tag:'Free · No Watermark',
+   desc:'Combine JPG, PNG or WebP images into one neat PDF. Reorder pages, pick page size, done in seconds.',
+   path:'/tools/image-to-pdf.html'},
+  {emoji:'📚',name:'Merge PDF',tag:'Free · No Watermark',
+   desc:'Combine several PDFs into one document. Drag to reorder, download — files never leave your device.',
+   path:'/tools/merge-pdf.html'},
+  {emoji:'📉',name:'Compress PDF',tag:'Free · Keeps Text Selectable',
+   desc:'Shrink PDFs for email and uploads. Smart compression keeps your text crisp and selectable.',
+   path:'/tools/compress-pdf.html'},
+  {emoji:'🗜️',name:'Compress Image',tag:'Free Online Tool',
+   desc:'Shrink JPG and PNG photos for email and uploads. Pick the quality, see the savings live.',
+   path:'/tools/compress-image.html'},
+  {emoji:'🔳',name:'QR Generator',tag:'URL · WiFi · UPI · vCard',
+   desc:'Make QR codes for links, WiFi, UPI payments and contact cards. Pick your colours, save as PNG.',
+   path:'/tools/qr-generator.html'},
+  {emoji:'📝',name:'PDF to Word',tag:'Free Text Extractor',
+   desc:'Pull the text out of a PDF into an editable .doc you can open in Word or Google Docs.',
+   path:'/tools/pdf-to-word.html'},
+  {emoji:'📱',name:'ViLo Apps',tag:'Free Android Apps — Coming Soon',
+   desc:'Lightweight Android apps for kids’ learning and everyday tools. See what’s launching first.',
+   path:'/app.html'}
+];
+function buildPromoBlock(){
+  const p=PROMOS[rnd(0,PROMOS.length-1)];
+  const url=PROMO_BASE+p.path;
+  let qr='';
+  try{
+    if(window.qrcode){
+      const q=qrcode(0,'M'); q.addData(url); q.make();
+      qr=q.createDataURL(6,8);
+    }
+  }catch(e){}
+  return`<div class="promo-inner">
+    <div class="promo-text">
+      <div class="promo-eyebrow">★ More from ViLoLabs</div>
+      <div class="promo-name">${p.emoji} ${p.name}</div>
+      <div class="promo-tag">${p.tag}</div>
+      <div class="promo-desc">${p.desc}</div>
+      <a class="promo-link" href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//,'')}</a>
+    </div>
+    <div class="promo-qr">
+      ${qr?`<img src="${qr}" alt="Scan to visit ${p.name}">`:''}
+      <div class="promo-qr-cap">Scan to open</div>
+    </div>
+  </div>`;
+}
+
+function buildPage(idx,acts,items,lvlName,topicName){
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const cells=idx===4
+    ? acts.slice(0,2).map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('')
+        +`<div class="cell promo-cell">${buildPromoBlock()}</div>`
+    : acts.map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('');
+  const th=BORDER_THEMES[idx%BORDER_THEMES.length];
+  return`
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Worksheets</span><span class="pg-num">Page ${idx+1}/5 · ${PAGE_TITLES[idx]}</span></div>
+    <div class="pg-meta"><span>📚 ${lvlName}</span><span>·</span><span>🎲 ${topicName}</span><span>·</span><span>📅 ${date}</span></div>
+    <div class="pg-nameline">
+      <div class="nl"><span>Name:</span><div class="nl-line"></div></div>
+      <div class="nl"><span>Score:</span><div class="nl-line" style="max-width:50px"></div></div>
+    </div>
+    <div class="act-frame" style="background:${th.bg}">
+      <div class="bstrip bstrip-t">${borderStrip(th,34)}</div>
+      <div class="bstrip bstrip-b">${borderStrip(th,34)}</div>
+      <div class="bstrip bstrip-l">${borderStrip(th,17)}</div>
+      <div class="bstrip bstrip-r">${borderStrip(th,17)}</div>
+      <div class="act-grid">${cells}</div>
+    </div>
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.com · Free for classroom &amp; home use</div>`;
+}
+
+// ── ACTIVITIES
+function buildAct(type,items,all){
+  const it=items.length>=4?items:[...items,...all].slice(0,4);
+  const i0=it[0]||{e:'⭐',n:'Star',l:'S'};
+  const i1=it[1]||{e:'🌙',n:'Moon',l:'M'};
+  const i2=it[2]||{e:'☀️',n:'Sun',l:'S'};
+  const i3=it[3]||{e:'🌈',n:'Rainbow',l:'R'};
+  const m=ES.m,g=ES.g,s=ES.s,bx=ES.box;
+
+  switch(type){
+  case 'trace-path':{
+    const paths=[
+      {d:'M14,50 C40,18 80,82 120,50 C148,28 152,45 152,45',lbl:'Wavy Path'},
+      {d:'M14,65 L38,22 L68,65 L98,22 L128,65 L152,50',lbl:'Zigzag Path'},
+      {d:'M14,50 Q55,8 96,50 Q128,82 152,50',lbl:'Curved Path'}];
+    const p=paths[rnd(0,2)];
+    const sy=p.d.includes('M14,50')?50:65;
+    return`<div class="act-hdr"><div class="act-type">✏️ Tracing</div><div class="act-instr">Trace the dotted path from 🟢 to 🔴!</div></div>
+    <div class="act-body">
+      <svg viewBox="0 0 166 88" style="width:100%;height:auto;display:block">
+        <rect x="0" y="0" width="166" height="88" fill="#FDFAF5" rx="8"/>
+        <path d="${p.d}" fill="none" stroke="#C4B8AC" stroke-width="3" stroke-dasharray="6 4" stroke-linecap="round"/>
+        <circle cx="14" cy="${sy}" r="8" fill="#34A853"/>
+        <text x="14" y="${sy+4}" text-anchor="middle" font-size="8" fill="white" font-weight="900">S</text>
+        <circle cx="152" cy="45" r="8" fill="#D32F2F"/>
+        <text x="152" y="49" text-anchor="middle" font-size="8" fill="white" font-weight="900">E</text>
+      </svg>
+      <div style="font-size:.6rem;color:#A07860;font-weight:700">${p.lbl} — trace it carefully!</div>
+    </div>`;}
+
+  case 'colouring':{
+    const colKeys=COL_CATS.all;
+    const cs=COL_LIB[colKeys[rnd(0,colKeys.length-1)]];
+    const palRow=cs.palette.map(c=>`<div style="width:15px;height:32px;background:${c};border-radius:3px 3px 7px 7px;border:1.5px solid rgba(0,0,0,.1)"></div>`).join('');
+    return`<div class="act-hdr"><div class="act-type">🎨 Colour It!</div><div class="act-instr">Colour the ${cs.name} with your crayons!</div></div>
+    <div class="act-body" style="align-items:stretch;">
+      <svg viewBox="0 0 200 240" class="col-act-svg">${cs.draw(false)}</svg>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.3rem;flex-shrink:0;">
+        <div style="font-size:.72rem;font-weight:900;color:var(--dark);">${cs.name}</div>
+        <div style="display:flex;gap:.3rem;">${palRow}</div>
+      </div>
+    </div>`;}
+
+
+  case 'counting-small':{
+    const n=rnd(1,5);
+    const nums=shuffle([n,...new Set([rnd(1,5),rnd(1,5),rnd(1,5)])]).slice(0,4);
+    return`<div class="act-hdr"><div class="act-type">🔢 Count & Circle</div><div class="act-instr">Count the ${i0.n}s. Circle the right number!</div></div>
+    <div class="act-body">
+      <div class="cnt-emojis">${Array(n).fill(i0.e).map(e=>`<span style="font-size:${g}">${e}</span>`).join('')}</div>
+      <div style="display:flex;gap:.65rem;margin-top:.5rem;justify-content:center">
+        ${nums.map(v=>`<div style="width:${bx}px;height:${bx}px;border:2.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${s};font-weight:900;background:white">${v}</div>`).join('')}
+      </div>
+    </div>`;}
+
+  case 'counting-medium':{
+    const n=rnd(3,10);
+    return`<div class="act-hdr"><div class="act-type">🔢 Count & Write</div><div class="act-instr">Count the ${i0.n}s. Write the number!</div></div>
+    <div class="act-body">
+      <div class="cnt-emojis">${Array(n).fill(i0.e).map(e=>`<span style="font-size:${g}">${e}</span>`).join('')}</div>
+      <div style="display:flex;align-items:center;gap:.55rem;margin-top:.5rem">
+        <span style="font-size:.75rem;font-weight:900;color:var(--dark)">How many?</span>
+        <div class="cnt-box" style="width:${bx}px;height:${bx}px;font-size:${s}"></div>
+      </div>
+    </div>`;}
+
+  case 'counting-large':{
+    const n=rnd(8,20);
+    return`<div class="act-hdr"><div class="act-type">🔢 Count & Write</div><div class="act-instr">Count all the ${i0.n}s and write the total.</div></div>
+    <div class="act-body">
+      <div class="cnt-emojis" style="gap:.25rem">${Array(n).fill(i0.e).map(e=>`<span style="font-size:${s}">${e}</span>`).join('')}</div>
+      <div style="display:flex;align-items:center;gap:.5rem;margin-top:.5rem">
+        <span style="font-size:.72rem;font-weight:900">Total =</span>
+        <div class="cnt-box" style="width:${bx}px;height:${bx}px;font-size:${s}"></div>
+      </div>
+    </div>`;}
+
+  case 'matching-pic':{
+    const mp=pickDistinct(all,3);
+    return`<div class="act-hdr"><div class="act-type">🔗 Match the Same</div><div class="act-instr">Draw a line to match the same pictures!</div></div>
+    <div class="act-body" style="width:100%">
+      <div class="match-wrap">
+        <div class="match-col">${mp.map(x=>`<div class="match-item"><span style="font-size:${g}">${x.e}</span><div class="match-dot"></div></div>`).join('')}</div>
+        <div style="flex:1;min-width:46px"></div>
+        <div class="match-col">${derange(mp).map(x=>`<div class="match-item"><div class="match-dot"></div><span style="font-size:${g}">${x.e}</span></div>`).join('')}</div>
+      </div>
+    </div>`;}
+
+  case 'matching-word':{
+    const mw=pickDistinct(all,3);
+    return`<div class="act-hdr"><div class="act-type">🔗 Match Picture & Word</div><div class="act-instr">Draw a line to match each picture to its name.</div></div>
+    <div class="act-body" style="width:100%">
+      <div class="match-wrap">
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">${mw.map(x=>`<div class="match-item" style="min-height:${g}"><span style="font-size:${g}">${x.e}</span><div class="match-dot"></div></div>`).join('')}</div>
+        <div style="flex:1;min-width:46px"></div>
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">${derange(mw).map(x=>`<div class="match-item" style="min-height:${g}"><div class="match-dot"></div><span class="match-word">${x.n}</span></div>`).join('')}</div>
+      </div>
+    </div>`;}
+
+  case 'odd-one-out':{
+    const pos=rnd(0,3);
+    const row=[i0,i0,i0,i0].map((x,i)=>i===pos?i1:x);
+    return`<div class="act-hdr"><div class="act-type">🔍 Odd One Out</div><div class="act-instr">Circle the ONE that does NOT belong!</div></div>
+    <div class="act-body">
+      <div class="odd-grid">
+        ${row.map(x=>`<div class="odd-item" style="width:${bx*1.2}px;height:${bx*1.2}px"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem">⭕ Which one is different?</div>
+    </div>`;}
+
+  case 'pattern-ab':{
+    const [pa,pb]=pickFresh(all,2,'pat-ab');
+    const a=pa.e,b=pb.e;
+    return`<div class="act-hdr"><div class="act-type">🔄 Pattern</div><div class="act-instr">What comes next? Draw it in the box!</div></div>
+    <div class="act-body">
+      <div class="pat-row">
+        ${[a,b,a,b,a,'?'].map(x=>x==='?'?`<div class="pat-blank" style="width:${bx}px;height:${bx}px"></div>`:`<span style="font-size:${g}">${x}</span>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem;text-align:center">${a} ${b} ${a} ${b} ${a} → ___?</div>
+    </div>`;}
+
+  case 'pattern-abc':{
+    const [pa,pb,pc]=pickFresh(all,3,'pat-abc');
+    const a=pa.e,b=pb.e,c=pc.e;
+    const variants=[[a,b,c,a,b,'?'],[a,a,b,a,a,'?'],[a,b,b,a,b,'?']];
+    const v=variants[rnd(0,2)];
+    return`<div class="act-hdr"><div class="act-type">🔄 Pattern Challenge</div><div class="act-instr">Complete the pattern. What comes next?</div></div>
+    <div class="act-body">
+      <div class="pat-row">
+        ${v.map(x=>x==='?'?`<div class="pat-blank" style="width:${bx}px;height:${bx}px"></div>`:`<span style="font-size:${g}">${x}</span>`).join('')}
+      </div>
+      <div style="display:flex;gap:.45rem;justify-content:center;margin-top:.4rem">
+        <span style="font-size:.62rem;font-weight:900">Choose:</span>
+        ${[a,b,c].map(x=>`<span style="font-size:${s};border:2px solid var(--border);border-radius:6px;width:${bx}px;height:${bx}px;display:inline-flex;align-items:center;justify-content:center">${x}</span>`).join('')}
+      </div>
+    </div>`;}
+
+  case 'size-order':
+    return`<div class="act-hdr"><div class="act-type">📏 Size Order</div><div class="act-instr">Number them 1 (smallest) to 3 (biggest).</div></div>
+    <div class="act-body">
+      <div class="sz-row">
+        ${shuffle([s,g,m]).map(sz=>`<div class="sz-item">
+          <span style="font-size:${sz}">${i0.e}</span>
+          <div class="sz-num-box"></div>
+        </div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem;text-align:center">Write 1, 2 or 3 in each box</div>
+    </div>`;
+
+  case 'shadow-match':{
+    const sm=pickFresh(all,3,'shadow');
+    return`<div class="act-hdr"><div class="act-type">👥 Shadow Match</div><div class="act-instr">Match each picture to its shadow. Draw a line!</div></div>
+    <div class="act-body" style="width:100%">
+      <div style="display:flex;justify-content:space-between;width:100%;align-items:flex-start">
+        <div class="shad-col">${sm.map(x=>`<span style="font-size:${bx}px;line-height:0">${x.e}</span>`).join('')}</div>
+        <div style="flex:1"></div>
+        <div class="shad-col">${shuffle(sm).map(x=>shadowOf(x,bx+'px',bx)).join('')}</div>
+      </div>
+    </div>`;}
+
+  case 'spot-diff':{
+    const dIdx=rnd(0,3);
+    const row=[i0,i0,i0,i0].map((x,i)=>i===dIdx?i1:x);
+    return`<div class="act-hdr"><div class="act-type">🔎 Spot the Difference</div><div class="act-instr">Three are the same. Circle the ONE that is different!</div></div>
+    <div class="act-body">
+      <div class="spot-grid">
+        ${row.map(x=>`<div class="spot-item" style="width:${bx*1.25}px;height:${bx*1.25}px"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem">⭕ Circle the different one!</div>
+    </div>`;}
+
+  case 'word-trace':
+    return`<div class="act-hdr"><div class="act-type">✍️ Trace & Write</div><div class="act-instr">Trace the word, then write it yourself!</div></div>
+    <div class="act-body" style="width:100%">
+      <div style="font-size:${m};text-align:center">${i0.e}</div>
+      <div class="wt-word" style="font-size:${s=='1rem'?'1.3rem':s=='1.1rem'?'1.4rem':'1.6rem'}">${i0.n.toUpperCase()}</div>
+      <div class="wt-line"></div>
+      <div style="font-size:.58rem;color:#A07860;font-weight:700;text-align:center">Now write it yourself ↑</div>
+    </div>`;
+
+  case 'letter-trace':{
+    const L=i0.l||'A';
+    return`<div class="act-hdr"><div class="act-type">✏️ Letter Trace</div><div class="act-instr">Trace the letter, then write it in the boxes.</div></div>
+    <div class="act-body">
+      <div style="display:flex;align-items:flex-end;gap:1.1rem;justify-content:center">
+        <div>
+          <div class="lt-char" style="font-size:${m}">${L}</div>
+          <div style="font-size:.55rem;color:#A07860;font-weight:700;text-align:center">Trace</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.3rem">
+          ${[0,1,2].map(()=>`<div class="lt-box" style="width:${bx}px;height:${bx}px"></div>`).join('')}
+          <div style="font-size:.5rem;color:#A07860;font-weight:700;text-align:center">Write</div>
+        </div>
+      </div>
+      <div style="font-size:.65rem;font-weight:900;color:var(--dark);margin-top:.4rem">${i0.e} → ${i0.n} starts with <strong>${L}</strong>!</div>
+    </div>`;}
+
+  case 'number-trace':{
+    const n=rnd(2,7);
+    return`<div class="act-hdr"><div class="act-type">🔢 Number Trace</div><div class="act-instr">Trace the number, then count and write it.</div></div>
+    <div class="act-body">
+      <div style="display:flex;align-items:center;gap:1rem;justify-content:center">
+        <div class="nt-num" style="font-size:${m}">${n}</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:.2rem">
+          <div style="display:flex;flex-wrap:wrap;gap:.3rem;justify-content:center;max-width:140px">${Array(n).fill(i0.e).map(e=>`<span style="font-size:${s}">${e}</span>`).join('')}</div>
+          <div style="font-size:.55rem;color:#A07860;font-weight:700">${n} ${i0.n}${n>1?'s':''}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:.35rem;margin-top:.4rem;justify-content:center">
+        ${[0,1,2].map(()=>`<div style="width:${bx}px;height:${bx}px;border:2px solid var(--border);border-radius:7px"></div>`).join('')}
+      </div>
+      <div style="font-size:.55rem;color:#A07860;font-weight:700">Write ${n} three times</div>
+    </div>`;}
+
+  case 'sequence':{
+    // True ABC cycle pattern: A B C A B ? → answer is always C
+    // Pick all 3 from the same category so the pattern makes visual sense,
+    // and avoid repeating an identical trio elsewhere on the sheet.
+    const byCat={};
+    all.forEach(x=>{const c=x.src?x.src.split('/')[2]:'misc';if(!byCat[c])byCat[c]=[];byCat[c].push(x);});
+    const bigCats=shuffle(Object.values(byCat).filter(v=>v.length>=3));
+    let trio=null;
+    for(const cat of bigCats){
+      const t=shuffle(cat).slice(0,3);
+      const sig=_sig('seq',t);
+      if(!_sheetUsed.has(sig)){_sheetUsed.add(sig);trio=t;break;}
+    }
+    if(!trio)trio=(bigCats.length?shuffle(bigCats[0]):shuffle(all)).slice(0,3);
+    const [sa,sb,sc]=trio;
+    const seqRow=[sa,sb,sc,sa,sb];          // 5 shown items
+    const seqOpts=shuffle([sa,sb,sc]);      // all 3 as options — answer is sc
+    const arw=`<span style="font-size:.85rem;color:#C4B8AC;font-weight:900">→</span>`;
+    return`<div class="act-hdr"><div class="act-type">📋 What Comes Next?</div><div class="act-instr">Look at the pattern. What comes next?</div></div>
+    <div class="act-body">
+      <div style="display:flex;align-items:center;gap:.25rem;flex-wrap:nowrap;justify-content:center">
+        ${seqRow.map(x=>`<span style="font-size:${g}">${x.e}</span>${arw}`).join('')}
+        <div style="width:${bx}px;height:${bx}px;border:2.5px dashed var(--border);border-radius:10px;background:#FDFAF5;flex-shrink:0"></div>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.55rem;justify-content:center;align-items:center">
+        <span style="font-size:.62rem;font-weight:900;color:#A07860">Choose:</span>
+        ${seqOpts.map(x=>`<div style="border:2.5px solid var(--border);border-radius:9px;width:${bx*1.1}px;height:${bx*1.1}px;display:inline-flex;align-items:center;justify-content:center;background:#FDFAF5"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+    </div>`;}
+
+  case 'maze':{
+    const dim={prekg:[5,4],kg:[6,4],'1':[7,5],'2':[8,5],'3':[9,6],'4':[10,6],'5':[11,7]}[curLvl]||[8,5];
+    const mzPair=libPairs(curMode)[0];           // themed pair (e.g. cow→milk) when available
+    const mA=mzPair?mzPair[0]:i0, mB=mzPair?mzPair[1]:i1;
+    return`<div class="act-hdr"><div class="act-type">🌀 Find the Way!</div><div class="act-instr">Draw a line through the maze from 🟢 Start to 🔴 Finish!</div></div>
+    <div class="act-body" style="width:100%">${mazeActSVG(dim[0],dim[1],mA,mB)}</div>`;}
+
+  case 'sort':{
+    // Pick 2 different categories with ≥2 items each so group labels make sense
+    const sortByCat={};
+    all.forEach(x=>{const c=x.src?x.src.split('/')[2]:'misc';if(!sortByCat[c])sortByCat[c]=[];sortByCat[c].push(x);});
+    const sortCats=shuffle(Object.entries(sortByCat).filter(([,v])=>v.length>=2));
+    const [catNameA,catItemsA]=sortCats[0]||['A',all.slice(0,2)];
+    const [catNameB,catItemsB]=sortCats[1]||['B',all.slice(2,4)];
+    const gA=shuffle(catItemsA).slice(0,2), gB=shuffle(catItemsB).slice(0,2);
+    const catLabel=c=>c.charAt(0).toUpperCase()+c.slice(1).replace(/-/g,' ');
+    return`<div class="act-hdr"><div class="act-type">📦 Sort It!</div><div class="act-instr">Put each picture in the correct group.</div></div>
+    <div class="act-body" style="width:100%">
+      <div style="display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;margin-bottom:.4rem">
+        ${shuffle([...gA,...gB]).map(x=>`<span style="font-size:${g}">${x.e}</span>`).join('')}
+      </div>
+      <div style="display:flex;gap:.45rem;width:100%">
+        <div style="flex:1;border:2px dashed var(--border);border-radius:10px;padding:.35rem .4rem;min-height:44px">
+          <div style="font-size:.6rem;font-weight:900;color:var(--dark);margin-bottom:.2rem">🗂 ${catLabel(catNameA)}</div>
+        </div>
+        <div style="flex:1;border:2px dashed var(--border);border-radius:10px;padding:.35rem .4rem;min-height:44px">
+          <div style="font-size:.6rem;font-weight:900;color:var(--dark);margin-bottom:.2rem">🗂 ${catLabel(catNameB)}</div>
+        </div>
+      </div>
+    </div>`;}
+
+  case 'missing-letter':{
+    const word=i0.n.toUpperCase();
+    const mIdx=rnd(1,Math.max(1,word.length-1));
+    const disp=word.split('').map((ch,i)=>i===mIdx?'_':ch).join('');
+    const opts=shuffle([word[mIdx],...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter(c=>c!==word[mIdx]).slice(0,2)]);
+    return`<div class="act-hdr"><div class="act-type">🔤 Missing Letter</div><div class="act-instr">Which letter is missing? Circle the correct one.</div></div>
+    <div class="act-body">
+      <div style="font-size:${m};text-align:center">${i0.e}</div>
+      <div class="ml-word" style="font-size:${g}">${disp.split('').map(c=>c==='_'?`<span class="ml-blank" style="width:${bx*0.7}px"></span>`:c).join(' ')}</div>
+      <div class="ml-opts">${opts.map(c=>`<div class="ml-opt" style="width:${bx}px;height:${bx}px;font-size:${s}">${c}</div>`).join('')}</div>
+    </div>`;}
+
+  case 'simple-add':{
+    const a=rnd(1,curLvl==='2'?4:8),b=rnd(1,curLvl==='2'?4:8);
+    return`<div class="act-hdr"><div class="act-type">➕ Addition</div><div class="act-instr">Count the ${i0.n}s and write the answer.</div></div>
+    <div class="act-body">
+      <div class="add-row">
+        <div class="add-group">${Array(a).fill(i0.e).map(e=>`<span style="font-size:${s}">${e}</span>`).join('')}</div>
+        <span style="font-size:1.2rem;font-weight:900">+</span>
+        <div class="add-group">${Array(b).fill(i0.e).map(e=>`<span style="font-size:${s}">${e}</span>`).join('')}</div>
+        <span style="font-size:1.2rem;font-weight:900">=</span>
+        <div class="add-box" style="width:${bx}px;height:${bx}px"></div>
+      </div>
+      <div style="font-size:.72rem;font-weight:900;color:var(--dark);margin-top:.4rem">${a} + ${b} = ?</div>
+    </div>`;}
+
+  case 'positions':{
+    const pos=shuffle(['ABOVE','BELOW','BESIDE','INSIDE'])[0];
+    return`<div class="act-hdr"><div class="act-type">📍 Positions</div><div class="act-instr">Draw the ${i0.n} <strong>${pos}</strong> the box!</div></div>
+    <div class="act-body">
+      <div style="font-size:.7rem;font-weight:900;color:var(--dark);text-align:center;margin-bottom:.4rem">
+        Draw ${i0.e} <span style="color:var(--gold)">${pos}</span> the box:
+      </div>
+      <div style="width:64px;height:50px;border:3px solid var(--dark);border-radius:10px;background:white"></div>
+      <div style="font-size:.6rem;color:#A07860;font-weight:700;margin-top:.3rem">${i0.e} goes ${pos} the box</div>
+    </div>`;}
+
+  case 'dot-to-dot':{
+    const nDots=curLvl==='3'?8:curLvl==='4'?12:15;
+    const n=rnd(6,nDots);
+    const pts=Array.from({length:n},(_,i)=>{const a=(i/n)*Math.PI*2-Math.PI/2;const r=28+rnd(-6,6);return{x:Math.round(75+r*Math.cos(a)),y:Math.round(52+r*Math.sin(a))};});
+    return`<div class="act-hdr"><div class="act-type">🔵 Dot to Dot</div><div class="act-instr">Connect dots 1 to ${n} in order!</div></div>
+    <div class="act-body" style="width:100%">
+      <svg viewBox="0 0 150 105" style="width:100%;height:auto;display:block">
+        <rect x="0" y="0" width="150" height="105" fill="#FDFAF5" rx="8"/>
+        <line x1="${pts[0].x}" y1="${pts[0].y}" x2="${pts[1].x}" y2="${pts[1].y}" stroke="#D4C8B8" stroke-width="1.5" stroke-dasharray="2 2"/>
+        ${pts.map((p,i)=>`
+          <circle cx="${p.x}" cy="${p.y}" r="5.5" fill="white" stroke="#1A1108" stroke-width="1.8"/>
+          <text x="${p.x}" y="${p.y+3}" text-anchor="middle" font-size="5.5" fill="#1A1108" font-weight="900">${i+1}</text>`).join('')}
+        <text x="75" y="98" text-anchor="middle" font-size="7" fill="#A07860" font-weight="700">Connect the dots 1 to ${n} in order</text>
+      </svg>
+    </div>`;}
+
+  case 'bigger-smaller':
+    return`<div class="act-hdr"><div class="act-type">⚖️ Bigger or Smaller?</div><div class="act-instr">Circle the BIGGER one in each row.</div></div>
+    <div class="act-body">
+      ${[[i0,i1],[i2,i3]].map(row=>{const [big,small]=shuffle(row);return`
+        <div style="display:flex;align-items:flex-end;gap:1.1rem;justify-content:center">
+          ${[{it:big,sz:'2.8em'},{it:small,sz:'1.5em'}].sort(()=>wsRand()-.5).map(({it,sz})=>`
+            <div class="bs-item">
+              <span style="font-size:${sz}">${it.e}</span>
+              <div class="bs-circle" style="width:22px;height:22px"></div>
+            </div>`).join('<span style="font-size:.8rem;font-weight:900;color:#C4B8AC">vs</span>')}
+        </div>`;}).join('')}
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.3rem">⭕ Circle the BIGGER one</div>
+    </div>`;
+
+  case 'colour-id':{
+    const COLS=[['Red','#E53E3E'],['Blue','#2B6CB0'],['Yellow','#F4C20D'],['Green','#2F855A'],['Orange','#DD6B20'],['Purple','#805AD5']];
+    const tgt=COLS[rnd(0,COLS.length-1)];
+    const d=Math.min(Math.round(bx*1.05),74);
+    const cells=shuffle([tgt,tgt,tgt,...pick(COLS.filter(c=>c!==tgt),3)]);
+    return`<div class="act-hdr"><div class="act-type">🎨 Colour Hunt</div><div class="act-instr">Circle every <strong style="color:${tgt[1]}">${tgt[0]}</strong> circle!</div></div>
+    <div class="act-body">
+      <div style="display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center">
+        ${cells.map(c=>`<div style="width:${d}px;height:${d}px;border-radius:50%;background:${c[1]};border:2.5px solid rgba(0,0,0,.18)"></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">⭕ Find all the ${tgt[0].toLowerCase()} ones!</div>
+    </div>`;}
+
+  case 'shape-id':{
+    const SH={Circle:'<circle cx="30" cy="30" r="25"/>',Square:'<rect x="6" y="6" width="48" height="48" rx="3"/>',Triangle:'<polygon points="30,4 56,54 4,54"/>',Star:'<polygon points="30,3 37,22.5 57.5,22.8 41,35 46.8,54.5 30,42.5 13.2,54.5 19,35 2.5,22.8 23,22.5"/>',Heart:'<path d="M30,53 C11,40 4,26 4,17 C4,9 11,5 18,5 C24,5 30,11 30,17 C30,11 36,5 42,5 C49,5 56,9 56,17 C56,26 49,40 30,53 Z"/>',Diamond:'<polygon points="30,3 56,30 30,57 4,30"/>',Oval:'<ellipse cx="30" cy="30" rx="27" ry="18"/>',Rectangle:'<rect x="4" y="14" width="52" height="32" rx="3"/>',Pentagon:'<polygon points="30,4 56,24 46,54 14,54 4,24"/>'};
+    const names=Object.keys(SH);
+    const tgt=names[rnd(0,names.length-1)];
+    const d=Math.min(Math.round(bx*1.05),74);
+    const tints=['#F6C9A8','#A8C8E8','#B8E0C0','#F4B8D0','#D8C8E8','#F0DCA0'];
+    const cells=shuffle([tgt,tgt,tgt,...pick(names.filter(n=>n!==tgt),3)]);
+    return`<div class="act-hdr"><div class="act-type">🔷 Shape Hunt</div><div class="act-instr">Circle every <strong>${tgt}</strong>!</div></div>
+    <div class="act-body">
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center">
+        ${cells.map((sh,i)=>`<svg viewBox="0 0 60 60" width="${d}" height="${d}"><g fill="${tints[i%tints.length]}" stroke="#1A1108" stroke-width="3" stroke-linejoin="round">${SH[sh]}</g></svg>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem">⭕ Find all the ${tgt.toLowerCase()}s!</div>
+    </div>`;}
+
+  case 'alphabet-id':{
+    const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const tgt=A[rnd(0,25)];
+    const cells=shuffle([tgt,tgt,tgt,...pick(A.filter(c=>c!==tgt),5)]);
+    return`<div class="act-hdr"><div class="act-type">🔤 Letter Hunt</div><div class="act-instr">Circle every letter <strong>${tgt}</strong>!</div></div>
+    <div class="act-body">
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center">
+        ${cells.map(c=>`<div style="width:42px;height:42px;border:2.5px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;background:white;color:var(--dark)">${c}</div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">⭕ How many did you find?</div>
+    </div>`;}
+
+  case 'missing-alphabet':{
+    const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const st=rnd(0,21);
+    const seq=A.slice(st,st+5);
+    const mIdx=rnd(1,3);
+    const ans=seq[mIdx];
+    const opts=shuffle([ans,...pick(A.filter(c=>c!==ans),2)]);
+    return`<div class="act-hdr"><div class="act-type">🔤 Missing Letter</div><div class="act-instr">Which letter is missing? Write it in the box.</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.4rem;justify-content:center;align-items:center;flex-wrap:wrap">
+        ${seq.map((c,i)=>i===mIdx
+          ?`<div style="width:42px;height:42px;border:2.5px dashed var(--dark);border-radius:9px;background:#FDFAF5"></div>`
+          :`<div style="width:42px;height:42px;border:2.5px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;background:white">${c}</div>`).join('')}
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.55rem;justify-content:center;align-items:center">
+        <span style="font-size:.62rem;font-weight:900">Choose:</span>
+        ${opts.map(c=>`<div style="width:40px;height:40px;border:2px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;background:white">${c}</div>`).join('')}
+      </div>
+    </div>`;}
+
+  case 'missing-number':{
+    const max=(curLvl==='1')?20:10;
+    const st=rnd(1,max-4);
+    const seq=[st,st+1,st+2,st+3,st+4];
+    const mIdx=rnd(1,3);
+    const ans=seq[mIdx];
+    const opts=shuffle([ans,ans+1,Math.max(0,ans-1)]);
+    return`<div class="act-hdr"><div class="act-type">🔢 Missing Number</div><div class="act-instr">Which number is missing? Write it in the box.</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.4rem;justify-content:center;align-items:center;flex-wrap:wrap">
+        ${seq.map((v,i)=>i===mIdx
+          ?`<div style="width:42px;height:42px;border:2.5px dashed var(--dark);border-radius:9px;background:#FDFAF5"></div>`
+          :`<div style="width:42px;height:42px;border:2.5px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;background:white">${v}</div>`).join('')}
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.55rem;justify-content:center;align-items:center">
+        <span style="font-size:.62rem;font-weight:900">Choose:</span>
+        ${opts.map(v=>`<div style="width:40px;height:40px;border:2px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;background:white">${v}</div>`).join('')}
+      </div>
+    </div>`;}
+
+  case 'circle-match':{
+    const base=pickDistinct(all,5);
+    const dup=base[rnd(0,base.length-1)];
+    const cells=shuffle([...base,dup]);
+    const d=Math.round(bx*1.25);
+    return`<div class="act-hdr"><div class="act-type">⭕ Find the Match</div><div class="act-instr">Two pictures are exactly the SAME. Circle both of them!</div></div>
+    <div class="act-body">
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center">
+        ${cells.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">⭕ Find the twins!</div>
+    </div>`;}
+
+  case 'things-together':{
+    const prs=LIB?libPairs('emoji').slice(0,3):[];
+    if(prs.length<3) return buildAct('matching-pic',items,all);
+    const L=prs.map(p=>p[0]),R=derange(prs.map(p=>p[1]));
+    return`<div class="act-hdr"><div class="act-type">🔗 Goes Together</div><div class="act-instr">Draw a line to match the things that go together!</div></div>
+    <div class="act-body" style="width:100%">
+      <div class="match-wrap">
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">${L.map(x=>`<div class="match-item" style="min-height:${g}"><span style="font-size:${g}">${x.e}</span><div class="match-dot"></div></div>`).join('')}</div>
+        <div style="flex:1;min-width:46px"></div>
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">${R.map(x=>`<div class="match-item" style="min-height:${g}"><div class="match-dot"></div><span style="font-size:${g}">${x.e}</span></div>`).join('')}</div>
+      </div>
+    </div>`;}
+
+  case 'add-column':{
+    const big=(curLvl==='4'||curLvl==='5');
+    const mk=()=>[rnd(big?23:11,big?94:54),rnd(big?23:11,big?94:54)];
+    const probs=[mk(),mk()];
+    return`<div class="act-hdr"><div class="act-type">➕ Add Up!</div><div class="act-instr">Add the numbers. Write the answer in the box.</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:1.3rem;justify-content:center;flex-wrap:wrap">
+        ${probs.map(([a,b])=>`<div style="font-family:'Courier New',monospace;font-size:1.7rem;font-weight:900;color:var(--dark);border:2.5px solid var(--border);border-radius:12px;padding:.55rem 1rem;background:#fff;text-align:right;min-width:96px">
+          <div>${a}</div><div>+&nbsp;${b}</div>
+          <div style="border-top:3px solid var(--dark);margin:.25rem 0"></div>
+          <div style="height:1.7rem"></div>
+        </div>`).join('')}
+      </div>
+    </div>`;}
+
+  case 'subtract-column':{
+    const big=(curLvl==='4'||curLvl==='5');
+    const mk=()=>{const a=rnd(big?45:26,big?98:68);return[a,rnd(11,a-6)];};
+    const probs=[mk(),mk()];
+    return`<div class="act-hdr"><div class="act-type">➖ Take Away!</div><div class="act-instr">Subtract the numbers. Write the answer in the box.</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:1.3rem;justify-content:center;flex-wrap:wrap">
+        ${probs.map(([a,b])=>`<div style="font-family:'Courier New',monospace;font-size:1.7rem;font-weight:900;color:var(--dark);border:2.5px solid var(--border);border-radius:12px;padding:.55rem 1rem;background:#fff;text-align:right;min-width:96px">
+          <div>${a}</div><div>&minus;&nbsp;${b}</div>
+          <div style="border-top:3px solid var(--dark);margin:.25rem 0"></div>
+          <div style="height:1.7rem"></div>
+        </div>`).join('')}
+      </div>
+    </div>`;}
+
+  case 'multiply':{
+    const maxB=(curLvl==='5'?9:curLvl==='4'?8:5);
+    const probs=[0,1,2].map(()=>[rnd(2,9),rnd(2,maxB)]);
+    return`<div class="act-hdr"><div class="act-type">✖️ Times Tables</div><div class="act-instr">Multiply the numbers. Write each answer.</div></div>
+    <div class="act-body">
+      <div style="display:flex;flex-direction:column;gap:.65rem">
+        ${probs.map(([a,b])=>`<div style="display:flex;align-items:center;gap:.5rem;justify-content:center;font-size:1.45rem;font-weight:900;color:var(--dark)">
+          <span>${a}</span><span>×</span><span>${b}</span><span>=</span>
+          <div style="width:50px;height:42px;border:2.5px solid var(--dark);border-radius:8px;background:#fff"></div>
+        </div>`).join('')}
+      </div>
+    </div>`;}
+
+  case 'skip-count':{
+    const step=[2,5,10][rnd(0,2)];
+    const start=step*rnd(1,4);
+    const seq=[0,1,2,3,4,5].map(i=>start+i*step);
+    const blanks=shuffle([1,2,3,4]).slice(0,2);
+    return`<div class="act-hdr"><div class="act-type">🔢 Skip Counting</div><div class="act-instr">Count by ${step}s. Fill in the missing numbers.</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.28rem;justify-content:center;align-items:center;flex-wrap:wrap">
+        ${seq.map((v,i)=>blanks.includes(i)
+          ?`<div style="width:36px;height:44px;border:2.5px dashed var(--dark);border-radius:9px;background:#FDFAF5"></div>`
+          :`<div style="width:36px;height:44px;border:2.5px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;background:#fff">${v}</div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">Counting by ${step}s — what fills the gaps?</div>
+    </div>`;}
+
+  case 'compare-numbers':{
+    const big=(curLvl==='5');
+    const mk=()=>[rnd(big?105:11,big?989:98),rnd(big?105:11,big?989:98)];
+    const rows=[mk(),mk(),mk()];
+    return`<div class="act-hdr"><div class="act-type">⚖️ Greater or Smaller?</div><div class="act-instr">Write &lt; , &gt; or = in each box.</div></div>
+    <div class="act-body">
+      <div style="display:flex;flex-direction:column;gap:.55rem">
+        ${rows.map(([a,b])=>`<div style="display:flex;align-items:center;gap:.7rem;justify-content:center;font-size:1.45rem;font-weight:900;color:var(--dark)">
+          <span style="min-width:58px;text-align:right">${a}</span>
+          <div style="width:44px;height:40px;border:2.5px solid var(--dark);border-radius:8px;background:#fff"></div>
+          <span style="min-width:58px">${b}</span>
+        </div>`).join('')}
+      </div>
+      <div style="font-size:.6rem;color:#A07860;font-weight:700;margin-top:.4rem">&lt; less than · &gt; greater than · = equal</div>
+    </div>`;}
+
+  case 'word-search':{
+    const lvl=parseInt(curLvl,10)||3;
+    const nWords=Math.min(2+(lvl-2),4);
+    const POOL=(lvl<=2?WORD_BANK.s3
+      :lvl===3?WORD_BANK.s3.concat(WORD_BANK.s4)
+      :lvl===4?WORD_BANK.s4.concat(WORD_BANK.s5)
+      :WORD_BANK.s3.concat(WORD_BANK.s4,WORD_BANK.s5)).map(w=>w.toUpperCase());
+    const S=5;
+    const grid=Array.from({length:S},()=>Array(S).fill(''));
+    const placed=[];
+    for(const w of shuffle(POOL)){
+      if(placed.length>=nWords||w.length>S) continue;
+      for(let t=0;t<50;t++){
+        const horiz=wsRand()<0.5;
+        const r=rnd(0,horiz?S-1:S-w.length), c=rnd(0,horiz?S-w.length:S-1);
+        let fit=true;
+        for(let i=0;i<w.length;i++){const rr=horiz?r:r+i,cc=horiz?c+i:c;
+          if(grid[rr][cc]!==''&&grid[rr][cc]!==w[i]){fit=false;break;}}
+        if(fit){
+          for(let i=0;i<w.length;i++){const rr=horiz?r:r+i,cc=horiz?c+i:c;grid[rr][cc]=w[i];}
+          placed.push(w);break;
+        }
+      }
+    }
+    const AZ='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for(let r=0;r<S;r++)for(let c=0;c<S;c++)if(grid[r][c]==='')grid[r][c]=AZ[rnd(0,25)];
+    return`<div class="act-hdr"><div class="act-type">🔎 Word Search</div><div class="act-instr">Find and circle these words: <strong>${placed.join(' &nbsp;·&nbsp; ')}</strong></div></div>
+    <div class="act-body">
+      <div style="display:flex;flex-direction:column;gap:3px">
+        ${grid.map(row=>`<div style="display:flex;gap:3px">${row.map(ch=>`<div style="width:38px;height:38px;border:2px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;background:#fff;color:var(--dark)">${ch}</div>`).join('')}</div>`).join('')}
+      </div>
+    </div>`;}
+
+  case 'complete-word':{
+    const it=pickDistinct(all,1)[0]||{e:'⭐',n:'Star'};
+    let word=(it.n||'Star').toUpperCase().replace(/[^A-Z ]/g,'').trim().split(' ')[0];
+    if(word.length<3) word='STAR';
+    const nBlank=word.length>5?2:1;
+    const idxs=shuffle(word.split('').map((_,i)=>i)).slice(0,nBlank);
+    return`<div class="act-hdr"><div class="act-type">🔤 Complete the Word</div><div class="act-instr">Look at the picture. Fill in the missing letters!</div></div>
+    <div class="act-body">
+      <span style="font-size:${m}">${it.e}</span>
+      <div style="display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;margin-top:.5rem">
+        ${word.split('').map((ch,i)=>idxs.includes(i)
+          ?`<div style="width:42px;height:48px;border:2.5px dashed var(--dark);border-radius:8px;background:#FDFAF5"></div>`
+          :`<div style="width:42px;height:48px;border:2.5px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;background:#fff;color:var(--dark)">${ch}</div>`).join('')}
+      </div>
+    </div>`;}
+
+  default: return buildAct('counting-medium',items,all);
+  }
+}
+
+// ── AUTO FIT — scale + recenter each activity so it always fills its cell
+// without ever overflowing the page (handles off-centre / asymmetric content too)
+function fitCells(){
+  document.querySelectorAll('.cell').forEach(cell=>{
+    const body=cell.querySelector('.act-body');
+    if(!body) return;
+    body.style.transform='none';
+    body.style.transformOrigin='';
+    if(cell.offsetHeight<60) return;            // page hidden — skip
+    // measure ALL descendants so content overflowing an inner element is caught.
+    // use getBoundingClientRect for the visibility test — SVG nodes have NO
+    // offsetWidth, so an offsetWidth filter silently drops <svg> activities
+    // (colouring/trace) and mis-fits them. Treat <svg> as one box; skip its internals.
+    const kids=[...body.querySelectorAll('*')].filter(k=>{
+      const sv=k.closest&&k.closest('svg');
+      if(sv&&sv!==k) return false;
+      const q=k.getBoundingClientRect();
+      return q.width>0||q.height>0;
+    });
+    if(!kids.length) return;
+    let t=1e9,b=-1e9,l=1e9,r=-1e9;
+    kids.forEach(k=>{const q=k.getBoundingClientRect();
+      t=Math.min(t,q.top);b=Math.max(b,q.bottom);l=Math.min(l,q.left);r=Math.max(r,q.right);});
+    const ch=b-t,cw=r-l;
+    if(ch<2||cw<2) return;
+    const box=body.getBoundingClientRect();
+    // small margin gives breathing room for emoji glyph ink-bleed
+    let s=Math.min((box.width*0.96)/cw,(box.height*0.96)/ch);
+    s=Math.max(0.25,Math.min(s,2));             // shrink to fit OR enlarge to fill — clamp 0.25–2x
+    // content centre & body centre, in the body's local (border-box) coordinates
+    const ccx=(l+r)/2-box.left, ccy=(t+b)/2-box.top;
+    const bcx=box.width/2, bcy=box.height/2;
+    // scale about the content's own centre, then translate that centre onto the
+    // body's centre — guarantees the content lands fully inside the cell
+    if(s<0.985||s>1.04||Math.abs(ccx-bcx)>2||Math.abs(ccy-bcy)>2){
+      body.style.transformOrigin=ccx.toFixed(2)+'px '+ccy.toFixed(2)+'px';
+      body.style.transform='translate('+(bcx-ccx).toFixed(2)+'px,'+(bcy-ccy).toFixed(2)+'px) scale('+s.toFixed(3)+')';
+    }
+  });
+}
+
+// ── UTILS
+function showPage(idx){
+  document.querySelectorAll('.ws-page').forEach((p,i)=>p.classList.toggle('act',i===idx));
+  document.querySelectorAll('.pg-dot').forEach((d,i)=>d.classList.toggle('act',i===idx));
+  curPage=idx;
+  document.getElementById('pg'+idx)?.scrollIntoView({behavior:'smooth',block:'start'});
+  requestAnimationFrame(()=>fitCells());
+}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goBack(){showScreen('setupScreen');}
+function showLoader(){
+  const es=['✏️','📚','🎨','⭐','🖍️','🌟'];
+  document.getElementById('loadE').textContent=es[rnd(0,es.length-1)];
+  document.getElementById('loader').classList.add('on');
+}
+function hideLoader(){document.getElementById('loader').classList.remove('on');}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2800);
+}
+// PDF — generate & download directly (100% client-side, no server, no print dialog)
+function doPrint(){
+  if(window.jspdf&&window.html2canvas){generatePDF();return;}
+  // fallback: browser print if the PDF libraries didn't load
+  showToast('Opening print dialog — Save as PDF!');
+  document.querySelectorAll('.ws-page').forEach(p=>p.style.display='block');
+  setTimeout(()=>{
+    window.print();
+    setTimeout(()=>{document.querySelectorAll('.ws-page').forEach((p,i)=>{p.style.display='';p.classList.toggle('act',i===curPage);});},600);
+  },400);
+}
+async function generatePDF(){
+  const lt=document.querySelector('.load-t');
+  if(lt)lt.textContent='Creating your PDF…';
+  showLoader();
+  const pages=[...document.querySelectorAll('.ws-page')];
+  document.documentElement.style.fontSize='19px';
+  document.body.classList.add('pdfmode');
+  await new Promise(r=>setTimeout(r,350));
+  // wait for webfonts + every image so fitCells measures FINAL sizes
+  // (measuring too early leaves activities slightly mis-scaled / clipped)
+  try{await document.fonts.ready;}catch(e){}
+  try{await Promise.all([...document.querySelectorAll('.ws-page img')]
+    .map(i=>i.complete?0:new Promise(res=>{i.onload=i.onerror=res;})));}catch(e){}
+  try{await paintImages(document);}catch(e){}    // trim artwork before html2canvas
+  try{await paintShadows(document);}catch(e){}   // bake silhouettes before html2canvas
+  try{await paintMazeIcons(document);}catch(e){} // embed maze icons before html2canvas
+  await new Promise(r=>setTimeout(r,60));        // let trimmed data-URLs decode
+  fitCells();
+  await new Promise(r=>setTimeout(r,80));
+  fitCells();                       // second pass — guarantees a stable fit
+  await new Promise(r=>setTimeout(r,60));
+  try{
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF('p','mm','a4');
+    for(let i=0;i<pages.length;i++){
+      const cv=await html2canvas(pages[i],{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false});
+      if(i>0)pdf.addPage();
+      pdf.addImage(cv.toDataURL('image/jpeg',0.92),'JPEG',0,0,210,297);
+    }
+    const sd=new Date(),sp=n=>String(n).padStart(2,'0');
+    const fnStamp=`${sd.getFullYear()}-${sp(sd.getMonth()+1)}-${sp(sd.getDate())}_${sp(sd.getHours())}${sp(sd.getMinutes())}${sp(sd.getSeconds())}`;
+    pdf.save(`ViLoLabs-Worksheet_${fnStamp}.pdf`);
+    showToast('PDF saved — check your downloads!');
+  }catch(e){
+    console.error(e);
+    showToast('PDF tool busy — using print instead');
+    window.print();
+  }
+  document.body.classList.remove('pdfmode');
+  document.documentElement.style.fontSize='';
+  requestAnimationFrame(()=>fitCells());
+  if(lt)lt.textContent='Building your worksheet…';
+  hideLoader();
+}
+</script>
+<p class="site-disclaimer">ViLoLabs Worksheets are generated automatically and can occasionally make mistakes. Please review each sheet before printing or sharing with children.</p>
+</body>
+</html>

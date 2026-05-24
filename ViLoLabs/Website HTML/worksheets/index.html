@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SEO meta tags are filled by worksheet-seo.js after slug parse.
+     Static fallback values below for the bare /worksheets/ landing page. -->
+<title>Free Printable Worksheets — ViLoLabs</title>
+<meta name="description" content="Free printable worksheets for Preschool, Kindergarten and Grades 1-5. Generated on demand, no sign up, no watermark. Download instantly as PDF.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Printable Worksheets — ViLoLabs">
+<meta property="og:description" content="Free printable worksheets for Preschool through Grade 5. Generate, download, print.">
+<meta property="og:site_name" content="ViLoLabs">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--char:#1A1108;--char2:#241608;--cream:#F5F0E8;--gold:#C8963C;--gold2:#E8BC72;--brown3:#A07860;}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--char);color:var(--cream);line-height:1.6;min-height:100vh}
+a{color:var(--gold2);text-decoration:none}
+a:hover{color:var(--gold)}
+.nav{padding:1.1rem 1.4rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(200,150,60,.15)}
+.nav .logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--cream)}
+.nav .logo em{font-style:normal;color:var(--gold)}
+.nav ul{display:flex;gap:1.6rem;list-style:none}
+.nav ul a{font-size:.78rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,240,232,.7)}
+.nav ul a:hover{color:var(--gold)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.4rem}
+.crumb{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brown3);padding:1.2rem 0 .8rem}
+.crumb a{color:var(--brown3)}.crumb a:hover{color:var(--gold)}.crumb .sep{margin:0 .55rem;opacity:.5}
+
+.hero{text-align:center;padding:2.4rem 1.4rem 1.6rem;max-width:780px;margin:0 auto}
+.eyebrow{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:.8rem}
+h1{font-family:'Cormorant Garamond',serif;font-size:2.6rem;line-height:1.1;font-weight:400;margin-bottom:.7rem}
+h1 em{font-style:italic;color:var(--gold)}
+.lead{font-size:1.02rem;color:rgba(245,240,232,.78);max-width:580px;margin:0 auto 1.2rem;line-height:1.65}
+.trust{display:flex;gap:.55rem;flex-wrap:wrap;justify-content:center;margin-top:1rem}
+.trust span{font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);padding:.42rem .85rem;border:1px solid rgba(200,150,60,.3);border-radius:50px}
+
+.preview-card{background:var(--char2);border:1px solid rgba(200,150,60,.18);border-radius:14px;padding:1.6rem;margin:2rem auto;max-width:780px}
+.pv-meta{display:flex;gap:1rem;flex-wrap:wrap;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brown3);margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid rgba(200,150,60,.15)}
+.pv-meta strong{color:var(--gold2);font-weight:600}
+.pv-body{font-size:.95rem;color:rgba(245,240,232,.82);margin-bottom:1.4rem;line-height:1.7}
+.pv-thumb{aspect-ratio:8.5/11;background:linear-gradient(135deg,#F5F0E8,#FDF8EE);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--brown3);font-size:.9rem;font-style:italic;max-width:280px;margin:0 auto 1.4rem;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.pv-actions{display:flex;flex-direction:column;gap:.55rem;align-items:center;margin-top:.4rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.6rem;border-radius:50px;font-family:inherit;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .22s;text-decoration:none}
+.btn-primary{background:var(--gold);color:var(--char);border:1px solid var(--gold);width:100%;max-width:340px}
+.btn-primary:hover{background:var(--gold2);color:var(--char);transform:translateY(-2px)}
+/* Secondary action: smaller text link, no border — keeps the primary CTA unmissable */
+.btn-outline{background:none;color:rgba(245,240,232,.7);border:none;padding:.4rem 1rem;font-size:.7rem;letter-spacing:.06em;text-transform:none;font-weight:500;text-decoration:underline;text-decoration-color:rgba(245,240,232,.3);text-underline-offset:3px}
+.btn-outline:hover{color:var(--gold);text-decoration-color:var(--gold)}
+
+.share{display:flex;gap:.5rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
+.share button{background:none;border:1px solid rgba(200,150,60,.3);color:rgba(245,240,232,.82);padding:.5rem 1rem;border-radius:50px;font-family:inherit;font-size:.7rem;font-weight:500;letter-spacing:.06em;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem}
+.share button:hover{border-color:var(--gold);color:var(--gold)}
+
+.section{padding:2.4rem 0}
+.section h2{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;text-align:center;margin-bottom:.4rem}
+.section h2 em{font-style:italic;color:var(--gold)}
+.section .sec-tag{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:.4rem;font-weight:500}
+
+.related{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-top:1.6rem}
+.related a{display:block;background:var(--char2);border:1px solid rgba(200,150,60,.18);border-radius:10px;padding:1rem 1.1rem;transition:all .25s}
+.related a:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.related .r-act{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.35rem}
+.related .r-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.25;color:var(--cream);margin-bottom:.3rem}
+.related .r-grade{font-size:.72rem;color:var(--brown3)}
+
+.faq-item{background:var(--char2);border:1px solid rgba(200,150,60,.18);border-radius:10px;padding:1rem 1.2rem;margin-top:.7rem}
+.faq-item h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:500;color:var(--gold2);margin-bottom:.3rem}
+.faq-item p{font-size:.88rem;color:rgba(245,240,232,.78)}
+
+footer{padding:2rem 1.4rem;border-top:1px solid rgba(200,150,60,.15);text-align:center;margin-top:3rem}
+footer .fl{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-bottom:.8rem}
+footer .fl a{font-size:.75rem;letter-spacing:.06em;color:rgba(245,240,232,.6)}
+footer .cp{font-size:.72rem;color:var(--brown3);margin-bottom:.4rem}
+footer .disclaimer{font-size:.7rem;color:rgba(160,120,96,.7);font-style:italic;max-width:520px;margin:0 auto}
+
+@media(max-width:640px){
+  h1{font-size:1.9rem}
+  .nav ul{display:none}
+  .related{grid-template-columns:1fr 1fr}
+}
+@media(max-width:420px){.related{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../index.html" class="logo">ViLo<em>Labs</em></a>
+  <ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../tools.html">Tools</a></li>
+    <li><a href="../app.html">Apps</a></li>
+    <li><a href="./">Worksheets</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+  <p class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="./">Worksheets</a><span class="sep">/</span><span id="crumb-current">Browse</span></p>
+</div>
+
+<header class="hero">
+  <p class="eyebrow" id="eyebrow">Free Printable · No Sign Up</p>
+  <h1 id="page-h1">Free Printable <em>Worksheets.</em></h1>
+  <p class="lead" id="page-lead">Generate, download, and print worksheets for Preschool, Kindergarten and Grades 1-5. Built for parents, teachers and homeschoolers — no sign up, no watermark, fully free.</p>
+  <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Instant PDF</span></div>
+</header>
+
+<section class="wrap" id="worksheet-view" style="display:none">
+  <div class="preview-card">
+    <div class="pv-meta">
+      <span>Activity: <strong id="m-activity">—</strong></span>
+      <span>Grade: <strong id="m-grade">—</strong></span>
+      <span>Theme: <strong id="m-theme">—</strong></span>
+    </div>
+    <div class="pv-body" id="pv-body">This is a sample worksheet. Click Generate &amp; Download to create the PDF in your browser — no upload, fully private.</div>
+    <div class="pv-thumb">Worksheet preview loads when you generate</div>
+    <div class="pv-actions">
+      <a class="btn btn-primary" id="btn-generate" href="../sheets.html">Generate &amp; Download</a>
+      <a class="btn btn-outline" id="btn-variation" href="../sheets.html">or try a different worksheet</a>
+    </div>
+    <div class="share">
+      <button id="sh-wa" title="Share on WhatsApp">↗ WhatsApp</button>
+      <button id="sh-pin" title="Pin on Pinterest">↗ Pinterest</button>
+      <button id="sh-mail" title="Share via Email">↗ Email</button>
+      <button id="sh-copy" title="Copy link">⎘ Copy Link</button>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section" id="related-section" style="display:none">
+  <p class="sec-tag">You might also like</p>
+  <h2>Related <em>worksheets.</em></h2>
+  <div class="related" id="related-grid"></div>
+</section>
+
+<section class="wrap section">
+  <p class="sec-tag">Good to know</p>
+  <h2>About this <em>worksheet.</em></h2>
+  <div class="faq-item"><h3>Are these worksheets really free?</h3><p>Yes — every worksheet on ViLoLabs is free to download, print, and share with students or your own children. No sign up, no watermark, no hidden cost.</p></div>
+  <div class="faq-item"><h3>Can I use these in my classroom?</h3><p>Absolutely. Teachers and homeschool parents are welcome to print as many copies as they need for their students.</p></div>
+  <div class="faq-item"><h3>How are these generated?</h3><p>Each worksheet is built fresh by an algorithm running in your browser. The unique ID in the URL means the same link always produces the same worksheet — so you can bookmark or share specific worksheets.</p></div>
+  <div class="faq-item"><h3>Do you have other worksheet packs?</h3><p>Yes — every time someone generates a new worksheet, it gets its own permanent URL. <a href="../sheets.html">Open the generator</a> to make a fresh one.</p></div>
+</section>
+
+<footer>
+  <div class="fl">
+    <a href="../index.html">Home</a>
+    <a href="../tools.html">Tools</a>
+    <a href="../app.html">Apps</a>
+    <a href="./">Worksheets</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="../terms.html">Terms</a>
+  </div>
+  <p class="cp">© <span id="yr"></span> ViLoLabs · Free online tools, built in India for the world.</p>
+  <p class="disclaimer">ViLoLabs tools can make mistakes. Please review the worksheet before printing or sharing.</p>
+</footer>
+
+<script src="worksheet-seo.js"></script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// ── Detect slug from URL ──────────────────────────────────────────
+// URL shapes we handle:
+//   /worksheets/                                    → landing (no slug)
+//   /worksheets/<slug>                              → specific worksheet (preferred)
+//   /worksheets/?w=<slug>                           → query fallback (works without _redirects)
+//   /worksheets/index.html?w=<slug>                 → direct fallback
+function getSlug() {
+  // 1. query string ?w= wins (most robust)
+  const q = new URLSearchParams(location.search).get('w');
+  if (q) return q;
+  // 2. path after /worksheets/
+  const m = location.pathname.match(/\/worksheets\/([^/?#]+)/);
+  if (m && m[1] && m[1] !== 'index.html') return m[1];
+  return null;
+}
+
+(async function () {
+  const slug = getSlug();
+  if (!slug) {
+    // No slug → show landing page CTA, hide worksheet view
+    document.getElementById('btn-generate').href = '../sheets.html';
+    return;
+  }
+
+  const kw = await WSeo.loadKeywords();
+  if (!kw) { console.warn('Keywords file failed to load'); return; }
+
+  const config = WSeo.parseSlugWith(slug, kw);
+  if (!config) {
+    console.warn('Slug did not parse:', slug);
+    return;
+  }
+
+  // ── Update <title>, meta description, canonical, og: tags ──
+  const title = WSeo.renderTitle(config, kw);
+  const desc  = WSeo.renderDesc(config, kw);
+  const h1    = WSeo.renderH1(config, kw);
+  const body  = WSeo.renderBody(config, kw);
+  document.title = title;
+  document.querySelector('meta[name="description"]').setAttribute('content', desc);
+  document.querySelector('meta[property="og:title"]').setAttribute('content', title);
+  document.querySelector('meta[property="og:description"]').setAttribute('content', desc);
+  const canon = document.querySelector('link[rel="canonical"]');
+  if (canon) canon.setAttribute('href', location.origin + '/worksheets/' + slug);
+
+  // ── Update visible page content ──
+  document.getElementById('page-h1').textContent = h1;
+  document.getElementById('page-lead').textContent = desc;
+  document.getElementById('pv-body').textContent = body;
+  document.getElementById('worksheet-view').style.display = 'block';
+  document.getElementById('related-section').style.display = 'block';
+
+  const g = kw.grades[config.grade];
+  const a = kw.activities[config.activity];
+  const c = kw.categories[config.category];
+  document.getElementById('m-activity').textContent = (a && a.names[0]) || '—';
+  document.getElementById('m-grade').textContent    = (g && g.names[0]) || '—';
+  // Hide the theme row entirely when the worksheet is mixed —
+  // showing "Theme: Themed" would mislead users into thinking there's a single theme.
+  const themeSpan = document.getElementById('m-theme').parentElement;
+  if (config.category === 'mix') {
+    themeSpan.style.display = 'none';
+  } else {
+    themeSpan.style.display = '';
+    document.getElementById('m-theme').textContent = (c && c.names[0]) || 'Mixed';
+  }
+  document.getElementById('crumb-current').textContent = (a && a.names[0]) || 'Worksheet';
+  document.getElementById('eyebrow').textContent = `Free Printable · ${(a && a.names[0]) || 'Worksheet'} · ${(g && g.names[0]) || ''}`;
+
+  // ── Wire generate button to sheets.html with seed ──
+  // sheets.html will read ?w=<slug>, decode it, seed its RNG, and produce the
+  // exact same worksheet for download.
+  document.getElementById('btn-generate').href = '../sheets.html?w=' + encodeURIComponent(slug);
+  document.getElementById('btn-variation').href = '../sheets.html';
+
+  // ── Share buttons ──
+  const url = location.origin + '/worksheets/' + slug;
+  const shareText = title;
+  document.getElementById('sh-wa').onclick = () => window.open(
+    'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText + ' ' + url), '_blank');
+  document.getElementById('sh-pin').onclick = () => window.open(
+    'https://pinterest.com/pin/create/button/?url=' + encodeURIComponent(url) +
+    '&description=' + encodeURIComponent(shareText), '_blank');
+  document.getElementById('sh-mail').onclick = () => window.location.href =
+    'mailto:?subject=' + encodeURIComponent(shareText) + '&body=' + encodeURIComponent(url);
+  document.getElementById('sh-copy').onclick = () => {
+    navigator.clipboard.writeText(url).then(() => {
+      const b = document.getElementById('sh-copy');
+      const o = b.textContent; b.textContent = '✓ Copied';
+      setTimeout(() => b.textContent = o, 1600);
+    });
+  };
+
+  // ── Related worksheets (6 deterministic links) ──
+  buildRelated(config, kw);
+})();
+
+function buildRelated(config, kw) {
+  const grid = document.getElementById('related-grid');
+  if (!grid) return;
+  const seed = WSeo.decodeId(config.id);
+  const rnd = WSeo.mulberry32(seed + 99);
+
+  // Helper: which grades actually use a single theme in our generator?
+  // Pre-KG and KG worksheets pick ONE category from LEVEL_TOPICS.
+  // Grade 1-5 worksheets MIX categories — so for honesty, their URLs
+  // and cards must NOT claim a single theme.
+  // HONESTY rules:
+  //   - Grade 1-5 worksheets are MIXED-activity → use 'mix' activity in URL
+  //   - Pre-KG, KG, Colouring → use a single themed category in URL
+  //   - Sudoku, Maze, Colouring modes have specific activity (not 'mix')
+  const SINGLE_THEME_GRADES = new Set(['prekg', 'kg', 'colouring']);
+  const MIXED_ACTIVITY_GRADES = new Set(['prekg', 'kg', '1', '2', '3', '4', '5']);
+  const themedCategories = Object.keys(kw.categories).filter(k => k !== 'mix');
+
+  function honestActivity(gradeKey) {
+    // If this grade builds a mixed-activity sheet, the URL must say so.
+    if (MIXED_ACTIVITY_GRADES.has(gradeKey)) return 'mix';
+    // Otherwise, the grade IS a single activity mode (sudoku/maze/colouring)
+    return gradeKey === 'colouring' ? 'colouring'
+         : gradeKey === 'sudoku' ? 'sudoku'
+         : gradeKey === 'maze' ? 'maze'
+         : 'mix';
+  }
+  function honestCategory(gradeKey, preferred) {
+    if (!SINGLE_THEME_GRADES.has(gradeKey)) return 'mix';
+    if (preferred && preferred !== 'mix') return preferred;
+    return themedCategories[Math.floor(rnd() * themedCategories.length)];
+  }
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(rnd() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // Build 6 honest variations covering different grades. Activities are derived
+  // from each grade per honesty rules (mixed grades → 'mix', mode grades → mode).
+  const allGrades = ['prekg', 'kg', '1', '2', '3', '4', '5', 'colouring', 'sudoku', 'maze'];
+  const shGr = shuffle(allGrades.filter(g => g !== config.grade));
+  const shCat = shuffle(themedCategories);
+
+  const items = [
+    { grade: shGr[0] },
+    { grade: shGr[1] },
+    { grade: 'kg', category: shCat[0] },
+    { grade: shGr[2] },
+    { grade: 'prekg', category: shCat[1] },
+    { grade: shGr[3] }
+  ];
+  // Add activity per honest rules
+  items.forEach(it => it.activity = honestActivity(it.grade));
+
+  grid.innerHTML = items.map(it => {
+    const a = kw.activities[it.activity];
+    const g = kw.grades[it.grade];
+    if (!a || !g) return '';
+    // Apply honesty: only single-theme grades get a real theme in URL
+    const catKey = honestCategory(it.grade, it.category);
+    const c = kw.categories[catKey] || kw.categories.mix;
+    const id = WSeo.encodeId(WSeo.newSeed());
+    const slug = WSeo.buildSlug({
+      activitySlug: a.slug,
+      gradeSlug: g.slug,
+      categorySlug: (catKey === 'mix' ? 'mix' : c.slug),  // drop from URL when mixed
+      id: id
+    });
+    const actName = a.names[0];
+    const grName = g.names[0];
+    // Card title is honest: only show theme prefix if URL has a real theme
+    const cardTitle = (catKey === 'mix')
+      ? `${actName} for ${grName}`
+      : `${c.names[0]} ${actName}`;
+    return `<a href="${slug}">
+      <div class="r-act">${actName}</div>
+      <div class="r-title">${cardTitle}</div>
+      <div class="r-grade">${grName}</div>
+    </a>`;
+  }).join('');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Worksheet Sample</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#3a3a3a;font-family:'Trebuchet MS','Comic Sans MS',sans-serif;
+       padding:2rem 1rem;display:flex;flex-direction:column;align-items:center;gap:2rem}
+  .mode-tag{color:#E8BC72;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase}
+
+  .page{background:#fff;width:100%;max-width:680px;aspect-ratio:1/1.414;
+        padding:30px 32px;display:flex;flex-direction:column;
+        box-shadow:0 10px 40px rgba(0,0,0,.5)}
+
+  .banner{border-radius:14px;padding:14px;text-align:center;margin-bottom:16px}
+  .banner h2{color:#fff;font-size:1.5rem;font-weight:900;letter-spacing:.5px;
+             text-shadow:2px 2px 0 rgba(0,0,0,.18)}
+  .sub{text-align:center;font-size:.9rem;color:#555;margin-bottom:14px;font-weight:bold}
+
+  .grid{flex:1;display:grid;gap:10px}
+  .g3{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr)}
+  .cell{border:3px solid;border-radius:12px;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;padding:8px;background:#FFFDF8}
+  .cell img{width:100%;height:100%;object-fit:contain;max-height:150px}
+  .cell .lbl{margin-top:4px;font-size:.85rem;font-weight:bold;color:#333}
+
+  .rows{flex:1;display:flex;flex-direction:column;gap:10px;justify-content:center}
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .row .cell{aspect-ratio:1}
+
+  .count-wrap{flex:1;display:flex;flex-direction:column;gap:12px;justify-content:center}
+  .grp{border:3px solid #C8963C;border-radius:12px;padding:10px;background:#FFFDF8}
+  .grp-items{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:90px;align-items:center}
+  .grp-items img{height:78px;object-fit:contain}
+  .opts{display:flex;gap:14px;justify-content:center;margin-top:8px}
+  .opt{width:36px;height:36px;border:2px solid #1A1108;border-radius:50%;
+       display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.1rem}
+
+  .pairs{flex:1;display:flex;justify-content:space-between;align-items:center;padding:0 4px}
+  .col{display:flex;flex-direction:column;gap:14px}
+  .pcell{width:120px;height:96px;border:3px solid #7C6BAF;border-radius:12px;
+         display:flex;align-items:center;justify-content:center;background:#FFFDF8;padding:6px}
+  .pcell img{max-width:100%;max-height:100%;object-fit:contain}
+  .dots{display:flex;flex-direction:column;justify-content:space-around;height:100%}
+  .dot{width:16px;height:16px;border-radius:50%;background:#7C6BAF}
+
+  .foot{margin-top:auto;text-align:center;font-size:.62rem;color:#aaa;
+        border-top:1px solid #eee;padding-top:6px;letter-spacing:.1em}
+  #err{color:#fff;background:#a33;padding:1rem;border-radius:8px;display:none}
+
+  @media print{
+    body{background:#fff;padding:0;gap:0}
+    .page{box-shadow:none;max-width:none;width:100%;page-break-after:always}
+    .mode-tag{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="mode-tag" id="modeTag"></div>
+<div id="err"></div>
+<div id="pages"></div>
+
+<script>
+const MODE = 'emoji';   // 'emoji' or 'png'
+
+const rand  = n => Math.floor(Math.random()*n);
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i],a[j]]=[a[j],a[i]];} return a; };
+const pick  = (a,n) => shuffle(a).slice(0,n);
+
+function imgOf(it){ return MODE==='emoji' ? it.emoji : (it.png||it.emoji); }
+function renderable(it){ return !!imgOf(it); }
+
+function cellImg(it){
+  const im=document.createElement('img');
+  im.src=imgOf(it); im.alt=it.label; return im;
+}
+function footer(n){
+  const f=document.createElement('div'); f.className='foot';
+  f.textContent='VILOLABS  ·  VILO WORKSHEETS  ·  PAGE '+n;
+  return f;
+}
+function page(){ const p=document.createElement('div'); p.className='page'; return p; }
+function banner(text,color){
+  const b=document.createElement('div'); b.className='banner'; b.style.background=color;
+  const h=document.createElement('h2'); h.textContent=text; b.appendChild(h); return b;
+}
+function sub(text){ const s=document.createElement('div'); s.className='sub'; s.textContent=text; return s; }
+
+// ---------- PAGE BUILDERS ----------
+function pMatching(items,n){
+  const p=page(); p.appendChild(banner('Circle the Two Matching Pictures','#E53E3E'));
+  const cat=shuffle([...new Set(items.map(i=>i.category))])
+            .find(c=>items.filter(i=>i.category===c).length>=8);
+  const pool=pick(items.filter(i=>i.category===cat),8);
+  const pair=pool[0];
+  const cells=shuffle([...pool,pair]);
+  const g=document.createElement('div'); g.className='grid g3';
+  cells.forEach(it=>{const c=document.createElement('div');c.className='cell';
+    c.style.borderColor='#E53E3E';c.appendChild(cellImg(it));g.appendChild(c);});
+  p.appendChild(g); p.appendChild(footer(n)); return p;
+}
+
+function pOddOneOut(items,n){
+  const p=page(); p.appendChild(banner('Circle What Does Not Belong','#2F855A'));
+  const cats=[...new Set(items.map(i=>i.category))].filter(c=>items.filter(i=>i.category===c).length>=3);
+  const rows=document.createElement('div'); rows.className='rows';
+  for(let r=0;r<3;r++){
+    const main=cats[rand(cats.length)];
+    let odd=cats[rand(cats.length)]; while(odd===main) odd=cats[rand(cats.length)];
+    const three=pick(items.filter(i=>i.category===main),3);
+    const one=pick(items.filter(i=>i.category===odd),1);
+    const row=document.createElement('div'); row.className='row';
+    shuffle([...three,...one]).forEach(it=>{const c=document.createElement('div');
+      c.className='cell';c.style.borderColor='#2F855A';c.appendChild(cellImg(it));row.appendChild(c);});
+    rows.appendChild(row);
+  }
+  p.appendChild(rows); p.appendChild(footer(n)); return p;
+}
+
+function pScience(items,n){
+  const p=page(); p.appendChild(banner('Circle the Animals','#2B6CB0'));
+  const animals=items.filter(i=>i.category==='animals');
+  const others=items.filter(i=>i.category!=='animals'&&i.category!=='birds');
+  const cells=shuffle([...pick(animals,4),...pick(others,5)]);
+  const g=document.createElement('div'); g.className='grid g3';
+  cells.forEach(it=>{const c=document.createElement('div');c.className='cell';
+    c.style.borderColor='#2B6CB0';c.appendChild(cellImg(it));
+    const l=document.createElement('div');l.className='lbl';l.textContent=it.label;
+    c.appendChild(l);g.appendChild(c);});
+  p.appendChild(g); p.appendChild(footer(n)); return p;
+}
+
+function pCount(items,n){
+  const p=page(); p.appendChild(banner('Count and Circle the Number','#B7791F'));
+  p.appendChild(sub('Count each group. Circle the right number.'));
+  const wrap=document.createElement('div'); wrap.className='count-wrap';
+  pick(items,3).forEach(it=>{
+    const count=2+rand(4);
+    const grp=document.createElement('div'); grp.className='grp';
+    const gi=document.createElement('div'); gi.className='grp-items';
+    for(let i=0;i<count;i++) gi.appendChild(cellImg(it));
+    grp.appendChild(gi);
+    const opts=document.createElement('div'); opts.className='opts';
+    const choices=shuffle([count,count+1,Math.max(1,count-1)]);
+    choices.forEach(v=>{const o=document.createElement('div');o.className='opt';
+      o.textContent=v;opts.appendChild(o);});
+    grp.appendChild(opts); wrap.appendChild(grp);
+  });
+  p.appendChild(wrap); p.appendChild(footer(n)); return p;
+}
+
+function pPairs(items,n){
+  const p=page(); p.appendChild(banner('Things That Go Together','#7C6BAF'));
+  const byId={}; items.forEach(i=>byId[i.id]=i);
+  // build pairs — guard against reciprocal duplicates (cow->milk AND milk->cow)
+  // and against reusing any item in more than one pair
+  const pairs=[]; const used=new Set();
+  for(const it of shuffle(items)){
+    if(!it.tags||!it.tags.pairWith||used.has(it.id)) continue;
+    const partner=byId[it.tags.pairWith.replace(/\.png$/,'')];
+    if(!partner||!renderable(partner)||used.has(partner.id)) continue;
+    pairs.push([it,partner]);
+    used.add(it.id); used.add(partner.id);
+    if(pairs.length>=5) break;
+  }
+  const left=pairs.map(p=>p[0]), right=shuffle(pairs.map(p=>p[1]));
+  const cont=document.createElement('div'); cont.className='pairs';
+  const colL=document.createElement('div'); colL.className='col';
+  const colD=document.createElement('div'); colD.className='dots';
+  const colR=document.createElement('div'); colR.className='col';
+  const mk=it=>{const c=document.createElement('div');c.className='pcell';c.appendChild(cellImg(it));return c;};
+  left.forEach(it=>colL.appendChild(mk(it)));
+  right.forEach(it=>colR.appendChild(mk(it)));
+  for(let i=0;i<pairs.length*2;i++){const d=document.createElement('div');d.className='dot';colD.appendChild(d);}
+  cont.append(colL,colD,colR);
+  p.appendChild(cont); p.appendChild(footer(n)); return p;
+}
+
+// ---------- RUN ----------
+fetch('assets/library.json').then(r=>r.json()).then(lib=>{
+  document.getElementById('modeTag').textContent='Sample · '+MODE.toUpperCase()+' mode';
+  const items=lib.items.filter(renderable);
+  const host=document.getElementById('pages');
+  const builders=[pMatching,pOddOneOut,pScience,pCount,pPairs];
+  builders.forEach((b,i)=>{ try{ host.appendChild(b(items,i+1)); }catch(e){ console.error(e); } });
+}).catch(e=>{
+  const el=document.getElementById('err'); el.style.display='block';
+  el.textContent='Could not load library.json — run: node tools/build-library.js  ('+e+')';
+});
+</script>
+</body>
+</html>

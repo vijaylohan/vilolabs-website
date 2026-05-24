@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "website",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["ViLoLabs/server.js"],
+      "port": 3456,
+      "autoPort": true
+    }
+  ]
+}

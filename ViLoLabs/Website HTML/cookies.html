@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookie Policy — ViLoLabs</title>
+<meta name="description" content="Cookie Policy for ViLoLabs — what cookies we use and why.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --cream:#F5F0E8;--gold:#C8963C;--gold2:#E8BC72;
+  --char:#1A1108;
+  --text-body:rgba(245,240,232,.72);
+  --text-dim:rgba(245,240,232,.45);
+  --border-gold:rgba(200,150,60,.18);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--char);color:var(--cream);overflow-x:hidden;min-height:100vh;line-height:1.8;}
+nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;background:rgba(14,9,4,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border-gold);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--cream);text-decoration:none;letter-spacing:.04em;}
+.logo em{font-style:normal;color:var(--gold);}
+.back-link{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,240,232,.45);text-decoration:none;transition:color .2s;}
+.back-link:hover{color:var(--gold);}
+.legal-hero{padding:5rem 3rem 3rem;max-width:820px;margin:0 auto;}
+.legal-tag{font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;}
+.legal-tag::before{content:'';width:22px;height:1px;background:var(--gold);}
+.legal-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:300;line-height:1.1;color:var(--cream);margin-bottom:1rem;}
+.legal-title em{font-style:italic;color:var(--gold);}
+.legal-meta{font-size:.8rem;color:var(--text-dim);border-left:2px solid var(--gold);padding-left:.9rem;margin-top:1rem;}
+.legal-body{max-width:820px;margin:0 auto;padding:0 3rem 6rem;}
+.gold-line{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(200,150,60,.25),transparent);margin:2.5rem 0;}
+.section{margin-bottom:2.8rem;}
+.section h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--cream);margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:1px solid rgba(200,150,60,.1);}
+.section p{color:var(--text-body);font-size:.92rem;line-height:1.85;margin-bottom:.85rem;}
+.section p:last-child{margin-bottom:0;}
+.section ul{color:var(--text-body);font-size:.92rem;line-height:1.85;padding-left:1.4rem;margin-bottom:.85rem;}
+.section ul li{margin-bottom:.35rem;}
+.section strong{color:var(--cream);font-weight:500;}
+.warn-box{background:rgba(200,150,60,.07);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:1rem 1.4rem;margin:1.5rem 0;}
+.warn-box p{margin-bottom:0!important;font-size:.86rem;color:var(--text-body);}
+
+/* Cookie table */
+.cookie-table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.86rem;}
+.cookie-table th{text-align:left;padding:.7rem 1rem;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(200,150,60,.2);font-weight:500;}
+.cookie-table td{padding:.75rem 1rem;color:var(--text-body);border-bottom:1px solid rgba(200,150,60,.07);vertical-align:top;line-height:1.6;}
+.cookie-table tr:last-child td{border-bottom:none;}
+.cookie-table tr:hover td{background:rgba(200,150,60,.03);}
+.badge{display:inline-block;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .45rem;border-radius:3px;font-weight:500;}
+.badge-essential{background:rgba(76,175,80,.12);color:#4CAF50;border:1px solid rgba(76,175,80,.2);}
+.badge-third{background:rgba(200,150,60,.1);color:var(--gold2);border:1px solid rgba(200,150,60,.2);}
+
+.legal-footer{border-top:1px solid var(--border-gold);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.legal-footer span{font-size:.72rem;color:var(--text-dim);}
+.legal-footer-links{display:flex;gap:1.5rem;}
+.legal-footer-links a{font-size:.72rem;color:var(--text-dim);text-decoration:none;transition:color .2s;}
+.legal-footer-links a:hover{color:var(--gold);}
+@media(max-width:700px){
+  nav{padding:1rem 1.4rem;}
+  .legal-hero{padding:3.5rem 1.4rem 2rem;}
+  .legal-body{padding:0 1.4rem 4rem;}
+  .legal-footer{padding:1.5rem 1.4rem;flex-direction:column;align-items:flex-start;}
+  .cookie-table th,.cookie-table td{padding:.6rem .7rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">ViLo<em>Labs</em></a>
+  <a href="index.html" class="back-link">← Back to Home</a>
+</nav>
+
+<div class="legal-hero">
+  <p class="legal-tag">Legal</p>
+  <h1 class="legal-title">Cookie <em>Policy</em></h1>
+  <div class="legal-meta">
+    Last updated: May 2026 &nbsp;·&nbsp; Effective: May 2026
+  </div>
+</div>
+
+<div class="gold-line" style="max-width:820px;margin:0 auto;padding:0 3rem;"></div>
+
+<div class="legal-body">
+
+  <div class="warn-box">
+    <p><strong>Short version:</strong> ViLoLabs uses very few cookies. We don't run advertising networks, sell data, or track you across the web. This page explains exactly what we use and why.</p>
+  </div>
+
+  <div class="section">
+    <h2>1. What Are Cookies?</h2>
+    <p>Cookies are small text files that a website places on your device when you visit. They are widely used to make websites work more efficiently and to provide information to the website operator.</p>
+    <p>Cookies can be <strong>first-party</strong> (set by ViLoLabs directly) or <strong>third-party</strong> (set by external services we use). They can also be <strong>session cookies</strong> (deleted when you close your browser) or <strong>persistent cookies</strong> (remain on your device for a set period).</p>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <div class="section">
+    <h2>2. Cookies We Use</h2>
+    <p>ViLoLabs uses a minimal set of cookies. We do <strong>not</strong> use advertising cookies, behavioural tracking cookies, or cross-site tracking of any kind.</p>
+
+    <table class="cookie-table">
+      <thead>
+        <tr>
+          <th>Cookie / Source</th>
+          <th>Type</th>
+          <th>Purpose</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Browser session</strong></td>
+          <td><span class="badge badge-essential">Essential</span></td>
+          <td>Standard browser session handling required for the site to function correctly (page rendering, navigation).</td>
+          <td>Session</td>
+        </tr>
+        <tr>
+          <td><strong>Google Fonts</strong></td>
+          <td><span class="badge badge-third">Third-party</span></td>
+          <td>We load fonts (Cormorant Garamond, Outfit) from Google Fonts. Google may set cookies and log your IP address when fonts are served. We do not control this.</td>
+          <td>Varies (Google)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>We do <strong>not</strong> use cookies for:</p>
+    <ul>
+      <li>Advertising or retargeting</li>
+      <li>Cross-site user tracking</li>
+      <li>Social media tracking pixels (Facebook, Twitter, etc.)</li>
+      <li>Analytics platforms (Google Analytics, Hotjar, etc.)</li>
+      <li>A/B testing or personalisation</li>
+    </ul>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <div class="section">
+    <h2>3. Third-Party Cookies</h2>
+    <p>The only third-party service that may set cookies on our site is <strong>Google Fonts</strong>, used to load our website typefaces. This is a technical dependency — Google may log the request your browser makes to fetch the fonts, which could include your IP address and browser information.</p>
+    <p>We have no control over Google's cookies. For information about how Google uses this data, please see <a href="https://policies.google.com/privacy" style="color:var(--gold);" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.</p>
+    <p>We do not use Google Analytics, Google Ads, or any other Google tracking product beyond Fonts.</p>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <div class="section">
+    <h2>4. How to Control Cookies</h2>
+    <p>You have full control over cookies through your browser settings. You can:</p>
+    <ul>
+      <li><strong>Block all cookies</strong> — though this may affect how some websites function.</li>
+      <li><strong>Delete existing cookies</strong> — clearing your browser's cache and cookies removes any stored cookies.</li>
+      <li><strong>Allow cookies only from specific sites</strong> — most browsers support whitelisting.</li>
+    </ul>
+    <p>Instructions for managing cookies in common browsers:</p>
+    <ul>
+      <li><a href="https://support.google.com/chrome/answer/95647" style="color:var(--gold);" target="_blank" rel="noopener">Google Chrome</a></li>
+      <li><a href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" style="color:var(--gold);" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+      <li><a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" style="color:var(--gold);" target="_blank" rel="noopener">Apple Safari</a></li>
+      <li><a href="https://support.microsoft.com/en-us/windows/manage-cookies-in-microsoft-edge" style="color:var(--gold);" target="_blank" rel="noopener">Microsoft Edge</a></li>
+    </ul>
+    <p>Please note that blocking cookies may affect the appearance of our website (fonts may fall back to system defaults if Google Fonts is blocked).</p>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <div class="section">
+    <h2>5. Do Not Track</h2>
+    <p>Some browsers offer a "Do Not Track" (DNT) signal. Since ViLoLabs does not engage in cross-site tracking, the DNT signal has no practical effect on how our site operates. We treat all visitors the same — we don't track anyone.</p>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <div class="section">
+    <h2>6. Changes to This Policy</h2>
+    <p>We may update this Cookie Policy if we add new features or third-party services. When we do, we will update the "Last updated" date at the top of this page. We recommend checking back periodically.</p>
+    <p>We will never add advertising or tracking cookies without clearly updating this policy first.</p>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <div class="section">
+    <h2>7. More Information</h2>
+    <p>This Cookie Policy should be read alongside our <a href="privacy.html" style="color:var(--gold);">Privacy Policy</a> and <a href="terms.html" style="color:var(--gold);">Terms of Use</a>, which together govern your use of ViLoLabs.</p>
+    <p>If you have questions about our use of cookies, please reach out via the contact form on our website.</p>
+  </div>
+
+</div>
+
+<footer class="legal-footer">
+  <span>© 2026 ViLoLabs. All rights reserved.</span>
+  <div class="legal-footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="cookies.html">Cookies</a>
+    <a href="index.html">Home</a>
+  </div>
+</footer>
+
+</body>
+</html>

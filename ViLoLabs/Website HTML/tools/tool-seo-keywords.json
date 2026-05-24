@@ -1,0 +1,222 @@
+{
+  "_comment": "ViLoLabs tool-shares SEO catalog v2. Verified against top-ranked competitor sites: imresizer.com (KB targets), exammint.in (Indian exam photos — they map 50+ exam-specific URLs), passportsizephoto.in (India document photos), qr-code-generator.com / qrbatao.com (QR types). India-first preset weighting since that's our SEO edge.",
+  "_lastUpdated": "2026-05-24",
+  "_version": 2,
+  "_sources": [
+    "https://imresizer.com (KB target landing pages)",
+    "https://resizer.exammint.in (Indian govt exam photo specs)",
+    "https://passportsizephoto.in (Indian document photo specs)",
+    "https://qr-code-generator.com (QR type taxonomy)",
+    "https://www.ilovepdf.com (PDF tool taxonomy)"
+  ],
+
+  "tools": {
+
+    "resize-image": {
+      "displayName": "Image Resizer",
+      "_matchKeys": "mode=px|kb · w + h (px mode) · kb (kb mode)",
+      "presets": {
+        "_grouping_KB_TARGETS": "── KB file-size targets (high-volume queries: 'resize image to 200kb' etc.) ──",
+        "resize-image-to-10kb":   { "match": {"mode":"kb", "kb":10},   "names": ["Resize Image to 10 KB", "10KB Photo Resizer"] },
+        "resize-image-to-20kb":   { "match": {"mode":"kb", "kb":20},   "names": ["Resize Image to 20 KB", "20KB Photo Resizer"] },
+        "resize-image-to-50kb":   { "match": {"mode":"kb", "kb":50},   "names": ["Resize Image to 50 KB", "50KB Photo Resizer"] },
+        "resize-image-to-100kb":  { "match": {"mode":"kb", "kb":100},  "names": ["Resize Image to 100 KB", "100KB Photo Resizer"] },
+        "resize-image-to-200kb":  { "match": {"mode":"kb", "kb":200},  "names": ["Resize Image to 200 KB", "200KB Photo Resizer"] },
+        "resize-image-to-300kb":  { "match": {"mode":"kb", "kb":300},  "names": ["Resize Image to 300 KB", "300KB Photo Resizer"] },
+        "resize-image-to-500kb":  { "match": {"mode":"kb", "kb":500},  "names": ["Resize Image to 500 KB", "500KB Photo Resizer"] },
+        "resize-image-to-1mb":    { "match": {"mode":"kb", "kb":1024}, "names": ["Resize Image to 1 MB", "1MB Photo Compressor"] },
+
+        "_grouping_INDIAN_EXAMS": "── Indian government exam photo specs (verified vs exammint.in spec sheets) ──",
+        "upsc-photo-resize":      { "match": {"mode":"px", "w":400, "h":400}, "names": ["UPSC Photo Resizer (400×400 px)", "UPSC Application Photo Size"], "note": "UPSC requires 400×400 px, 20-300 KB" },
+        "ssc-cgl-photo-resize":   { "match": {"mode":"px", "w":275, "h":354}, "names": ["SSC CGL Photo Resizer", "SSC CGL Photo Size (275×354 px)"] },
+        "ssc-chsl-photo-resize":  { "match": {"mode":"px", "w":200, "h":240}, "names": ["SSC CHSL Photo Resizer", "SSC CHSL Photo Size (200×240 px)"] },
+        "neet-photo-resize":      { "match": {"mode":"px", "w":275, "h":354}, "names": ["NEET Photo Resizer (275×354 px)", "NEET UG Photo Size"] },
+        "jee-main-photo-resize":  { "match": {"mode":"px", "w":275, "h":354}, "names": ["JEE Main Photo Resizer", "JEE Main Application Photo"] },
+        "gate-photo-resize":      { "match": {"mode":"px", "w":350, "h":450}, "names": ["GATE Photo Resizer (350×450 px)", "GATE Application Photo Size"] },
+        "ibps-photo-resize":      { "match": {"mode":"px", "w":200, "h":230}, "names": ["IBPS Photo Resizer", "IBPS Bank Exam Photo Size"] },
+        "sbi-po-photo-resize":    { "match": {"mode":"px", "w":200, "h":230}, "names": ["SBI PO Photo Resizer", "SBI Clerk Photo Size"] },
+        "rrb-group-d-photo-resize":{"match": {"mode":"px", "w":320, "h":240}, "names": ["RRB Group D Photo Resizer", "Railway Group D Photo Size"] },
+        "railway-ntpc-photo-resize":{"match":{"mode":"px","w":320,"h":240}, "names": ["Railway NTPC Photo Resizer", "Railway RRB NTPC Photo Size"] },
+        "uppsc-photo-resize":     { "match": {"mode":"px", "w":180, "h":216}, "names": ["UPPSC Photo Resizer", "UP PSC Application Photo Size"] },
+        "mppsc-photo-resize":     { "match": {"mode":"px", "w":275, "h":354}, "names": ["MPPSC Photo Resizer", "MP PSC Application Photo Size"] },
+        "tnpsc-photo-resize":     { "match": {"mode":"px", "w":275, "h":354}, "names": ["TNPSC Photo Resizer", "Tamil Nadu PSC Photo Size"] },
+
+        "_grouping_INDIAN_DOCS": "── Indian government document photo specs (passport/aadhaar/PAN/voter/DL) ──",
+        "india-passport-photo":   { "match": {"mode":"px", "w":413, "h":531}, "names": ["Indian Passport Photo (35×45mm)", "Passport Size Photo India", "Passport Seva Photo Size"], "note": "35×45mm @ 300dpi · 250KB cap · ICAO 9303" },
+        "aadhaar-card-photo":     { "match": {"mode":"px", "w":413, "h":531}, "names": ["Aadhaar Card Photo Size", "Aadhar Photo Resizer"], "note": "Same physical 35×45mm as passport — UIDAI accepts passport-style" },
+        "pan-card-photo":         { "match": {"mode":"px", "w":300, "h":420}, "names": ["PAN Card Photo Size", "PAN Photo Resizer"], "note": "25×35mm @ 300dpi · 20-50 KB" },
+        "voter-id-photo":         { "match": {"mode":"px", "w":276, "h":354}, "names": ["Voter ID Photo Size", "Voter Card Photo Resizer"], "note": "35×45mm @ 200dpi — ECI spec" },
+        "driving-licence-photo":  { "match": {"mode":"px", "w":413, "h":531}, "names": ["Driving Licence Photo Size", "DL Photo Resizer India"] },
+
+        "_grouping_INTERNATIONAL": "── International passport photo specs ──",
+        "us-passport-photo":      { "match": {"mode":"px", "w":600, "h":600}, "names": ["US Passport Photo (2×2 inch)", "USA Passport Size Photo"], "note": "51×51mm @ 300dpi — US State Department spec" },
+        "uk-passport-photo":      { "match": {"mode":"px", "w":413, "h":531}, "names": ["UK Passport Photo (35×45mm)", "British Passport Photo Size"], "note": "Same 35×45mm as India — UK HMPO spec" },
+        "schengen-visa-photo":    { "match": {"mode":"px", "w":413, "h":531}, "names": ["Schengen Visa Photo", "EU Visa Photo Size"], "note": "35×45mm — Schengen spec" },
+
+        "_grouping_SOCIAL": "── Social media platform sizes ──",
+        "linkedin-profile-photo": { "match": {"mode":"px", "w":400,  "h":400},  "names": ["LinkedIn Profile Photo Size", "LinkedIn Profile Pic Resizer"] },
+        "linkedin-banner-photo":  { "match": {"mode":"px", "w":1584, "h":396},  "names": ["LinkedIn Banner Size (1584×396)", "LinkedIn Cover Photo Resizer"] },
+        "instagram-square-post":  { "match": {"mode":"px", "w":1080, "h":1080}, "names": ["Instagram Square Post Size", "Instagram Photo Resizer (1080×1080)"] },
+        "instagram-story-size":   { "match": {"mode":"px", "w":1080, "h":1920}, "names": ["Instagram Story Size", "IG Story Resizer (1080×1920)"] },
+        "youtube-thumbnail-size": { "match": {"mode":"px", "w":1280, "h":720},  "names": ["YouTube Thumbnail Size (1280×720)", "YouTube Thumbnail Resizer"] },
+        "whatsapp-dp-size":       { "match": {"mode":"px", "w":640,  "h":640},  "names": ["WhatsApp DP Size (640×640)", "WhatsApp Profile Photo Resizer"] },
+        "facebook-cover-photo":   { "match": {"mode":"px", "w":820,  "h":312},  "names": ["Facebook Cover Photo (820×312)", "FB Cover Photo Resizer"] },
+        "twitter-header-photo":   { "match": {"mode":"px", "w":1500, "h":500},  "names": ["X (Twitter) Header Size", "Twitter Banner Resizer (1500×500)"] },
+
+        "_grouping_PIXEL": "── Generic pixel-size landing pages (high-volume queries: 'resize image to 200x200') ──",
+        "resize-image-to-200x200":{ "match": {"mode":"px", "w":200, "h":200}, "names": ["Resize Image to 200×200 px", "200x200 Photo Resizer"] },
+        "resize-image-to-300x300":{ "match": {"mode":"px", "w":300, "h":300}, "names": ["Resize Image to 300×300 px", "300x300 Photo Resizer"] },
+        "resize-image-to-600x600":{ "match": {"mode":"px", "w":600, "h":600}, "names": ["Resize Image to 600×600 (2×2 inch)", "600x600 Photo Resizer"] }
+      },
+      "title_templates": [
+        "{preset} — Free Online Tool | ViLoLabs",
+        "{preset} | Free Photo Resizer, No Sign Up — ViLoLabs",
+        "{preset} Online Free — Instant Download | ViLoLabs"
+      ],
+      "description_templates": [
+        "Free online {preset}. Instant resize, no upload to server, no sign up. Photo processed entirely in your browser — fully private. Works on phone and computer.",
+        "{preset} — free, private, instant. No watermark, no account needed. Built for Indian govt forms, exam applications and social media. ViLoLabs."
+      ],
+      "h1_templates": [
+        "{preset}",
+        "Free {preset}",
+        "{preset} — Online"
+      ],
+      "fallback": {
+        "slug": "custom-photo-resize",
+        "name": "Custom Photo Resize"
+      }
+    },
+
+    "qr-generator": {
+      "displayName": "QR Code Generator",
+      "_matchKeys": "type=url|wifi|upi|vcard|text|email|sms|phone|whatsapp",
+      "presets": {
+        "upi-qr-code":        { "match": {"type":"upi"},     "names": ["UPI QR Code Generator", "UPI Payment QR Code", "Google Pay PhonePe Paytm QR"], "note": "India's #1 QR use case — UPI payment to a VPA" },
+        "whatsapp-qr-code":   { "match": {"type":"whatsapp"},"names": ["WhatsApp QR Code", "WhatsApp Chat QR Code Generator"] },
+        "wifi-qr-code":       { "match": {"type":"wifi"},    "names": ["WiFi QR Code Generator", "WiFi Password QR Code", "WiFi Login QR"], "note": "Phone connects without typing password" },
+        "vcard-qr-code":      { "match": {"type":"vcard"},   "names": ["vCard QR Code", "Digital Business Card QR", "Contact QR Code Generator"], "note": "Scanned phone saves contact instantly" },
+        "url-qr-code":        { "match": {"type":"url"},     "names": ["URL QR Code Generator", "Website Link QR Code", "Link to QR"] },
+        "text-qr-code":       { "match": {"type":"text"},    "names": ["Text QR Code", "Plain Text QR Code Generator"] },
+        "email-qr-code":      { "match": {"type":"email"},   "names": ["Email QR Code", "Email QR Code Generator (with Subject)"] },
+        "sms-qr-code":        { "match": {"type":"sms"},     "names": ["SMS QR Code", "SMS Message QR Code Generator"] },
+        "phone-qr-code":      { "match": {"type":"phone"},   "names": ["Phone Number QR Code", "Click-to-Call QR Code"] }
+      },
+      "title_templates": [
+        "Free {preset} — No Sign Up | ViLoLabs",
+        "{preset} — Generate, Download, Share Free | ViLoLabs",
+        "Create {preset} Online Free | ViLoLabs"
+      ],
+      "description_templates": [
+        "Generate a {preset} in seconds. Free, no sign up, no watermark. Download as PNG or SVG, share the link.",
+        "Free {preset} creator. Works on any phone or computer. No account needed, fully private — QR generated in your browser."
+      ],
+      "h1_templates": [
+        "{preset}",
+        "Free {preset}",
+        "Create Your {preset}"
+      ],
+      "fallback": {
+        "slug": "custom-qr-code",
+        "name": "Custom QR Code"
+      }
+    },
+
+    "image-to-pdf": {
+      "displayName": "Image to PDF Converter",
+      "_matchKeys": "page=a4|letter|fit · orient=p|l|auto",
+      "presets": {
+        "jpg-to-pdf-a4-portrait":   { "match": {"page":"a4",     "orient":"p"},    "names": ["JPG to PDF (A4 Portrait)", "JPG to A4 PDF Converter"] },
+        "jpg-to-pdf-a4-landscape":  { "match": {"page":"a4",     "orient":"l"},    "names": ["JPG to PDF (A4 Landscape)", "Landscape A4 PDF Maker"] },
+        "jpg-to-pdf-us-letter":     { "match": {"page":"letter", "orient":"p"},    "names": ["JPG to US Letter PDF", "Image to Letter Size PDF"] },
+        "jpg-to-pdf-letter-landscape":{"match":{"page":"letter", "orient":"l"},    "names": ["JPG to Landscape Letter PDF", "Letter Size Landscape PDF"] },
+        "jpg-to-pdf-fit":           { "match": {"page":"fit",    "orient":"auto"}, "names": ["JPG to PDF (Fit to Image)", "Photo-Sized PDF Converter"] }
+      },
+      "title_templates": [
+        "Free {preset} — Online, No Sign Up | ViLoLabs",
+        "{preset} — Free, No Watermark | ViLoLabs",
+        "Free Online {preset} | ViLoLabs"
+      ],
+      "description_templates": [
+        "Convert images to PDF with this free {preset}. No sign up, no watermark. Files processed in your browser — fully private.",
+        "Free online {preset}. Drag, drop, download — no upload to server, no account needed."
+      ],
+      "h1_templates": [
+        "{preset}",
+        "Free {preset}"
+      ],
+      "fallback": {
+        "slug": "custom-image-to-pdf",
+        "name": "Custom Image to PDF"
+      }
+    },
+
+    "compress-image": {
+      "displayName": "Image Compressor",
+      "_matchKeys": "target=web|email|chat|print",
+      "presets": {
+        "compress-image-for-web":      { "match": {"target":"web"},   "names": ["Compress Image for Web", "Web Image Compressor", "JPG Web Optimizer"] },
+        "compress-image-for-email":    { "match": {"target":"email"}, "names": ["Compress Image for Email", "Email Photo Compressor"] },
+        "compress-image-for-whatsapp": { "match": {"target":"chat"},  "names": ["Compress Image for WhatsApp", "WhatsApp Photo Compressor"] },
+        "compress-image-for-print":    { "match": {"target":"print"}, "names": ["Compress Image for Print", "Print-Quality Image Compressor"] }
+      },
+      "title_templates": [
+        "{preset} — Free Online | ViLoLabs",
+        "Free {preset} — No Sign Up | ViLoLabs"
+      ],
+      "description_templates": [
+        "{preset} instantly. Free, no upload to server, no sign up. Image compressed in your browser — fully private.",
+        "Free online {preset}. No watermark, no account needed, ready in seconds."
+      ],
+      "h1_templates": ["{preset}", "Free {preset}"],
+      "fallback": {
+        "slug": "custom-image-compress",
+        "name": "Custom Image Compression"
+      }
+    },
+
+    "compress-pdf": {
+      "displayName": "PDF Compressor",
+      "_matchKeys": "q=0.40|0.60|0.80",
+      "presets": {
+        "compress-pdf-strong":   { "match": {"q":0.40}, "names": ["Strong PDF Compression", "Maximum PDF Compressor", "Compress PDF for Email"] },
+        "compress-pdf-balanced": { "match": {"q":0.60}, "names": ["Balanced PDF Compressor", "Compress PDF for Web"] },
+        "compress-pdf-light":    { "match": {"q":0.80}, "names": ["Light PDF Compressor (High Quality)", "Compress PDF for Print"] }
+      },
+      "title_templates": [
+        "{preset} — Free, No Sign Up | ViLoLabs",
+        "Free {preset} Online | ViLoLabs"
+      ],
+      "description_templates": [
+        "{preset} in seconds. Free, no upload to server, no sign up. PDF compressed in your browser — fully private.",
+        "Free online {preset}. No watermark, no account needed. Keeps your text crisp."
+      ],
+      "h1_templates": ["{preset}", "Free {preset}"],
+      "fallback": {
+        "slug": "custom-pdf-compress",
+        "name": "Custom PDF Compression"
+      }
+    },
+
+    "merge-pdf": {
+      "displayName": "Merge PDF",
+      "presets": {
+        "merge-pdfs-online":   { "match": {"action":"merge"}, "names": ["Merge PDFs Online", "Combine PDFs Free"] },
+        "join-pdf-files":      { "match": {"action":"join"},  "names": ["Join PDF Files", "Merge PDF Documents"] }
+      },
+      "title_templates": [
+        "{preset} — Free, No Sign Up | ViLoLabs",
+        "Free {preset} Tool | ViLoLabs"
+      ],
+      "description_templates": [
+        "{preset} instantly. Free, no upload to server, no sign up. PDFs combined in your browser — fully private."
+      ],
+      "h1_templates": ["{preset}", "Free {preset}"],
+      "fallback": {
+        "slug": "merge-pdfs-online",
+        "name": "Merge PDFs Online"
+      }
+    }
+
+  }
+}

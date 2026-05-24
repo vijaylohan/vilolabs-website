@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF to Word Converter — Free, Text Extract to .doc, No Watermark | ViLoLabs</title>
+<meta name="description" content="Free online PDF to Word converter. Extract text from a PDF into an editable .doc document (opens in Word, Google Docs, LibreOffice). Best for text-heavy PDFs. No sign up, no watermark, fully private.">
+<meta name="keywords" content="pdf to word, pdf to doc, pdf text extract, free pdf to word, online pdf converter, no watermark, pdf to editable">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="PDF to Word — Free Text Extract | ViLoLabs">
+<meta property="og:description" content="Free PDF to Word (.doc) text extractor. Private, in-browser.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"PDF to Word Converter","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+.text-preview{margin-top:1.3rem;padding:1rem 1.1rem;background:var(--char2);border:1px solid rgba(200,150,60,.18);
+  border-radius:10px;max-height:300px;overflow:auto;font-size:.85rem;line-height:1.55;color:rgba(245,240,232,.78);
+  white-space:pre-wrap;font-family:'Outfit',sans-serif;}
+.text-preview:empty::before{content:'Text preview will appear here…';color:var(--brown3);font-style:italic;}
+.progress{width:100%;height:6px;background:rgba(200,150,60,.1);border-radius:3px;overflow:hidden;margin-top:.8rem;display:none;}
+.progress.show{display:block;}
+.progress .bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;transition:width .25s;}
+.dl-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem;}
+.dl-row button{padding:.7rem 1.4rem;border:1px solid var(--gold);background:none;color:var(--gold);border-radius:5px;
+  font-family:inherit;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}
+.dl-row button.primary{background:var(--gold);color:var(--char);}
+.dl-row button:hover{transform:translateY(-2px);}
+.dl-row button:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+</style>
+</head>
+<body>
+<div id="cursor"></div><div id="cursor-ring"></div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="logo">ViLo<em>Labs</em></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../tools.html">Tools</a></li>
+    <li><a href="../app.html">Apps</a></li>
+    <li><a href="../sheets.html">Worksheets</a></li>
+  </ul>
+</nav>
+
+<div class="wrap"><p class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="../tools.html">Tools</a><span class="sep">/</span>PDF to Word</p></div>
+
+<header class="hero">
+  <p class="eyebrow">Free Online Tool · PDF</p>
+  <h1>PDF to Word <em>(text).</em></h1>
+  <p class="lead">Extract the text from a PDF into a Word-compatible document you can edit in Microsoft Word, Google Docs or LibreOffice. Files stay on your device.</p>
+  <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
+</header>
+
+<section class="wrap">
+  <div class="app-sec">
+    <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please review the extracted text before sharing or using it in important documents.</span></div>
+    <div class="notice"><strong>Be honest about limits:</strong> this tool extracts the <em>text</em> of your PDF — paragraph by paragraph — into a .doc you can open in Word. Complex layouts, tables and images won't be preserved. For text-heavy PDFs (reports, ebooks, articles), it works great. For scanned PDFs you'd need OCR, which isn't included here.</div>
+
+    <div class="drop" id="drop">
+      <div class="di">📝</div>
+      <div class="dt">Click to choose a PDF, or drop it here</div>
+      <div class="ds">We'll read the text and let you save it as Word</div>
+    </div>
+    <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+
+    <div id="panel" style="display:none">
+      <div class="progress" id="progress"><div class="bar" id="bar"></div></div>
+
+      <div class="text-preview" id="preview"></div>
+
+      <div class="dl-row" id="dlrow" style="display:none">
+        <button class="primary" id="dl-doc">Download as Word (.doc)</button>
+        <button id="dl-txt">Download as Text (.txt)</button>
+        <button id="copy">Copy text</button>
+      </div>
+
+      <div class="actions" style="margin-top:.8rem">
+        <button class="clear-btn" id="clr">Choose another PDF</button>
+        <span class="status" id="status"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section-pad">
+  <p class="sec-tag">Good to Know</p>
+  <h2 class="sec-h">Common <em>questions</em>.</h2>
+  <div class="faq-item"><h3>Why .doc and not .docx?</h3><p>We export a small <em>Word HTML</em> file with a .doc extension — every modern Word, Google Docs and LibreOffice opens it perfectly, and the page stays tiny instead of bundling a heavy .docx library.</p></div>
+  <div class="faq-item"><h3>Why are images and tables missing?</h3><p>Pure-client-side PDF→Word can't reliably rebuild complex layouts. We focus on getting the text right. If your PDF is mostly text, the result will be clean.</p></div>
+  <div class="faq-item"><h3>What about scanned PDFs?</h3><p>Scanned PDFs are images of text, not real text. You'd need OCR for those — coming as a separate tool later.</p></div>
+  <div class="faq-item"><h3>Are my files uploaded?</h3><p>No. pdf.js reads your file directly in your browser. Nothing leaves your device.</p></div>
+</section>
+
+<footer class="site-foot">
+  <div class="fl"><a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../app.html">Apps</a><a href="../sheets.html">Worksheets</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></div>
+  <p class="cp">© <span id="yr"></span> ViLoLabs · Free online tools, built in India for the world.</p>
+  <p class="disclaimer">ViLoLabs tools can make mistakes. Please verify your output before sharing or printing.</p>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+(function(){const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');if(window.matchMedia('(hover:none),(pointer:coarse)').matches){cur.style.display='none';ring.style.display='none';document.documentElement.style.cursor='auto';return;}let rx=0,ry=0,cx=0,cy=0;document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});(function loop(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();})();
+
+// configure pdf.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const stamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;};
+// ── PDF TO WORD (text) ──
+let extracted=null;   // {paragraphs:[], pages:n, name:''}
+const drop=document.getElementById('drop');
+const fileInput=document.getElementById('file');
+const statusEl=document.getElementById('status');
+const previewEl=document.getElementById('preview');
+const barEl=document.getElementById('bar');
+const progEl=document.getElementById('progress');
+
+drop.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',e=>e.target.files[0]&&extract(e.target.files[0]));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f&&(f.type==='application/pdf'||/\.pdf$/i.test(f.name)))extract(f);});
+document.getElementById('clr').addEventListener('click',()=>{extracted=null;fileInput.value='';document.getElementById('panel').style.display='none';previewEl.textContent='';});
+document.getElementById('dl-doc').addEventListener('click',downloadDoc);
+document.getElementById('dl-txt').addEventListener('click',downloadTxt);
+document.getElementById('copy').addEventListener('click',copyText);
+
+async function extract(f){
+  document.getElementById('panel').style.display='block';
+  document.getElementById('dlrow').style.display='none';
+  previewEl.textContent='';
+  statusEl.classList.remove('err');statusEl.textContent='Reading PDF…';
+  progEl.classList.add('show');barEl.style.width='0%';
+  try{
+    const buf=await f.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+    const paragraphs=[];
+    for(let i=1;i<=pdf.numPages;i++){
+      statusEl.textContent=`Extracting text from page ${i} / ${pdf.numPages}…`;
+      const page=await pdf.getPage(i);
+      const content=await page.getTextContent();
+      // group items into lines by Y, then into paragraphs by Y gaps
+      const items=content.items.filter(it=>it.str&&it.str.length);
+      if(!items.length){barEl.style.width=Math.round(i/pdf.numPages*100)+'%';continue;}
+      // sort by -y then x
+      items.sort((a,b)=>(b.transform[5]-a.transform[5])||(a.transform[4]-b.transform[4]));
+      const lines=[];let cur=null;const Y_TOL=2;
+      for(const it of items){
+        const y=it.transform[5];
+        if(!cur||Math.abs(cur.y-y)>Y_TOL){cur={y,text:'',lastX:null,height:it.height||10};lines.push(cur);}
+        if(cur.lastX!==null && (it.transform[4]-cur.lastX>3) && !/\s$/.test(cur.text)) cur.text+=' ';
+        cur.text+=it.str;
+        cur.lastX=it.transform[4]+(it.width||0);
+      }
+      // join lines into paragraphs based on vertical gap > 1.5 * line height
+      let para=[];let prevY=null,prevH=10;
+      for(const ln of lines){
+        const txt=ln.text.replace(/\s+/g,' ').trim();
+        if(!txt)continue;
+        if(prevY===null||Math.abs(prevY-ln.y)<=prevH*1.6){para.push(txt);}
+        else{if(para.length)paragraphs.push(para.join(' '));para=[txt];}
+        prevY=ln.y;prevH=ln.height||10;
+      }
+      if(para.length)paragraphs.push(para.join(' '));
+      // page break marker
+      if(i<pdf.numPages)paragraphs.push('__PAGEBREAK__');
+      barEl.style.width=Math.round(i/pdf.numPages*100)+'%';
+      await new Promise(r=>setTimeout(r,0));
+    }
+    extracted={paragraphs,pages:pdf.numPages,name:f.name.replace(/\.pdf$/i,'')};
+    const previewText=paragraphs.map(p=>p==='__PAGEBREAK__'?'\n— page break —\n':p).join('\n\n').slice(0,4000);
+    previewEl.textContent=previewText||'(no extractable text found — is this a scanned PDF?)';
+    const wordCount=paragraphs.filter(p=>p!=='__PAGEBREAK__').join(' ').split(/\s+/).filter(Boolean).length;
+    statusEl.textContent=`✓ Extracted ${wordCount.toLocaleString()} words from ${pdf.numPages} page${pdf.numPages>1?'s':''}.`;
+    document.getElementById('dlrow').style.display='flex';
+  }catch(err){
+    console.error(err);
+    statusEl.classList.add('err');statusEl.textContent='Extract failed: '+(err.message||'unknown');
+  }
+  progEl.classList.remove('show');
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function buildDocHtml(){
+  const body=extracted.paragraphs.map(p=>{
+    if(p==='__PAGEBREAK__') return `<br clear="all" style="page-break-before:always;mso-special-character:line-break;mso-break-type:page-break">`;
+    return `<p style="margin:0 0 10pt 0">${escHtml(p)}</p>`;
+  }).join('\n');
+  return `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset="UTF-8"><title>${escHtml(extracted.name)}</title><style>body{font-family:Calibri,sans-serif;font-size:11pt;line-height:1.4;}</style></head><body>${body}</body></html>`;
+}
+
+function downloadDoc(){
+  if(!extracted)return;
+  const html=buildDocHtml();
+  const blob=new Blob(['﻿'+html],{type:'application/msword'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-PDF-to-Word_${stamp()}.doc`;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  statusEl.textContent='✓ .doc downloaded — open it in Word, Google Docs or LibreOffice.';
+}
+function downloadTxt(){
+  if(!extracted)return;
+  const text=extracted.paragraphs.map(p=>p==='__PAGEBREAK__'?'\n\f\n':p).join('\n\n');
+  const blob=new Blob([text],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-PDF-to-Text_${stamp()}.txt`;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  statusEl.textContent='✓ .txt downloaded.';
+}
+function copyText(){
+  if(!extracted)return;
+  const text=extracted.paragraphs.filter(p=>p!=='__PAGEBREAK__').join('\n\n');
+  navigator.clipboard&&navigator.clipboard.writeText(text).then(()=>{statusEl.textContent='✓ Text copied.';},()=>{statusEl.textContent='Copy failed.';});
+}
+</script>
+</body>
+</html>

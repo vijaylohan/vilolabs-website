@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resize Image Online — to Pixels, Percent or Target KB (200 KB, 100 KB) | ViLoLabs</title>
+<meta name="description" content="Free online image resizer. Resize JPG, PNG, WebP to exact pixels, percentage, or a target file size like 200 KB (for govt forms, UPSC, SSC, exam applications). No watermark, no sign up, fully private.">
+<meta name="keywords" content="resize image, resize image online, image resizer, resize to 200 kb, resize image to 100 kb, govt form photo size, upsc photo size, ssc photo size, free image resizer, no watermark">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Resize Image — Pixels, Percent or Target KB (200 KB Preset) | ViLoLabs">
+<meta property="og:description" content="Free image resizer with a 200 KB target preset for Indian govt forms. Private, in-browser.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
+<script src="/tools/tool-seo.js"></script>
+<script src="/assets/db.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Resize Image Online","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+.mode-tabs{display:flex;gap:.4rem;margin-top:1rem;flex-wrap:wrap;}
+.mode-tab{padding:.55rem 1.1rem;border:1px solid rgba(200,150,60,.2);background:rgba(200,150,60,.04);
+  color:var(--brown3);border-radius:6px;cursor:pointer;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;font-family:inherit;}
+.mode-tab.on{background:var(--gold);color:var(--char);border-color:var(--gold);font-weight:700;}
+.preview{margin-top:1.3rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.pv{border:1px solid rgba(200,150,60,.18);border-radius:10px;background:var(--char2);padding:.7rem;text-align:center;}
+.pv h5{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brown3);margin-bottom:.4rem;}
+.pv .imgwrap{background:#0d0905;border-radius:6px;height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.pv img{max-width:100%;max-height:100%;display:block;}
+.pv .meta{font-size:.78rem;color:var(--gold2);margin-top:.5rem;font-variant-numeric:tabular-nums;}
+.presets{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem;}
+.preset{padding:.32rem .7rem;border:1px solid rgba(200,150,60,.2);background:rgba(200,150,60,.04);
+  color:var(--brown3);border-radius:20px;cursor:pointer;font-size:.7rem;font-family:inherit;}
+.preset:hover,.preset.on{background:var(--gold);color:var(--char);border-color:var(--gold);}
+.lock-wrap{display:flex;align-items:center;gap:.4rem;font-size:.74rem;color:var(--brown3);margin-top:1.45rem;}
+.lock-wrap input{accent-color:var(--gold);}
+@media(max-width:560px){.preview{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="cursor"></div><div id="cursor-ring"></div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="logo">ViLo<em>Labs</em></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../tools.html">Tools</a></li>
+    <li><a href="../app.html">Apps</a></li>
+    <li><a href="../sheets.html">Worksheets</a></li>
+  </ul>
+</nav>
+
+<div class="wrap"><p class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="../tools.html">Tools</a><span class="sep">/</span>Resize Image</p></div>
+
+<header class="hero">
+  <p class="eyebrow">Free Online Tool · Image</p>
+  <h1>Resize Image to <em>any size.</em></h1>
+  <p class="lead">Resize JPG, PNG or WebP to exact pixels, a percentage, or a target file size — including <strong>200 KB and 100 KB presets</strong> for Indian govt forms (UPSC, SSC, banking, exam portals).</p>
+  <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
+</header>
+
+<section class="wrap">
+  <div class="app-sec">
+    <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please check your resized image meets your form's requirements before uploading it.</span></div>
+    <div class="drop" id="drop">
+      <div class="di">🖼️</div>
+      <div class="dt">Click to choose an image, or drop it here</div>
+      <div class="ds">JPG · PNG · WebP</div>
+    </div>
+    <input type="file" id="file" accept="image/*" hidden>
+
+    <div id="panel" style="display:none">
+      <div class="mode-tabs">
+        <button class="mode-tab on" data-mode="px">Pixels</button>
+        <button class="mode-tab" data-mode="pct">Percent</button>
+        <button class="mode-tab" data-mode="kb">Target KB</button>
+      </div>
+
+      <!-- pixel mode -->
+      <div class="opts" id="opts-px">
+        <div class="opt"><label>Width (px)</label><input type="number" id="w" min="1" step="1"></div>
+        <div class="opt"><label>Height (px)</label><input type="number" id="h" min="1" step="1"></div>
+        <label class="lock-wrap"><input type="checkbox" id="lock" checked>Lock aspect ratio</label>
+        <div class="opt"><label>Format</label><select id="fmt-px"><option value="keep">Keep original</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div>
+      </div>
+
+      <!-- percent mode -->
+      <div class="opts" id="opts-pct" style="display:none">
+        <div class="opt" style="flex:1;min-width:240px">
+          <label>Scale</label>
+          <div class="range-wrap"><input type="range" id="pct" min="5" max="200" step="1" value="50"><span class="val"><span id="pct-val">50</span>%</span></div>
+        </div>
+        <div class="opt"><label>Format</label><select id="fmt-pct"><option value="keep">Keep original</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div>
+      </div>
+
+      <!-- KB mode -->
+      <div class="opts" id="opts-kb" style="display:none">
+        <div class="opt">
+          <label>Target file size (KB)</label>
+          <input type="number" id="kb" min="5" max="10000" step="1" value="200">
+          <div class="presets">
+            <button class="preset" data-kb="50">50 KB</button>
+            <button class="preset on" data-kb="200">200 KB · govt</button>
+            <button class="preset" data-kb="100">100 KB</button>
+            <button class="preset" data-kb="500">500 KB</button>
+            <button class="preset" data-kb="1024">1 MB</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice" id="notice-kb" style="display:none">
+        <strong>Target KB mode:</strong> we keep the original dimensions and reduce JPG quality until the file fits. If it can't fit even at low quality, we'll downscale dimensions a bit to make it work.
+      </div>
+
+      <div class="preview">
+        <div class="pv">
+          <h5>Original</h5>
+          <div class="imgwrap"><img id="orig-img" alt=""></div>
+          <div class="meta" id="orig-meta">—</div>
+        </div>
+        <div class="pv">
+          <h5>Resized</h5>
+          <div class="imgwrap"><img id="out-img" alt=""></div>
+          <div class="meta" id="out-meta">—</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="go-btn" id="go">Resize &amp; Download</button>
+        <button class="clear-btn" id="clr">Choose another</button>
+        <span class="status" id="status"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section-pad">
+  <p class="sec-tag">Good to Know</p>
+  <h2 class="sec-h">Common <em>questions</em>.</h2>
+  <div class="faq-item"><h3>Why a 200 KB preset?</h3><p>Many Indian government forms (UPSC, SSC, IBPS, state boards, exam portals) require a passport photo or signature image under 200 KB. The preset hits that target automatically.</p></div>
+  <div class="faq-item"><h3>How does target KB mode work?</h3><p>We keep your original dimensions and reduce JPG quality step by step until the file fits. If it still can't fit at low quality, we gently downscale dimensions until it does.</p></div>
+  <div class="faq-item"><h3>Does this keep transparency?</h3><p>PNG keeps transparency. JPG does not — we fill transparent areas with white. Choose your format in the Format dropdown.</p></div>
+  <div class="faq-item"><h3>Are my images uploaded?</h3><p>No. Everything happens in your browser — your image never leaves your device.</p></div>
+</section>
+
+<footer class="site-foot">
+  <div class="fl"><a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../app.html">Apps</a><a href="../sheets.html">Worksheets</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></div>
+  <p class="cp">© <span id="yr"></span> ViLoLabs · Free online tools, built in India for the world.</p>
+  <p class="disclaimer">ViLoLabs tools can make mistakes. Please verify your output before sharing or printing.</p>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+(function(){const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');if(window.matchMedia('(hover:none),(pointer:coarse)').matches){cur.style.display='none';ring.style.display='none';document.documentElement.style.cursor='auto';return;}let rx=0,ry=0,cx=0,cy=0;document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});(function loop(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();})();
+
+const stamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;};
+// ── RESIZE IMAGE ──
+let orig=null;       // {img, w, h, mime, name, size}
+let mode='px';
+let outBlob=null;
+
+const drop=document.getElementById('drop');
+const fileInput=document.getElementById('file');
+const statusEl=document.getElementById('status');
+drop.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',e=>e.target.files[0]&&loadImg(e.target.files[0]));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))loadImg(f);});
+
+function loadImg(f){
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const img=new Image();
+    img.onload=()=>{
+      orig={img,w:img.naturalWidth,h:img.naturalHeight,mime:f.type,name:f.name,size:f.size};
+      document.getElementById('orig-img').src=img.src;
+      document.getElementById('orig-meta').textContent=`${orig.w}×${orig.h} px · ${(f.size/1024).toFixed(0)} KB · ${f.type.replace('image/','').toUpperCase()}`;
+      document.getElementById('panel').style.display='block';
+      document.getElementById('w').value=orig.w;
+      document.getElementById('h').value=orig.h;
+      document.getElementById('out-img').removeAttribute('src');
+      document.getElementById('out-meta').textContent='—';
+      statusEl.textContent='Pick a mode and hit Resize.';
+      statusEl.classList.remove('err');
+    };
+    img.src=reader.result;
+  };
+  reader.readAsDataURL(f);
+}
+
+document.querySelectorAll('.mode-tab').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.mode-tab').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  mode=b.dataset.mode;
+  document.getElementById('opts-px').style.display=mode==='px'?'flex':'none';
+  document.getElementById('opts-pct').style.display=mode==='pct'?'flex':'none';
+  document.getElementById('opts-kb').style.display=mode==='kb'?'flex':'none';
+  document.getElementById('notice-kb').style.display=mode==='kb'?'block':'none';
+}));
+
+// pixel inputs — lock aspect ratio
+const wEl=document.getElementById('w'),hEl=document.getElementById('h');
+wEl.addEventListener('input',()=>{if(document.getElementById('lock').checked&&orig){hEl.value=Math.max(1,Math.round((+wEl.value||0)*orig.h/orig.w));}});
+hEl.addEventListener('input',()=>{if(document.getElementById('lock').checked&&orig){wEl.value=Math.max(1,Math.round((+hEl.value||0)*orig.w/orig.h));}});
+
+// percent slider
+const pct=document.getElementById('pct');
+pct.addEventListener('input',()=>document.getElementById('pct-val').textContent=pct.value);
+
+// KB presets
+document.querySelectorAll('.preset').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.preset').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  document.getElementById('kb').value=b.dataset.kb;
+}));
+
+document.getElementById('clr').addEventListener('click',()=>{orig=null;outBlob=null;fileInput.value='';document.getElementById('panel').style.display='none';});
+document.getElementById('go').addEventListener('click',doResize);
+
+function pickFormat(selId){
+  const v=document.getElementById(selId).value;
+  if(v==='keep') return orig.mime==='image/png'?'image/png':'image/jpeg';
+  return v;
+}
+
+async function doResize(){
+  if(!orig)return;
+  const go=document.getElementById('go');go.disabled=true;
+  statusEl.classList.remove('err');statusEl.textContent='Resizing…';
+  outBlob=null;
+  try{
+    let blob,outW,outH,outMime;
+    if(mode==='px'){
+      outW=Math.max(1,Math.round(+wEl.value||orig.w));
+      outH=Math.max(1,Math.round(+hEl.value||orig.h));
+      outMime=pickFormat('fmt-px');
+      blob=await drawAndEncode(orig.img,outW,outH,outMime,0.92);
+    } else if(mode==='pct'){
+      const p=(+pct.value||100)/100;
+      outW=Math.max(1,Math.round(orig.w*p));
+      outH=Math.max(1,Math.round(orig.h*p));
+      outMime=pickFormat('fmt-pct');
+      blob=await drawAndEncode(orig.img,outW,outH,outMime,0.92);
+    } else { // kb
+      const target=Math.max(5,+document.getElementById('kb').value||200);
+      outMime='image/jpeg';
+      const r=await compressToTargetKB(orig.img,target);
+      if(!r){statusEl.classList.add('err');statusEl.textContent='Could not hit target — try a slightly bigger KB.';go.disabled=false;return;}
+      blob=r.blob;outW=r.w;outH=r.h;
+    }
+    outBlob=blob;
+    const url=URL.createObjectURL(blob);
+    document.getElementById('out-img').src=url;
+    document.getElementById('out-meta').textContent=`${outW}×${outH} px · ${(blob.size/1024).toFixed(0)} KB · ${outMime.replace('image/','').toUpperCase()}`;
+    // trigger download
+    const ext=outMime==='image/png'?'png':(outMime==='image/webp'?'webp':'jpg');
+    const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-Resized_${stamp()}.${ext}`;document.body.appendChild(a);a.click();a.remove();
+    statusEl.textContent='✓ Downloaded.';
+    // ── pSEO: emit a canonical preset URL when the config matches a known preset
+    _tsAfterAction({mode, w:outW, h:outH, kb: mode==='kb'?(+document.getElementById('kb').value||200):undefined});
+  }catch(err){console.error(err);statusEl.classList.add('err');statusEl.textContent='Resize failed: '+(err.message||'unknown');}
+  go.disabled=false;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// pSEO: preset-matched share + restore + dynamic title/meta
+// ──────────────────────────────────────────────────────────────────
+const TOOL='resize-image';
+let _tsKw=null;
+if(window.TSeo) TSeo.loadKeywords().then(k=>{_tsKw=k; _tsRestoreFromUrl();});
+
+function _tsAfterAction(currentCfg){
+  if(!window.TSeo||!_tsKw||!window.ViloDB) return;
+  const presetKey=TSeo.matchPreset(TOOL, currentCfg, _tsKw);
+  if(!presetKey) return;  // honest: only matched presets get an indexable URL
+  const slug=TSeo.buildToolSlug(TOOL, presetKey, _tsKw);  // canonical (no id)
+  ViloDB.saveToolShare(TOOL, currentCfg, slug);
+  try{ history.replaceState({slug},'','/tools/'+TOOL+'/'+slug); }catch(e){}
+  _tsApplyMeta(presetKey);
+}
+
+function _tsApplyMeta(presetKey){
+  if(!window.TSeo||!_tsKw) return;
+  const id=presetKey;  // canonical → use presetKey as the deterministic seed
+  const title=TSeo.renderTitle(TOOL, presetKey, id, _tsKw);
+  const desc =TSeo.renderDesc (TOOL, presetKey, id, _tsKw);
+  document.title=title;
+  const md=document.querySelector('meta[name="description"]');
+  if(md) md.setAttribute('content', desc);
+  const og=document.querySelector('meta[property="og:title"]');
+  if(og) og.setAttribute('content', title);
+  const ogd=document.querySelector('meta[property="og:description"]');
+  if(ogd) ogd.setAttribute('content', desc);
+  // Canonical link → consolidates SEO weight on the preset URL
+  let canon=document.querySelector('link[rel="canonical"]');
+  if(!canon){canon=document.createElement('link');canon.rel='canonical';document.head.appendChild(canon);}
+  canon.href=location.origin+'/tools/'+TOOL+'/'+presetKey;
+}
+
+function _tsRestoreFromUrl(){
+  // Path is /tools/resize-image/<slug>  OR  /tools/resize-image.html
+  const m=location.pathname.match(/^\/tools\/resize-image\/([^/?#]+)\/?$/);
+  if(!m||!window.TSeo||!_tsKw) return;
+  const parsed=TSeo.parseToolSlug(TOOL, m[1], _tsKw);
+  if(!parsed||!parsed.presetKey) return;
+  const preset=(_tsKw.tools[TOOL].presets||{})[parsed.presetKey];
+  if(!preset||!preset.match) return;
+  // Prefill the form based on preset.match
+  const cfg=preset.match;
+  if(cfg.mode){
+    document.querySelectorAll('.mode-tab').forEach(b=>{
+      b.classList.toggle('on', b.dataset.mode===cfg.mode);
+    });
+    mode=cfg.mode;
+    document.getElementById('opts-px').style.display=mode==='px'?'flex':'none';
+    document.getElementById('opts-pct').style.display=mode==='pct'?'flex':'none';
+    document.getElementById('opts-kb').style.display=mode==='kb'?'flex':'none';
+    document.getElementById('notice-kb').style.display=mode==='kb'?'block':'none';
+  }
+  if(cfg.w!=null) document.getElementById('w').value=cfg.w;
+  if(cfg.h!=null) document.getElementById('h').value=cfg.h;
+  if(cfg.kb!=null){
+    document.getElementById('kb').value=cfg.kb;
+    document.querySelectorAll('.preset').forEach(b=>{
+      b.classList.toggle('on', String(b.dataset.kb)===String(cfg.kb));
+    });
+  }
+  _tsApplyMeta(parsed.presetKey);
+  // Update visible H1 if present
+  const h1=document.querySelector('h1');
+  if(h1){
+    const newH1=TSeo.renderH1(TOOL, parsed.presetKey, parsed.presetKey, _tsKw);
+    if(newH1) h1.textContent=newH1;
+  }
+}
+
+function drawAndEncode(img,W,H,mime,q){
+  return new Promise(resolve=>{
+    const c=document.createElement('canvas');c.width=W;c.height=H;
+    const ctx=c.getContext('2d');
+    if(mime==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);}
+    ctx.imageSmoothingQuality='high';
+    ctx.drawImage(img,0,0,W,H);
+    c.toBlob(b=>resolve(b),mime,q);
+  });
+}
+
+async function compressToTargetKB(img,targetKB){
+  const maxBytes=targetKB*1024;
+  let w=img.naturalWidth,h=img.naturalHeight;
+  for(let scale=1;scale>=0.2;scale*=0.85){
+    const W=Math.max(1,Math.round(w*scale)),H=Math.max(1,Math.round(h*scale));
+    // try high quality first
+    const hi=await drawAndEncode(img,W,H,'image/jpeg',0.95);
+    if(hi.size<=maxBytes) return {blob:hi,w:W,h:H};
+    // try low to see if achievable
+    const lo=await drawAndEncode(img,W,H,'image/jpeg',0.30);
+    if(lo.size>maxBytes){continue;} // need smaller scale
+    // binary search quality
+    let qlo=0.30,qhi=0.95,best=lo;
+    for(let i=0;i<8;i++){
+      const q=(qlo+qhi)/2;
+      const b=await drawAndEncode(img,W,H,'image/jpeg',q);
+      if(b.size<=maxBytes){best=b;qlo=q;} else qhi=q;
+    }
+    return {blob:best,w:W,h:H};
+  }
+  return null;
+}
+</script>
+</body>
+</html>

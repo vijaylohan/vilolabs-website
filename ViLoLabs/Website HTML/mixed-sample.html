@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Activity Worksheet — Sample</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#3a3a3a;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;
+       padding:2rem 1rem;display:flex;flex-direction:column;align-items:center;gap:2rem}
+
+  .page{
+    background:#fff;width:100%;max-width:640px;
+    aspect-ratio:1 / 1.414;            /* A4 portrait */
+    padding:26px 28px;
+    display:flex;flex-direction:column;gap:14px;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);
+  }
+
+  /* page title */
+  .title{text-align:center;border-bottom:3px dashed #C8963C;padding-bottom:8px}
+  .title h1{font-size:1.5rem;color:#1A1108;letter-spacing:.5px}
+  .title p{font-size:.72rem;color:#A07860;margin-top:2px}
+
+  /* activity block */
+  .act{display:flex;flex-direction:column;gap:8px}
+  .act-head{display:flex;align-items:center;gap:8px}
+  .num{
+    background:#E53E3E;color:#fff;font-weight:bold;
+    width:26px;height:26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:.95rem;flex:none;
+  }
+  .inst{font-size:.92rem;color:#1A1108;font-weight:bold}
+
+  /* rows of items */
+  .row{display:grid;gap:8px}
+  .r4{grid-template-columns:repeat(4,1fr)}
+  .r6{grid-template-columns:repeat(6,1fr)}
+  .cell{
+    border:2px solid #C8963C;border-radius:10px;
+    aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+    padding:7px;background:#FFFDF8;
+  }
+  .cell img{max-width:100%;max-height:100%;object-fit:contain}
+
+  /* count groups */
+  .count-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grp{border:2px solid #C8963C;border-radius:10px;padding:8px;background:#FFFDF8}
+  .grp-items{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;min-height:74px;align-items:center}
+  .grp-items img{height:60px;object-fit:contain}
+  .opts{display:flex;gap:10px;justify-content:center;margin-top:7px}
+  .opt{
+    width:30px;height:30px;border:2px solid #1A1108;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:bold;font-size:1rem;color:#1A1108;
+  }
+
+  .foot{margin-top:auto;text-align:center;font-size:.65rem;color:#A07860;
+        border-top:1px solid #eee;padding-top:6px;letter-spacing:.1em}
+
+  @media print{
+    body{background:#fff;padding:0;gap:0}
+    .page{box-shadow:none;max-width:none;width:100%}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="title">
+    <h1>My Activity Worksheet</h1>
+    <p>Name: ____________________      Date: ____________</p>
+  </div>
+
+  <!-- ACTIVITY 1 — ODD ONE OUT -->
+  <div class="act">
+    <div class="act-head">
+      <div class="num">1</div>
+      <div class="inst">Circle the picture that does not belong.</div>
+    </div>
+    <div class="row r4">
+      <div class="cell"><img src="assets/library/animals/cat.png" alt=""></div>
+      <div class="cell"><img src="assets/library/animals/dog.png" alt=""></div>
+      <div class="cell"><img src="assets/library/animals/lion.png" alt=""></div>
+      <div class="cell"><img src="assets/library/clothing/t-shirt.png" alt=""></div>
+    </div>
+    <div class="row r4">
+      <div class="cell"><img src="assets/library/buildings/house.png" alt=""></div>
+      <div class="cell"><img src="assets/library/buildings/castle.png" alt=""></div>
+      <div class="cell"><img src="assets/library/birds/owl.png" alt=""></div>
+      <div class="cell"><img src="assets/library/buildings/barn.png" alt=""></div>
+    </div>
+    <div class="row r4">
+      <div class="cell"><img src="assets/library/clothing/boots.png" alt=""></div>
+      <div class="cell"><img src="assets/library/clothing/sneaker.png" alt=""></div>
+      <div class="cell"><img src="assets/library/body-parts/hand.png" alt=""></div>
+      <div class="cell"><img src="assets/library/clothing/flip-flops.png" alt=""></div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 2 — CIRCLE THE MATCH -->
+  <div class="act">
+    <div class="act-head">
+      <div class="num">2</div>
+      <div class="inst">Circle the two pictures that are the same.</div>
+    </div>
+    <div class="row r6">
+      <div class="cell"><img src="assets/library/birds/owl.png" alt=""></div>
+      <div class="cell"><img src="assets/library/birds/duck.png" alt=""></div>
+      <div class="cell"><img src="assets/library/birds/swan.png" alt=""></div>
+      <div class="cell"><img src="assets/library/birds/penguin.png" alt=""></div>
+      <div class="cell"><img src="assets/library/birds/owl.png" alt=""></div>
+      <div class="cell"><img src="assets/library/birds/parrot.png" alt=""></div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 3 — COUNT & CIRCLE -->
+  <div class="act">
+    <div class="act-head">
+      <div class="num">3</div>
+      <div class="inst">Count the animals. Circle the right number.</div>
+    </div>
+    <div class="count-wrap">
+      <div class="grp">
+        <div class="grp-items">
+          <img src="assets/library/animals/rabbit.png" alt="">
+          <img src="assets/library/animals/rabbit.png" alt="">
+          <img src="assets/library/animals/rabbit.png" alt="">
+        </div>
+        <div class="opts"><div class="opt">2</div><div class="opt">3</div><div class="opt">4</div></div>
+      </div>
+      <div class="grp">
+        <div class="grp-items">
+          <img src="assets/library/animals/bear.png" alt="">
+          <img src="assets/library/animals/bear.png" alt="">
+        </div>
+        <div class="opts"><div class="opt">1</div><div class="opt">2</div><div class="opt">3</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">VILOLABS · VILO WORKSHEETS</div>
+
+</div>
+
+</body>
+</html>

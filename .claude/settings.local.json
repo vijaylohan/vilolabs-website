@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"E:\\\\Website\\\\Website HTML\\\\assets\\\\images\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"E:\\\\Website\\\\Website HTML\\\\assets\\\\png\")",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(node tools/make-transparent.js)",
+      "Bash(ls -la animals/cow.png)",
+      "Bash(node -e ' *)",
+      "Bash(node tools/split-phases.js)",
+      "Bash(node tools/update-md.js)",
+      "Bash(ls -la *.md)",
+      "Bash(ls \"E:/Website/Website HTML/assets/\"*.md)",
+      "Bash(find \"E:/Website\" -maxdepth 3 -name \"*.md\" ! -name \"_images.md\" ! -path \"*node_modules*\")",
+      "Bash(node tools/apply-tags.js)",
+      "Bash(sed -n '1,12p' \"Website HTML/assets/library/nature/_images.md\")",
+      "Bash(node tools/gen-page-prompts.js)",
+      "Bash(node tools/extract-emoji.js)",
+      "Bash(grep -oE \">[A-Z][A-Za-z ]{4,30}<\" sheets.html)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(node tools/build-all.js)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :3456)",
+      "Bash(cmd //c \"taskkill /PID 15784 /F\")",
+      "Bash(curl -sI \"http://localhost:3456/worksheets/letter-tracing-grade-1-x2yp\")",
+      "Bash(curl -sI \"http://localhost:3456/assets/library.json\")"
+    ]
+  }
+}

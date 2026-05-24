@@ -1,0 +1,23 @@
+# ViLoLabs Netlify _redirects
+# ──────────────────────────────────────────────────────────────
+# Worksheet slug routing: every /worksheets/<slug> URL is served
+# by /worksheets/index.html. Client-side JS parses the slug from
+# location.pathname and renders the matching worksheet view.
+# Status 200 = rewrite (URL stays the same in browser, page served).
+
+# Pretty URLs for /worksheets/<slug>
+/worksheets/*    /worksheets/index.html    200
+
+# Backwards-compat: old sheets.html link still works
+/sheets.html     /sheets.html              200
+
+# Tool-share pretty URLs — /tools/<tool>/<slug> rewrites to /tools/<tool>.html
+# The tool's onload JS reads the slug from location.pathname and restores config.
+/tools/resize-image/*      /tools/resize-image.html      200
+/tools/qr-generator/*      /tools/qr-generator.html      200
+/tools/image-to-pdf/*      /tools/image-to-pdf.html      200
+/tools/compress-image/*    /tools/compress-image.html    200
+/tools/compress-pdf/*      /tools/compress-pdf.html      200
+/tools/merge-pdf/*         /tools/merge-pdf.html         200
+
+# (Add more redirects here as the site grows.)
