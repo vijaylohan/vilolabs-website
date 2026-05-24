@@ -47,7 +47,20 @@
     try {
       const row = { slug, activity, grade, category, seed };
       if (libraryVersion != null) row.library_version = libraryVersion;
-      await sbFetch('/rest/v1/worksheets', 'POST', row);
+      const res = await fetch(SUPABASE_URL + '/rest/v1/worksheets?on_conflict=slug', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON,
+          'Authorization': 'Bearer ' + SUPABASE_ANON,
+          'Prefer': 'return=minimal,resolution=ignore-duplicates'
+        },
+        body: JSON.stringify(row)
+      });
+      // 409 = duplicate slug (already saved) — non-fatal.
+      if (!res.ok && res.status !== 409) {
+        console.warn('[ViloDB] saveWorksheet HTTP ' + res.status);
+      }
     } catch (e) {
       // Never surface DB errors to the user
       console.warn('[ViloDB] saveWorksheet failed (non-fatal):', e.message);
@@ -68,14 +81,14 @@
       return null;
     }
     try {
-      const res = await fetch(SUPABASE_URL + '/rest/v1/tool_shares', {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/tool_shares?on_conflict=slug', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'apikey': SUPABASE_ANON,
           'Authorization': 'Bearer ' + SUPABASE_ANON,
-          // resolution=ignore-duplicates makes the unique-slug conflict
-          // silently return 201/200 instead of 409 (perfect for canonical slugs)
+          // on_conflict=slug + resolution=ignore-duplicates → unique-slug
+          // collision returns 201/200 cleanly instead of a console 409.
           'Prefer': 'return=minimal,resolution=ignore-duplicates'
         },
         body: JSON.stringify({ tool, config, slug })
@@ -109,7 +122,9 @@
   // Duplicate slugs silently ignored (post already registered).
   async function saveBlogPost(slug, title, description, category) {
     try {
-      await fetch(SUPABASE_URL + '/rest/v1/blog_posts', {
+      // on_conflict=slug tells PostgREST which column the UNIQUE constraint is on,
+      // so resolution=ignore-duplicates can actually silence the 409 on re-loads.
+      const res = await fetch(SUPABASE_URL + '/rest/v1/blog_posts?on_conflict=slug', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,6 +134,10 @@
         },
         body: JSON.stringify({ slug, title, description, category })
       });
+      // 409 = duplicate (already registered) — treat as success, don't log.
+      if (!res.ok && res.status !== 409) {
+        console.warn('[ViloDB] saveBlogPost HTTP ' + res.status);
+      }
     } catch (e) {
       console.warn('[ViloDB] saveBlogPost failed (non-fatal):', e.message);
     }
