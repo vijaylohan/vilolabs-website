@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petrol Prices in India's Neighbouring Countries (2026) — INR Comparison | ViLo Pulse</title>
+  <meta name="description" content="Pakistan pays ₹51/litre. Nepal pays ₹68. Sri Lanka pays ₹119. We compared petrol prices in all of India's neighbours — with INR equivalents so you can actually make sense of the numbers.">
+  <meta property="og:title" content="Your Neighbour Pays ₹45 Less for Petrol — Full Country Comparison (2026)">
+  <meta property="og:description" content="State-by-state is one thing. But how does India stack up against Pakistan, Nepal, Sri Lanka, Bhutan, Bangladesh, Myanmar and China? We did the maths — in rupees.">
+  <meta property="og:type" content="article">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blog/shared/blog.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="/assets/db.js"></script>
+</head>
+<body>
+<div id="read-progress"></div>
+
+<nav class="blog-nav">
+  <a class="blog-nav-brand" href="/">ViLoLabs <span>/ Pulse</span></a>
+  <a class="blog-nav-back" href="/pulse.html">← Back to Pulse</a>
+</nav>
+
+<script>
+/* ── CONFIG ── */
+const POST = {
+  slug:        'petrol-prices-neighboring-countries-2026',
+  title:       'Your Neighbour\'s Petrol is ₹45 Cheaper — Here\'s the Full Picture',
+  description: 'Pakistan pays ₹51/litre. Nepal pays ₹68. Sri Lanka pays ₹119. We compared petrol prices across all of India\'s neighbours with INR equivalents.',
+  category:    'india',
+
+  heroCategory: 'India · Neighbours · Fuel',
+  heroTitle:    'Your Neighbour\'s Petrol is ₹45 Cheaper — <em>Here\'s the Full Picture</em>',
+  heroSubtitle: 'Same crude oil. Same import ships. Yet Pakistan pays barely half what Delhi does. We mapped all 7 of India\'s neighbours — petrol prices, in rupees, with real context.',
+  heroMeta:     'May 2026 · 10–12 min read · 📊 Interactive',
+
+  stats: [
+    { num: '₹51.60',  label: 'Cheapest — Pakistan (INR equiv/litre)' },
+    { num: '₹119.04', label: 'Costliest — Sri Lanka (INR equiv/litre)' },
+    { num: '₹67.44',  label: 'How much less Pakistan pays vs. Delhi' },
+    { num: '1 : 1',   label: 'Bhutan–India exchange rate (BTN = INR)' },
+  ],
+
+  tldr: [
+    '<strong>Pakistan is the cheapest at ₹51.60/litre</strong> — government subsidies kept prices artificially low for years. But those subsidies are slowly being cut. Prices have jumped 4 times in 18 months under IMF pressure.',
+    '<strong>Nepal and Bangladesh are cheaper than India</strong> despite importing all their fuel through Indian ports. The difference is simpler than you\'d think — their state taxes on fuel are just lower.',
+    '<strong>Sri Lanka is the most expensive at ₹119/litre</strong> — a direct consequence of the 2022 economic crisis that wiped out the country\'s foreign exchange reserves and forced the removal of all fuel subsidies.',
+  ],
+
+  sections: [
+    { id: 'why-compare',    label: 'Why compare neighbours?' },
+    { id: 'the-data',       label: 'The data: all 7 countries' },
+    { id: 'pakistan',       label: 'Pakistan — why so cheap?' },
+    { id: 'nepal-bd',       label: 'Nepal & Bangladesh — cheaper despite importing via India' },
+    { id: 'bhutan',         label: 'Bhutan — the special case' },
+    { id: 'srilanka',       label: 'Sri Lanka — the painful one' },
+    { id: 'china-myanmar',  label: 'China & Myanmar' },
+    { id: 'india-context',  label: 'Where India actually stands' },
+    { id: 'faq',            label: 'Common questions' },
+    { id: 'sources',        label: 'Sources' },
+  ],
+
+  insights: [
+    { num: '₹51.60', label: 'Pakistan — cheapest neighbour',    state: 'Subsidised, but reforms underway', color: 'green' },
+    { num: '₹67.44', label: 'Delhi–Pakistan price gap',         state: 'Every litre, every day',           color: 'blue'  },
+    { num: '₹109.85',label: 'Bhutan — pegged 1:1 to INR',       state: 'BTN = INR, always',               color: 'amber' },
+    { num: '₹119.04',label: 'Sri Lanka — most expensive',        state: 'Post-2022 crisis pricing',        color: 'red'   },
+  ],
+
+  chartBarTitle: 'Petrol price by country (INR equivalent per litre)',
+  chartBarNote:  'Sorted cheapest → costliest. India shown for reference.',
+  chartDonutTitle: 'Where does the price go? (India breakdown)',
+  chartDonutNote:  'For a ₹97 litre of petrol in an average Indian city.',
+  chartCompTitle:  'Price difference vs. India (Delhi ₹94.77)',
+  chartCompNote:   'Negative = cheaper than India. Positive = more expensive.',
+
+  chartDonutData: [
+    { label: 'Base price (crude + refining)', value: 54, color: '#4CAF50' },
+    { label: 'Central excise duty',           value: 19, color: '#FF9800' },
+    { label: 'State VAT (avg)',                value: 17, color: '#F44336' },
+    { label: 'Dealer commission',              value: 4,  color: '#9E9E9E' },
+    { label: 'Other charges',                 value: 3,  color: '#607D8B' },
+  ],
+  chartDonutReferenceTotal: 97,
+
+  tableCols:  ['#', 'Country', 'Local Price', 'INR Equiv (₹/L)', 'vs. Delhi', ''],
+  tableUnit:  '₹',
+
+  affiliateTitle: '⛽ Fuel card worth checking',
+  affiliateText:  'HDFC Bank MoneyBack+ Credit Card gives cashback on fuel at HPCL pumps. Decent if you fill up frequently.',
+  affiliateLink:  'https://www.hdfcbank.com/content/bbp/repositories/723fb80a-2dde-42a3-9793-7ae1be57c87f/?folderPath=/Common/Credit-Card/Credit%20Cards%20Templates/MoneyBack+%20Credit%20Card',
+  affiliateCTA:   'Check HDFC MoneyBack+ →',
+};
+
+/* ─── DATA — INR equivalent per litre, May 2026 ─── */
+/* price  = INR equivalent per litre                  */
+/* comp   = difference vs. Delhi (94.77) — rounded    */
+/* city   = capital / reference city                  */
+/* state  = country name (reusing 'state' key)        */
+const DATA = [
+  { rank:1, state:'Pakistan',    city:'Islamabad',  price:51.60,  comp:-43.17, local:'150 PKR',   xrate:'1 PKR = ₹0.344' },
+  { rank:2, state:'Nepal',       city:'Kathmandu',  price:68.75,  comp:-26.02, local:'110 NPR',   xrate:'1 NPR = ₹0.625' },
+  { rank:3, state:'Bangladesh',  city:'Dhaka',      price:69.60,  comp:-25.17, local:'89 BDT',    xrate:'1 BDT = ₹0.782' },
+  { rank:4, state:'Myanmar',     city:'Naypyidaw',  price:93.60,  comp:-1.17,  local:'~0.99 USD', xrate:'via USD rate'   },
+  { rank:5, state:'India',       city:'Delhi',      price:94.77,  comp:0,      local:'₹94.77',    xrate:'reference'      },
+  { rank:6, state:'China',       city:'Beijing',    price:98.54,  comp:3.77,   local:'7.58 CNY',  xrate:'1 CNY = ₹13.0'  },
+  { rank:7, state:'Bhutan',      city:'Thimphu',    price:109.85, comp:15.08,  local:'109.85 BTN',xrate:'BTN = INR (1:1)' },
+  { rank:8, state:'Sri Lanka',   city:'Colombo',    price:119.04, comp:24.27,  local:'~400 LKR',  xrate:'1 LKR = ₹0.294' },
+];
+
+/* ── colour helper ── */
+function priceColour(p, min, max) {
+  const t = (p - min) / (max - min || 1);
+  if (t < 0.4) return '#4CAF50';
+  if (t < 0.65) return '#FF9800';
+  return '#F44336';
+}
+</script>
+
+<!-- ══════════════════════════ HERO ══════════════════════════ -->
+<header class="post-hero">
+  <div class="hero-inner">
+    <div class="hero-meta-row">
+      <span class="hero-category" id="heroCat"></span>
+      <span class="hero-dot">·</span>
+      <span class="hero-date" id="heroDate"></span>
+    </div>
+    <h1 class="hero-title" id="heroTitle"></h1>
+    <p class="hero-sub" id="heroSub"></p>
+    <div class="hero-meta" id="heroMeta"></div>
+    <div class="share-row">
+      <a class="share-btn wa"   id="shareWA"  href="#" target="_blank" rel="noopener">📲 WhatsApp</a>
+      <a class="share-btn tw"   id="shareTW"  href="#" target="_blank" rel="noopener">𝕏 Tweet</a>
+      <button class="share-btn copy" onclick="copyLink()">🔗 Copy link</button>
+    </div>
+  </div>
+</header>
+<script>
+document.getElementById('heroCat').textContent  = POST.heroCategory;
+document.getElementById('heroTitle').innerHTML   = POST.heroTitle;
+document.getElementById('heroSub').textContent   = POST.heroSubtitle;
+document.getElementById('heroMeta').textContent  = POST.heroMeta;
+document.getElementById('heroDate').textContent  = 'May 2026';
+</script>
+
+<!-- ══════════════════════════ STATS STRIP ══════════════════════════ -->
+<section class="stats-strip" id="statsStrip"></section>
+<script>
+document.getElementById('statsStrip').innerHTML = POST.stats.map(s =>
+  `<div class="stat-item"><div class="stat-num">${s.num}</div><div class="stat-lbl">${s.label}</div></div>`
+).join('');
+</script>
+
+<!-- ══════════════════════════ BODY ══════════════════════════ -->
+<div class="post-layout">
+<article class="post-body">
+
+  <!-- TL;DR -->
+  <div class="tldr-box">
+    <div class="tldr-head">⚡ Short on time? Read this</div>
+    <ul id="tldrList"></ul>
+  </div>
+  <script>
+  document.getElementById('tldrList').innerHTML = POST.tldr.map(t => `<li>${t}</li>`).join('');
+  </script>
+
+  <!-- ── Section 1 ── -->
+  <section id="why-compare">
+    <h2>Why even compare with neighbours?</h2>
+
+    <p>A truck driver I read about was once quoted saying he'd rather top up the tank on one side of the Wagah border than the other — obviously on the Pakistani side. That was in 2019. Back then Pakistan's petrol in INR equivalent was around ₹35. Today it's ₹51. Still nearly half of what you'd pay in Delhi.</p>
+
+    <p>Most petrol price articles in India compare city to city — Delhi vs. Mumbai vs. Chennai. Which is fine. But nobody talks about the bigger picture: where does India actually sit in the neighbourhood? Are we expensive? Are we cheap? And more importantly — <em>why</em> do prices differ so much when we're all importing from the same global crude oil market?</p>
+
+    <p>That's what this post is about. We pulled petrol prices from all 7 of India's neighbours, converted everything to INR at current exchange rates, and put it all in one place. Let's get into it.</p>
+
+    <div class="callout-box">
+      <strong>How we converted prices:</strong> All local currency prices are converted using mid-market exchange rates as of 24 May 2026 (source: Wise/XE). Petrol prices are national averages or capital city pump prices — they vary within each country just like India's do.
+    </div>
+  </section>
+
+  <!-- ── Charts ── -->
+  <section id="the-data">
+    <h2>The data: all 7 countries at a glance</h2>
+    <p>Here's the full picture before we go country by country. The numbers might surprise you — especially where India ends up in the ranking.</p>
+
+    <div class="chart-section">
+      <div class="chart-title" id="chartBarTitle"></div>
+      <div class="chart-wrap" id="barWrap"><canvas id="chartBar"></canvas></div>
+      <div class="chart-note" id="chartBarNote"></div>
+    </div>
+
+    <div class="two-chart-grid">
+      <div class="chart-section">
+        <div class="chart-title" id="chartDonutTitle"></div>
+        <div class="chart-wrap" style="height:280px"><canvas id="chartDonut"></canvas></div>
+        <div class="chart-note" id="chartDonutNote"></div>
+      </div>
+      <div class="chart-section">
+        <div class="chart-title" id="chartCompTitle"></div>
+        <div class="chart-wrap" style="height:280px"><canvas id="chartComp"></canvas></div>
+        <div class="chart-note" id="chartCompNote"></div>
+      </div>
+    </div>
+
+    <!-- Insight cards -->
+    <div class="insight-grid" id="insight-grid"></div>
+  </section>
+
+  <!-- ── Pakistan ── -->
+  <section id="pakistan">
+    <h2>Pakistan — how is petrol cheaper than water bottles?</h2>
+
+    <p>At ₹51.60 per litre (INR equivalent), Pakistan has the cheapest petrol in the neighbourhood. And that number makes people's heads spin — India's cheapest city, Delhi, charges nearly double that.</p>
+
+    <p>The simple explanation: Pakistan's government has been subsidising fuel for decades. It's political, not economic. Removing fuel subsidies causes immediate, visible pain — longer lines, angrier voters. So governments kept prices artificially low by absorbing the difference from the state budget.</p>
+
+    <p>But here's the thing — this game is getting harder to play. Pakistan has been borrowing dollars to import oil, then selling that oil in rapidly-devaluing Pakistani Rupees. The IMF finally stepped in and said: fix this, or no more bailout money. As a result, Pakistani petrol prices have already been hiked 4 times in the last 18 months. The subsidy era is on its way out, just slowly.</p>
+
+    <p>For now though — ₹51.60 is the reality across the border. A 40-litre fill-up costs an equivalent of ₹2,064 in Islamabad. The same fill in Delhi costs ₹3,791.</p>
+  </section>
+
+  <!-- ── Nepal & Bangladesh ── -->
+  <section id="nepal-bd">
+    <h2>Nepal and Bangladesh — cheaper than India, but not for the reason you'd think</h2>
+
+    <p>This one genuinely confuses people. Nepal and Bangladesh are landlocked or import-dependent countries that get their petroleum through Indian ports and pipelines. Their fuel literally passes through India. So shouldn't it be more expensive by the time it gets to Kathmandu or Dhaka?</p>
+
+    <p>You'd think so. But Nepal's Nepal Oil Corporation (NOC) pegs prices to Indian rates and often undercuts them — they keep taxes lower to stay affordable for a lower-income population. <strong>Nepal at ₹68.75 per litre is cheaper than any Indian city.</strong> Even cheaper than Delhi.</p>
+
+    <p>Bangladesh works similarly. The government controls fuel pricing and kept it stable to contain inflation. At 89 BDT per litre — or ₹69.60 in INR equivalent — it's also cheaper than Delhi.</p>
+
+    <p>The lesson here isn't that Nepal and Bangladesh are more efficient. It's that India taxes its fuel very heavily. Central excise duty alone is ₹19+ per litre. Add state VAT and you're often paying 35–55% of the final price as tax. Our neighbours tax less — so despite the same import cost, they charge less at the pump.</p>
+  </section>
+
+  <!-- ── Bhutan ── -->
+  <section id="bhutan">
+    <h2>Bhutan — the special case where INR conversion is pointless</h2>
+
+    <p>Bhutan is a unique one. The Bhutanese Ngultrum (BTN) is pegged 1:1 to the Indian Rupee — always has been, always will be. They're accepted interchangeably in most of Bhutan. So there's no real "conversion" happening here.</p>
+
+    <p>Bhutan's petrol at 109.85 BTN/litre is essentially the same as saying ₹109.85. That's more expensive than Delhi (₹94.77) but roughly in line with high-tax Indian states like Rajasthan or Maharashtra.</p>
+
+    <p>The reason it costs more than Delhi: Bhutan imports all its petroleum from India, and the transport cost from Indian refineries to Thimphu gets added on. It's not taxes — it's geography. Thimphu is a mountain city. Getting fuel there costs more.</p>
+  </section>
+
+  <!-- ── Sri Lanka ── -->
+  <section id="srilanka">
+    <h2>Sri Lanka — the most expensive, and there's a hard story behind it</h2>
+
+    <p>Sri Lanka's petrol at ₹119.04 per litre (INR equivalent) is the most expensive in the neighbourhood, and it didn't happen by accident.</p>
+
+    <p>In 2022, Sri Lanka ran out of foreign exchange almost completely. There was no money to pay for oil imports. Petrol queues stretched for kilometres. Vehicles sat idle for days. Hospitals ran generators on donated fuel. It was genuinely dire.</p>
+
+    <p>The government's response, once the crisis peaked, was to remove all fuel subsidies and let prices float at market rates. This was the condition to attract emergency imports and get back to some level of stability. It worked — pumps are full now — but Sri Lankan consumers are still paying the price. Literally.</p>
+
+    <p>At ₹119/litre, a 40-litre fill-up costs INR equivalent of ₹4,762 in Colombo. Compare that to ₹2,064 in Islamabad. Same region, entirely different economic reality.</p>
+  </section>
+
+  <!-- ── China & Myanmar ── -->
+  <section id="china-myanmar">
+    <h2>China and Myanmar — the ones nobody talks about</h2>
+
+    <p><strong>China</strong> at ₹98.54/litre is surprisingly close to India. They follow a market-linked pricing model — the National Development and Reform Commission adjusts prices every 10 days based on international crude prices. No massive subsidies, no aggressive taxing. The result is a price very similar to what Delhi pays.</p>
+
+    <p>One thing worth knowing: petrol in China is very consistent across provinces. There's no "Delhi vs. Andhra Pradesh" situation with a ₹20 range. Central pricing keeps variation tight — usually within ₹3-4 across the country.</p>
+
+    <p><strong>Myanmar</strong> is harder to pin down. The official pump price works out to about ₹93.60/litre in INR equivalent. But Myanmar's been through significant political turmoil since 2021, and fuel availability has been inconsistent in many regions. The ₹93.60 figure is the official rate — actual street prices in some areas can be quite different.</p>
+  </section>
+
+  <!-- ── India context ── -->
+  <section id="india-context">
+    <h2>So where does India actually stand?</h2>
+
+    <p>India sits 5th out of 8 in this comparison — more expensive than Pakistan, Nepal, Bangladesh and Myanmar, but cheaper than China, Bhutan, and Sri Lanka.</p>
+
+    <p>More importantly, India's petrol tax structure is one of the heaviest in the region. Central and state taxes together make up 40–55% of the final pump price depending on which state you're in. This is how the government generates revenue — fuel taxes are reliable and hard to avoid.</p>
+
+    <p>The counterargument is that countries like Pakistan are just deferring the pain — cheap fuel today via subsidies means higher debt and eventual price hikes. India went through painful deregulation between 2010 and 2014. The transition wasn't fun, but at least we're not managing an artificial price that distorts the whole economy.</p>
+
+    <p>That said — ₹94.77 in Delhi while your neighbour in Kathmandu pays ₹68.75 for the same litre? That's a gap worth understanding. And now you do.</p>
+
+    <!-- full comparison table -->
+    <div class="table-section">
+      <div class="table-controls">
+        <input id="dataSearch" type="text" placeholder="Search country…" oninput="filterTable()">
+        <span id="tableCount" class="table-count"></span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr id="tableHead"></tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section id="faq">
+    <h2>Questions people usually ask</h2>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Why can't India just reduce petrol taxes like Nepal does?</div>
+        <div class="faq-a">It's not that simple unfortunately. India's state and central governments collect roughly ₹4–5 lakh crore per year from fuel taxes. That money funds roads, subsidies, defence, salaries. A meaningful tax cut would require finding that revenue somewhere else — income tax, GST, borrowing. Every time there's a global oil price dip, there's pressure to cut fuel taxes. And every time, the government prefers to keep the revenue. It's not a conspiracy — it's a budget reality.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is it legal to bring petrol from Nepal or Bangladesh into India?</div>
+        <div class="faq-a">No. Bringing petrol across international borders — even personal quantities — falls under customs regulations and is generally not permitted. Border residents have tried this for obvious reasons but it's illegal. Don't try it.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Pakistan's petrol is cheap — does that mean their economy is doing well?</div>
+        <div class="faq-a">Actually the opposite. Cheap petrol via government subsidies is often a sign of economic stress, not strength. Pakistan has been in an IMF bailout programme, their rupee has depreciated significantly, and they've raised petrol prices multiple times under international pressure. The cheap pump price is a short-term political choice with long-term fiscal consequences.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Will India's petrol prices come down anytime soon?</div>
+        <div class="faq-a">Hard to say. Prices were last revised in May 2026 (₹3/litre hike due to West Asia supply tensions). Any reduction would require either a sharp fall in global crude, or a political decision to cut excise duty. Election years sometimes see cuts — the 2021 and 2023 cuts both happened close to state elections. Outside of that, don't hold your breath.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── References ── -->
+  <section id="sources">
+    <div class="references">
+      <div class="references-title">Sources & References</div>
+      <ul class="references-list">
+        <li><a href="https://www.globalpetrolprices.com/gasoline_prices/" target="_blank" rel="noopener">GlobalPetrolPrices.com — Gasoline prices, 18 May 2026</a></li>
+        <li><a href="https://noc.org.np/petrolprice" target="_blank" rel="noopener">Nepal Oil Corporation (NOC) — Official Nepal petrol price</a></li>
+        <li><a href="https://www.stcb.bt/bhutanpetroleum.php" target="_blank" rel="noopener">State Trading Corporation of Bhutan — Bhutan petroleum prices</a></li>
+        <li><a href="https://www.goodreturns.in/petrol-price.html" target="_blank" rel="noopener">Goodreturns.in — India petrol prices, 24 May 2026</a></li>
+        <li><a href="https://wise.com/us/currency-converter/" target="_blank" rel="noopener">Wise — Exchange rates used: PKR, NPR, BDT, LKR, MMK, CNY to INR (24 May 2026)</a></li>
+        <li><a href="https://kathmandupost.com/money/2026/04/12/nepal-fuel-among-costliest-in-south-asia" target="_blank" rel="noopener">Kathmandu Post — Nepal fuel among costliest in South Asia (April 2026)</a></li>
+        <li><a href="https://www.india.com/news/india/petrol-and-diesel-prices-hiked-by-rs-3-in-india-pakistan-bangladesh-or-nepal-prices-updates-pakistan-petrol-prices-per-litre-8415571/" target="_blank" rel="noopener">India.com — India ₹3 hike context, neighbouring country comparison</a></li>
+      </ul>
+      <div class="references-note">Exchange rates are mid-market rates as of 24 May 2026. Petrol prices are national averages or capital-city pump prices — they vary within each country. Myanmar price derived from USD equivalent due to currency instability. Data is for informational purposes only — check local sources for current prices before making decisions.</div>
+    </div>
+  </section>
+
+</article>
+
+<!-- ══════════════════════════ SIDEBAR ══════════════════════════ -->
+<aside id="post-sidebar"></aside>
+</div>
+
+<!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+<footer class="post-footer">
+  <div class="post-footer-inner">
+    <a href="/pulse.html" class="footer-back">← All Posts</a>
+    <span class="footer-brand">© 2026 ViLoLabs</span>
+    <div class="footer-links">
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════ ENGINE ══════════════════════════ -->
+<script>
+/* ── pSEO registration ── */
+if (window.ViloDB) {
+  ViloDB.saveBlogPost(
+    'petrol-prices-neighboring-countries-2026',
+    'Your Neighbour\'s Petrol is ₹45 Cheaper — Here\'s the Full Picture',
+    'Pakistan pays ₹51/litre. Nepal pays ₹68. Sri Lanka pays ₹119. Petrol prices in India\'s neighbours, with INR equivalents and real context.',
+    'india'
+  );
+}
+
+/* ── Insight cards ── */
+document.getElementById('insight-grid').innerHTML = POST.insights.map(i => `
+  <div class="insight-card ${i.color}">
+    <div class="insight-num">${i.num}</div>
+    <div class="insight-label">${i.label}</div>
+    <div class="insight-state">${i.state}</div>
+  </div>`).join('');
+
+/* ── Chart labels ── */
+['chartBarTitle','chartBarNote','chartDonutTitle','chartDonutNote','chartCompTitle','chartCompNote'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.textContent = POST[id];
+});
+
+/* ── BAR CHART ── */
+const sorted = [...DATA].sort((a,b) => a.price - b.price);
+const minP = sorted[0].price, maxP = sorted[sorted.length-1].price;
+const barWrap = document.getElementById('barWrap');
+barWrap.style.height = (window.innerWidth < 600 ? 300 : 320) + 'px';
+new Chart(document.getElementById('chartBar'), {
+  type: 'bar',
+  data: {
+    labels: sorted.map(s => s.state + (s.state === 'India' ? ' ★' : '')),
+    datasets: [{ label: 'INR/litre', data: sorted.map(s => s.price),
+      backgroundColor: sorted.map(s => s.state === 'India' ? '#C8963C' : priceColour(s.price, minP, maxP)),
+      borderRadius: 4, borderSkipped: false }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const s = sorted[ctx.dataIndex];
+        return [`  ₹${s.price}/litre (INR equiv)`, `  Local: ${s.local}`, `  Rate: ${s.xrate}`];
+      }}}
+    },
+    scales: {
+      x: { ticks: { callback: v => '₹' + v, font: { family:'Outfit', size:11 } }, grid: { color:'rgba(0,0,0,.06)' }, min: 0, max: 130 },
+      y: { ticks: { font: { family:'Outfit', size:12 } } }
+    }
+  }
+});
+
+/* ── DONUT CHART ── */
+new Chart(document.getElementById('chartDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: POST.chartDonutData.map(d => d.label),
+    datasets: [{ data: POST.chartDonutData.map(d => d.value),
+      backgroundColor: POST.chartDonutData.map(d => d.color),
+      borderWidth: 2, borderColor: '#fff' }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '60%',
+    plugins: {
+      legend: { position:'bottom', labels:{ font:{family:'Outfit',size:10}, padding:10, boxWidth:10 } },
+      tooltip: { callbacks: { label: ctx => `  ₹${ctx.parsed} of ₹97 litre` }}
+    }
+  }
+});
+
+/* ── COMPARISON BAR (vs. India Delhi) ── */
+const compData = [...DATA].filter(d => d.state !== 'India').sort((a,b) => a.comp - b.comp);
+new Chart(document.getElementById('chartComp'), {
+  type: 'bar',
+  data: {
+    labels: compData.map(s => s.state),
+    datasets: [{ data: compData.map(s => s.comp),
+      backgroundColor: compData.map(s => s.comp < 0 ? '#4CAF50' : '#F44336'),
+      borderRadius: 3 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const v = ctx.parsed.y;
+        return v < 0 ? `  ₹${Math.abs(v).toFixed(2)} cheaper than India` : `  ₹${v.toFixed(2)} more expensive than India`;
+      }}}
+    },
+    scales: {
+      x: { ticks: { font:{family:'Outfit',size:10}, maxRotation: 35 } },
+      y: { ticks: { font:{family:'Outfit',size:11}, callback: v => (v > 0 ? '+' : '') + '₹' + v },
+           grid: { color:'rgba(0,0,0,.06)' } }
+    }
+  }
+});
+
+/* ── SORTABLE TABLE ── */
+const AVG = DATA.reduce((s,r)=>s+r.price,0)/DATA.length;
+let sortCol = 0, sortAsc = true, filtered = [...DATA];
+
+document.getElementById('tableHead').innerHTML = POST.tableCols.map((c,i) =>
+  `<th onclick="sortTable(${i})" style="cursor:pointer">${c} <span class="sort-icon">⇅</span></th>`).join('');
+
+function renderTable(data) {
+  document.getElementById('tableBody').innerHTML = data.map(s => {
+    const diff = s.comp;
+    const sign = diff > 0 ? '+' : '';
+    const barW = Math.round(((s.price - minP) / (maxP - minP || 1)) * 100);
+    const barClass = s.price <= AVG ? 'low' : (s.price >= AVG * 1.05 ? 'high' : '');
+    const badge = s.price === sorted[0].price
+      ? '<span class="badge-cheap">Cheapest</span>'
+      : s.price === sorted[sorted.length-1].price
+        ? '<span class="badge-costly">Costliest</span>'
+        : s.state === 'India' ? '<span style="color:#C8963C;font-size:.8rem">★ India</span>' : '';
+    return `<tr>
+      <td class="rank">#${s.rank}</td>
+      <td><strong>${s.state}</strong></td>
+      <td style="color:#7a6e62;font-size:.85rem">${s.local}</td>
+      <td class="price-val"><div class="price-bar-cell">
+        <div class="price-bar ${barClass}" style="width:${barW}px"></div>
+        ₹${s.price}
+      </div></td>
+      <td style="color:${diff < 0 ? '#4CAF50' : diff > 0 ? '#F44336' : '#C8963C'};font-weight:600">${diff === 0 ? 'reference' : sign + '₹' + Math.abs(diff).toFixed(2)}</td>
+      <td>${badge}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tableCount').textContent = `Showing ${data.length} of ${DATA.length} countries`;
+}
+
+function sortTable(col) {
+  if (sortCol === col) sortAsc = !sortAsc; else { sortCol = col; sortAsc = true; }
+  const keys = ['rank','state','local','price','comp','price'];
+  filtered.sort((a,b) => {
+    const av = a[keys[col]], bv = b[keys[col]];
+    return typeof av === 'string'
+      ? (sortAsc ? av.localeCompare(bv) : bv.localeCompare(av))
+      : (sortAsc ? av - bv : bv - av);
+  });
+  renderTable(filtered);
+}
+
+function filterTable() {
+  const q = document.getElementById('dataSearch').value.toLowerCase().trim();
+  filtered = q ? DATA.filter(s => s.state.toLowerCase().includes(q) || s.city.toLowerCase().includes(q)) : [...DATA];
+  sortTable(sortCol);
+}
+
+renderTable(DATA);
+
+/* ── SIDEBAR ── */
+document.getElementById('post-sidebar').innerHTML = `
+  <div class="sb-card">
+    <div class="sb-title">Contents</div>
+    <nav class="toc">
+      ${POST.sections.map(s => `<a class="toc-link" href="#${s.id}">${s.label}</a>`).join('')}
+    </nav>
+  </div>
+  <div class="sb-card sb-affiliate">
+    <div class="sb-title">${POST.affiliateTitle}</div>
+    <p>${POST.affiliateText}</p>
+    <a class="sb-btn" href="${POST.affiliateLink}" target="_blank" rel="noopener sponsored">${POST.affiliateCTA}</a>
+    <div class="sb-disclosure">Affiliate link — we may earn a small commission at no extra cost to you.</div>
+  </div>
+  <div class="sb-card">
+    <div class="sb-title">🛠 Free Tools</div>
+    <a class="sb-tool-link" href="/tools/qr-generator.html">QR Code Generator →</a>
+    <a class="sb-tool-link" href="/tools/resize-image.html">Resize Image Free →</a>
+    <a class="sb-tool-link" href="/tools/compress-pdf.html">Compress PDF →</a>
+  </div>
+  <div class="sb-card">
+    <div class="sb-title">📰 More on Pulse</div>
+    <a class="sb-tool-link" href="/blog/petrol-prices-india-2025.html">Petrol prices across Indian states →</a>
+  </div>`;
+
+/* ── Share buttons ── */
+const shareText = encodeURIComponent(POST.title);
+const shareUrl  = encodeURIComponent(location.href);
+document.getElementById('shareWA').href = `https://wa.me/?text=${shareText}%20${shareUrl}`;
+document.getElementById('shareTW').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+
+/* ── Reading progress bar ── */
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  document.getElementById('read-progress').style.width =
+    Math.min((doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100, 100) + '%';
+}, { passive: true });
+
+/* ── ToC active on scroll ── */
+const tocLinks = document.querySelectorAll('.toc-link');
+const tocSections = [...tocLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+window.addEventListener('scroll', () => {
+  let cur = '';
+  tocSections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = '#' + s.id; });
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === cur));
+}, { passive: true });
+
+/* ── FAQ accordion ── */
+function toggleFaq(el) {
+  const ans = el.nextElementSibling;
+  const isOpen = ans.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
+  if (!isOpen) { ans.classList.add('open'); el.classList.add('open'); }
+}
+
+/* ── Copy link ── */
+function copyLink() {
+  navigator.clipboard.writeText(location.href).then(() => {
+    const btn = document.querySelector('.share-btn.copy');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = '🔗 Copy link', 2000);
+  });
+}
+</script>
+</body>
+</html>
