@@ -10,9 +10,9 @@ name: Supabase Keepalive
 
 on:
   schedule:
-    # Daily at 03:17 UTC (offset minute avoids the common :00 cron stampede
+    # Daily at 03:19 UTC (offset minute avoids the common :00 cron stampede
     # that often causes GitHub to delay scheduled runs by 30-60 minutes)
-    - cron: '17 3 * * *'
+    - cron: '19 3 * * *'
   workflow_dispatch:  # lets you click "Run workflow" manually from the UI
 
 jobs:
