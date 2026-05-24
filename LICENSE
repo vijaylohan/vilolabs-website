@@ -1,0 +1,63 @@
+ViLoLabs — Source-Available License
+====================================
+
+Copyright (c) 2026 Vijay Lohan (operating as ViLoLabs)
+All Rights Reserved.
+
+This source code is published publicly for transparency, learning,
+and portfolio reference. The author intentionally welcomes readers
+to study the code, learn from the techniques, and discuss the
+approach.
+
+PERMITTED USES
+--------------
+You MAY:
+  - Read this code.
+  - Study, learn from, and reference the techniques in your own
+    independent work, provided your own work is materially distinct
+    and not a substantial copy of this codebase.
+  - Quote short snippets in articles, tutorials, or technical
+    discussion, with attribution.
+  - Run the code locally on your own machine for educational
+    review and experimentation.
+
+PROHIBITED USES
+---------------
+Without explicit, prior, written permission from the author, you
+MAY NOT:
+  - Copy, fork, mirror, or redistribute this code, in whole or in
+    substantial part, as your own project.
+  - Deploy this code (or a derivative work of it) as a hosted
+    service, product, or website — whether free, paid, ad-supported,
+    or otherwise.
+  - Use the "ViLoLabs", "ViLo Worksheets", "ViLo Pulse", or any
+    confusingly similar name, logo, or branding in any project,
+    product, or service.
+  - Remove, alter, or obscure the copyright notices, license file,
+    or author attribution from any copy of this code.
+  - Use this code, or any derivative, to train machine-learning
+    models intended for code generation or for any commercial AI
+    product, without explicit written permission.
+
+NO WARRANTY
+-----------
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR
+OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+CONTACT
+-------
+For commercial licensing, partnership, or any use beyond the
+"PERMITTED USES" section above, contact:
+  Vijay Lohan
+  vijaylohan@gmail.com
+
+Governing law: Republic of India. Any dispute arising out of this
+license shall be subject to the exclusive jurisdiction of the
+courts in India.
+
+----------------------------------------------------------------------
+Last updated: 2026-05-24
