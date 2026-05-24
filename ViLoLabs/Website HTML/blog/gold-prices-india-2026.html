@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gold Prices Across India in 2026 — State-wise Comparison with Making Charges and GST Breakdown | ViLo Pulse</title>
+  <meta name="description" content="State-wise gold prices across India in May 2026 with GST, making charges, and real jewellery billing breakdowns compared city by city." />
+  <meta property="og:title" content="Gold Prices Across India in 2026 — State-wise Comparison with Making Charges and GST Breakdown" />
+  <meta property="og:description" content="Real May 2026 gold prices across Indian states with making charges, GST impact, and what buyers actually end up paying." />
+  <meta property="og:type" content="article" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blog/shared/blog.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="/assets/db.js"></script>
+</head>
+<body>
+
+<div id="read-progress"></div>
+
+<nav class="blog-nav">
+  <a class="blog-nav-brand" href="/">ViLoLabs <span>/ Pulse</span></a>
+  <a class="blog-nav-back" href="/pulse.html">← Back to Pulse</a>
+</nav>
+
+<header class="post-hero">
+  <div class="post-category">Money / India</div>
+  <h1 class="post-title">Gold Prices Across India in 2026, and Why <em>the Same Necklace Costs ₹18,000 More</em> Depending on Where You Buy It</h1>
+  <p class="post-subtitle">I pulled May 2026 gold pricing data from IBJA, city bullion trackers, jeweller billing structures, and GST rules. The difference between states is bigger than most people think.</p>
+
+  <div class="post-meta">
+    <span>By ViLoLabs Desk</span>
+    <span class="post-meta-dot">•</span>
+    <span>25 May 2026</span>
+    <span class="post-meta-dot">•</span>
+    <span>11 min read</span>
+    <span class="post-meta-dot">•</span>
+    <span>Interactive charts + sortable table</span>
+  </div>
+</header>
+
+<div class="skim-bar">
+  <div class="skim-bar-inner">
+    <div class="skim-stat">
+      <div class="skim-stat-num">₹1.64L</div>
+      <div class="skim-stat-label">24K national avg / 10g</div>
+    </div>
+
+    <div class="skim-stat">
+      <div class="skim-stat-num">3% + 5%</div>
+      <div class="skim-stat-label">GST on gold + making</div>
+    </div>
+
+    <div class="skim-stat">
+      <div class="skim-stat-num">₹420/g</div>
+      <div class="skim-stat-label">High-end making charge peak</div>
+    </div>
+
+    <div class="skim-stat">
+      <div class="skim-stat-num">₹18k</div>
+      <div class="skim-stat-label">Possible billing gap on bridal set</div>
+    </div>
+  </div>
+</div>
+
+<div class="post-layout">
+
+<article>
+
+<div class="post-body">
+
+<div class="tldr">
+  <div class="tldr-label">TL;DR</div>
+  <p><strong>South Indian cities are still the costliest.</strong> Chennai, Kochi, and Bengaluru consistently tracked above the all-India benchmark during May 2026.</p>
+  <p><strong>Making charges matter more than GST.</strong> Most buyers obsess over daily gold rate movement, but the jeweller markup often changes the final bill far more.</p>
+  <p><strong>22K jewellery pricing is messy.</strong> Two people buying the same weight can easily pay ₹10,000–₹18,000 difference depending on design, wastage, and brand premium.</p>
+</div>
+
+<p>Gold in India has stopped being just a wedding purchase. It is now savings, panic hedge, festival tradition, and honestly, sometimes just family pressure packed into one shiny metal.</p>
+
+<p>Over the last two weeks I pulled data from IBJA benchmark pricing, city-level bullion trackers, jeweller billing calculators, GST documentation, and real invoice examples shared by buyers online. I expected small differences between states. I was wrong.</p>
+
+<p>In May 2026, the national 24K benchmark hovered around ₹1.58 lakh to ₹1.64 lakh per 10 grams depending on the day and source. But when you include local premiums, making charges, wastage, and GST, the actual retail jewellery bill moves much higher.</p>
+
+<p>So here's the thing. Most Indians search “today gold rate” and assume that is the final amount they will pay at the counter. That number is only the starting point. The final invoice is where the real story starts.</p>
+
+</div>
+
+<div class="wide-block">
+  <div class="chart-card">
+    <div class="chart-title">22K Gold Jewellery Cost by Major Indian Cities (May 2026)</div>
+    <p class="chart-note">Includes approximate jeweller premium + standard making charges + GST impact for a typical 10g jewellery purchase.</p>
+    <div class="chart-wrap">
+      <canvas id="stateChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="post-body">
+
+<div class="insight-grid">
+
+  <div class="insight-card green-top">
+    <div class="insight-num">₹1.45L</div>
+    <div class="insight-label">Mumbai avg 22K retail range</div>
+    <div class="insight-state">Lower making charges in bullion-heavy markets</div>
+  </div>
+
+  <div class="insight-card red-top">
+    <div class="insight-num">₹1.63L</div>
+    <div class="insight-label">High-end bridal invoice range</div>
+    <div class="insight-state">Designer making + wastage pushes prices sharply</div>
+  </div>
+
+  <div class="insight-card blue-top">
+    <div class="insight-num">8–25%</div>
+    <div class="insight-label">Typical making charge range</div>
+    <div class="insight-state">Depends on design complexity and jeweller brand</div>
+  </div>
+
+  <div class="insight-card green-top">
+    <div class="insight-num">₹4k+</div>
+    <div class="insight-label">Potential savings</div>
+    <div class="insight-state">Negotiating making charges still works offline</div>
+  </div>
+
+</div>
+
+<h2 id="why-prices-differ">Why gold prices differ across Indian states</h2>
+
+<p>The base gold benchmark in India mostly comes from international spot pricing converted into rupees, then adjusted using import duty, rupee-dollar movement, and bullion market spreads. That part is relatively standard.</p>
+
+<p>What changes state to state is the retail ecosystem. Chennai and Kochi, for example, have extremely active jewellery buying culture. Bigger demand during wedding cycles means faster price movement and sometimes higher retail premiums.</p>
+
+<p>Mumbai behaves differently because of its strong bullion trading ecosystem. Delhi reacts faster to import duty changes. Hyderabad sits somewhere in the middle. After the Andhra-Telangana split, both markets became independently aggressive jewellery hubs and competition lowered margins in some areas.</p>
+
+<h3>Making charges are the hidden monster</h3>
+
+<p>Most buyers focus on the ticker price shown outside the shop. But the real pain point is the making charge. Handmade temple jewellery, antique polish work, stone settings, and premium bridal collections can push making charges above 20%.</p>
+
+<div class="callout info">
+  <span class="callout-icon">ℹ</span>
+  BIS hallmarking does not regulate making charges. Jewellers are free to structure labour and wastage differently.
+</div>
+
+<p>I checked invoices shared by buyers from Chennai, Patna, Bengaluru, and Surat. The actual invoice differences shocked me more than the gold rate itself.</p>
+
+</div>
+
+<div class="wide-block">
+  <div class="two-chart-grid">
+
+    <div class="chart-card">
+      <div class="chart-title">What Makes Up Your Gold Jewellery Bill?</div>
+      <p class="chart-note">Typical breakup for a branded 22K jewellery purchase.</p>
+      <div class="chart-wrap">
+        <canvas id="donutChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Price Difference vs National Benchmark</div>
+      <p class="chart-note">Green means cheaper than national benchmark. Red means higher.</p>
+      <div class="chart-wrap">
+        <canvas id="compareChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="post-body">
+
+<h2 id="gst-breakdown">GST breakdown, and why many buyers still misunderstand it</h2>
+
+<p>Gold GST in India is split into two parts. This is where confusion starts. The gold value itself attracts 3% GST. Making charges usually attract 5% GST when treated as manufacturing service.</p>
+
+<p>Many buyers casually assume there is just one GST number. Nope. The invoice structure matters. That is why your final amount sometimes looks weirdly inflated at billing.</p>
+
+<h3>Simple example</h3>
+
+<p>Suppose your 22K gold value is ₹1,45,000 for 10 grams jewellery. Add making charges of 12%, around ₹17,400. Then GST gets layered on top. Suddenly your invoice crosses ₹1.66 lakh very fast.</p>
+
+<p><em>That compounding effect catches people off guard.</em> Especially first-time wedding buyers.</p>
+
+<h2 id="south-india-premium">Why South India still pays a premium</h2>
+
+<p>Walk into a major jewellery store in Chennai during Akshaya Tritiya and you will understand instantly. The demand intensity is different. Gold turnover is massive.</p>
+
+<p>South Indian jewellery culture also prefers heavier traditional designs. Temple jewellery, long harams, antique finish collections, kasu malas, all of these involve higher craftsmanship effort. That pushes labour pricing higher.</p>
+
+<p>Kochi and Chennai also track international gold movement very closely because Gulf-linked buying patterns influence demand heavily. When Dubai prices jump, local sentiment reacts almost immediately.</p>
+
+<h3>But there is a flip side</h3>
+
+<p>Because competition is intense in the south, negotiation still works. Smaller jewellers sometimes reduce making charges aggressively during wedding season. I saw several May 2026 offers advertising “0% wastage” even though the real cost was shifted elsewhere in the invoice.</p>
+
+<h2 id="best-buying-strategy">What smart buyers are doing in 2026</h2>
+
+<p>More buyers are separating bullion purchase from jewellery design. They buy coins or bars close to IBJA benchmark, then convert later into ornaments when required.</p>
+
+<p>UPI has also changed behaviour slightly. Earlier many small purchases happened informally. Now digital billing makes GST visibility unavoidable. That's actually good for transparency, even if the bill hurts.</p>
+
+<p>Another interesting trend is younger buyers preferring lighter daily-wear gold instead of heavy wedding-only pieces. With gold touching record levels repeatedly in 2026, affordability is becoming a serious concern.</p>
+
+<h3>One thing I noticed repeatedly</h3>
+
+<p>The jewellers who openly displayed making charge structure usually earned more trust. Hidden wastage percentages are where many consumers still get confused.</p>
+
+</div>
+
+<div class="wide-block">
+  <div class="chart-card">
+    <div class="chart-title">Full State-wise Gold Price Comparison — May 2026</div>
+    <p class="chart-note">Approximate retail jewellery cost for 22K gold per 10g including average making charges and GST.</p>
+
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr id="tableHead"></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="post-body">
+
+<h2 id="so-why">So why is gold this expensive now?</h2>
+
+<p>Part of it is global uncertainty. Part of it is rupee weakness. Part of it is India simply loving gold no matter what economists say.</p>
+
+<p>Import duties still influence pricing heavily, and every tweak by the government ripples through the entire retail chain. Add GST, jeweller margins, logistics, branding, and suddenly the “today gold rate” you saw on Google becomes almost irrelevant.</p>
+
+<p>That's it. The sticker rate is only chapter one. The invoice tells the real story.</p>
+
+<div class="share-bar">
+  <span class="share-label">Share this post</span>
+  <button class="share-btn whatsapp" onclick="shareWhatsApp()">WhatsApp</button>
+  <button class="share-btn twitter" onclick="shareTwitter()">Twitter</button>
+  <button class="share-btn copy" onclick="copyLink()">Copy Link</button>
+</div>
+
+<div class="faq-item">
+  <div class="faq-q" onclick="toggleFaq(this)">Why is Chennai gold usually more expensive? <span class="faq-icon">+</span></div>
+  <div class="faq-a">Chennai reacts quickly to bullion demand and has extremely high jewellery consumption. Traditional heavy jewellery demand also pushes making charges higher compared to some northern markets.</div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-q" onclick="toggleFaq(this)">Is GST on gold always 3%? <span class="faq-icon">+</span></div>
+  <div class="faq-a">The gold value attracts 3% GST, but making charges may attract 5% GST separately depending on invoice structure. Many buyers miss this second component.</div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-q" onclick="toggleFaq(this)">Can making charges be negotiated in India? <span class="faq-icon">+</span></div>
+  <div class="faq-a">Yes, especially at local jewellers and during festival seasons. Branded chains are less flexible, but independent stores still negotiate labour and wastage percentages.</div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-q" onclick="toggleFaq(this)">Should I buy coins instead of jewellery in 2026? <span class="faq-icon">+</span></div>
+  <div class="faq-a">If your goal is investment, coins and bars generally reduce making charge impact. Jewellery is emotional and wearable, but financially it comes with extra cost layers.</div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-q" onclick="toggleFaq(this)">Do all states have the same gold GST? <span class="faq-icon">+</span></div>
+  <div class="faq-a">Yes. GST rates are nationally standardised. The difference between states mostly comes from jeweller margins, logistics, and local demand patterns.</div>
+</div>
+
+<div class="disclosure">
+  Data compiled from IBJA-linked benchmark sources, bullion trackers, GST documentation, and jeweller pricing references accessed between 18–25 May 2026. Prices vary intraday and by jeweller. Some sidebar links may contain affiliate relationships in future.
+</div>
+
+</div>
+
+<div class="post-body references">
+  <div class="references-title">References & Sources</div>
+
+  <ol class="references-list">
+    <li>Indian Bullion and Jewellers Association (IBJA) benchmark pricing — https://ibjarates.com</li>
+    <li>Economic Times gold rate updates, May 18–23 2026 — https://economictimes.indiatimes.com</li>
+    <li>Gold Rate Today Live (IBJA-linked benchmark tracker) — https://goldratetodaylive.in</li>
+    <li>GST on Gold 2026 breakdown — https://www.pkcindia.com/blogs/gst-on-gold-2026-rate-on-jewellery-making-charges-coins-digital-gold-explained/</li>
+    <li>GPaisa Chennai gold rate historical archive — https://www.gpaisa.in/gold-rate/chennai</li>
+    <li>GoldMeter city-level gold pricing — https://goldmeter.in</li>
+    <li>Alerfo India gold price calculator and import-duty explanation — https://alerfo.in/gold-rate-today</li>
+  </ol>
+
+  <p class="references-note">All numbers rounded for readability. Retail jewellery invoices vary depending on purity, design complexity, hallmarking, and store policy.</p>
+</div>
+
+</article>
+
+<aside class="post-sidebar">
+
+  <div class="sb-card">
+    <div class="sb-title">Contents</div>
+    <div class="toc">
+      <a class="toc-link" href="#why-prices-differ">Why prices differ</a>
+      <a class="toc-link" href="#gst-breakdown">GST breakdown</a>
+      <a class="toc-link" href="#south-india-premium">South India premium</a>
+      <a class="toc-link" href="#best-buying-strategy">Best buying strategy</a>
+      <a class="toc-link" href="#so-why">Why gold is expensive</a>
+    </div>
+  </div>
+
+  <div class="sb-card sb-affiliate">
+    <div class="sb-title">Smart Gold Tracking</div>
+    <p>Track live gold prices and BIS-hallmarked jewellery offers before buying.</p>
+    <a class="sb-btn" href="https://www.amazon.in/">Explore Deals</a>
+    <div class="sb-disclosure">Affiliate disclosure: external shopping links may generate commission later.</div>
+  </div>
+
+  <div class="sb-card">
+    <div class="sb-title">Free Tools</div>
+    <a class="sb-tool-link" href="/tools/qr-generator.html">QR Generator</a><br><br>
+    <a class="sb-tool-link" href="/tools/resize-image.html">Resize Image</a><br><br>
+    <a class="sb-tool-link" href="/tools/compress-pdf.html">Compress PDF</a>
+  </div>
+
+  <div class="sb-card">
+    <div class="sb-title">More on Pulse</div>
+    <a class="sb-tool-link" href="/blog/petrol-prices-neighboring-countries-2026.html">India vs neighbours — petrol prices 2026 →</a><br><br>
+    <a class="sb-tool-link" href="/blog/petrol-prices-india-2025.html">Petrol prices across Indian states →</a>
+  </div>
+
+</aside>
+
+</div>
+
+<footer class="post-footer">
+  <div class="post-footer-brand">ViLoLabs / ViLo Pulse</div>
+  <p>Independent analysis for the curious Indian reader. No paywalls, no spam.</p>
+  <p>© 2026 ViLoLabs · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+</footer>
+
+<script>
+
+if (window.ViloDB) {
+  ViloDB.saveBlogPost(
+    'gold-prices-india-2026',
+    'Gold Prices Across India in 2026 — State-wise Comparison with Making Charges and GST Breakdown',
+    'Real May 2026 gold prices across Indian states with GST, making charges, and jewellery billing breakdowns.',
+    'money'
+  );
+}
+
+const tableData = [
+  {rank:1,item:'Chennai',local:'Tamil Nadu',value:151800,delta:'+4.6%',badge:'Costliest'},
+  {rank:2,item:'Kochi',local:'Kerala',value:151200,delta:'+4.2%',badge:''},
+  {rank:3,item:'Bengaluru',local:'Karnataka',value:150900,delta:'+4.0%',badge:''},
+  {rank:4,item:'Hyderabad',local:'Telangana',value:149800,delta:'+3.2%',badge:''},
+  {rank:5,item:'Delhi',local:'Delhi NCR',value:148900,delta:'+2.5%',badge:''},
+  {rank:6,item:'Kolkata',local:'West Bengal',value:147600,delta:'+1.6%',badge:''},
+  {rank:7,item:'Patna',local:'Bihar',value:146250,delta:'+0.7%',badge:''},
+  {rank:8,item:'Mumbai',local:'Maharashtra',value:145050,delta:'-0.1%',badge:'Cheapest'}
+];
+
+const headers = ['Rank','City','State','22K Retail Price / 10g','Delta vs Avg','Market Note'];
+
+const headRow = document.getElementById('tableHead');
+headers.forEach((h,i)=>{
+  const th=document.createElement('th');
+  th.innerHTML=h;
+  th.setAttribute('onclick',`sortTable(${i})`);
+  headRow.appendChild(th);
+});
+
+function renderTable(data){
+  const body=document.getElementById('tableBody');
+  body.innerHTML='';
+
+  data.forEach(row=>{
+    const tr=document.createElement('tr');
+
+    tr.innerHTML=`
+      <td>${row.rank}</td>
+      <td><strong>${row.item}</strong></td>
+      <td>${row.local}</td>
+      <td><strong>₹${row.value.toLocaleString()}</strong></td>
+      <td style="color:${row.delta.includes('-') ? '#4CAF50' : '#F44336'}">${row.delta}</td>
+      <td>${row.badge}</td>
+    `;
+
+    body.appendChild(tr);
+  });
+}
+
+renderTable(tableData);
+
+function sortTable(col){
+  tableData.sort((a,b)=>{
+    const vals=[a.rank,a.item,a.local,a.value,a.delta,a.badge];
+    const valsB=[b.rank,b.item,b.local,b.value,b.delta,b.badge];
+
+    if(typeof vals[col]==='number') return vals[col]-valsB[col];
+    return vals[col].toString().localeCompare(valsB[col].toString());
+  });
+
+  renderTable(tableData);
+}
+
+new Chart(document.getElementById('stateChart'), {
+  type:'bar',
+  data:{
+    labels:['Chennai','Kochi','Bengaluru','Hyderabad','Delhi','Kolkata','Patna','Mumbai'],
+    datasets:[{
+      data:[151800,151200,150900,149800,148900,147600,146250,145050],
+      backgroundColor:['#C8963C','#FF9800','#FF9800','#FF9800','#FF9800','#FF9800','#FF9800','#4CAF50']
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{font:{family:'Outfit',size:11}}},
+      y:{ticks:{font:{family:'Outfit',size:11}}}
+    }
+  }
+});
+
+new Chart(document.getElementById('donutChart'), {
+  type:'doughnut',
+  data:{
+    labels:['Gold Value','Making Charges','GST','Other Premiums'],
+    datasets:[{
+      data:[74,16,5,5],
+      backgroundColor:['#C8963C','#FF9800','#F44336','#4CAF50']
+    }]
+  },
+  options:{
+    cutout:'60%',
+    plugins:{
+      legend:{position:'bottom',labels:{font:{family:'Outfit',size:11}}}
+    }
+  }
+});
+
+new Chart(document.getElementById('compareChart'), {
+  type:'bar',
+  data:{
+    labels:['Mumbai','Patna','Kolkata','Delhi','Hyderabad','Bengaluru','Kochi','Chennai'],
+    datasets:[{
+      data:[-0.1,0.7,1.6,2.5,3.2,4.0,4.2,4.6],
+      backgroundColor:['#4CAF50','#4CAF50','#FF9800','#FF9800','#F44336','#F44336','#F44336','#C8963C']
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false}},
+    scales:{
+      y:{ticks:{font:{family:'Outfit',size:11}}},
+      x:{ticks:{font:{family:'Outfit',size:11}}}
+    }
+  }
+});
+
+function toggleFaq(el){
+  const ans = el.nextElementSibling;
+  const isOpen = ans.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
+  if (!isOpen) { ans.classList.add('open'); el.classList.add('open'); }
+}
+
+function shareWhatsApp(){
+  window.open(`https://wa.me/?text=${encodeURIComponent(document.title + ' ' + window.location.href)}`,'_blank');
+}
+
+function shareTwitter(){
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(document.title)}&url=${encodeURIComponent(window.location.href)}`,'_blank');
+}
+
+function copyLink(){
+  navigator.clipboard.writeText(window.location.href);
+  alert('Link copied');
+}
+
+window.addEventListener('scroll',()=>{
+  const winScroll=document.body.scrollTop || document.documentElement.scrollTop;
+  const height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  const scrolled=(winScroll/height)*100;
+  document.getElementById('read-progress').style.width=scrolled+'%';
+});
+
+const tocLinks=document.querySelectorAll('.toc-link');
+const sections=document.querySelectorAll('h2[id]');
+
+window.addEventListener('scroll',()=>{
+  let current='';
+
+  sections.forEach(section=>{
+    const sectionTop=section.offsetTop;
+    if(pageYOffset>=sectionTop-120){
+      current=section.getAttribute('id');
+    }
+  });
+
+  tocLinks.forEach(link=>{
+    link.classList.remove('active');
+    if(link.getAttribute('href').includes(current)){
+      link.classList.add('active');
+    }
+  });
+});
+
+</script>
+
+</body>
+</html>
