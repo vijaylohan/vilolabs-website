@@ -223,7 +223,9 @@
     }
     .post-featured:hover { border-color: var(--gold); transform: translateY(-2px); }
     .post-featured-img {
-      background: linear-gradient(135deg, #2d1f0a 0%, #1a1108 60%, #0d0a05 100%);
+      background:
+        radial-gradient(circle at 70% 30%, rgba(232,188,114,.18) 0%, transparent 55%),
+        linear-gradient(135deg, #3a2810 0%, #221408 60%, #0d0a05 100%);
       position: relative;
       overflow: hidden;
       min-height: 240px;
@@ -231,25 +233,28 @@
     .post-featured-img .feat-chart-preview {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 6px; padding: 24px;
+      flex-direction: column; gap: 10px; padding: 24px;
     }
     /* Mini bar chart decorative */
-    .mini-bars { display: flex; gap: 5px; align-items: flex-end; height: 80px; }
+    .mini-bars { display: flex; gap: 6px; align-items: flex-end; height: 90px; }
     .mini-bar {
-      width: 12px; border-radius: 3px 3px 0 0;
+      width: 14px; border-radius: 3px 3px 0 0;
       background: linear-gradient(180deg, var(--gold2), var(--gold));
-      opacity: .7;
+      opacity: .85;
+      box-shadow: 0 2px 8px rgba(200,150,60,.15);
     }
     .feat-badge {
-      position: absolute; top: 16px; left: 16px;
-      background: var(--gold);
-      color: var(--char);
-      font-size: .65rem;
+      position: absolute; top: 14px; left: 14px;
+      background: linear-gradient(135deg, #E8BC72 0%, #C8963C 100%);
+      color: #1A1108;
+      font-size: .68rem;
       font-weight: 800;
-      letter-spacing: .1em;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      padding: 4px 10px;
+      padding: 6px 12px;
       border-radius: 4px;
+      box-shadow: 0 4px 14px rgba(200,150,60,.35);
+      z-index: 2;
     }
     .post-featured-body {
       padding: 32px 28px;
@@ -458,14 +463,14 @@
             <div class="mini-bar" style="height:70px;opacity:.85"></div>
             <div class="mini-bar" style="height:75px;opacity:.95;background:#F44336" title="Pakistan"></div>
           </div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold2);opacity:.7;margin-top:12px;">₹95 vs ₹141</div>
-          <div style="font-size:.7rem;color:rgba(245,240,232,.35);letter-spacing:.08em;text-transform:uppercase">India vs neighbours · May 2026</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:2.1rem;color:#E8BC72;margin-top:10px;text-shadow:0 2px 12px rgba(200,150,60,.25);">India ₹95 · Pakistan ₹141</div>
+          <div style="font-size:.72rem;color:rgba(245,240,232,.45);letter-spacing:.1em;text-transform:uppercase;font-weight:600">India vs Neighbours · May 2026</div>
         </div>
       </div>
       <div class="post-featured-body">
         <div class="post-cat-tag">India · Neighbours · Fuel</div>
-        <h2>India Has Cheaper Petrol Than Pakistan? The 2026 Numbers Will Surprise You</h2>
-        <p>The viral "Pakistan ₹51, India ₹100" post is years out of date. Verified May 2026 data shows India at ₹95, Pakistan at ₹141, Nepal at ₹135. Full country comparison with official sources.</p>
+        <h2>India Has Cheaper Petrol Than Most of Its Neighbours — The 2026 Numbers Will Surprise You</h2>
+        <p>The old viral "Pakistan ₹51, India ₹100" post is years out of date. Verified May 2026 data shows India is now cheaper than Pakistan, Nepal, Sri Lanka, China and Bhutan. Only Bangladesh comes close. Full country comparison with official sources.</p>
         <div class="post-meta-row">
           <span>May 2026</span>
           <span class="dot">·</span>
@@ -541,7 +546,7 @@
       <div class="sidebar-title">Latest Posts</div>
       <a class="sidebar-link" href="/blog/petrol-prices-neighboring-countries-2026.html">
         <span class="s-cat">India · Neighbours</span>
-        India Has Cheaper Petrol Than Pakistan? The 2026 Numbers
+        India Has Cheaper Petrol Than Most Neighbours — 2026 Data
       </a>
       <a class="sidebar-link" href="/blog/petrol-prices-india-2025.html">
         <span class="s-cat">India · Economy</span>
