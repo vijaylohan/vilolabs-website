@@ -300,21 +300,42 @@ HARD RULES — VIOLATING ANY OF THESE BREAKS THE LAYOUT
     and Article eligibility for Google News/Discover. Posts without it rank
     significantly lower on data-comparison search queries.
 
-16. ★ MANDATORY: AD SLOT PLACEHOLDERS — insert at TWO positions, both with
-    class="ad-slot preview" so they're visible during development:
+16. ★ MANDATORY: AD SLOT PLACEHOLDERS — insert at TWO positions. BOTH must be
+    INSIDE <article> (NOT outside .post-layout) and each wrapped in a
+    .wide-block so they horizontally align with the chart-cards and with
+    each other. Use class="ad-slot preview" so they're visible during dev.
 
-    (a) Above the TL;DR (right after the .skim-bar, before .post-layout opens):
+    (a) Top — first child inside <article>, before the first .post-body:
+        <article>
+          <div class="wide-block">
+            <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="top"></div>
+          </div>
+          <div class="post-body">
+            [TL;DR + intro paragraphs]
+          </div>
+          ...
+
+    (b) Bottom — after FAQ section, before .disclosure. Must close the
+        current .post-body first, then a fresh wide-block, then reopen
+        a .post-body if more content follows:
+          [FAQ items]
+        </div><!-- close .post-body -->
         <div class="wide-block">
-          <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="top"></div>
+          <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="bottom"></div>
         </div>
-
-    (b) After the FAQ section, before .disclosure:
-        <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="bottom"></div>
+        <div class="post-body">
+          <div class="disclosure">...</div>
+          ...
 
     Behaviour: blog.css renders them as gold-bordered dashed boxes saying
     "Ad slot · 728×90 leaderboard". When real ad code is dropped in later,
-    change class to "ad-slot live" — that turns the placeholder into a real
-    container. They auto-hide on print/PDF.
+    change class to "ad-slot live" and place the AdSense/sponsor HTML
+    inside the div. They auto-hide on print/PDF.
+
+    ⚠️ Why both inside <article>: if the top slot is placed OUTSIDE
+    .post-layout, it centers in the full window width while the bottom
+    slot centers in the article column — looks visually asymmetric.
+    Keep both inside <article> so they share the same parent context.
 
 17. ★ MANDATORY: AFFILIATE CARD COMING-SOON STATE — for now, every .sb-affiliate
     sidebar card MUST have the coming-soon class:

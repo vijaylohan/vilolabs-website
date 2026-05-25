@@ -156,14 +156,15 @@
   </div>
 </div>
 
-<!-- Top ad slot (above-the-fold, between skim-bar and TL;DR) -->
+<!-- Body -->
+<div class="post-layout">
+<article>
+
+<!-- Top ad slot (first inside the article column, aligns with charts/bottom slot) -->
 <div class="wide-block">
   <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="top"></div>
 </div>
 
-<!-- Body -->
-<div class="post-layout">
-<article>
 <div class="post-body">
 
   <!-- TL;DR -->
@@ -458,7 +459,11 @@
   </div>
 
   <!-- Bottom ad slot (post-FAQ, before disclosure) -->
-  <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="bottom"></div>
+  </div><!-- close .post-body so wide-block aligns with the top ad slot -->
+  <div class="wide-block">
+    <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="bottom"></div>
+  </div>
+  <div class="post-body">
 
   <!-- Disclaimer -->
   <div class="disclosure">

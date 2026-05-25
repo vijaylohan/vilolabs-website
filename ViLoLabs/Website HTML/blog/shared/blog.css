@@ -251,9 +251,11 @@ body {
    ═══════════════════════════════════════════════════════════════ */
 .ad-slot {
   display: none;                /* hidden until activated */
-  margin: 2rem auto;
+  width: 100%;
   max-width: 728px;
   min-height: 90px;
+  margin: 2rem auto;            /* horizontal auto-center within parent */
+  box-sizing: border-box;
   background: rgba(0,0,0,.03);
   border: 1px dashed rgba(0,0,0,.12);
   border-radius: 8px;
@@ -265,12 +267,12 @@ body {
   text-transform: uppercase;
   font-family: 'Outfit', sans-serif;
 }
-.ad-slot.live { display: flex; }              /* turn on when ready */
+.ad-slot.live    { display: flex; margin: 2rem auto; }
 .ad-slot.live::before { content: "Advertisement"; opacity: .55; }
-.ad-slot.preview { display: flex; background: rgba(200,150,60,.04); border-color: rgba(200,150,60,.18); color: var(--gold); }
+.ad-slot.preview { display: flex; margin: 2rem auto; background: rgba(200,150,60,.04); border-color: rgba(200,150,60,.22); color: var(--gold); }
 .ad-slot.preview::before { content: "Ad slot · " attr(data-size); opacity: .85; }
 
-/* sidebar ad slot — narrower */
+/* sidebar ad slot — fills the .post-sidebar card width */
 .ad-slot.sb-ad { max-width: 100%; min-height: 250px; margin: 0 0 16px; }
 .ad-slot.sb-ad.preview::before { content: "Sidebar ad · " attr(data-size); }
 

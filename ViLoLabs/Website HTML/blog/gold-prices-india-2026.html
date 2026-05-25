@@ -156,14 +156,14 @@
   </div>
 </div>
 
-<!-- Top ad slot (above-the-fold, between skim-bar and TL;DR) -->
-<div class="wide-block">
-  <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="top"></div>
-</div>
-
 <div class="post-layout">
 
 <article>
+
+<!-- Top ad slot (above-the-fold, first inside the article column) -->
+<div class="wide-block">
+  <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="top"></div>
+</div>
 
 <div class="post-body">
 
@@ -366,7 +366,11 @@
 </div>
 
 <!-- Bottom ad slot (post-FAQ, before disclosure) -->
-<div class="ad-slot preview" data-size="728×90 leaderboard" data-position="bottom"></div>
+</div><!-- close .post-body so wide-block aligns with the top ad slot -->
+<div class="wide-block">
+  <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="bottom"></div>
+</div>
+<div class="post-body">
 
 <div class="disclosure">
   Data compiled from IBJA-linked benchmark sources, bullion trackers, GST documentation, and jeweller pricing references accessed between 18–25 May 2026. Prices vary intraday and by jeweller. Some sidebar links may contain affiliate relationships in future.
