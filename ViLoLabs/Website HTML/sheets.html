@@ -1309,9 +1309,27 @@ async function _wsUpdateUrlAfterGenerate(seed){
   catch(e){console.error('[WSeo] pushState failed:',e);}
   try{ document.title=WSeo.renderTitle({activity:cfg.activity,grade:cfg.grade,category:cfg.category,id:id},kw);}
   catch(e){console.error('[WSeo] title render failed:',e);}
-  // Fire-and-forget: persist slug to DB for sitemap + pSEO indexing
-  // LIB_VERSION lets future code replay this URL against the same library snapshot.
-  if(window.ViloDB) ViloDB.saveWorksheet(slug,cfg.activity,cfg.grade,cfg.category,seed,LIB_VERSION);
+  // Store metadata locally. We DON'T push to Supabase here — generate is just
+  // a preview. Only when the user actually commits (prints / shares) do we
+  // register the worksheet in the DB. Otherwise the DB fills up with abandoned
+  // worksheets a user generated, didn't like, and regenerated.
+  _wsCurrentMeta = {
+    slug, activity:cfg.activity, grade:cfg.grade,
+    category:cfg.category, seed, libVersion:LIB_VERSION
+  };
+  _wsPushed = false;
+}
+
+// ── Commit-time push: called from doPrint() and shareTo() ──────
+// Pushes the current worksheet to Supabase exactly ONCE per generation,
+// no matter how many times the user prints or shares. Resets on each regenerate.
+let _wsCurrentMeta = null;
+let _wsPushed = false;
+function _wsPushIfCommitted(){
+  if(_wsPushed || !_wsCurrentMeta || !window.ViloDB) return;
+  const m = _wsCurrentMeta;
+  ViloDB.saveWorksheet(m.slug, m.activity, m.grade, m.category, m.seed, m.libVersion);
+  _wsPushed = true;
 }
 
 // ── Share popover (toolbar) ─────────────────────────────────────
@@ -1320,6 +1338,8 @@ function toggleSharePop(){
   pop.style.display=(pop.style.display==='none'||!pop.style.display)?'block':'none';
 }
 function shareTo(target){
+  // User committed → register worksheet in DB (once per generation).
+  _wsPushIfCommitted();
   const url=location.href;
   const text=document.title;
   if(target==='whatsapp') window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(text+' '+url),'_blank');
@@ -2583,6 +2603,8 @@ function showToast(msg){
 }
 // PDF — generate & download directly (100% client-side, no server, no print dialog)
 function doPrint(){
+  // User committed → register worksheet in DB (once per generation).
+  _wsPushIfCommitted();
   if(window.jspdf&&window.html2canvas){generatePDF();return;}
   // fallback: browser print if the PDF libraries didn't load
   showToast('Opening print dialog — Save as PDF!');
