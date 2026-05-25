@@ -1892,7 +1892,11 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
 // TODO: replace PROMO_BASE with the live site URL once the domain is set up.
 const PROMO_BASE='https://vilolabs.netlify.app';
 const PROMOS=[
-  // Each tool gets its own slot so different worksheets promote different tools.
+  // Each entry is shown as a half-page cross-promo on the last worksheet page.
+  // Picker is random — every worksheet promotes a different ViLoLabs offering.
+  // Mix: free tools + other worksheet types + the Pulse blog.
+
+  // ── Tools ──
   {emoji:'📐',name:'Resize Image',tag:'Free · 200 KB Preset for Govt Forms',
    desc:'Resize photos to an exact KB size for UPSC, SSC, bank and exam forms — or any pixel size you need.',
    path:'/tools/resize-image.html'},
@@ -1914,6 +1918,30 @@ const PROMOS=[
   {emoji:'📝',name:'PDF to Word',tag:'Free Text Extractor',
    desc:'Pull the text out of a PDF into an editable .doc you can open in Word or Google Docs.',
    path:'/tools/pdf-to-word.html'},
+
+  // ── Other worksheet packs ── (all land on the main worksheet generator)
+  {emoji:'🌀',name:'Maze Worksheets',tag:'Free · All Ages · Print Ready',
+   desc:'Generate a fresh maze in seconds — shapes, sizes and difficulty levels. Print and solve, or download as PDF.',
+   path:'/sheets.html'},
+  {emoji:'🧩',name:'Sudoku for Kids',tag:'Free · 4×4 to 9×9 · Easy to Hard',
+   desc:'Kid-friendly Sudoku puzzles with picture grids for beginners and number grids for pros. Free PDF download.',
+   path:'/sheets.html'},
+  {emoji:'🎨',name:'Colouring Pages',tag:'Free · Cute Outlines · Big Areas',
+   desc:'Beautiful printable colouring pages for kids of all ages. Animals, vehicles, fantasy and more.',
+   path:'/sheets.html'},
+  {emoji:'✏️',name:'Tracing &amp; Writing',tag:'Free · Pre-KG to Class 5',
+   desc:'Letter tracing, number tracing, word writing — generate new sheets endlessly. No two pages alike.',
+   path:'/sheets.html'},
+  {emoji:'📝',name:'Worksheet Pack',tag:'Free · Mixed Activities · Grade-Wise',
+   desc:'Five-page worksheet bundles tailored to your grade — counting, matching, missing-letter, patterns, more.',
+   path:'/sheets.html'},
+
+  // ── ViLo Pulse (blog) ──
+  {emoji:'📰',name:'ViLo Pulse',tag:'Data-Driven Reads · 10 Min',
+   desc:'Sharp, data-driven reads on money, technology and everyday life. Interactive charts, no fluff.',
+   path:'/pulse.html'},
+
+  // ── Apps ──
   {emoji:'📱',name:'ViLo Apps',tag:'Free Android Apps — Coming Soon',
    desc:'Lightweight Android apps for kids’ learning and everyday tools. See what’s launching first.',
    path:'/app.html'}
