@@ -1862,12 +1862,19 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
     if(lp.length<10){curMode=(curMode==='png'?'emoji':'png');lp=libPool(curMode);}
     srcItems=lp;
   } else { srcItems=Object.values(DB).flat(); }
-  const allItems=pick(shuffle(srcItems),20);
+  // Each page needs up to 16 items (4 activities × 4 each). With 5 pages
+  // that's 80. Pull a generous pool so per-page slices stay distinct and the
+  // same image doesn't repeat across activities on a single page.
+  const POOL_TARGET = Math.min(80, srcItems.length);
+  const allItems=pick(shuffle(srcItems),POOL_TARGET);
   for(let p=0;p<5;p++){
     // re-shuffle per page so every page has a DIFFERENT set of 4 activities
     const pageActs=shuffle(pool).slice(0,4);
     while(pageActs.length<4)pageActs.push(pool[rnd(0,pool.length-1)]);
-    const pageItems=shuffle(allItems);
+    // Each page gets a fresh 16-item slice from the larger pool. This makes
+    // collisions between activities on the same page virtually impossible.
+    const start=(p*16)%Math.max(POOL_TARGET-15,1);
+    const pageItems=shuffle(allItems.slice(start,start+16).concat(allItems.slice(0,Math.max(0,16-(POOL_TARGET-start)))));
     const pg=document.createElement('div');
     pg.className='ws-page'+(p===0?' act':'');
     pg.id='pg'+p;
@@ -2639,9 +2646,11 @@ async function generatePDF(){
     const {jsPDF}=window.jspdf;
     const pdf=new jsPDF('p','mm','a4');
     for(let i=0;i<pages.length;i++){
-      const cv=await html2canvas(pages[i],{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false});
+      // scale:3 + quality:0.95 → noticeably sharper PNG clipart at A4 print size.
+      // Trade-off: ~40% larger file vs scale:2/0.92, but worksheets print beautifully.
+      const cv=await html2canvas(pages[i],{scale:3,backgroundColor:'#ffffff',useCORS:true,logging:false,imageTimeout:0});
       if(i>0)pdf.addPage();
-      pdf.addImage(cv.toDataURL('image/jpeg',0.92),'JPEG',0,0,210,297);
+      pdf.addImage(cv.toDataURL('image/jpeg',0.95),'JPEG',0,0,210,297);
     }
     const sd=new Date(),sp=n=>String(n).padStart(2,'0');
     const fnStamp=`${sd.getFullYear()}-${sp(sd.getMonth()+1)}-${sp(sd.getDate())}_${sp(sd.getHours())}${sp(sd.getMinutes())}${sp(sd.getSeconds())}`;

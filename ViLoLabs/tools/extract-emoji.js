@@ -37,7 +37,40 @@ const ALIAS = {
   'football':'Soccer ball', 'boat':'Sailboat', 'spaceship':'Rocket',
   'ufo':'Flying saucer', 'corn':'Ear of corn', 'school-bus':'Bus',
   'ice-cube':'Ice', 'sea-turtle':'Turtle', 'globe':'Globe showing europe-africa',
+  'traffic-light':'Vertical traffic light', 'queen':'Princess', 'king':'Prince',
 };
+
+// NO-MATCH list: items that the keyword/fuzzy matcher used to mis-map to a
+// completely wrong emoji (because Fluent's metadata.keywords array poisoned
+// our index — e.g. "pirate" matched parrot because parrots are pirate-coded).
+// These items become PNG-only — they get NO emoji file copied at all.
+//
+// Add a name here ONLY when:
+//   1. There is no Fluent emoji for the concept, AND
+//   2. The auto-matcher kept picking a wrong-but-tangentially-related emoji.
+//
+// You can verify a bad match by running: node tools/audit-emoji-dupes.js
+// — anything cross-category and unrelated is a candidate.
+const NEGATIVE = new Set([
+  'pirate',           // got parrot (Fluent has no pirate emoji)
+  'mask',             // got doctor (medical mask emoji is a separate concept)
+  'fire-hose',        // got plain fire (no fire-hose in Fluent)
+  'dog-house',        // got plain house
+  'rocking-horse',    // got plain horse
+  'dinosaur-egg',     // got chicken egg
+  'bunting-flags',    // got single flag (these are multi-flag strings)
+  'cricket-bat',      // got baseball bat
+  'octopus-toy',      // got teddy-bear
+  'rabbit-toy',       // got teddy-bear
+  'robot-toy',        // got teddy-bear
+  'bouncy-ball',      // got beach-ball (wrong concept)
+  'birds-nest',       // got bluebird
+  'sun-hat',          // got winter-hat (or vice versa — they conflict)
+  'spray-can',        // got watering-can (or vice versa)
+  'gift-box',         // got plain box (Fluent gift wrap is too holiday-specific)
+  'bow-tie',          // got rope
+  'iron',             // got waffle (Fluent has no household iron emoji)
+]);
 
 // build indexes from every emoji folder's metadata
 const primary = {};   // folder / cldr / tts  -> folder
@@ -100,6 +133,7 @@ for (const cat of fs.readdirSync(LIB)) {
   const names = [...fs.readFileSync(md, 'utf8').matchAll(/^##\s+(\S+)/gm)]
                   .map(m => m[1].replace(/\.png$/, ''));
   for (const name of names) {
+    if (NEGATIVE.has(name)) { missing.push(cat + '/' + name + ' (NEGATIVE list)'); continue; }
     const folder = findFolder(name);
     const src = folder && colorSvg(folder);
     if (!src) { missing.push(cat + '/' + name); continue; }
@@ -108,6 +142,32 @@ for (const cat of fs.readdirSync(LIB)) {
     fs.copyFileSync(src, path.join(outDir, name + '.svg'));
     copied++;
   }
+}
+
+// ── Duplicate-content guard ─────────────────────────────────────
+// If two clipart items point at the SAME emoji SVG (byte-identical), one of
+// them is almost certainly a wrong match. Some legitimate synonyms are OK
+// (cow/highland-cow, duck/duckling), so we only WARN here — adding the bad
+// match to NEGATIVE above is the proper fix.
+const crypto = require('crypto');
+const hashIndex = {};
+(function walk(dir) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) walk(p);
+    else if (e.name.endsWith('.svg')) {
+      const h = crypto.createHash('md5').update(fs.readFileSync(p)).digest('hex');
+      const rel = path.relative(TMP, p).split(path.sep).join('/').replace(/\.svg$/, '');
+      (hashIndex[h] = hashIndex[h] || []).push(rel);
+    }
+  }
+})(TMP);
+const dups = Object.values(hashIndex).filter(arr => arr.length > 1);
+if (dups.length) {
+  console.warn('\n⚠  Duplicate-content emoji detected (possible wrong match):');
+  dups.forEach(g => console.warn('   ' + g.join(' === ')));
+  console.warn('   Review with: node tools/audit-emoji-dupes.js');
+  console.warn('   Fix by adding the bad name to NEGATIVE in tools/extract-emoji.js\n');
 }
 
 // Count SVGs in a folder tree (recursively).

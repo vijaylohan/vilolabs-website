@@ -42,8 +42,12 @@ const OUT    = path.join(ASSETS, 'library.json');
 //       (asset was added today, no worksheet had a chance to use the old slug)
 //   3 — rename symbols/ten -frame → symbols/ten-frame (2026-05-25)
 //       (whitespace cleanup; same-day rename, no live URLs affected)
+//   4 — NEGATIVE emoji list added (2026-05-25): pirate/mask/dog-house/etc
+//       lose their emoji match because the Fluent matcher had mapped them
+//       to wrong emojis (e.g. pirate→parrot). They become PNG-only.
+//       No live worksheets had been generated against these items.
 // ─────────────────────────────────────────────────────────────────
-const LIBRARY_VERSION = 3;
+const LIBRARY_VERSION = 4;
 
 const prettify = s => s.split(/[-_]/)
   .map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
