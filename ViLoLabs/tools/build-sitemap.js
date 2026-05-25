@@ -32,6 +32,7 @@ const PAGE_SIZE = 1000;  // Supabase REST default max per request
 // priority/changefreq tuned to signal hierarchy to Google.
 const STATIC = [
   { loc: '/',                         priority: '1.0',  changefreq: 'weekly'  },
+  { loc: '/about.html',               priority: '0.7',  changefreq: 'monthly' },
   { loc: '/sheets.html',              priority: '0.9',  changefreq: 'weekly'  },
   { loc: '/worksheets/',              priority: '0.9',  changefreq: 'daily'   },
   { loc: '/tools.html',               priority: '0.9',  changefreq: 'weekly'  },

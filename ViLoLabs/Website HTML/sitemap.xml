@@ -3,6 +3,7 @@
 <!-- 15 static · 1 worksheets · 4 tool shares -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://vilolabs.netlify.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://vilolabs.netlify.app/about.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://vilolabs.netlify.app/sheets.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://vilolabs.netlify.app/worksheets/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://vilolabs.netlify.app/tools.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
