@@ -15,6 +15,90 @@
   <link rel="stylesheet" href="/blog/shared/blog.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <script src="/assets/db.js"></script>
+
+  <!-- Structured data: Article + BreadcrumbList + FAQPage (rich snippets) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": "https://vilolabs.netlify.app/blog/petrol-prices-neighboring-countries-2026.html#article",
+        "headline": "India Has Cheaper Petrol Than Most of Its Neighbours — The 2026 Numbers",
+        "description": "Verified May 2026 petrol prices: India is now cheaper than Pakistan, Nepal, Sri Lanka, China and Bhutan. Only Bangladesh comes close. Full comparison with INR equivalents.",
+        "url": "https://vilolabs.netlify.app/blog/petrol-prices-neighboring-countries-2026.html",
+        "datePublished": "2026-05-24",
+        "dateModified": "2026-05-25",
+        "inLanguage": "en-IN",
+        "articleSection": "India · Neighbours · Fuel",
+        "keywords": "petrol price Pakistan, petrol price Nepal, petrol price Bangladesh, petrol price Sri Lanka, petrol price Bhutan, India vs Pakistan petrol, South Asia fuel comparison 2026",
+        "author": {
+          "@type": "Organization",
+          "name": "ViLoLabs",
+          "url": "https://vilolabs.netlify.app/about.html"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "ViLoLabs",
+          "url": "https://vilolabs.netlify.app/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://vilolabs.netlify.app/favicon.svg"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://vilolabs.netlify.app/blog/petrol-prices-neighboring-countries-2026.html"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vilolabs.netlify.app/" },
+          { "@type": "ListItem", "position": 2, "name": "Pulse", "item": "https://vilolabs.netlify.app/pulse.html" },
+          { "@type": "ListItem", "position": 3, "name": "India vs Neighbours — Petrol Prices 2026" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Wait — Pakistan really has petrol at ₹141 in INR? I find this hard to believe.",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, and you can verify it yourself. Pakistan's OGRA (the petroleum regulator) publishes official prices at ogra.org.pk. The May 2026 rate is 410 PKR per litre. At today's exchange rate of approximately 1 PKR = ₹0.344, that's ₹141. The combination of PKR depreciation and IMF-mandated subsidy removal pushed prices up sharply between 2021 and 2026."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why doesn't India's government use this fact in political messaging?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "They occasionally do — finance ministers have referenced these comparisons in speeches. But it's not a politically convenient story to push hard, because the same data shows just how heavy Indian fuel taxes are. Saying 'we're cheaper than Pakistan' implicitly invites 'but why are we still at ₹95?' — and the answer is excise + VAT."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where does Myanmar fit in this comparison?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We deliberately left Myanmar out of the headline data. Myanmar has had two parallel exchange rates since the 2021 political crisis — an official rate the government publishes, and a much higher market/parallel rate that's what actually trades. Their official petrol price at 5091 MMK per litre converts to anywhere between ₹137 and ₹232 depending on which rate you use. Neither number is particularly meaningful."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Will Indian petrol prices stay this low?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Probably not, but probably not dramatically higher either. The Russian crude discount has been narrowing slowly. The May 2026 ₹3/litre hike showed Indian prices do react to global supply tensions. But India has structural advantages — refining capacity, scale, currency stability — that are not going away soon."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 

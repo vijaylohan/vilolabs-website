@@ -35,6 +35,98 @@
   <!-- Chart.js (SRI hash — safe CDN load) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <script src="/assets/db.js"></script>
+
+  <!-- Structured data: Article + BreadcrumbList + FAQPage (rich snippets) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": "https://vilolabs.netlify.app/blog/petrol-prices-india-2025.html#article",
+        "headline": "Petrol Prices Across India in 2026: Why Delhi Pays ₹15 Less Than Andhra Pradesh",
+        "description": "Why does petrol cost ₹94 in Delhi but ₹109 in Andhra Pradesh? State-wise interactive comparison of petrol prices in India — taxes, trends and what you can do.",
+        "url": "https://vilolabs.netlify.app/blog/petrol-prices-india-2025.html",
+        "datePublished": "2026-05-24",
+        "dateModified": "2026-05-24",
+        "inLanguage": "en-IN",
+        "articleSection": "India · Economy · Fuel",
+        "keywords": "petrol price India 2026, state wise petrol price, Delhi petrol, Andhra Pradesh petrol, fuel tax India, VAT petrol India",
+        "author": {
+          "@type": "Organization",
+          "name": "ViLoLabs",
+          "url": "https://vilolabs.netlify.app/about.html"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "ViLoLabs",
+          "url": "https://vilolabs.netlify.app/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://vilolabs.netlify.app/favicon.svg"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://vilolabs.netlify.app/blog/petrol-prices-india-2025.html"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vilolabs.netlify.app/" },
+          { "@type": "ListItem", "position": 2, "name": "Pulse", "item": "https://vilolabs.netlify.app/pulse.html" },
+          { "@type": "ListItem", "position": 3, "name": "Petrol Prices Across India 2026" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why doesn't the central government reduce excise duty to lower prices?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The central government did reduce excise duty twice — by ₹5/litre in Nov 2021 and again by ₹8/litre in May 2022. But fuel excise is a massive revenue source (~₹3.5 lakh crore annually). Any cut directly reduces money available for infrastructure and welfare schemes. Political will exists only during election years or when inflation becomes a crisis."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are petrol prices in India linked to global crude oil prices?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, but with a lag and a buffer. Oil marketing companies (IOCL, BPCL, HPCL) revise prices based on a 15-day rolling average of international crude prices and rupee-dollar exchange rate. However, the government sometimes directs OMCs to absorb losses (especially before elections), which is why prices can stay frozen even when crude rises sharply."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which state has the lowest petrol tax in India?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "As of 2026, Uttarakhand and Andaman & Nicobar Islands consistently have the lowest combined state VAT on petrol — typically 18–20%. Delhi's VAT is also low at ~19.40%, which combined with no additional cess, keeps it among the cheapest metros."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Will petrol prices come under GST?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The GST Council has discussed this multiple times but state governments consistently oppose it because fuel taxes are their largest source of flexible revenue. Under GST, the maximum rate would be 28%, which would massively cut state earnings. Most economists expect this to happen eventually — perhaps by 2027–2030 — but there's no confirmed timeline."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are petrol prices in India high compared to other countries?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compared to the US (~₹90/litre), India is slightly more expensive. Compared to EU countries like Germany (~₹160/litre) or UK (~₹155/litre), India is significantly cheaper. India sits at a middle position globally, with taxes as a higher percentage of price than most emerging economies."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 

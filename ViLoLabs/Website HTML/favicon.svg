@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="96" fill="#1A1108"/>
+  <text x="64" y="384" font-family="Georgia, 'Cormorant Garamond', serif" font-size="352" font-weight="600" fill="#C8963C">V</text>
+  <circle cx="408" cy="408" r="32" fill="#C8963C" opacity="0.85"/>
+</svg>
