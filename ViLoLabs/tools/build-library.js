@@ -38,8 +38,10 @@ const OUT    = path.join(ASSETS, 'library.json');
 //
 // HISTORY:
 //   1 — initial baseline (2026-05-24)
+//   2 — rename symbols/yes do schema → symbols/skull-crossbones (2026-05-25)
+//       (asset was added today, no worksheet had a chance to use the old slug)
 // ─────────────────────────────────────────────────────────────────
-const LIBRARY_VERSION = 1;
+const LIBRARY_VERSION = 2;
 
 const prettify = s => s.split(/[-_]/)
   .map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
