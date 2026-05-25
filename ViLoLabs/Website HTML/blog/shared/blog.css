@@ -227,8 +227,55 @@ body {
   border-left-color: var(--gold);
 }
 /* Affiliate card */
-.sb-affiliate { border-top: 3px solid var(--gold); }
+.sb-affiliate { border-top: 3px solid var(--gold); position: relative; }
 .sb-affiliate p { font-size: .82rem; color: var(--ink2); margin-bottom: 12px; line-height: 1.5; }
+
+/* Affiliate "coming soon" state — kept visible but dimmed so the layout
+   doesn't shift later when affiliate is enabled. Add class="coming-soon"
+   on .sb-affiliate to activate. Remove to make it live. */
+.sb-affiliate.coming-soon { filter: blur(1.4px) saturate(.6); opacity: .55; pointer-events: none; user-select: none; }
+.sb-affiliate.coming-soon::after {
+  content: "Coming soon";
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: var(--bg); border: 1px solid var(--gold);
+  color: var(--gold); padding: 6px 14px; border-radius: 20px;
+  font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  filter: blur(0) saturate(1); opacity: 1;
+  pointer-events: none; white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AD SLOTS — hidden by default, made visible by adding .live class.
+   When ad networks (AdSense / direct sponsors) are wired up, just
+   add class="live" on the slot div and drop the ad code inside.
+   ═══════════════════════════════════════════════════════════════ */
+.ad-slot {
+  display: none;                /* hidden until activated */
+  margin: 2rem auto;
+  max-width: 728px;
+  min-height: 90px;
+  background: rgba(0,0,0,.03);
+  border: 1px dashed rgba(0,0,0,.12);
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-family: 'Outfit', sans-serif;
+}
+.ad-slot.live { display: flex; }              /* turn on when ready */
+.ad-slot.live::before { content: "Advertisement"; opacity: .55; }
+.ad-slot.preview { display: flex; background: rgba(200,150,60,.04); border-color: rgba(200,150,60,.18); color: var(--gold); }
+.ad-slot.preview::before { content: "Ad slot · " attr(data-size); opacity: .85; }
+
+/* sidebar ad slot — narrower */
+.ad-slot.sb-ad { max-width: 100%; min-height: 250px; margin: 0 0 16px; }
+.ad-slot.sb-ad.preview::before { content: "Sidebar ad · " attr(data-size); }
+
+/* hide ad slots on print/PDF */
+@media print { .ad-slot { display: none !important; } }
 .sb-btn {
   display: block;
   background: var(--gold);

@@ -244,6 +244,92 @@ HARD RULES — VIOLATING ANY OF THESE BREAKS THE LAYOUT
       );
     }
 
+15. ★ MANDATORY: STRUCTURED DATA (JSON-LD) — paste this block before </head>.
+    Fill in the article-specific fields. Every post needs ALL THREE schemas
+    (Article + BreadcrumbList + FAQPage) inside a single @graph wrapper.
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://vilolabs.netlify.app/blog/<slug>.html#article",
+          "headline": "<exact post title>",
+          "description": "<meta description, ~150 chars>",
+          "url": "https://vilolabs.netlify.app/blog/<slug>.html",
+          "datePublished": "<YYYY-MM-DD>",
+          "dateModified": "<YYYY-MM-DD>",
+          "inLanguage": "en-IN",
+          "articleSection": "<category · subcategory>",
+          "keywords": "<comma-separated relevant search phrases>",
+          "author": {
+            "@type": "Organization",
+            "name": "ViLoLabs",
+            "url": "https://vilolabs.netlify.app/about.html"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "ViLoLabs",
+            "url": "https://vilolabs.netlify.app/",
+            "logo": { "@type": "ImageObject", "url": "https://vilolabs.netlify.app/favicon.svg" }
+          },
+          "mainEntityOfPage": { "@type": "WebPage", "@id": "https://vilolabs.netlify.app/blog/<slug>.html" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vilolabs.netlify.app/" },
+            { "@type": "ListItem", "position": 2, "name": "Pulse", "item": "https://vilolabs.netlify.app/pulse.html" },
+            { "@type": "ListItem", "position": 3, "name": "<short post title for breadcrumb>" }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "<exact FAQ question text from body>",
+              "acceptedAnswer": { "@type": "Answer", "text": "<plain-text answer, no HTML>" } }
+            /* one Question entry per FAQ item in the post body — must match exactly */
+          ]
+        }
+      ]
+    }
+    </script>
+
+    Why mandatory: this unlocks FAQ rich-snippet accordions, breadcrumb display,
+    and Article eligibility for Google News/Discover. Posts without it rank
+    significantly lower on data-comparison search queries.
+
+16. ★ MANDATORY: AD SLOT PLACEHOLDERS — insert at TWO positions, both with
+    class="ad-slot preview" so they're visible during development:
+
+    (a) Above the TL;DR (right after the .skim-bar, before .post-layout opens):
+        <div class="wide-block">
+          <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="top"></div>
+        </div>
+
+    (b) After the FAQ section, before .disclosure:
+        <div class="ad-slot preview" data-size="728×90 leaderboard" data-position="bottom"></div>
+
+    Behaviour: blog.css renders them as gold-bordered dashed boxes saying
+    "Ad slot · 728×90 leaderboard". When real ad code is dropped in later,
+    change class to "ad-slot live" — that turns the placeholder into a real
+    container. They auto-hide on print/PDF.
+
+17. ★ MANDATORY: AFFILIATE CARD COMING-SOON STATE — for now, every .sb-affiliate
+    sidebar card MUST have the coming-soon class:
+
+    <div class="sb-card sb-affiliate coming-soon">  ← include 'coming-soon'
+      <div class="sb-title">💰 [Topic] Deals</div>
+      <p>...</p>
+      <a class="sb-btn" href="#">Shop on Amazon →</a>
+      <div class="sb-disclosure">Affiliate link — we may earn a small commission at no extra cost to you.</div>
+    </div>
+
+    Behaviour: card is blurred + dimmed with a "Coming soon" badge overlay.
+    Layout space is preserved so when affiliate is activated (remove the
+    coming-soon class), nothing shifts.
+
 ═══════════════════════════════════════════════════════════════
 ABOUT VILOLABS BRAND (for consistency)
 ═══════════════════════════════════════════════════════════════
