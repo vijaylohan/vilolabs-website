@@ -296,13 +296,13 @@
 
   <div class="sb-card">
     <div class="sb-title">Contents</div>
-    <div class="toc">
-      <a class="toc-link" href="#why-prices-differ">Why prices differ</a>
-      <a class="toc-link" href="#gst-breakdown">GST breakdown</a>
+    <nav class="toc">
+      <a class="toc-link" href="#why-prices-differ">Why gold differs by state</a>
+      <a class="toc-link" href="#gst-breakdown">GST + making charges</a>
       <a class="toc-link" href="#south-india-premium">South India premium</a>
-      <a class="toc-link" href="#best-buying-strategy">Best buying strategy</a>
-      <a class="toc-link" href="#so-why">Why gold is expensive</a>
-    </div>
+      <a class="toc-link" href="#best-buying-strategy">What smart buyers do</a>
+      <a class="toc-link" href="#so-why">Why gold is this expensive</a>
+    </nav>
   </div>
 
   <div class="sb-card sb-affiliate">
@@ -485,26 +485,18 @@ window.addEventListener('scroll',()=>{
   document.getElementById('read-progress').style.width=scrolled+'%';
 });
 
-const tocLinks=document.querySelectorAll('.toc-link');
-const sections=document.querySelectorAll('h2[id]');
+// ToC active-on-scroll — match other Pulse posts exactly:
+// 1. Only resolve sections that are actually targeted by a ToC link
+//    (avoids highlighting based on unrelated h2s)
+// 2. Use strict equality so an empty `current` never matches all links
+const tocLinks = document.querySelectorAll('.toc-link');
+const tocSections = [...tocLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
 
-window.addEventListener('scroll',()=>{
-  let current='';
-
-  sections.forEach(section=>{
-    const sectionTop=section.offsetTop;
-    if(pageYOffset>=sectionTop-120){
-      current=section.getAttribute('id');
-    }
-  });
-
-  tocLinks.forEach(link=>{
-    link.classList.remove('active');
-    if(link.getAttribute('href').includes(current)){
-      link.classList.add('active');
-    }
-  });
-});
+window.addEventListener('scroll', () => {
+  let cur = '';
+  tocSections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = '#' + s.id; });
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === cur));
+}, { passive: true });
 
 </script>
 
