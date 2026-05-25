@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About ViLoLabs — Tools, Learning &amp; Knowledge, Built with Intention</title>
-<meta name="description" content="ViLoLabs is an independent studio building tools, learning resources, and data-driven knowledge for everyday Indian users. Our principles, our story, and what we will never compromise on.">
+<meta name="description" content="ViLoLabs is an independent studio building tools, learning resources, and data-driven knowledge for everyday people. Our principles, our story, and how we work.">
 <meta property="og:title" content="About ViLoLabs — Tools, Learning &amp; Knowledge, Built with Intention">
 <meta property="og:description" content="What ViLoLabs is, why it exists, and the principles we will never compromise on.">
 <meta property="og:type" content="website">
@@ -78,6 +78,13 @@ nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-co
 /* PROMISE BOX */
 .promise-box{background:linear-gradient(135deg,rgba(200,150,60,.06) 0%,rgba(200,150,60,.02) 100%);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:1.6rem 1.8rem;margin:2rem 0;}
 .promise-box p{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;font-weight:300;color:var(--cream);line-height:1.6;margin-bottom:0;}
+
+/* DATA TRANSPARENCY NOTE */
+.data-note{background:rgba(200,150,60,.07);border:1px solid rgba(200,150,60,.28);border-radius:12px;padding:1.5rem 1.7rem;margin:1.8rem 0 0;position:relative;}
+.data-note::before{content:'🔒';position:absolute;top:-14px;left:18px;background:var(--char);padding:2px 8px;font-size:1rem;border-radius:50%;}
+.data-note-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--gold);margin-bottom:.6rem;display:block;}
+.data-note p{font-size:.92rem;color:var(--cream);line-height:1.75;margin-bottom:0;}
+.data-note p strong{color:var(--gold2);}
 
 /* CTA */
 .cta-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem;}
@@ -158,9 +165,9 @@ nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-co
         <div class="product-tag">Live · Print-ready learning</div>
         <h3 class="product-name"><a href="/sheets.html">ViLo Worksheets</a></h3>
         <p class="product-desc">
-          Beautiful printable worksheets for Indian parents and teachers. Pre-KG through
-          Class 5, plus colouring, mazes, sudoku and tracing sheets. Generated on the fly,
-          one click to PDF, no signup. Free forever.
+          Beautiful printable worksheets for parents, teachers and learners. Pre-KG
+          through Grade 5, plus colouring, mazes, sudoku and tracing sheets. Generated
+          on the fly, one click to PDF, no signup. Free forever.
         </p>
       </div>
     </div>
@@ -171,7 +178,7 @@ nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-co
         <div class="product-tag">Live · Data-driven blog</div>
         <h3 class="product-name"><a href="/pulse.html">ViLo Pulse</a></h3>
         <p class="product-desc">
-          Sharp, data-driven reads on India, money, technology and everyday life.
+          Sharp, data-driven reads on money, technology, society and everyday life.
           Interactive charts, no fluff. Every number is cross-checked against at least
           two independent sources before we publish. Readable in 10 minutes or less.
         </p>
@@ -236,8 +243,8 @@ nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-co
 
       <div class="principle">
         <span class="principle-icon">★</span>
-        <h4>Independent &amp; India-built</h4>
-        <p>Solo studio, India base, global reach. We make our own decisions about what to build and how. No outside pressure to ship things we don't believe in.</p>
+        <h4>Built in India, for everyone</h4>
+        <p>Proudly designed and built from India. Small studio, no investors, no growth pressure — and made for anyone, anywhere, who values quality and care.</p>
       </div>
 
     </div>
@@ -278,25 +285,36 @@ nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-co
     <h2>How we keep the <em>lights on</em>.</h2>
     <div class="promise-box">
       <p>
-        We're upfront about it — the goal is to build sustainable income so we can keep
-        building useful things, full-time, without compromising the experience.
+        Most sites hide this part. We'd rather just tell you. Our intent is simple —
+        build things worth using, and earn enough from them to keep building for the
+        long run.
       </p>
     </div>
     <p>
-      Right now most of what we make is free. Worksheets, tools, blog posts — open to
-      everyone, no signup walls, no paywalls. Over time we'll add a few revenue streams
-      to keep ViLoLabs going:
+      Most of what we make is free, and stays free. Worksheets, tools, blog posts —
+      open to everyone, no signup walls, no paywalls. To sustain that, we earn through
+      two channels:
     </p>
     <ul>
-      <li><strong>Affiliate links</strong> in blog posts and tool pages — only for products we'd actually use. Always clearly marked.</li>
-      <li><strong>Tasteful ads</strong> on some pages, picked to be relevant and unobtrusive. No autoplay, no popups, no dark patterns.</li>
-      <li><strong>Optional premium features</strong> on some tools later — the basic version stays free and useful for everyone.</li>
+      <li><strong>Affiliate links</strong> on blog posts and tool pages — only for products we'd actually use ourselves. Always clearly marked as affiliate, so you know.</li>
+      <li><strong>Tasteful ads</strong> on some pages, picked to be relevant to what you're reading. No autoplay, no popups, no dark patterns, no fake urgency.</li>
     </ul>
     <p>
-      The promise we'll keep: <strong>your data won't be the product.</strong> How we
-      make money will always be visible and easy to opt out of. If you ever feel
-      something on the site is pushing too hard or feels off, tell us — we'll fix it.
+      The lines we won't cross: <strong>your data won't be the product.</strong> We
+      won't sell your information. We won't use deceptive flows. How we make money will
+      always be visible on the page and easy to ignore if you want to. If something on
+      the site ever feels pushy or off, tell us — we'll fix it.
     </p>
+    <div class="data-note">
+      <span class="data-note-title">On data — our commitment</span>
+      <p>
+        Most of our tools run entirely in your browser, so your files never leave your
+        device. If we ever build a tool that genuinely needs to send your data to a
+        server (some things just can't be done client-side), we'll say so clearly on
+        that tool's page — <strong>what's sent, why, where it goes, and how long it
+        stays.</strong> No quiet uploads. No fine-print surprises.
+      </p>
+    </div>
   </section>
 
   <!-- WHAT'S NEXT -->
@@ -307,10 +325,10 @@ nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-co
       shaped by what people actually use — not by what looks impressive in a pitch deck.
     </p>
     <p>
-      Coming soon: a multi-language layer for worksheets (Hindi, Tamil, Telugu, Bengali
-      first), more tools (PDF-to-Word, signature placement, watermark removal), and a
-      simple newsletter for readers who want one post a week instead of doom-scrolling
-      for one.
+      Coming soon: a multi-language layer for worksheets so children can learn in
+      their preferred language, more tools (PDF-to-Word, signature placement, watermark
+      removal), and a simple newsletter for readers who want one good post a week
+      instead of doom-scrolling for one.
     </p>
     <p>
       No timelines. No countdowns. It ships when it's good.
@@ -326,7 +344,7 @@ nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-co
 
 <!-- FOOTER -->
 <footer class="legal-footer">
-  <span>© 2026 ViLoLabs · Built in India, made for everyone.</span>
+  <span>© 2026 ViLoLabs · Built in India · Made for everyone, everywhere.</span>
   <div class="legal-footer-links">
     <a href="/">Home</a>
     <a href="/privacy.html">Privacy</a>
