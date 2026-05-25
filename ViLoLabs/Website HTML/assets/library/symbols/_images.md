@@ -2,10 +2,10 @@
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 18 done · 9 to create.
+Status: 19 done · 8 to create.
 
 ============================================================
-DONE (18)
+DONE (19)
 ============================================================
 
 ## treasure-map.png   ✅ DONE
@@ -98,14 +98,14 @@ White skull and crossbones.
 PROMPT: flat cartoon clipart, cute white skull and crossbones, round skull, two crossed bones behind, friendly look, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
 
-============================================================
-TO CREATE (9)
-============================================================
-
-## ten-frame.png
+## ten-frame.png   ✅ DONE
 Ten-frame counting grid with counters.
 PROMPT: flat cartoon clipart, cute ten-frame counting grid, two rows of five cells, some cells filled with round red counters, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
+
+============================================================
+TO CREATE (8)
+============================================================
 
 ## pill.png
 Red and white medicine capsule.
