@@ -463,18 +463,45 @@ const DB = {
   ]
 };
 
-const LEVEL_TOPICS={prekg:['animals','fruits','insects','nature'],kg:['animals','fruits','vegetables','insects','nature','transport'],
-  '1':['animals','fruits','vegetables','transport','food','insects','instruments','nature','school'],
-  '2':['animals','food','transport','insects','instruments','nature','school','sports'],
-  '3':['animals','food','transport','nature','school','sports','space'],
-  '4':['food','transport','nature','school','sports','space'],
-  '5':['transport','nature','school','sports','space','food']};
+// LEVEL_TOPICS — category names MUST match real library categories. Run
+// `node -e "const l=require('./Website HTML/assets/library.json'); console.log([...new Set(l.items.map(i=>i.category))])"`
+// to verify available categories before adding new entries here.
+const LEVEL_TOPICS={
+  prekg:    ['animals','fruits','insects','nature','toys','clothing','fantasy'],
+  kg:       ['animals','fruits','vegetables','insects','nature','vehicles','toys','clothing','body-parts','birds','sea-creatures'],
+  '1':      ['animals','fruits','vegetables','vehicles','food','insects','instruments','nature','stationery','birds','sea-creatures','people','plants','dinosaurs','household'],
+  '2':      ['animals','food','vehicles','insects','instruments','nature','stationery','sports','plants','dinosaurs','household','tools','buildings','people'],
+  '3':      ['animals','food','vehicles','nature','stationery','sports','symbols','tools','buildings','people','household','sea-creatures'],
+  '4':      ['food','vehicles','nature','stationery','sports','symbols','tools','buildings','plants','dinosaurs','household'],
+  '5':      ['vehicles','nature','stationery','sports','symbols','tools','buildings','plants','people','food']
+};
 
-const TOPIC_META={animals:{e:'🐾',l:'Animals'},fruits:{e:'🍎',l:'Fruits'},vegetables:{e:'🥦',l:'Vegetables'},
-  food:{e:'🍕',l:'Food'},transport:{e:'🚗',l:'Transport'},nature:{e:'🌿',l:'Nature'},
-  school:{e:'📚',l:'School'},sports:{e:'⚽',l:'Sports'},space:{e:'🚀',l:'Space'},
-  insects:{e:'🐝',l:'Insects'},
-  instruments:{e:'🎸',l:'Instruments'}};
+// TOPIC_META — emoji + label shown in UI for each real category.
+const TOPIC_META={
+  animals:      {e:'🐾',l:'Animals'},
+  birds:        {e:'🐦',l:'Birds'},
+  'body-parts': {e:'👁️',l:'Body Parts'},
+  buildings:    {e:'🏠',l:'Buildings'},
+  clothing:     {e:'👕',l:'Clothing'},
+  dinosaurs:    {e:'🦕',l:'Dinosaurs'},
+  fantasy:      {e:'🧚',l:'Fantasy'},
+  food:         {e:'🍕',l:'Food'},
+  fruits:       {e:'🍎',l:'Fruits'},
+  household:    {e:'🛋️',l:'Household'},
+  insects:      {e:'🐝',l:'Insects'},
+  instruments:  {e:'🎸',l:'Instruments'},
+  nature:       {e:'🌿',l:'Nature'},
+  people:       {e:'👤',l:'People'},
+  plants:       {e:'🌱',l:'Plants'},
+  'sea-creatures':{e:'🐠',l:'Sea Life'},
+  sports:       {e:'⚽',l:'Sports'},
+  stationery:   {e:'📚',l:'School'},
+  symbols:      {e:'🚦',l:'Symbols'},
+  tools:        {e:'🔧',l:'Tools'},
+  toys:         {e:'🧸',l:'Toys'},
+  vegetables:   {e:'🥦',l:'Vegetables'},
+  vehicles:     {e:'🚗',l:'Transport'}
+};
 
 const COL_TOPICS={all:{e:'🎨',l:'All Subjects'},animals:{e:'🐾',l:'Animals'},fruits:{e:'🍎',l:'Fruits & Food'},objects:{e:'🏠',l:'Objects & Nature'}};
 
@@ -1860,6 +1887,20 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
   if(LIB&&LIB.length){
     let lp=libPool(curMode);
     if(lp.length<10){curMode=(curMode==='png'?'emoji':'png');lp=libPool(curMode);}
+    // ── Theme the worksheet: filter LIB to the chosen category (if any).
+    //    Pre-KG/KG/Class 1+ pick a category from LEVEL_TOPICS — and now the
+    //    actual items also come from that category, not random across all 23.
+    //    This is how new PNGs (stationery, symbols, tools, toys, vehicles
+    //    etc.) actually get into the right themed worksheets.
+    const cfg=_wsCurrentConfig();
+    if(cfg.category && cfg.category!=='mix'){
+      const themed=LIB.filter(it=>it.category===cfg.category)
+                      .filter(it=>curMode==='png'?it.png:it.emoji)
+                      .map(it=>libItem(it,curMode));
+      // Only narrow if we have enough for a 5-page worksheet (≈16 per page).
+      // If not, fall back to mix so the user always gets a usable sheet.
+      if(themed.length>=12) lp=themed;
+    }
     srcItems=lp;
   } else { srcItems=Object.values(DB).flat(); }
   // Each page needs up to 16 items (4 activities × 4 each). With 5 pages
