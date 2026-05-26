@@ -46,8 +46,10 @@ const OUT    = path.join(ASSETS, 'library.json');
 //       lose their emoji match because the Fluent matcher had mapped them
 //       to wrong emojis (e.g. pirate→parrot). They become PNG-only.
 //       No live worksheets had been generated against these items.
+//   5 — rename tools/rop.png → tools/rope.png + bulk new coloring page
+//       entries (forest/farmhouse/scene variants) — same-day, no live URLs.
 // ─────────────────────────────────────────────────────────────────
-const LIBRARY_VERSION = 4;
+const LIBRARY_VERSION = 5;
 
 const prettify = s => s.split(/[-_]/)
   .map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');

@@ -2,20 +2,20 @@
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 0 done · 15 to create.
+Status: 1 done · 14 to create.
 
 ============================================================
-DONE (0)
+DONE (1)
 ============================================================
 
-============================================================
-TO CREATE (15)
-============================================================
-
-## corn.png
+## corn.png   ✅ DONE
 Yellow corn cob with husk.
 PROMPT: flat cartoon clipart, cute yellow corn cob, neat rows of kernels, green husk leaves peeled back, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:vegetable | alive:non-living | state:solid
+
+============================================================
+TO CREATE (14)
+============================================================
 
 ## cabbage.png
 Round green cabbage.

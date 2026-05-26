@@ -1,4 +1,4 @@
-# Coloring Pages — Image List (100)
+# Coloring Pages — Image List (140)
 
 ASSET TYPE: coloring worksheet (big blank outline + small corner reference).
 SPEC: JPG or PNG, A4 portrait, 2480x3508 px (300 DPI).
@@ -10,8 +10,15 @@ NAMING: entry names have NO file extension. Save as .jpg OR .png.
 DEFAULTS: class:page-asset | activity:coloring | format:full-page
 TAG KEY: subject:<word>
 
+TWO PROMPT STYLES IN THIS FILE:
+  · SINGLE-SUBJECT (rows 1-100) — one creature/object filling the page.
+    Best for very young children (Pre-KG, KG) who need clear shapes.
+  · SCENE (rows 101-140) — a small environment with several elements
+    (forest, farmhouse, beach, etc.) Best for older children (Class 1-5)
+    who can colour multiple regions and pick their own palette per area.
+
 ============================================================
-COLORING PAGES (100)
+COLORING PAGES (100 single-subject + 40 scenes/variety)
 ============================================================
 
 ## alpaca-coloring
@@ -513,3 +520,217 @@ TAGS: class:page-asset | activity:coloring | format:full-page | subject:broccoli
 Color the chili pepper — large blank outline, small colored reference top-right.
 PROMPT: A4 portrait coloring worksheet for young children, ONE large blank black and white line art outline of a cute cartoon chili pepper filling most of the page with clear empty spaces ready to color in, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same chili pepper in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
 TAGS: class:page-asset | activity:coloring | format:full-page | subject:chili-pepper
+
+
+============================================================
+SCENES & VARIETY (40) — multi-region, kid picks colours freely
+============================================================
+
+NOTE: These pages have SEVERAL distinct shapes children can colour
+individually (tree trunks brown, leaves green, sky blue, sun yellow,
+etc). Encourages creative colour choices. Best for Class 1+.
+
+## forest-scene-coloring
+Color the forest — trees, path, sun, bushes — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon forest filling most of the page with three or four big trees with separate trunks and leaf canopies, a winding path through the middle, a smiling sun in the sky, two small bushes, one mushroom, and one little bird, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same forest scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:forest-scene | type:scene
+
+## garden-scene-coloring
+Color the garden — flowers, grass, butterfly, watering can — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon garden filling most of the page with five different flowers of various shapes, tall grass at the base, two butterflies, one watering can, one ladybug, and a small fence on either side, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same garden scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:garden-scene | type:scene
+
+## farmhouse-scene-coloring
+Color the farmhouse — barn, cow, hay, fence, tractor — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon farmhouse filling most of the page with a big barn with a door and roof window, a friendly cow standing nearby, two haystacks, a wooden fence, a small tractor on one side, the sun in the corner of the sky, and a path leading up to the barn, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same farmhouse scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:farmhouse-scene | type:scene
+
+## beach-scene-coloring
+Color the beach — sand, waves, sun, palm tree, beach ball — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon beach filling most of the page with sandy ground at the bottom, several wavy ocean lines, a palm tree on the side, a smiling sun in the sky, a beach ball, a sandcastle with a flag, two seashells, and a small starfish, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same beach scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:beach-scene | type:scene
+
+## mountain-scene-coloring
+Color the mountains — peaks, river, tree, cabin — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon mountain landscape filling most of the page with three triangular mountain peaks with snow caps, a winding river flowing down, two pine trees, a small wooden cabin with a chimney, a sun behind the mountains, and three little birds flying, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same mountain scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:mountain-scene | type:scene
+
+## park-scene-coloring
+Color the park — swing, slide, bench, tree, kids playing — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon park filling most of the page with a swing set, a slide, a wooden bench, a big tree with leaves, a flower patch, two small children playing, a sun in the sky, and one balloon floating up, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same park scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:park-scene | type:scene
+
+## river-scene-coloring
+Color the river — boat, bridge, fish, water lily — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon river filling most of the page with a winding river with wave lines, a small wooden bridge crossing it, a sailboat with a single sail floating on it, two fish in the water, a water lily with a leaf, two trees on the banks, and the sun in the sky, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same river scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:river-scene | type:scene
+
+## jungle-scene-coloring
+Color the jungle — big leaves, monkey, parrot, vines — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon jungle filling most of the page with several large leafy plants and ferns, two hanging vines, a friendly monkey on a branch, a colorful parrot, a butterfly, and a small waterfall in the back, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same jungle scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:jungle-scene | type:scene
+
+## underwater-scene-coloring
+Color the underwater scene — fish, coral, seaweed, treasure — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon underwater world filling most of the page with several different fish swimming, a coral formation, three seaweed plants growing up, a treasure chest on the seabed, one starfish, one octopus, and bubbles floating up, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same underwater scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:underwater-scene | type:scene
+
+## space-scene-coloring
+Color the space scene — rocket, planets, stars, astronaut — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon space view filling most of the page with a rocket flying up, three planets of different shapes one with a ring, several stars scattered, a friendly astronaut floating, a small moon with craters, and a tiny comet, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same space scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:space-scene | type:scene
+
+## city-skyline-coloring
+Color the city — tall buildings, sun, cars, trees — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon city skyline filling most of the page with four to five tall buildings of different heights with rows of windows, a road at the bottom with two small cars, two trees on the sidewalk, a sun in the sky, and three small clouds, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same city skyline in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:city-skyline | type:scene
+
+## castle-scene-coloring
+Color the castle — towers, flag, drawbridge, moat — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon castle filling most of the page with a big castle building with three towers each topped by a triangular roof and a small flag, a drawbridge over a moat at the front, two windows, a sun in the sky, two clouds, and one tree on the side, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same castle scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:castle-scene | type:scene
+
+## treehouse-coloring
+Color the treehouse — tree, wooden house, ladder, leaves — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon treehouse filling most of the page with a big leafy tree as the main subject, a wooden house built into the upper branches with a door window and small roof, a rope ladder hanging down, two birds, and the sun in the sky, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same treehouse in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:treehouse | type:scene
+
+## desert-scene-coloring
+Color the desert — cactus, sun, camel, dunes — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon desert filling most of the page with rolling sand dunes, three different cactus plants with arms, a friendly camel walking across, a big sun in the sky, two flying birds, and a small oasis with a palm tree, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same desert scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:desert-scene | type:scene
+
+## snowy-scene-coloring
+Color the snowy day — snowman, trees, kids, snowflakes — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon winter snow day filling most of the page with a big snowman with hat scarf and carrot nose, two pine trees with snow on the branches, two children playing one with a sled, a small log cabin in the back with snow on the roof, and several snowflakes falling, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same snowy scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:snowy-scene | type:scene
+
+## rainbow-scene-coloring
+Color the rainbow — rainbow arc, clouds, sun, raindrops — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon rainbow day filling most of the page with a big rainbow arc with multiple bands going from edge to edge, two fluffy clouds, the sun peeking out, a few raindrops still falling, a flowery meadow at the bottom, and one butterfly, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same rainbow scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:rainbow-scene | type:scene
+
+## solar-system-coloring
+Color the solar system — sun, planets in orbit — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon solar system filling most of the page with a big sun in the center and eight planets of different sizes arranged around it on faint dotted orbit lines including Earth Mars Jupiter Saturn with rings, plus a small moon and a passing comet, lots of clear empty spaces in each planet ready to color in independently with different colors per planet, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same solar system in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:solar-system | type:scene
+
+## farm-animals-coloring
+Color farm animals — cow, pig, sheep, chicken, barn — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of cute cartoon farm animals filling most of the page with a cow a pig a sheep and a chicken standing together in front of a small barn, a fence behind them, two haystacks, the sun in the sky, and one tree on the side, lots of clear empty spaces in each animal and shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same farm animals scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:farm-animals | type:scene
+
+## fruit-basket-coloring
+Color the fruit basket — apple, banana, grapes, orange, pear — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon fruit basket filling most of the page with a woven basket holding an apple a banana a bunch of grapes an orange a pear and a strawberry on top, on a small table surface, lots of clear empty spaces in each fruit ready to color in with a different color per fruit, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same fruit basket in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:fruit-basket | type:scene
+
+## under-the-sea-mermaid-coloring
+Color the mermaid scene — mermaid, fish, coral, bubbles — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon mermaid sitting on a rock under the sea filling most of the page with a friendly mermaid with long flowing hair, three small fish swimming around, a coral plant, a seashell, a starfish, and bubbles floating up, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same mermaid scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:mermaid-scene | type:scene
+
+## fairy-garden-coloring
+Color the fairy garden — fairy, toadstool, flowers, butterflies — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon fairy garden filling most of the page with a friendly fairy with wings standing among flowers, two big toadstool mushrooms, three different flowers, two butterflies, a small snail, and tiny grass tufts, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same fairy garden in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:fairy-garden | type:scene
+
+## dinosaur-land-coloring
+Color the dinosaur land — dinosaur, volcano, ferns, eggs — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon prehistoric land filling most of the page with a friendly long-necked dinosaur, a small triceratops, a volcano with smoke in the back, two big fern plants, a nest with three eggs, and a sun in the sky, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same dinosaur land in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:dinosaur-land | type:scene
+
+## car-coloring
+Color the car — big cartoon car with details — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon car filling most of the page with clear separate regions for body, windows, two wheels, headlights, side mirror, and a small antenna, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same car in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:car | type:vehicle
+
+## fire-truck-coloring
+Color the fire truck — ladder, hose, lights — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon fire truck filling most of the page with a big main body, an extended ladder on top, a coiled hose on the side, two wheels, a flashing light on the roof, a windshield, and a small driver visible, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same fire truck in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:fire-truck | type:vehicle
+
+## train-coloring
+Color the train — engine, wheels, smoke, carriages — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon steam train filling most of the page with a big engine with a chimney puffing smoke, two carriages behind, multiple wheels, a headlight, a small driver in the cabin, and railway tracks at the bottom, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same train in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:train | type:vehicle
+
+## airplane-coloring
+Color the airplane — wings, windows, propeller — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon airplane filling most of the page with a long main body, two big wings, multiple round windows along the side, a tail fin, a cockpit window with a smiling pilot, and a small propeller on the nose, with a few clouds around it, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same airplane in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:airplane | type:vehicle
+
+## boat-coloring
+Color the boat — sail, mast, waves — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon sailboat filling most of the page with a wooden hull, a tall mast, two big triangular sails, a small flag at the top of the mast, wave lines below, a sun in the sky, and one seagull flying, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same boat in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:boat | type:vehicle
+
+## tractor-coloring
+Color the tractor — wheels, scoop, exhaust — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon tractor filling most of the page with two big back wheels and two small front wheels, a closed cabin with a windshield, an exhaust pipe puffing smoke, a friendly smiling driver, and a small bucket scoop attachment in front, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same tractor in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:tractor | type:vehicle
+
+## hot-air-balloon-coloring
+Color the hot air balloon — balloon, basket, ropes, clouds — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon hot air balloon filling most of the page with a big round patterned balloon at the top divided into several panels for different colours, a woven basket hanging below with two ropes connecting, a small flame, two clouds, and the sun in the sky, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same hot air balloon in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:hot-air-balloon | type:vehicle
+
+## house-coloring
+Color the house — roof, door, windows, chimney — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon house filling most of the page with a clear roof, two windows, a front door with a knob, a chimney with smoke, a path leading to the door, a small flower bed on the side, a tree next to the house, and a sun in the sky, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same house in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:house | type:building
+
+## lighthouse-coloring
+Color the lighthouse — tall striped tower, light, waves — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon lighthouse filling most of the page with a tall striped tower with horizontal bands, a bright light on top behind glass with light rays going outward, a small door at the bottom, two windows, a rocky base, ocean waves at the bottom, and a sailboat in the distance, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same lighthouse in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:lighthouse | type:building
+
+## windmill-coloring
+Color the windmill — building, blades, door, hill — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon windmill filling most of the page with a tall round building, four big blades crossed at the top, a small door, two windows, a flag on top, the windmill sitting on a small grassy hill, with two clouds in the sky, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same windmill in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:windmill | type:building
+
+## robot-coloring
+Color the robot — body, arms, antenna, eyes — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon robot filling most of the page with a boxy body, two arms each with claw hands, two legs with rectangular feet, a square head with two round eyes and a smile, an antenna on top with a bulb, a small chest panel with buttons, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same robot in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:robot | type:object
+
+## teddy-bear-coloring
+Color the teddy bear — body, bow tie, paw pads — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon teddy bear filling most of the page with a soft round body sitting upright, two ears, two arms two legs with small paw pads, a smiling face with two button eyes a nose and a smile, a bow tie around the neck, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same teddy bear in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:teddy-bear | type:object
+
+## kite-flying-coloring
+Color the kite — diamond kite, tail, child, sky — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon kite flying day filling most of the page with a big diamond kite divided into four panels for different colours flying high, a long tail with several bow knots, a small child on the ground holding the string with both hands, two clouds, the sun in the sky, and grass at the bottom, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same kite flying scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:kite-flying | type:scene
+
+## christmas-tree-scene-coloring
+Color the Christmas tree — decorated tree, presents, star — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon decorated Christmas tree filling most of the page with several layers of branches, a big star on top, multiple round ornaments of different sizes hanging on the branches, a garland wrapping around, three wrapped presents at the base, a tree stand, and two small candy canes hanging, lots of clear empty spaces in each ornament for kids to choose different colors, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same Christmas tree in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:christmas-tree-scene | type:festival
+
+## diwali-scene-coloring
+Color the Diwali scene — diyas, rangoli pattern, fireworks — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon Diwali celebration filling most of the page with three traditional terracotta diya oil lamps with flames in a row, a round rangoli pattern with concentric petal-shaped sections behind them, two firework bursts in the sky above, two small candles, and a moon on the side, lots of clear empty spaces in the rangoli petals for kids to choose different colors per section, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same Diwali scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:diwali-scene | type:festival
+
+## birthday-party-coloring
+Color the birthday party — cake, balloons, presents, hat — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon birthday party filling most of the page with a big tiered cake with candles on top, a bunch of three balloons tied to the side, two wrapped gift boxes, a party hat on the table, a banner with shape pennants above, confetti dots, and two small streamers, lots of clear empty spaces in each shape ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same birthday party scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:birthday-party | type:festival
+
+## mandala-simple-coloring
+Color the mandala — concentric flower pattern — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a simple kid-friendly mandala filling most of the page with concentric circular petal patterns radiating outward from a center, four distinct rings of petals each with a different shape simple enough for a child to color, symmetrical design, lots of clear empty spaces in each petal ready to color in independently with different colors per ring, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same mandala in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:mandala-simple | type:pattern
+
+## superhero-coloring
+Color the superhero — kid hero, cape, mask, logo — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art of a cute cartoon child superhero filling most of the page with a full body kid wearing a mask, a flowing cape behind, a chest emblem with a simple star or lightning shape, gloves and boots, hands on hips in a heroic pose, two small motion lines and a small sparkle, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same superhero in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:superhero | type:person
+
+## astronaut-on-moon-coloring
+Color the astronaut on the moon — moon surface, flag, earth — large blank outline.
+PROMPT: A4 portrait coloring worksheet for children, ONE large detailed black and white line art scene of a cute cartoon astronaut on the moon filling most of the page with a friendly astronaut in a space suit standing on the cratered moon surface, planting a flag with a star pattern, the planet Earth visible in the dark sky, a few stars around, and a small rover vehicle parked nearby, lots of clear empty spaces in each region ready to color in independently, thick bold clean black outlines, no shading, pure white background, in the TOP RIGHT corner a small fully colored reference thumbnail of the same astronaut scene in bright flat cartoon colors inside a thin rounded frame box, no text, no labels, 2480x3508 pixels resolution
+TAGS: class:page-asset | activity:coloring | format:full-page | subject:astronaut-moon | type:scene
