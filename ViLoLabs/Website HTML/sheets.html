@@ -1188,6 +1188,49 @@ function libItem(it,mode){
 function libPool(mode){
   return LIB.filter(it=>mode==='png'?it.png:it.emoji).map(it=>libItem(it,mode));
 }
+// ── Narrative seeker→goal pairs for the inline maze activity ──
+// Used when a library `pairWith` tag isn't available. Each entry is
+// [seeker, goal] by item name — both must exist in LIB for the
+// chosen render mode (png/emoji) or the entry is skipped.
+// Ensures the maze always tells a sensible story (mouse chasing cheese,
+// not cheese chasing mouse).
+const MAZE_NARRATIVE_PAIRS=[
+  // Classics (animal → food/treasure)
+  ['mouse','cheese'],['rabbit','carrot'],['cat','fish'],['dog','dog-bone'],
+  ['squirrel','acorn'],['bear','honey'],['fox','grapes'],['monkey','banana'],
+  ['panda','bamboo'],['cow','milk'],['hen','egg'],['horse','apple'],
+  ['caterpillar','leaf'],['shark','fish'],['penguin','fish'],
+  // Insect → home/flower
+  ['bee','flower'],['butterfly','flower'],['ant','anthill'],['bee','beehive'],
+  // Going-home pairs
+  ['dog','dog-house'],['sparrow','birdhouse'],['bluebird','birdhouse'],['owl','birdhouse'],
+  ['girl','school'],['boy','school'],
+  // People → workplace / goal
+  ['postman','mailbox'],['chef','cake'],['chef','cupcake'],
+  ['beekeeper','beehive'],['farmer','barn'],['farmer','hay-bale'],
+  ['princess','castle'],['king','castle'],['queen','castle'],
+  ['scuba-diver','fish'],['mermaid','fish'],
+  // Fantasy
+  ['dragon','treasure-chest'],['pirate','treasure-chest'],
+  ['explorer','treasure-chest'],['astronaut','rocket'],['rocket','moon'],
+  // Transport
+  ['boat','lighthouse']
+];
+
+function libMazePair(mode){
+  if(!LIB||!LIB.length) return null;
+  const byName={};
+  LIB.forEach(it=>{ if(it&&it.name) byName[it.name]=it; });
+  for(const [sName,gName] of shuffle(MAZE_NARRATIVE_PAIRS)){
+    const s=byName[sName], g=byName[gName];
+    if(!s||!g) continue;
+    const sSrc=mode==='png'?s.png:s.emoji;
+    const gSrc=mode==='png'?g.png:g.emoji;
+    if(sSrc && gSrc) return [libItem(s,mode), libItem(g,mode)];
+  }
+  return null;
+}
+
 // pairs of items that "go together" (cow+milk) from library pairWith tags
 function libPairs(mode){
   if(!LIB) return [];
@@ -2310,8 +2353,19 @@ function buildAct(type,items,all){
 
   case 'maze':{
     const dim={prekg:[5,4],kg:[6,4],'1':[7,5],'2':[8,5],'3':[9,6],'4':[10,6],'5':[11,7]}[curLvl]||[8,5];
-    const mzPair=libPairs(curMode)[0];           // themed pair (e.g. cow→milk) when available
-    const mA=mzPair?mzPair[0]:i0, mB=mzPair?mzPair[1]:i1;
+    // Pick a narratively coherent seeker→goal pair so the maze always tells a
+    // sensible story (mouse → cheese, never cheese → mouse). Priority:
+    //   1. Library narrative pair in current mode (preferred — uses our art)
+    //   2. Library pairWith-tagged pair (cow→milk style)
+    //   3. MZ_PAIRS emoji pair (always coherent, last resort)
+    let mA, mB;
+    const lp = libMazePair(curMode) || libPairs(curMode)[0];
+    if(lp){ mA=lp[0]; mB=lp[1]; }
+    else {
+      const ep=MZ_PAIRS[rnd(0,MZ_PAIRS.length-1)];
+      mA={src:'',e:ep.s,n:'',l:''};
+      mB={src:'',e:ep.e,n:'',l:''};
+    }
     return`<div class="act-hdr"><div class="act-type">🌀 Find the Way!</div><div class="act-instr">Draw a line through the maze from 🟢 Start to 🔴 Finish!</div></div>
     <div class="act-body" style="width:100%">${mazeActSVG(dim[0],dim[1],mA,mB)}</div>`;}
 
