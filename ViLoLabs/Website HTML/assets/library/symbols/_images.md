@@ -2,10 +2,10 @@
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 19 done · 8 to create.
+Status: 27 done · 0 to create.
 
 ============================================================
-DONE (19)
+DONE (27)
 ============================================================
 
 ## treasure-map.png   ✅ DONE
@@ -103,46 +103,42 @@ Ten-frame counting grid with counters.
 PROMPT: flat cartoon clipart, cute ten-frame counting grid, two rows of five cells, some cells filled with round red counters, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
 
-============================================================
-TO CREATE (8)
-============================================================
-
-## pill.png
+## pill.png   ✅ DONE
 Red and white medicine capsule.
 PROMPT: flat cartoon clipart, cute red and white medicine capsule pill, rounded oval shape, glossy finish, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
 
-## perfume-bottle.png
+## perfume-bottle.png   ✅ DONE
 Pink perfume bottle with spray top.
 PROMPT: flat cartoon clipart, cute pink perfume bottle, rounded glass body, gold spray pump cap, label, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
 
-## lipstick.png
+## lipstick.png   ✅ DONE
 Red lipstick tube open.
 PROMPT: flat cartoon clipart, cute red lipstick, tube twisted open, angled red tip, golden case, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
 
-## gift.png
+## gift.png   ✅ DONE
 Wrapped gift box with bow.
 PROMPT: flat cartoon clipart, cute wrapped gift box, red paper, gold ribbon and big bow on top, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
 
-## bow-tie.png
+## bow-tie.png   ✅ DONE
 Polka-dot bow tie.
 PROMPT: flat cartoon clipart, cute blue polka-dot bow tie, two symmetrical loops, center knot band, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
 
-## magic-wand.png
+## magic-wand.png   ✅ DONE
 Magic wand with star tip.
 PROMPT: flat cartoon clipart, cute magic wand, slim handle, glowing yellow star at tip, sparkles around, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
 
-## spiderweb.png
+## spiderweb.png   ✅ DONE
 White spider web.
 PROMPT: flat cartoon clipart, cute white spider web, circular spiral threads, radiating strands, dewdrops, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
 
-## music-symbol.png
+## music-symbol.png   ✅ DONE
 Single musical note symbol.
 PROMPT: flat cartoon clipart, cute single black musical note symbol, round note head, curved stem and flag, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:symbol | alive:non-living
