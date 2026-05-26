@@ -1,0 +1,55 @@
+{
+  "_comment": "Narrative seeker→goal pairs for the maze activity. Each entry is [seekerName, goalName] — names must match item names in /assets/library/<category>/<name>.png. build-library.js validates this list and drops broken pairs (with a warning) before writing to library.json. Edit freely — adding a new pair only requires both items to exist in the library.",
+  "_format": "[seeker, goal] — seeker is at the maze ENTRY, goal is at the EXIT. Order matters.",
+  "_lastUpdated": "2026-05-26",
+
+  "pairs": [
+    ["mouse",       "cheese"],
+    ["rabbit",      "carrot"],
+    ["cat",         "fish"],
+    ["dog",         "dog-bone"],
+    ["squirrel",    "acorn"],
+    ["bear",        "honey"],
+    ["fox",         "grapes"],
+    ["monkey",      "banana"],
+    ["panda",       "bamboo"],
+    ["cow",         "milk"],
+    ["hen",         "egg"],
+    ["horse",       "apple"],
+    ["caterpillar", "leaf"],
+    ["shark",       "fish"],
+    ["penguin",     "fish"],
+
+    ["bee",         "flower"],
+    ["butterfly",   "flower"],
+    ["ant",         "anthill"],
+    ["bee",         "beehive"],
+
+    ["dog",         "dog-house"],
+    ["sparrow",     "birdhouse"],
+    ["bluebird",    "birdhouse"],
+    ["owl",         "birdhouse"],
+    ["girl",        "school"],
+    ["boy",         "school"],
+
+    ["postman",     "mailbox"],
+    ["chef",        "cake"],
+    ["chef",        "cupcake"],
+    ["beekeeper",   "beehive"],
+    ["farmer",      "barn"],
+    ["farmer",      "hay-bale"],
+    ["princess",    "castle"],
+    ["king",        "castle"],
+    ["queen",       "castle"],
+    ["scuba-diver", "fish"],
+    ["mermaid",     "fish"],
+
+    ["dragon",      "treasure-chest"],
+    ["pirate",      "treasure-chest"],
+    ["explorer",    "treasure-chest"],
+    ["astronaut",   "rocket"],
+    ["rocket",      "moon"],
+
+    ["boat",        "lighthouse"]
+  ]
+}

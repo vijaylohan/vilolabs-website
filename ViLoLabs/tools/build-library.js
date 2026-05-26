@@ -204,6 +204,32 @@ if (prev && !versionBumped) {
   console.log('  append-only guard SKIPPED for this build (intentional reorganize)');
 }
 
+// ---------- maze narrative pairs ----------
+// Validates tools/maze-pairs.json against the final items list, drops
+// broken pairs with a warning, and emits the validated set to
+// library.json as `mazePairs`. sheets.html reads it from there —
+// no hardcoded list in the rendering layer.
+const PAIRS_FILE = path.join(__dirname, 'maze-pairs.json');
+let validPairs = [];
+if (fs.existsSync(PAIRS_FILE)) {
+  const cfg = JSON.parse(fs.readFileSync(PAIRS_FILE, 'utf8'));
+  const itemByName = {};
+  finalItems.forEach(it => { if (it && it.name) itemByName[it.name] = it; });
+  const broken = [];
+  (cfg.pairs || []).forEach(([s, g]) => {
+    const sItem = itemByName[s], gItem = itemByName[g];
+    if (!sItem || !gItem) { broken.push([s, g, sItem?'':'seeker-missing', gItem?'':'goal-missing']); return; }
+    validPairs.push([s, g]);
+  });
+  if (broken.length) {
+    console.warn('\n⚠  maze-pairs.json: ' + broken.length + ' broken pair(s) dropped:');
+    broken.forEach(b => console.warn('   ✗ ' + b[0] + ' → ' + b[1] + '   (' + b[2] + ' ' + b[3] + ')'));
+    console.warn('   Either add the missing item to /assets/library/, or remove the pair from tools/maze-pairs.json\n');
+  }
+} else {
+  console.warn('  tools/maze-pairs.json not found — library.json will have no mazePairs.');
+}
+
 // ---------- write registry ----------
 const registry = {
   generated: new Date().toISOString(),
@@ -215,9 +241,11 @@ const registry = {
     itemsRenderable:finalItems.filter(i => i.png || i.emoji).length,
     pages:          finalPages.length,
     pagesWithFile:  finalPages.filter(p => p.file).length,
+    mazePairs:      validPairs.length,
   },
   items: finalItems,
   pages: finalPages,
+  mazePairs: validPairs,
 };
 fs.writeFileSync(OUT, JSON.stringify(registry));
 

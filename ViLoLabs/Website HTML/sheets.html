@@ -1168,11 +1168,16 @@ function pickFresh(pool,n,tag){
 // LIBRARY.JSON — PNG + emoji clipart pool
 // (falls back to the emoji DB above if it can't load)
 // ══════════════════════════
-let LIB=null;          // library.json items, or null = use DB fallback
-let LIB_VERSION=null;  // libraryVersion from library.json — stamped on each saved worksheet
-let curMode='emoji';   // render style of current worksheet: 'png' | 'emoji'
+let LIB=null;                  // library.json items, or null = use DB fallback
+let LIB_VERSION=null;          // libraryVersion from library.json — stamped on each saved worksheet
+window.LIB_MAZE_PAIRS=null;    // narrative seeker→goal pairs from library.json
+let curMode='emoji';           // render style of current worksheet: 'png' | 'emoji'
 fetch('assets/library.json').then(r=>r.json())
-  .then(d=>{LIB=(d.items||[]).filter(it=>it.png||it.emoji);LIB_VERSION=d.libraryVersion||null;})
+  .then(d=>{
+    LIB=(d.items||[]).filter(it=>it.png||it.emoji);
+    LIB_VERSION=d.libraryVersion||null;
+    window.LIB_MAZE_PAIRS=Array.isArray(d.mazePairs)?d.mazePairs:null;
+  })
   .catch(()=>{LIB=null;});
 
 // library item -> the {e,n,l,src} shape every activity expects.
@@ -1189,39 +1194,23 @@ function libPool(mode){
   return LIB.filter(it=>mode==='png'?it.png:it.emoji).map(it=>libItem(it,mode));
 }
 // ── Narrative seeker→goal pairs for the inline maze activity ──
-// Used when a library `pairWith` tag isn't available. Each entry is
-// [seeker, goal] by item name — both must exist in LIB for the
-// chosen render mode (png/emoji) or the entry is skipped.
-// Ensures the maze always tells a sensible story (mouse chasing cheese,
-// not cheese chasing mouse).
-const MAZE_NARRATIVE_PAIRS=[
-  // Classics (animal → food/treasure)
+// Pairs live in tools/maze-pairs.json — validated at build time, then
+// emitted to library.json as `mazePairs`. sheets.html just reads them.
+// Editing the list = edit tools/maze-pairs.json + run `node tools/build-all.js`.
+// (See LIB_MAZE_PAIRS_FALLBACK below for what runs if library.json fails to load.)
+const LIB_MAZE_PAIRS_FALLBACK=[
   ['mouse','cheese'],['rabbit','carrot'],['cat','fish'],['dog','dog-bone'],
-  ['squirrel','acorn'],['bear','honey'],['fox','grapes'],['monkey','banana'],
-  ['panda','bamboo'],['cow','milk'],['hen','egg'],['horse','apple'],
-  ['caterpillar','leaf'],['shark','fish'],['penguin','fish'],
-  // Insect → home/flower
-  ['bee','flower'],['butterfly','flower'],['ant','anthill'],['bee','beehive'],
-  // Going-home pairs
-  ['dog','dog-house'],['sparrow','birdhouse'],['bluebird','birdhouse'],['owl','birdhouse'],
-  ['girl','school'],['boy','school'],
-  // People → workplace / goal
-  ['postman','mailbox'],['chef','cake'],['chef','cupcake'],
-  ['beekeeper','beehive'],['farmer','barn'],['farmer','hay-bale'],
-  ['princess','castle'],['king','castle'],['queen','castle'],
-  ['scuba-diver','fish'],['mermaid','fish'],
-  // Fantasy
-  ['dragon','treasure-chest'],['pirate','treasure-chest'],
-  ['explorer','treasure-chest'],['astronaut','rocket'],['rocket','moon'],
-  // Transport
-  ['boat','lighthouse']
+  ['bee','flower'],['cow','milk'],['hen','egg'],['boat','lighthouse']
 ];
 
 function libMazePair(mode){
   if(!LIB||!LIB.length) return null;
+  const pairs=(window.LIB_MAZE_PAIRS && window.LIB_MAZE_PAIRS.length)
+              ? window.LIB_MAZE_PAIRS
+              : LIB_MAZE_PAIRS_FALLBACK;
   const byName={};
   LIB.forEach(it=>{ if(it&&it.name) byName[it.name]=it; });
-  for(const [sName,gName] of shuffle(MAZE_NARRATIVE_PAIRS)){
+  for(const [sName,gName] of shuffle(pairs)){
     const s=byName[sName], g=byName[gName];
     if(!s||!g) continue;
     const sSrc=mode==='png'?s.png:s.emoji;
