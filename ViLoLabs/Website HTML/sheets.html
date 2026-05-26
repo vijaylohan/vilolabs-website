@@ -1302,13 +1302,32 @@ function _wsCurrentConfig(){
   else if(curLvl==='sudoku') activityKey='sudoku';
   else if(curLvl==='maze') activityKey='maze';
   else activityKey='mix';  // prekg, kg, 1-5 all build mixed-activity sheets
-  // CATEGORY — honest: only set if mode genuinely uses ONE theme
+  // CATEGORY — honest: only set if mode genuinely uses ONE theme.
+  // We filter LEVEL_TOPICS down to only categories that actually have
+  // enough items in LIB (≥12) for a 5-page themed worksheet. Otherwise
+  // the slug would claim a theme that the content can't honor.
+  function _wsThemesViable(level){
+    const all=(LEVEL_TOPICS && LEVEL_TOPICS[level])||[];
+    if(!LIB||!LIB.length) return all; // pre-load: trust the config
+    return all.filter(cat=>{
+      const png=LIB.filter(i=>i.category===cat&&i.png).length;
+      const emo=LIB.filter(i=>i.category===cat&&i.emoji).length;
+      return png>=12 || emo>=12;
+    });
+  }
   let categoryKey='mix';
   if(curLvl==='colouring' && curTopic) categoryKey=curTopic; // user picked it
-  // For prekg/kg, the worksheet picks from LEVEL_TOPICS — pick one deterministically
-  else if((curLvl==='prekg'||curLvl==='kg') && typeof LEVEL_TOPICS!=='undefined'){
-    const t=LEVEL_TOPICS[curLvl]||[];
+  // Pre-KG/KG always themed (younger kids retain better with one focus topic).
+  else if(curLvl==='prekg'||curLvl==='kg'){
+    const t=_wsThemesViable(curLvl);
     if(t.length) categoryKey=t[Math.floor(wsRand()*t.length)];
+  }
+  // Class 1-5: 65% chance themed, 35% chance mixed. Themed = variety in SEO
+  // slugs (one URL per theme per grade) + lets new PNG categories surface.
+  // Mixed = the classic random-mix worksheet for parents who want everything.
+  else {
+    const t=_wsThemesViable(curLvl);
+    if(t.length && wsRand()<0.65) categoryKey=t[Math.floor(wsRand()*t.length)];
   }
   return {activity:activityKey,grade:gradeKey,category:categoryKey};
 }
@@ -1885,14 +1904,23 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
   curMode=wsRand()<0.5?'png':'emoji';
   let srcItems;
   if(LIB&&LIB.length){
+    // ── Theme the worksheet first: if a category is set, force curMode to
+    //    the side that actually has ≥12 items, so the slug never lies.
+    //    e.g. vehicles/toys/tools/vegetables currently have 0 PNGs but
+    //    plenty of emoji — picking those themes forces emoji mode.
+    const cfg=_wsCurrentConfig();
+    if(cfg.category && cfg.category!=='mix'){
+      const inCat=LIB.filter(it=>it.category===cfg.category);
+      const pngCount=inCat.filter(it=>it.png).length;
+      const emoCount=inCat.filter(it=>it.emoji).length;
+      if(curMode==='png' && pngCount<12 && emoCount>=12) curMode='emoji';
+      else if(curMode==='emoji' && emoCount<12 && pngCount>=12) curMode='png';
+    }
     let lp=libPool(curMode);
     if(lp.length<10){curMode=(curMode==='png'?'emoji':'png');lp=libPool(curMode);}
-    // ── Theme the worksheet: filter LIB to the chosen category (if any).
-    //    Pre-KG/KG/Class 1+ pick a category from LEVEL_TOPICS — and now the
-    //    actual items also come from that category, not random across all 23.
-    //    This is how new PNGs (stationery, symbols, tools, toys, vehicles
-    //    etc.) actually get into the right themed worksheets.
-    const cfg=_wsCurrentConfig();
+    // ── Actually filter the pool to the chosen category. New PNGs in
+    //    stationery / symbols / household / buildings / etc. now correctly
+    //    populate their own themed worksheets.
     if(cfg.category && cfg.category!=='mix'){
       const themed=LIB.filter(it=>it.category===cfg.category)
                       .filter(it=>curMode==='png'?it.png:it.emoji)
