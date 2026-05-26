@@ -1,4 +1,4 @@
-# Coloring Pages — Image List (140)
+# Coloring Pages — Image List (141)
 
 ASSET TYPE: coloring worksheet (big blank outline + LARGER corner reference).
 SPEC: JPG or PNG, A4 portrait, 2480x3508 px (300 DPI).
@@ -6,7 +6,7 @@ One LARGE blank line-art outline fills the page to color in. A LARGER
 fully-colored reference thumbnail (about 25% of page width) sits in the
 top-right corner so kids can clearly see every distinct region's colour.
 
-Status: 10 done · 130 to create.
+Status: 10 done · 131 to create.
 
 NAMING: entry names have NO file extension. Save as .jpg OR .png.
 
