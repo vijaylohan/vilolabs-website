@@ -178,6 +178,13 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .col-ref-lbl{font-size:.5rem;font-weight:900;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
 .col-main-wrap{padding:.8rem 1rem;display:flex;justify-content:center;align-items:center;background:white;flex:1}
 .col-main-svg{width:100%;height:auto;max-width:360px;display:block}
+/* PNG colouring page — full image including baked-in reference thumbnail */
+.col-png-wrap{padding:.5rem .8rem;background:white;flex:1;display:flex;justify-content:center;align-items:center;}
+.col-png{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;display:block;}
+@media print, (max-width:900px){
+  .col-png-wrap{padding:0!important;flex:1!important;}
+  .col-png{max-width:100%!important;max-height:100%!important;}
+}
 .col-act-svg{width:100%;height:auto;border:2.5px dashed var(--border);border-radius:12px;background:#FFFAF4;display:block;}
 .col-crayon-row{padding:.4rem 1rem;display:flex;gap:.5rem;align-items:center;border-top:1px solid #EDE4D6;background:#FDFAF5;flex-wrap:wrap}
 .col-crayon-lbl{font-size:.58rem;font-weight:900;color:var(--brown)}
@@ -1170,12 +1177,17 @@ function pickFresh(pool,n,tag){
 // ══════════════════════════
 let LIB=null;                  // library.json items, or null = use DB fallback
 let LIB_VERSION=null;          // libraryVersion from library.json — stamped on each saved worksheet
+let LIB_PAGES=null;            // full-page assets (colouring pages, dot-to-dot, etc.) with file paths
 window.LIB_MAZE_PAIRS=null;    // narrative seeker→goal pairs from library.json
 let curMode='emoji';           // render style of current worksheet: 'png' | 'emoji'
 fetch('assets/library.json').then(r=>r.json())
   .then(d=>{
     LIB=(d.items||[]).filter(it=>it.png||it.emoji);
     LIB_VERSION=d.libraryVersion||null;
+    // Page assets that actually have files on disk — used by the colouring
+    // worksheet to pick from the high-quality PNG pages first, falling back
+    // to the legacy SVG-drawn COL_LIB subjects.
+    LIB_PAGES=(d.pages||[]).filter(p=>p.file);
     window.LIB_MAZE_PAIRS=Array.isArray(d.mazePairs)?d.mazePairs:null;
   })
   .catch(()=>{LIB=null;});
@@ -1480,21 +1492,68 @@ function buildAll(){
 }
 
 // ── COLOURING BOOK
+// Picks 5 pages from a merged pool: high-quality PNG colouring pages
+// (from /assets/pages/coloring-pages/) PLUS the legacy SVG COL_LIB subjects.
+// PNG pages render as full-page images that already include a reference
+// thumbnail in the corner; SVG subjects use the original layout with the
+// title row + ref-svg + crayon palette swatches.
 function buildColouringAll(container,nav,lvlName,topicName){
-  const pool=shuffle([...COL_CATS[curTopic]||COL_CATS.all]);
-  const subjects=pool.slice(0,5);
-  subjects.forEach((key,p)=>{
-    const subj=COL_LIB[key];
+  // 1. Build combined pool — PNG pages first (higher quality), then SVG.
+  const pngPages=(LIB_PAGES||[])
+    .filter(p=>p.tags && p.tags.activity==='coloring' && p.file);
+  // If a topic is selected, filter PNG pages to that subject category
+  // (e.g. curTopic='animals' → keep only pages whose subject is an animal).
+  // For now we just include all PNG pages so they show up regardless.
+  const svgKeys=(COL_CATS[curTopic]||COL_CATS.all);
+  // Wrap PNG pages and SVG subjects in a uniform shape so the picker is simple.
+  const pool=[
+    ...pngPages.map(p=>({kind:'png', page:p})),
+    ...svgKeys.map(k=>({kind:'svg', subj:COL_LIB[k]}))
+  ];
+  const picked=pick(shuffle(pool),5);
+  picked.forEach((entry,p)=>{
     const pg=document.createElement('div');
     pg.className='ws-page'+(p===0?' act':'');
     pg.id='pg'+p;
-    pg.innerHTML=buildColouringPage(p,subj,lvlName,topicName);
+    pg.innerHTML=entry.kind==='png'
+      ? buildColouringPagePng(p,entry.page,lvlName,topicName)
+      : buildColouringPage(p,entry.subj,lvlName,topicName);
     container.appendChild(pg);
     const dot=document.createElement('button');
     dot.className='pg-dot'+(p===0?' act':'');
     dot.textContent=p+1;dot.onclick=()=>showPage(p);
     nav.appendChild(dot);
   });
+}
+
+// Renders a high-quality PNG colouring page as a full-page worksheet.
+// The PNG already contains the blank outline + the colour reference
+// thumbnail in the top-right corner — we just frame it with our header
+// + name/date line + footer.
+function buildColouringPagePng(idx,page,lvlName,topicName){
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const subjectLabel=(page.label||page.name||'').replace(/\bColoring\b/i,'').trim()||'this picture';
+  return`
+    <div class="pg-hdr">
+      <span class="pg-brand">ViLo<em>Labs</em> Colouring</span>
+      <span class="pg-num">Page ${idx+1} / 5</span>
+    </div>
+    <div class="col-title-row">
+      <div>
+        <div class="col-title-main">🎨 Colour ${subjectLabel}!</div>
+        <div class="col-title-sub">Use the small picture in the corner as your colour guide →</div>
+      </div>
+    </div>
+    <div class="col-main-wrap col-png-wrap">
+      <img src="/${page.file}" alt="${subjectLabel}" class="col-png" loading="lazy">
+    </div>
+    <div class="pg-nameline" style="border-top:1px solid #EDE4D6">
+      <div class="nl"><span>Name:</span><div class="nl-line"></div></div>
+      <div class="nl"><span>Date:</span><div class="nl-line" style="max-width:80px"></div></div>
+    </div>
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600">
+      ViLoLabs.com · Free Colouring Page · ${date}
+    </div>`;
 }
 
 function buildColouringPage(idx,subj,lvlName,topicName){
