@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chai Reward Popup — Sample | ViLoLabs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --char:#1A1108; --cream:#F5F0E8; --gold:#C8963C; --gold2:#E8BC72; --brown3:#A07860;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--char);color:var(--cream);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
+
+/* demo trigger button */
+.demo-btn{padding:.9rem 1.8rem;border:2px solid var(--gold);border-radius:999px;
+  background:transparent;color:var(--gold);font-family:'Outfit';font-size:1rem;
+  font-weight:600;cursor:pointer;transition:all .25s}
+.demo-btn:hover{background:var(--gold);color:var(--char)}
+
+/* ── Overlay ── */
+.chai-overlay{position:fixed;inset:0;background:rgba(10,7,3,.72);
+  backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  display:flex;align-items:center;justify-content:center;padding:1.2rem;
+  opacity:0;pointer-events:none;transition:opacity .3s;z-index:999}
+.chai-overlay.show{opacity:1;pointer-events:auto}
+
+/* ── Card ── */
+.chai-card{position:relative;width:100%;max-width:430px;
+  background:linear-gradient(160deg,#241914 0%,#1A1108 70%);
+  border:1px solid rgba(200,150,60,.35);border-radius:22px;
+  padding:2.2rem 1.8rem 1.8rem;
+  box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(232,188,114,.12);
+  transform:translateY(18px) scale(.97);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.chai-overlay.show .chai-card{transform:translateY(0) scale(1)}
+
+/* gold top accent */
+.chai-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:64px;height:3px;border-radius:0 0 4px 4px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2))}
+
+.chai-close{position:absolute;top:14px;right:16px;width:30px;height:30px;border:none;
+  background:transparent;color:var(--brown3);font-size:1.4rem;cursor:pointer;
+  line-height:1;border-radius:50%;transition:all .2s}
+.chai-close:hover{color:var(--cream);background:rgba(255,255,255,.06)}
+
+.chai-emoji{font-size:2.6rem;text-align:center;display:block;margin-bottom:.4rem;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
+.chai-title{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:700;
+  color:var(--gold2);text-align:center;line-height:1.15;margin-bottom:.5rem}
+.chai-sub{text-align:center;color:var(--brown3);font-size:.9rem;line-height:1.5;
+  margin-bottom:1.5rem;padding:0 .4rem}
+
+/* ── Tier list ── */
+.chai-tiers{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.3rem}
+.tier{display:flex;align-items:center;gap:.85rem;width:100%;text-align:left;
+  padding:.7rem .85rem;border:1.5px solid rgba(200,150,60,.28);border-radius:13px;
+  background:rgba(255,255,255,.02);cursor:pointer;font-family:'Outfit';
+  color:var(--cream);transition:all .2s}
+.tier:hover{border-color:var(--gold);background:rgba(200,150,60,.08);transform:translateY(-1px)}
+.tier .t-ico{font-size:1.4rem;flex-shrink:0;width:1.7rem;text-align:center}
+.tier .t-mid{flex:1;min-width:0}
+.tier .t-name{font-weight:600;font-size:.95rem}
+.tier .t-perk{font-size:.74rem;color:var(--brown3);margin-top:.1rem}
+.tier .t-price{font-weight:800;font-size:1.05rem;color:var(--gold2);flex-shrink:0}
+
+/* highlighted tier */
+.tier.feat{border-color:var(--gold);background:rgba(200,150,60,.1)}
+.tier.feat::after{content:'popular';position:absolute;margin-left:-2.6rem;margin-top:-1.7rem;
+  font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--char);
+  background:var(--gold2);padding:.1rem .4rem;border-radius:6px;font-weight:700}
+
+.chai-foot{text-align:center;font-size:.74rem;color:var(--brown3);line-height:1.5}
+.chai-foot b{color:var(--gold2);font-weight:600}
+.chai-dismiss{display:block;margin:.9rem auto 0;background:none;border:none;
+  color:var(--brown3);font-size:.8rem;font-family:'Outfit';cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px}
+.chai-dismiss:hover{color:var(--cream)}
+
+/* tiny toast for demo */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--gold);color:var(--char);padding:.7rem 1.3rem;border-radius:10px;
+  font-weight:600;font-size:.85rem;opacity:0;transition:all .3s;z-index:1001}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<button class="demo-btn" onclick="openChai()">▶ Preview the chai reward popup</button>
+
+<!-- ── The popup ── -->
+<div class="chai-overlay" id="chaiOverlay">
+  <div class="chai-card">
+    <button class="chai-close" onclick="closeChai()" aria-label="Close">×</button>
+
+    <span class="chai-emoji">☕</span>
+    <h2 class="chai-title">Loved the worksheets?</h2>
+    <p class="chai-sub">Skip the ads for a bit — chai-size prices, no commitment.</p>
+
+    <div class="chai-tiers">
+      <button class="tier" onclick="pick('Cutting Chai',10)">
+        <span class="t-ico">☕</span>
+        <span class="t-mid"><div class="t-name">Cutting Chai</div><div class="t-perk">Ad-free for 1 day</div></span>
+        <span class="t-price">₹10</span>
+      </button>
+
+      <button class="tier" onclick="pick('Masala Chai',20)">
+        <span class="t-ico">🌿</span>
+        <span class="t-mid"><div class="t-name">Masala Chai</div><div class="t-perk">Ad-free for 1 week</div></span>
+        <span class="t-price">₹20</span>
+      </button>
+
+      <button class="tier feat" onclick="pick('Chai + Biscuit',25)">
+        <span class="t-ico">🍪</span>
+        <span class="t-mid"><div class="t-name">Chai + Biscuit</div><div class="t-perk">Ad-free 2 weeks + 1 worksheet pack</div></span>
+        <span class="t-price">₹25</span>
+      </button>
+
+      <button class="tier" onclick="pick('Tapri Treat',50)">
+        <span class="t-ico">🍵</span>
+        <span class="t-mid"><div class="t-name">Tapri Treat</div><div class="t-perk">Ad-free 1 month + all packs</div></span>
+        <span class="t-price">₹50</span>
+      </button>
+    </div>
+
+    <p class="chai-foot"><b>Free forever stays free.</b> This just keeps the chai (and the servers) warm. 🙏</p>
+    <button class="chai-dismiss" onclick="closeChai()">Maybe later</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const overlay = document.getElementById('chaiOverlay');
+
+function openChai(){ overlay.classList.add('show'); }
+function closeChai(){ overlay.classList.remove('show'); }
+
+// close on backdrop click
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeChai(); });
+// close on Escape
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeChai(); });
+
+// demo: a tier was picked → here is where Razorpay checkout would open
+function pick(name, amount){
+  closeChai();
+  showToast(`Razorpay checkout → ${name} · ₹${amount}`);
+  // REAL CODE would be:
+  // const rzp = new Razorpay({ key:'YOUR_KEY', amount: amount*100, currency:'INR',
+  //   name:'ViLoLabs', description:name, handler: onPaid });
+  // rzp.open();
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+/* ── Real trigger logic (commented) — show ONLY after value, never nag ──
+   localStorage tracks last-shown so it never repeats too soon:
+
+   function maybeShowChai(){
+     const last = +localStorage.getItem('chaiShown') || 0;
+     const sheetsMade = +localStorage.getItem('sheetsMade') || 0;
+     const weekMs = 7*24*60*60*1000;
+     if (sheetsMade >= 3 && Date.now()-last > weekMs){   // value first, weekly cap
+       openChai();
+       localStorage.setItem('chaiShown', Date.now());
+     }
+   }
+*/
+</script>
+</body>
+</html>

@@ -19,6 +19,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Petrol Prices Across India 2026 — State-wise Comparison | ViLo Pulse</title>
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <meta name="description" content="Why does petrol cost ₹94 in Delhi but ₹109 in Andhra Pradesh? State-wise interactive comparison of petrol prices in India — taxes, trends and what you can do.">
   <meta property="og:title" content="Petrol Prices Across India 2026 — Why the ₹15 Gap?">
   <meta property="og:description" content="Interactive state-wise petrol price comparison. Taxes explained, cheapest and costliest states ranked.">
@@ -31,6 +32,7 @@
 
   <!-- Shared blog styles -->
   <link rel="stylesheet" href="/blog/shared/blog.css">
+  <link rel="stylesheet" href="/assets/share.css">
 
   <!-- Chart.js (SRI hash — safe CDN load) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
@@ -127,6 +129,13 @@
     ]
   }
   </script>
+<link rel="canonical" href="https://vilolabs.netlify.app/blog/petrol-prices-india-2025.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/blog-petrol-prices-india-2025.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/blog-petrol-prices-india-2025.jpg">
 </head>
 <body>
 
@@ -425,13 +434,8 @@
     if you drive 15,000+ km/year. The state-wise price gap becomes irrelevant entirely.
   </p>
 
-  <!-- Share bar -->
-  <div class="share-bar">
-    <span class="share-label">Share</span>
-    <a class="share-btn whatsapp" href="https://wa.me/?text=Why%20Delhi%20pays%20%E2%82%B915%20less%20than%20Andhra%20for%20petrol%20%E2%80%94%20interactive%20state-wise%20comparison%3A%20https%3A%2F%2Fvilolabs.com%2Fblog%2Fpetrol-prices-india-2025" target="_blank" rel="noopener">💬 WhatsApp</a>
-    <a class="share-btn twitter" href="https://twitter.com/intent/tweet?text=Why%20Delhi%20pays%20%E2%82%B915%20less%20for%20petrol%20than%20Andhra%20Pradesh%20%E2%80%94%20full%20interactive%20breakdown&url=https%3A%2F%2Fvilolabs.com%2Fblog%2Fpetrol-prices-india-2025" target="_blank" rel="noopener">𝕏 Twitter</a>
-    <button class="share-btn copy" onclick="copyLink()">🔗 Copy link</button>
-  </div>
+  <!-- Share bar (shared component — /assets/share.js) -->
+  <div class="vshare" data-hook="Found this useful? Send it to someone 👇"></div>
 
   <!-- Bottom ad slot -->
   </div><!-- close .post-body so the wide-block aligns with the top slot -->
@@ -824,7 +828,7 @@ window.addEventListener('scroll', () => {
 // This is what gets the post into the sitemap automatically.
 if (window.ViloDB) {
   ViloDB.saveBlogPost(
-    'petrol-prices-india-2026',
+    'petrol-prices-india-2025',
     'Petrol Prices Across India in 2026: Why Delhi Pays ₹15 Less Than Andhra Pradesh',
     'Interactive state-wise petrol price comparison. Taxes explained, cheapest and costliest states ranked. Data: May 2026.',
     'india'
@@ -848,6 +852,7 @@ function copyLink() {
   });
 }
 </script>
+<script src="/assets/share.js" defer></script>
 
 </body>
 </html>

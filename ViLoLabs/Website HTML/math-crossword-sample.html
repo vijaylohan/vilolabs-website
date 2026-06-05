@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Crossword — Grade Samples | ViLoLabs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#FDFAF5;color:#1A1108;min-height:100vh;padding:2rem 1rem}
+
+h1{font-family:'Cormorant Garamond',serif;font-size:2rem;color:#C8963C;text-align:center;margin-bottom:.3rem}
+.subtitle{text-align:center;color:#A07860;margin-bottom:2rem;font-size:.88rem}
+
+/* ── Grade tabs ── */
+.tabs{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
+.tab{padding:.4rem 1.1rem;border:2px solid #C8963C;border-radius:999px;background:transparent;
+  color:#C8963C;font-size:.85rem;font-family:'Outfit',sans-serif;cursor:pointer;transition:all .2s}
+.tab.active,.tab:hover{background:#C8963C;color:#fff}
+
+/* ── Crossword wrapper ── */
+.cw-wrap{display:none;max-width:540px;margin:0 auto}
+.cw-wrap.active{display:block}
+.grade-label{font-size:1.05rem;font-weight:700;text-align:center;margin-bottom:.2rem}
+.grade-desc{font-size:.82rem;color:#A07860;text-align:center;margin-bottom:.5rem}
+.instr{text-align:center;font-size:.78rem;color:#A07860;font-style:italic;margin-bottom:1.4rem}
+
+/* ── Grid container ── */
+.eq-grid{
+  display:grid;
+  gap:0;
+  margin:0 auto;
+  width:fit-content;
+}
+
+/* ── Cell base ── */
+.gc{
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Outfit',sans-serif;
+  user-select:none;
+}
+
+/* Number cell — CIRCLE */
+.gc-num{
+  width:56px;height:56px;
+  border-radius:50%;
+  border:2.5px solid #1A1108;
+  background:#fff;
+  font-size:1.25rem;font-weight:800;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+  position:relative;
+}
+
+/* Blank circle — child fills in */
+.gc-num.blank{
+  border-style:dashed;
+  border-color:#C8963C;
+  background:#FFFDF8;
+  color:transparent; /* hide value in worksheet mode */
+}
+
+/* Operator cell (narrow) */
+.gc-op{
+  width:34px;height:56px;
+  font-size:1.1rem;font-weight:700;
+  color:#1A1108;
+}
+
+/* Equals cell (narrow) */
+.gc-eq{
+  width:34px;height:56px;
+  font-size:1.1rem;font-weight:700;
+  color:#A07860;
+}
+
+/* Operator row height for vertical operators */
+.gc-rop{
+  width:56px;height:34px;
+  font-size:1.1rem;font-weight:700;
+  color:#1A1108;
+}
+
+/* Equals row */
+.gc-req{
+  width:56px;height:34px;
+  font-size:1.1rem;font-weight:700;
+  color:#A07860;
+}
+
+/* Gray blocker — at intersections of op rows and op cols */
+.gc-gray{
+  width:34px;height:34px;
+  background:#D4C9B8;
+  border-radius:4px;
+}
+
+/* Empty spacer at result row × op col */
+.gc-empty{
+  width:34px;height:56px;
+}
+
+/* Answer key mode: show blank values */
+.answer .gc-num.blank{
+  color:#C8963C;
+  border-color:#C8963C;
+  background:#FFF8EE;
+}
+
+/* ── Toggle ── */
+.toggle-row{display:flex;gap:.6rem;justify-content:center;margin-top:2rem}
+.tbtn{padding:.4rem 1.2rem;border:1.5px solid #1A1108;border-radius:6px;
+  background:transparent;font-size:.8rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
+.tbtn.active{background:#1A1108;color:#F5F0E8}
+
+/* Equation legend */
+.legend{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;
+  margin-top:1.2rem;font-size:.75rem;color:#A07860}
+.legend span{display:flex;align-items:center;gap:.3rem}
+.leg-circle{width:16px;height:16px;border-radius:50%;border:2px solid #1A1108;background:#fff;flex-shrink:0}
+.leg-blank{width:16px;height:16px;border-radius:50%;border:2px dashed #C8963C;background:#FFFDF8;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<h1>Math Crossword</h1>
+<p class="subtitle">Fill in the blank circles to make every equation true — across <b>and</b> down</p>
+
+<div class="tabs">
+  <button class="tab active" onclick="showGrade(1,this)">Grade 1</button>
+  <button class="tab" onclick="showGrade(2,this)">Grade 2</button>
+  <button class="tab" onclick="showGrade(3,this)">Grade 3</button>
+  <button class="tab" onclick="showGrade(4,this)">Grade 4</button>
+  <button class="tab" onclick="showGrade(5,this)">Grade 5</button>
+</div>
+
+<div id="cw1" class="cw-wrap active"></div>
+<div id="cw2" class="cw-wrap"></div>
+<div id="cw3" class="cw-wrap"></div>
+<div id="cw4" class="cw-wrap"></div>
+<div id="cw5" class="cw-wrap"></div>
+
+<div class="legend">
+  <span><span class="leg-circle"></span> Given number</span>
+  <span><span class="leg-blank"></span> Fill in</span>
+</div>
+
+<div class="toggle-row">
+  <button class="tbtn active" id="btnWork" onclick="setMode('worksheet')">Worksheet (blank)</button>
+  <button class="tbtn" id="btnAns"  onclick="setMode('answer')">Answer Key</button>
+</div>
+
+<script>
+// ── Equation Grid format ────────────────────────────────────────────────────
+//
+// Grid is 5 columns × 5 rows:
+//   Col types: NUM | OP | NUM | EQ | NUM   (widths: 56 34 56 34 56)
+//   Row types: NUM | OP | NUM | EQ | NUM   (heights: 56 34 56 34 56)
+//
+// Cell at (row, col) inherits BOTH row and col type for its size.
+// Special intersections:
+//   OP-row × OP-col  → gray blocker
+//   OP-row × EQ-col  → gray blocker
+//   EQ-row × OP-col  → empty spacer
+//   EQ-row × EQ-col  → empty spacer
+//
+// Equations:
+//   ACROSS: row0[NUM + NUM = NUM], row2[NUM + NUM = NUM]
+//   DOWN:   col0[NUM op NUM = NUM], col2[NUM op NUM = NUM], col4[NUM op NUM = NUM]
+//
+// Each grade defines:
+//   label, desc
+//   n[r][c] = the 9 number values in the 3 NUM rows × 3 NUM cols
+//   hOp[0], hOp[1] = across operators for rows 0 and 2
+//   vOp[0], vOp[1], vOp[2] = down operators for cols 0, 2, 4
+//   blank = set of "r,c" positions (in NUM grid coordinates) that are blank
+//
+// All arithmetic verified at design time.
+
+const GRADES = {
+
+  // Grade 1 — addition only
+  // Across: 3+4=7,  2+3=5
+  // Down:   3+2=5,  4+3=7,  7+5=12
+  1: {
+    label:'Grade 1', desc:'Addition — sums within 20',
+    n:[[3,4,7],[2,3,5],[5,7,12]],
+    hOp:['+','+'], vOp:['+','+','+'],
+    blank:new Set(['0,2','1,1','2,0','2,2'])
+  },
+
+  // Grade 2 — subtraction + multiplication
+  // Across: 8−3=5,  2−1=1
+  // Down:   8×2=16, 3×1=3,  5×1=5
+  2: {
+    label:'Grade 2', desc:'Subtraction & multiplication',
+    n:[[8,3,5],[2,1,1],[16,3,5]],
+    hOp:['−','−'], vOp:['×','×','×'],
+    blank:new Set(['0,0','0,2','1,2','2,1','2,2'])
+  },
+
+  // Grade 3 — division + mixed
+  // Across: 12÷4=3, 8÷2=4
+  // Down:   12+8=20, 4−2=2, 3×4=12
+  3: {
+    label:'Grade 3', desc:'Division & mixed operations',
+    n:[[12,4,3],[8,2,4],[20,2,12]],
+    hOp:['÷','÷'], vOp:['+','−','×'],
+    blank:new Set(['0,2','1,0','1,2','2,0','2,2'])
+  },
+
+  // Grade 4 — multiplication + addition
+  // Across: 6×7=42, 3×4=12
+  // Down:   6×3=18, 7×4=28, 42+12=54
+  4: {
+    label:'Grade 4', desc:'Multiplication — tables up to 10',
+    n:[[6,7,42],[3,4,12],[18,28,54]],
+    hOp:['×','×'], vOp:['×','×','+'],
+    blank:new Set(['0,2','1,0','1,1','2,0','2,1','2,2'])
+  },
+
+  // Grade 5 — larger numbers, mixed operations
+  // Across: 48÷6=8, 12÷4=3
+  // Down:   48−12=36, 6×4=24, 8+3=11
+  5: {
+    label:'Grade 5', desc:'Division, multiplication & mixed',
+    n:[[48,6,8],[12,4,3],[36,24,11]],
+    hOp:['÷','÷'], vOp:['−','×','+'],
+    blank:new Set(['0,2','1,1','1,2','2,0','2,1','2,2'])
+  }
+};
+
+// ── Build grid HTML from grade data ─────────────────────────────────────────
+// Physical grid layout (5 cols × 5 rows):
+//
+//   [n00] [hOp0] [n01] [=] [n02]
+//  [vOp0] [gray] [vOp1] [g] [vOp2]
+//   [n10] [hOp1] [n11] [=] [n12]
+//    [=]  [spc]   [=]  [s]   [=]
+//   [n20]  [sp]  [n21] [s]  [n22]
+//
+// Where n[r][c] indexes the 3×3 number array.
+
+function buildGrid(g) {
+  const d = GRADES[g];
+  const n = d.n;
+  const hO = d.hOp;
+  const vO = d.vOp;
+  const blank = d.blank;
+
+  // Column template: 56px 34px 56px 34px 56px
+  // Row template:    56px 34px 56px 34px 56px
+  let html = `<div class="eq-grid" style="
+    grid-template-columns:56px 34px 56px 34px 56px;
+    grid-template-rows:56px 34px 56px 34px 56px;">`;
+
+  // Row 0: n00  hOp0  n01  =  n02
+  html += numCell(n[0][0], blank.has('0,0'));
+  html += `<div class="gc gc-op">${hO[0]}</div>`;
+  html += numCell(n[0][1], blank.has('0,1'));
+  html += `<div class="gc gc-eq">=</div>`;
+  html += numCell(n[0][2], blank.has('0,2'));
+
+  // Row 1: vOp0  gray  vOp1  gray  vOp2
+  html += `<div class="gc gc-rop">${vO[0]}</div>`;
+  html += `<div class="gc gc-gray"></div>`;
+  html += `<div class="gc gc-rop">${vO[1]}</div>`;
+  html += `<div class="gc gc-gray"></div>`;
+  html += `<div class="gc gc-rop">${vO[2]}</div>`;
+
+  // Row 2: n10  hOp1  n11  =  n12
+  html += numCell(n[1][0], blank.has('1,0'));
+  html += `<div class="gc gc-op">${hO[1]}</div>`;
+  html += numCell(n[1][1], blank.has('1,1'));
+  html += `<div class="gc gc-eq">=</div>`;
+  html += numCell(n[1][2], blank.has('1,2'));
+
+  // Row 3: =  spacer  =  spacer  =
+  html += `<div class="gc gc-req">=</div>`;
+  html += `<div class="gc gc-empty"></div>`;
+  html += `<div class="gc gc-req">=</div>`;
+  html += `<div class="gc gc-empty"></div>`;
+  html += `<div class="gc gc-req">=</div>`;
+
+  // Row 4: n20  spacer  n21  spacer  n22
+  html += numCell(n[2][0], blank.has('2,0'));
+  html += `<div class="gc gc-empty"></div>`;
+  html += numCell(n[2][1], blank.has('2,1'));
+  html += `<div class="gc gc-empty"></div>`;
+  html += numCell(n[2][2], blank.has('2,2'));
+
+  html += '</div>';
+  return html;
+}
+
+function numCell(val, isBlank) {
+  return `<div class="gc gc-num${isBlank?' blank':''}">${val}</div>`;
+}
+
+// ── Render all grades ────────────────────────────────────────────────────────
+function render(g) {
+  const d = GRADES[g];
+  const wrap = document.getElementById('cw'+g);
+  wrap.innerHTML = `
+    <div class="grade-label">${d.label}</div>
+    <div class="grade-desc">${d.desc}</div>
+    <p class="instr">Fill in the dashed circles — equations must work across → and down ↓</p>
+    ${buildGrid(g)}`;
+}
+
+[1,2,3,4,5].forEach(render);
+
+// ── Mode toggle ───────────────────────────────────────────────────────────────
+let mode = 'worksheet';
+function setMode(m) {
+  mode = m;
+  document.getElementById('btnWork').classList.toggle('active', m==='worksheet');
+  document.getElementById('btnAns').classList.toggle('active', m==='answer');
+  document.querySelectorAll('.cw-wrap').forEach(w => {
+    w.classList.toggle('answer', m==='answer');
+  });
+}
+
+function showGrade(g, btn) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.cw-wrap').forEach(w=>w.classList.remove('active'));
+  document.getElementById('cw'+g).classList.add('active');
+}
+
+setMode('worksheet');
+</script>
+</body>
+</html>

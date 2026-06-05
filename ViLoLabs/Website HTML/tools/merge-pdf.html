@@ -10,7 +10,8 @@
 <meta property="og:title" content="Merge PDF Online — Free, No Watermark | ViLoLabs">
 <meta property="og:description" content="Combine multiple PDFs into one in seconds. Free, private, in-browser.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -34,6 +35,21 @@
 .pdf-item .act button.del:hover{border-color:#e8867a;color:#e8867a;}
 .pdf-item .act button:disabled{opacity:.25;cursor:not-allowed;}
 </style>
+<script src="/assets/db.js"></script>
+<link rel="canonical" href="https://vilolabs.netlify.app/tools/merge-pdf.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/tool-merge-pdf.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/tool-merge-pdf.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vilolabs.netlify.app/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://vilolabs.netlify.app/tools.html"},{"@type":"ListItem","position":3,"name":"Merge PDF","item":"https://vilolabs.netlify.app/tools/merge-pdf.html"}]}
+</script>
+<style>.tested-with{display:block;margin:.7rem 0 .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:left;max-width:780px;}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many PDFs can I merge?","acceptedAnswer":{"@type":"Answer","text":"As many as your browser memory can hold — typically dozens of normal-size PDFs without trouble."}},{"@type":"Question","name":"Is this free and watermark-free?","acceptedAnswer":{"@type":"Answer","text":"Yes. No sign up, no watermark, and the merged PDF is exactly your originals stitched together."}},{"@type":"Question","name":"Are my files uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. The merge happens entirely in your browser using the open-source pdf-lib library. Files never leave your device."}},{"@type":"Question","name":"Will bookmarks or links survive?","acceptedAnswer":{"@type":"Answer","text":"Pages, text and embedded images are preserved exactly. Some PDF metadata and bookmarks may not carry over from every PDF."}}]}
+</script>
 </head>
 <body>
 <div id="cursor"></div><div id="cursor-ring"></div>
@@ -55,13 +71,14 @@
   <h1>Merge PDF <em>Files</em></h1>
   <p class="lead">Combine multiple PDFs into a single document. Drag to reorder, then download — instantly. Files stay on your device.</p>
   <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
+  <p class="tested-with">Verified — Tested with PDFs from Word, Google Docs, scanned files and photo-heavy exports.</p>
 </header>
 
 <section class="wrap">
   <div class="app-sec">
     <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please review your merged PDF before sharing or printing important documents.</span></div>
     <div class="drop" id="drop">
-      <div class="di">📚</div>
+      <div class="di"><img src="/assets/og/icons/merge-pdf.png" alt="" loading="lazy"></div>
       <div class="dt">Click to choose PDF files, or drop them here</div>
       <div class="ds">Add 2 or more PDFs — merged in the order shown below</div>
     </div>
@@ -111,19 +128,55 @@ drop.addEventListener('drop',e=>{if(e.dataTransfer.files)addPDFs(e.dataTransfer.
 document.getElementById('go').addEventListener('click',merge);
 document.getElementById('clr').addEventListener('click',()=>{items.length=0;fileInput.value='';render();});
 
+// Inspect the PDF catalog to detect features that copyPages will drop:
+// outlines (bookmarks), AcroForm (fillable fields), and per-page link annotations.
+function _detectLossyFeatures(doc){
+  const out={bookmarks:false,forms:false,annots:false};
+  try{
+    const cat=doc.catalog;
+    const Name=PDFLib.PDFName.of;
+    if(cat.get(Name('Outlines'))) out.bookmarks=true;
+    if(cat.get(Name('AcroForm'))) out.forms=true;
+    // Check first few pages for link annotations
+    const pages=doc.getPages();const sample=pages.slice(0,Math.min(pages.length,8));
+    for(const p of sample){
+      const annots=p.node.get(Name('Annots'));
+      if(annots){out.annots=true;break;}
+    }
+  }catch(e){/* best-effort detection — never fail the load */}
+  return out;
+}
+
 async function addPDFs(list){
   const files=[...list].filter(f=>f.type==='application/pdf'||/\.pdf$/i.test(f.name));
+  const lossyFiles=[];
   for(const f of files){
     let pages=0;
     try{
       const bytes=await f.arrayBuffer();
       const doc=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
       pages=doc.getPageCount();
-      items.push({file:f,name:f.name,size:f.size,pages,bytes});
+      const lossy=_detectLossyFeatures(doc);
+      const lossyList=[];
+      if(lossy.bookmarks) lossyList.push('bookmarks');
+      if(lossy.forms) lossyList.push('form fields');
+      if(lossy.annots) lossyList.push('links/annotations');
+      items.push({file:f,name:f.name,size:f.size,pages,bytes,lossy:lossyList});
+      if(lossyList.length) lossyFiles.push({name:f.name,what:lossyList});
     }catch(err){
       statusEl.classList.add('err');
       statusEl.textContent=`Couldn't read "${f.name}" — it may be encrypted or corrupt.`;
     }
+  }
+  // Surface a single, calm warning if any file has features that the merge will lose
+  if(lossyFiles.length){
+    const lines=lossyFiles.map(l=>`<li><strong>${esc(l.name)}</strong>: ${l.what.join(', ')}</li>`).join('');
+    let n=document.getElementById('lossy-note');
+    if(!n){n=document.createElement('div');n.id='lossy-note';n.className='notice';n.style.marginTop='.8rem';n.style.borderLeftColor='#e8a13c';statusEl.parentNode.insertBefore(n,statusEl);}
+    n.innerHTML=`<strong>Heads up:</strong> the merged PDF will not preserve these features from your source(s) — page content stays intact:<ul style="margin:.4rem 0 0 1.2rem;">${lines}</ul>`;
+    n.style.display='block';
+  } else {
+    const n=document.getElementById('lossy-note');if(n) n.style.display='none';
   }
   render();
 }

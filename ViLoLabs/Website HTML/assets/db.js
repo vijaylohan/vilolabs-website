@@ -152,6 +152,46 @@
     }
   }
 
+  /* ── 5. Page-view counter (no PII — just a count per URL path) ──
+   * Calls the SECURITY-DEFINER function bump_page_view(p) which upserts
+   * + increments a row in the `page_views` table. Anon can only call the
+   * function and READ counts — never write the table directly.            */
+  async function trackPageView(path) {
+    try {
+      path = path || (location.pathname || '/');
+      await fetch(SUPABASE_URL + '/rest/v1/rpc/bump_page_view', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON,
+          'Authorization': 'Bearer ' + SUPABASE_ANON
+        },
+        body: JSON.stringify({ p: path })
+      });
+    } catch (e) { /* never surface */ }
+  }
+
+  // Read counts. No arg → TOTAL across all pages. With a path → that page only.
+  async function getPageViews(path) {
+    try {
+      if (path) {
+        const res = await sbSelect('/rest/v1/page_views?path=eq.' +
+          encodeURIComponent(path) + '&select=views&limit=1');
+        const rows = await res.json();
+        return rows[0] ? rows[0].views : 0;
+      }
+      const res = await sbSelect('/rest/v1/page_views?select=views');
+      const rows = await res.json();
+      return rows.reduce((s, r) => s + (r.views || 0), 0);
+    } catch (e) { return null; }
+  }
+
   /* ── Expose ── */
-  window.ViloDB = { saveWorksheet, saveToolShare, getToolShare, trackUsage, saveBlogPost };
+  window.ViloDB = { saveWorksheet, saveToolShare, getToolShare, trackUsage, saveBlogPost, trackPageView, getPageViews };
+
+  // Auto-fire a page-view beacon once per load (fire-and-forget, never blocks).
+  // Skip localhost / dev so testing doesn't inflate real counts.
+  try {
+    if (!/^(localhost|127\.|0\.0\.0\.0|192\.168\.|\[?::1)/.test(location.hostname)) trackPageView();
+  } catch (e) {}
 })();

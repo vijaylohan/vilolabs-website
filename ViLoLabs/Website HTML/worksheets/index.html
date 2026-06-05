@@ -13,10 +13,12 @@
 <meta property="og:title" content="Free Printable Worksheets — ViLoLabs">
 <meta property="og:description" content="Free printable worksheets for Preschool through Grade 5. Generate, download, print.">
 <meta property="og:site_name" content="ViLoLabs">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/share.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--char:#1A1108;--char2:#241608;--cream:#F5F0E8;--gold:#C8963C;--gold2:#E8BC72;--brown3:#A07860;}
@@ -89,6 +91,13 @@ footer .disclaimer{font-size:.7rem;color:rgba(160,120,96,.7);font-style:italic;m
 }
 @media(max-width:420px){.related{grid-template-columns:1fr}}
 </style>
+<script src="/assets/db.js"></script>
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og-image.jpg">
 </head>
 <body>
 
@@ -126,12 +135,8 @@ footer .disclaimer{font-size:.7rem;color:rgba(160,120,96,.7);font-style:italic;m
       <a class="btn btn-primary" id="btn-generate" href="../sheets.html">Generate &amp; Download</a>
       <a class="btn btn-outline" id="btn-variation" href="../sheets.html">or try a different worksheet</a>
     </div>
-    <div class="share">
-      <button id="sh-wa" title="Share on WhatsApp">↗ WhatsApp</button>
-      <button id="sh-pin" title="Pin on Pinterest">↗ Pinterest</button>
-      <button id="sh-mail" title="Share via Email">↗ Email</button>
-      <button id="sh-copy" title="Copy link">⎘ Copy Link</button>
-    </div>
+    <!-- Share bar (shared component — /assets/share.js) -->
+    <div class="vshare" id="ws-share" data-hook="Help another parent — share this free worksheet 💛"></div>
   </div>
 </section>
 
@@ -164,6 +169,7 @@ footer .disclaimer{font-size:.7rem;color:rgba(160,120,96,.7);font-style:italic;m
 </footer>
 
 <script src="worksheet-seo.js"></script>
+<script src="/assets/share.js"></script>
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 
@@ -191,6 +197,14 @@ function getSlug() {
     return;
   }
 
+  // Shared-link UX: real users want to see the actual worksheet, not a white
+  // placeholder. Redirect to the generator with the seed so the same worksheet
+  // renders + downloads. SEO crawlers still get the HTML below before this fires
+  // (h1/meta/canonical are static-enough for indexing).
+  location.replace('../sheets.html?w=' + encodeURIComponent(slug));
+  return;
+
+  // eslint-disable-next-line no-unreachable
   const kw = await WSeo.loadKeywords();
   if (!kw) { console.warn('Keywords file failed to load'); return; }
 
@@ -242,23 +256,16 @@ function getSlug() {
   document.getElementById('btn-generate').href = '../sheets.html?w=' + encodeURIComponent(slug);
   document.getElementById('btn-variation').href = '../sheets.html';
 
-  // ── Share buttons ──
-  const url = location.origin + '/worksheets/' + slug;
-  const shareText = title;
-  document.getElementById('sh-wa').onclick = () => window.open(
-    'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText + ' ' + url), '_blank');
-  document.getElementById('sh-pin').onclick = () => window.open(
-    'https://pinterest.com/pin/create/button/?url=' + encodeURIComponent(url) +
-    '&description=' + encodeURIComponent(shareText), '_blank');
-  document.getElementById('sh-mail').onclick = () => window.location.href =
-    'mailto:?subject=' + encodeURIComponent(shareText) + '&body=' + encodeURIComponent(url);
-  document.getElementById('sh-copy').onclick = () => {
-    navigator.clipboard.writeText(url).then(() => {
-      const b = document.getElementById('sh-copy');
-      const o = b.textContent; b.textContent = '✓ Copied';
-      setTimeout(() => b.textContent = o, 1600);
+  // ── Share (shared component — /assets/share.js) ──
+  if (window.ViloShare) {
+    ViloShare.mount('#ws-share', {
+      url: location.origin + '/worksheets/' + slug,
+      title: title,
+      message: 'Keeps the little ones busy and learning — found a little gem: free printable worksheets for kids, fresh every time, no sign-up 👇',
+      tail: '\n\n✨ Want to make your own? Create a free worksheet 👉 ' + location.origin + '/sheets.html',
+      hook: 'Help another parent — share this free worksheet 💛'
     });
-  };
+  }
 
   // ── Related worksheets (6 deterministic links) ──
   buildRelated(config, kw);

@@ -63,8 +63,8 @@ Preview is also wired up in Claude Code via `.claude/launch.json` — use the Pr
 1. Nav — sticky, glassmorphism on scroll, mobile hamburger
 2. Hero — two-column, SVG illustration, CTA buttons
 3. Ticker — scrolling marquee strip
-4. Tools — ViLo Pulse (coming soon) + ViLo Worksheets (live)
-5. Coming Soon — Project Three/Four/Five placeholders
+4. Tools ("Live Tools") — ViLo Worksheets (01) + ViLo Pulse (02) + ViLo Tools (03) — all live
+5. Coming Soon ("The Lab") — ViLo Apps (04, coming soon) ONLY (Tools moved up to Live Tools)
 6. About — quote, body, values cards
 7. Newsletter — email signup (coming soon overlay)
 8. Stats strip — animated counters
@@ -72,14 +72,16 @@ Preview is also wired up in Claude Code via `.claude/launch.json` — use the Pr
 10. Footer — brand, links, social icons, legal
 
 ## What's "Coming Soon" (not yet live)
-- **ViLo Pulse** (blog) — badge shows "Coming Soon", link disabled
-- **Newsletter form** — has frosted overlay, not functional yet
+- **ViLo Apps** (Android apps) — `app.html`, "Coming Soon" card
+- **Newsletter form** — has frosted overlay, not functional yet (branded "ViLo Pulse" — Pulse/Signal are the same)
 - **Contact form** — has frosted overlay, not functional yet
-- **hello@violabs.com** — marked "soon", not active
+- **hello@vilolabs.com** — marked "soon", not active
 - **Social media** (Twitter/X, LinkedIn, Instagram) — all marked "soon"
 
 ## What's Live and Working
 - **ViLo Worksheets** → `sheets.html` (fully functional tool)
+- **ViLo Pulse** (blog) → `pulse.html` + posts in `/blog/` — LIVE, "Live" badge, 3 posts (gold prices, petrol ×2)
+- **ViLo Tools** → `tools/` (Image-to-PDF live; PDF-to-image/resize/compress on the way)
 - **Legal pages** — privacy.html, terms.html, cookies.html (all linked)
 - All navigation scroll links
 - Particle animation, cursor (desktop only), scroll reveals
@@ -110,9 +112,53 @@ Preview is also wired up in Claude Code via `.claude/launch.json` — use the Pr
 - PDFs should go on Google Drive (not hosted on any web host)
 
 ## Domain
-- Not yet purchased
-- Recommended registrars: Porkbun or Cloudflare Registrar
-- DNS just needs to point to Netlify — works with any registrar
+- **Chosen domain: `vilolabs.in`** (TLD is `.in`, NOT `.com`). Email: `hello@vilolabs.in`.
+- Not yet registered — current live URL is `vilolabs.netlify.app` (placeholder used in sitemap + blog JSON-LD).
+- Recommended registrar: **Porkbun** (card/PayPal, ~₹800/yr flat renewal, no upsells) OR
+  **Hostinger** (UPI/netbanking if INR payment preferred). NOTE: Cloudflare Registrar does
+  NOT support `.in` (ccTLD) — buy elsewhere, host/DNS on Cloudflare (see Infra plan below).
+- DNS just needs to point to the host — works with any registrar (registrar ≠ host ≠ DNS)
+- **LAUNCH-DAY DOMAIN SWITCH** (do only AFTER `vilolabs.in` DNS resolves): replace every
+  `vilolabs.netlify.app` → `vilolabs.in` across `sitemap.xml`, ALL JSON-LD (homepage
+  Organization/WebSite + every `/blog/*`), canonical tags, and og:url; switch the og:image meta from relative path to
+  `https://vilolabs.in/assets/og-image.jpg`. Do NOT do this before DNS is live (dead-link SEO).
+
+## Infrastructure & Scaling Plan (future-ready, pick-once-never-migrate)
+**Guiding principle:** choose a base whose *static* tier and *dynamic/backend* tier are the
+SAME platform, so going from static → server-side never forces a re-platform. Stay free while
+static; add paid pieces only when a real need appears. Keep the "client-side first, files never
+leave the device" philosophy — most tools need NO backend.
+
+**Three separate roles (never conflate):**
+- **Registrar** = who you pay yearly for the name (Porkbun / Hostinger). ~₹800/yr.
+- **DNS** = phonebook pointing name → host (Cloudflare, free).
+- **Host** = where files live (Cloudflare Pages, free).
+You can buy the domain ANYWHERE and still host free on Cloudflare. Connect by changing the
+registrar's nameservers to Cloudflare's (adds the domain to Cloudflare's free plan). Hosting
+stays ₹0; only the registrar renewal costs money.
+
+**Chosen base: Cloudflare** (free tier generous, India edge = Mumbai/Chennai, cheapest at scale)
+| Need | Service | Notes |
+|------|---------|-------|
+| Static site (now) | **Cloudflare Pages** | free, unlimited bandwidth, free auto-SSL, 500 builds/mo |
+| Server logic / APIs / non-static pages | **Workers / Pages Functions** | add backend WITHOUT moving hosts |
+| File / PDF / image hosting at scale | **R2 storage** | *zero egress fees* — proper replacement for the Google-Drive PDF workaround |
+| Database + Auth | **Supabase** (already wired in via `assets/db.js`) | Postgres + Auth + RLS; never roll own auth |
+| Bot protection on forms | **Cloudflare Turnstile** | free, already in security checklist |
+| AI-powered tools (future) | **Workers AI** | run models at edge, pay-per-use |
+| Payments (future) | **Razorpay** (India-first) | UPI/cards; never see card numbers |
+
+**Phased rollout (don't over-build early):**
+- Phase 0 (now): Static on Pages + Supabase. Cost = domain only.
+- Phase 1 (forms live): Pages Function or Formspree + Turnstile. ~free.
+- Phase 2 (host files/PDFs): move to R2 (no egress fees). cheap.
+- Phase 3 (accounts/payments): Supabase Auth + Razorpay. pay at real usage.
+
+**Honest ceiling:** Workers are great for light/medium serverless. For HEAVY long-running
+compute (big video/ML jobs) add ONE cheap box (Hetzner VPS / Google Cloud Run) alongside
+Cloudflare — edge case; avoid by keeping tools client-side.
+
+**Cost reality:** ~₹800/year (domain) until real scale; everything else free-tier, pay-as-you-grow.
 
 ## Forms (not yet wired up)
 - Contact form: `handleContact()` in index.html — currently fakes success
@@ -196,15 +242,40 @@ The static site has the following in place — keep them in place during any reb
 - Future plan: host PDFs on Google Drive, link from site
 
 ## Known Remaining Gaps (to fix when ready)
-1. `og:image` / `twitter:image` — no social preview image yet
-2. `sitemap.xml` — not created yet (create after domain is confirmed)
-3. `robots.txt` — not created yet
-4. `<link rel="canonical">` — add after domain confirmed
+1. ✅ `og:image` / `twitter:image` — DONE, per-page BESPOKE cards (Option B). Each page points to its own 1200×630 card in `assets/og/` (e.g. `og/blog-gold-prices-india-2026.jpg`, `og/tool-qr-generator.jpg`, `og/home.jpg`). Design = real ViLo logo (`logo.svg`) + section label (PULSE/TOOLS/WORKSHEETS/LEGAL) + page title (auto-read from each page's `og:title`) + `vilolabs.in` footer. Absolute `https://vilolabs.netlify.app/...` URLs (switch to `.in` at launch).
+   - Generic fallback `assets/og-image.jpg` still exists; the blog TEMPLATE + sample/trial pages use it, so a NEW blog post starts with the generic card.
+   - **Cards are STATIC** — a new blog post needs its card regenerated (titles are auto-read, but rendering uses a browser canvas, not pure node). Regeneration = re-run the browser-canvas batch (ask Claude / future `tools/og-cards.html` generator). TRUE auto-per-post = Option C (Cloudflare Pages Function) — planned post-migration.
+   - Still TODO: add `og:url` per page once domain is registered.
+2. ✅ `sitemap.xml` — shipped (placeholder base URL — update when domain confirmed)
+3. ✅ `robots.txt` — shipped
+4. ✅ `<link rel="canonical">` — DONE on all 20 pages (static, placeholder `vilolabs.netlify.app` base — included in the launch-day domain switch). pSEO slug pages still set their own canonical via JS.
 5. Contact form backend — use Netlify Forms or Formspree
 6. Newsletter backend — use Mailchimp or ConvertKit free tier
-7. Social media URLs — when accounts are created
-8. Real email (hello@violabs.com) — when email is set up
-9. Coming Soon projects 3/4/5 — replace placeholder names/descriptions
+7. Social media URLs — when accounts are created. Drop URLs into the `sameAs` array of the homepage Organization JSON-LD (clear template + activation note already embedded in `index.html` head — search for "TO ACTIVATE SOCIAL PROFILES"). Also flip the hidden `display:none` on the footer + contact "Follow" blocks. ONLY add real, claimed URLs that link back; fake/speculative `sameAs` hurts knowledge-panel trust.
+8. Real email (hello@vilolabs.com) — when email is set up ✅ spelling confirmed: vilolabs.com
+
+## pSEO — server-side rendering plan (post-Cloudflare migration)
+The dynamic slug pages today set their title/description/canonical via JavaScript:
+- `/worksheets/<slug>` — handled by `worksheets/worksheet-seo.js` (WSeo)
+- `/tools/<tool>/<slug>` — handled by `tools/tool-seo.js` (TSeo)
+This means social scrapers (WhatsApp, Facebook, X) and slow-rendering crawlers see only
+the generic page meta, NOT the per-slug meta. Google's JS rendering does eventually
+pick it up, but it's slower and riskier than server-rendered HTML.
+
+**The fix (post-Cloudflare migration):**
+- Build a **Cloudflare Pages Function** at `functions/worksheets/[slug].js` (and `functions/tools/[tool]/[slug].js`).
+- On request, function reads the slug, fetches the curated keyword/preset from Supabase or a static JSON map, injects the right `<title>`/`<meta>`/`<link rel=canonical>`/`og:image` into the static HTML shell, returns it.
+- Browser-side JS still runs for the interactive experience — but the **first response** is fully SEO-correct.
+- Same approach used by Vercel/Cloudflare for ISR-style static sites.
+
+**Curated indexable slugs (the other half):**
+- Today, every `/tools/<tool>/<slug>` generated by a user creates a Supabase row, which the sitemap picks up. That's "user-generated indexable URL" territory — risky for thin-content penalties.
+- Solution: maintain a hand-curated allowlist of **high-value canonical preset slugs** (e.g. `upi-payment-qr-shop`, `indian-passport-photo-resize`, `a4-portrait-pdf`, `compress-for-email`, `addition-worksheets-grade-1-animals`) → these are the ONLY slugs added to sitemap.xml + given a server-rendered page + marked `index, follow`.
+- All other dynamic slugs (random-seed worksheets, one-off tool shares) get `<meta name="robots" content="noindex">` — they still work for the user, just don't pollute the index.
+- Where: extend `worksheets/worksheet-seo.js` + `tools/tool-seo.js` with an `INDEXABLE_PRESETS` map; have the Pages Functions only inject `index, follow` when the slug matches that map.
+
+**Status:** documented but not built — needs Cloudflare hosting first.
+9. ✅ Coming Soon cards — DONE: "Project Five" placeholder removed; Lab grid is ViLo Tools (live) + ViLo Apps (coming)
 
 ## Developer Notes
 - **Do NOT rewrite the full file** — always use targeted edits (Edit tool)

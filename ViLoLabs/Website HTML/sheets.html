@@ -10,12 +10,15 @@
      against /worksheets/ and 404. -->
 <base href="/">
 <title>ViLo Worksheets — Smart Worksheet Generator</title>
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous"></script>
 <script src="worksheets/worksheet-seo.js"></script>
 <script src="assets/db.js"></script>
+<link rel="stylesheet" href="assets/share.css">
+<script src="assets/share.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--gold:#C8963C;--gold2:#E8BC72;--cream:#F7F3EE;--dark:#1A1108;--brown:#6B4A38;--g:#34A853;--r:#D32F2F;--border:#D4C8B8;--bg:#FFFDF8;}
@@ -26,6 +29,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .hdr-logo em{font-style:normal;color:var(--gold)}
 .hdr-back{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.5);text-decoration:none;padding:.35rem .8rem;border:1px solid rgba(200,150,60,.3);border-radius:20px;transition:all .2s}
 .hdr-back:hover{color:var(--gold);border-color:var(--gold)}
+.lang-toggle{font-size:.72rem;font-weight:900;color:rgba(245,240,232,.7);background:rgba(200,150,60,.12);border:1px solid rgba(200,150,60,.3);border-radius:20px;padding:.28rem .72rem;cursor:pointer;transition:all .2s;letter-spacing:.04em;font-family:'Nunito',sans-serif}
+.lang-toggle:hover{color:var(--gold);border-color:var(--gold);background:rgba(200,150,60,.2)}
 .screen{display:none}.screen.active{display:block}
 .setup{max-width:520px;margin:0 auto;padding:1rem 1rem 2rem}
 .s-hero{text-align:center;padding:.6rem 0 .4rem}
@@ -79,16 +84,20 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .pg-dot{width:32px;height:32px;border-radius:50%;border:2px solid #EDE4D6;background:#fff;cursor:pointer;font-size:.7rem;font-weight:900;display:flex;align-items:center;justify-content:center;transition:all .2s;color:#A07860}
 .pg-dot.act{background:var(--dark);border-color:var(--dark);color:#fff;transform:scale(1.15)}
 .pg-dot:hover:not(.act){border-color:var(--gold);color:var(--gold)}
-.ws-page{background:var(--bg);border-radius:16px;box-shadow:0 4px 24px rgba(61,43,31,.09);max-width:560px;margin:0 auto;overflow:hidden;display:none;border:1.5px solid #EDE4D6}
+/* FIXED logical width on screen so flex-wrap inside activities is DETERMINISTIC
+   (never depends on viewport width / scrollbar jitter / shared-link load timing).
+   Narrow viewports are handled by zoom on #wsContainer (see fitPreviewWidth). */
+.ws-page{background:var(--bg);border-radius:16px;box-shadow:0 4px 24px rgba(61,43,31,.09);width:560px;margin:0 auto;overflow:hidden;display:none;border:1.5px solid #EDE4D6}
 .ws-page.act{display:block}
 .pg-hdr{background:var(--dark);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between}
 .pg-brand{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-weight:600;color:rgba(245,240,232,.7)}
 .pg-brand em{font-style:normal;color:var(--gold)}
 .pg-num{font-size:.6rem;font-weight:700;color:rgba(245,240,232,.4);letter-spacing:.1em}
 .pg-meta{padding:.38rem 1rem;font-size:.58rem;color:#A07860;font-weight:700;display:flex;gap:.5rem;flex-wrap:wrap;border-bottom:1px solid #EDE4D6;background:#FDFAF5}
-.pg-nameline{display:flex;gap:1.2rem;padding:.38rem 1rem;border-bottom:1.5px solid #EDE4D6;font-size:.65rem;font-weight:700;color:#A07860}
-.nl{display:flex;align-items:center;gap:.35rem;flex:1}
-.nl-line{flex:1;border-bottom:1.5px solid var(--border)}
+.pg-nameline{display:flex;gap:1rem;padding:.55rem 1rem .6rem;border-bottom:1.5px solid #EDE4D6;font-size:.66rem;font-weight:700;color:#A07860;align-items:flex-end}
+.nl{display:flex;align-items:flex-end;gap:.4rem}
+.nl-name{flex:2.4}.nl-date{flex:1.5}.nl-score{flex:1}
+.nl-line{flex:1;border-bottom:1.5px solid var(--border);height:1.15em}
 .act-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr) minmax(0,1fr);min-height:460px}
 .act-frame{position:relative;padding:25px 23px;display:flex;flex-direction:column}
 .bstrip{position:absolute;display:flex;overflow:hidden;line-height:1;pointer-events:none}
@@ -269,6 +278,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
   html{font-size:19px!important}
   body{background:#fff!important}
   .ws-scr{padding:0!important;display:block!important}
+  #wsContainer{zoom:1!important}
   @page{size:A4 portrait;margin:0;}
   .ws-page{display:flex!important;flex-direction:column!important;width:210mm!important;height:297mm!important;box-shadow:none!important;border-radius:0!important;margin:0!important;page-break-after:always;max-width:210mm!important;border:none!important;overflow:hidden!important;}
   .ws-page:last-child{page-break-after:auto}
@@ -282,18 +292,28 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
   .col-act-svg{max-height:none!important;flex:1!important;min-height:0!important;}
 }
 </style>
+<link rel="canonical" href="https://vilolabs.netlify.app/sheets.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/worksheets.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/worksheets.jpg">
 </head>
 <body>
 
 <header class="hdr">
   <a href="index.html" class="hdr-logo">ViLo<em>Labs</em></a>
-  <a href="index.html" class="hdr-back">← Home</a>
+  <div style="display:flex;align-items:center;gap:.55rem">
+    <button class="lang-toggle" id="langToggle" onclick="toggleLang()">हि</button>
+    <a href="index.html" class="hdr-back" data-i18n="home">← Home</a>
+  </div>
 </header>
 
 <div class="loader" id="loader">
   <div class="load-e" id="loadE">✨</div>
   <div class="spin"></div>
-  <div class="load-t">Building your worksheet…</div>
+  <div class="load-t" data-i18n="loading">Building your worksheet…</div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -303,60 +323,60 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
   <div class="s-hero">
     <span class="s-emoji">📝</span>
     <h1 class="s-h">ViLo <em>Worksheets</em></h1>
-    <p class="s-p">Pick a level and topic — 5 pages, 4 different activities per page. Print or save as PDF.</p>
+    <p class="s-p" data-i18n="heroDesc">Pick a level and topic — 5 pages, 4 different activities per page. Print or save as PDF.</p>
   </div>
-  <p class="step-lbl">① Pick a level and hit Generate!</p>
+  <p class="step-lbl" data-i18n="step1">① Pick a level and hit Generate!</p>
   <div class="lvl-grid" id="lvlGrid">
-    <button class="lvl-btn" data-level="prekg" onclick="selLvl(this)"><span class="lvl-e">👶</span><span class="lvl-n">Pre-KG</span><span class="lvl-d">Age 2–4</span></button>
-    <button class="lvl-btn" data-level="kg" onclick="selLvl(this)"><span class="lvl-e">🌱</span><span class="lvl-n">KG</span><span class="lvl-d">Age 4–5</span></button>
-    <button class="lvl-btn" data-level="1" onclick="selLvl(this)"><span class="lvl-e">⭐</span><span class="lvl-n">Class 1</span><span class="lvl-d">Age 6</span></button>
-    <button class="lvl-btn" data-level="2" onclick="selLvl(this)"><span class="lvl-e">🌟</span><span class="lvl-n">Class 2</span><span class="lvl-d">Age 7</span></button>
-    <button class="lvl-btn" data-level="3" onclick="selLvl(this)"><span class="lvl-e">🚀</span><span class="lvl-n">Class 3</span><span class="lvl-d">Age 8</span></button>
-    <button class="lvl-btn" data-level="4" onclick="selLvl(this)"><span class="lvl-e">💡</span><span class="lvl-n">Class 4</span><span class="lvl-d">Age 9</span></button>
-    <button class="lvl-btn" data-level="5" onclick="selLvl(this)"><span class="lvl-e">🏆</span><span class="lvl-n">Class 5</span><span class="lvl-d">Age 10</span></button>
-    <button class="lvl-btn colouring-btn" data-level="colouring" onclick="selLvl(this)"><span class="lvl-e">🎨</span><span class="lvl-n">Colouring</span><span class="lvl-d">All ages</span></button>
-    <button class="lvl-btn sudoku-btn" data-level="sudoku" onclick="selLvl(this)"><span class="lvl-e">🧩</span><span class="lvl-n">Sudoku</span><span class="lvl-d">All ages</span></button>
-    <button class="lvl-btn maze-btn" data-level="maze" onclick="selLvl(this)"><span class="lvl-e">🌀</span><span class="lvl-n">Maze</span><span class="lvl-d">All ages</span></button>
+    <button class="lvl-btn" data-level="prekg" onclick="selLvl(this)"><span class="lvl-e">👶</span><span class="lvl-n">Pre-KG</span><span class="lvl-d" data-i18n="agePreKG">Age 2–4</span></button>
+    <button class="lvl-btn" data-level="kg" onclick="selLvl(this)"><span class="lvl-e">🌱</span><span class="lvl-n">KG</span><span class="lvl-d" data-i18n="ageKG">Age 4–5</span></button>
+    <button class="lvl-btn" data-level="1" onclick="selLvl(this)"><span class="lvl-e">⭐</span><span class="lvl-n">Class 1</span><span class="lvl-d" data-i18n="age1">Age 6</span></button>
+    <button class="lvl-btn" data-level="2" onclick="selLvl(this)"><span class="lvl-e">🌟</span><span class="lvl-n">Class 2</span><span class="lvl-d" data-i18n="age2">Age 7</span></button>
+    <button class="lvl-btn" data-level="3" onclick="selLvl(this)"><span class="lvl-e">🚀</span><span class="lvl-n">Class 3</span><span class="lvl-d" data-i18n="age3">Age 8</span></button>
+    <button class="lvl-btn" data-level="4" onclick="selLvl(this)"><span class="lvl-e">💡</span><span class="lvl-n">Class 4</span><span class="lvl-d" data-i18n="age4">Age 9</span></button>
+    <button class="lvl-btn" data-level="5" onclick="selLvl(this)"><span class="lvl-e">🏆</span><span class="lvl-n">Class 5</span><span class="lvl-d" data-i18n="age5">Age 10</span></button>
+    <button class="lvl-btn colouring-btn" data-level="colouring" onclick="selLvl(this)"><span class="lvl-e">🎨</span><span class="lvl-n">Colouring</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
+    <button class="lvl-btn sudoku-btn" data-level="sudoku" onclick="selLvl(this)"><span class="lvl-e">🧩</span><span class="lvl-n">Sudoku</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
+    <button class="lvl-btn maze-btn" data-level="maze" onclick="selLvl(this)"><span class="lvl-e">🌀</span><span class="lvl-n">Maze</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
   </div>
   <div id="topicSec" style="display:none">
-    <p class="step-lbl" style="margin-top:1.5rem">② Choose a topic</p>
+    <p class="step-lbl" style="margin-top:1.5rem" data-i18n="step2Topic">② Choose a topic</p>
     <div class="top-grid" id="topicGrid"></div>
   </div>
   <div id="mazeOptsSec" style="display:none">
-    <p class="step-lbl" style="margin-top:1.4rem">② Customise your maze</p>
+    <p class="step-lbl" style="margin-top:1.4rem" data-i18n="step2Maze">② Customise your maze</p>
     <div class="mz-row">
-      <div class="mz-lbl">👶 Who is it for?</div>
+      <div class="mz-lbl" data-i18n="mazeWho">👶 Who is it for?</div>
       <input type="range" class="mz-slider" id="mzAge" min="3" max="12" step="1" value="7" oninput="updateMzAge(this.value)">
       <div class="mz-age-badge" id="mzAgeVal"><b>Age 7</b><span>⭐⭐⭐ Medium</span></div>
     </div>
     <div class="mz-row">
-      <div class="mz-lbl">🔷 Shape</div>
+      <div class="mz-lbl" data-i18n="mazeShape">🔷 Shape</div>
       <div class="mz-shape-grid" id="mzShapeGrid">
-        <button class="mz-shape-btn sel" data-shape="square" onclick="selMzShape(this)">□ Square</button>
-        <button class="mz-shape-btn" data-shape="circle" onclick="selMzShape(this)">● Circle</button>
-        <button class="mz-shape-btn" data-shape="triangle" onclick="selMzShape(this)">▲ Triangle</button>
-        <button class="mz-shape-btn" data-shape="heart" onclick="selMzShape(this)">♥ Heart</button>
-        <button class="mz-shape-btn" data-shape="star" onclick="selMzShape(this)">★ Star</button>
-        <button class="mz-shape-btn" data-shape="diamond" onclick="selMzShape(this)">◆ Diamond</button>
-        <button class="mz-shape-btn" data-shape="hexagon" onclick="selMzShape(this)">⬡ Hexagon</button>
+        <button class="mz-shape-btn sel" data-shape="square" onclick="selMzShape(this)" data-i18n="sqBtn">□ Square</button>
+        <button class="mz-shape-btn" data-shape="circle" onclick="selMzShape(this)" data-i18n="ciBtn">● Circle</button>
+        <button class="mz-shape-btn" data-shape="triangle" onclick="selMzShape(this)" data-i18n="trBtn">▲ Triangle</button>
+        <button class="mz-shape-btn" data-shape="heart" onclick="selMzShape(this)" data-i18n="heBtn">♥ Heart</button>
+        <button class="mz-shape-btn" data-shape="star" onclick="selMzShape(this)" data-i18n="stBtn">★ Star</button>
+        <button class="mz-shape-btn" data-shape="diamond" onclick="selMzShape(this)" data-i18n="diBtn">◆ Diamond</button>
+        <button class="mz-shape-btn" data-shape="hexagon" onclick="selMzShape(this)" data-i18n="hxBtn">⬡ Hexagon</button>
       </div>
     </div>
     <div class="mz-row">
       <label class="mz-ak-row" for="mzAK">
         <input type="checkbox" id="mzAK" onchange="updateMzAK()">
         <div>
-          <div class="mz-ak-lbl">Include Answer Key page</div>
-          <div class="mz-ak-note">Adds a 6th page showing all 5 solutions in gold</div>
+          <div class="mz-ak-lbl" data-i18n="mazeAKLabel">Include Answer Key page</div>
+          <div class="mz-ak-note" data-i18n="mazeAKNote">Adds a 6th page showing all 5 solutions in gold</div>
         </div>
       </label>
     </div>
   </div>
   <div class="gen-wrap">
     <button class="gen-btn" id="genBtn" onclick="generate()" disabled>
-      <span>✨</span> <span id="genBtnTxt">Generate Worksheet</span>
+      <span>✨</span> <span id="genBtnTxt" data-i18n="genBtn">Generate Worksheet</span>
     </button>
   </div>
-  <p class="gen-tip">ⓘ <strong>Worksheets are generated automatically and can occasionally make mistakes.</strong> Please review each sheet before printing or sharing with children.</p>
+  <p class="gen-tip" data-i18n-html="genTip">ⓘ <strong>Worksheets are generated automatically and can occasionally make mistakes.</strong> Please review each sheet before printing or sharing with children.</p>
 </div>
 </div>
 
@@ -368,16 +388,13 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
       <span class="tbar-title" id="tbTitle">Worksheet</span>
     </div>
     <div class="tbar-acts">
-      <button class="tbtn tbtn-out" onclick="regen()">🔀 New</button>
-      <button class="tbtn tbtn-out" onclick="goBack()">← Back</button>
+      <button class="tbtn tbtn-out" onclick="regen()" data-i18n="btnNew">🔀 New</button>
+      <button class="tbtn tbtn-out" onclick="goBack()" data-i18n="btnBack">← Back</button>
       <div class="share-wrap" style="position:relative;display:inline-block">
-        <button class="tbtn tbtn-out" onclick="toggleSharePop()" id="shareBtn">↗ Share</button>
+        <button class="tbtn tbtn-out" onclick="onToolbarShare()" id="shareBtn" data-i18n="btnShare">↗ Share</button>
         <div id="sharePop" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid #EDE4D6;border-radius:10px;box-shadow:0 8px 28px rgba(61,43,31,.18);padding:.55rem;z-index:50;min-width:200px">
-          <div style="font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#A07860;font-weight:800;padding:.3rem .5rem .4rem">Share this worksheet</div>
-          <button class="tbtn tbtn-out" style="width:100%;justify-content:flex-start;margin-bottom:.3rem" onclick="shareTo('whatsapp')">💬 WhatsApp</button>
-          <button class="tbtn tbtn-out" style="width:100%;justify-content:flex-start;margin-bottom:.3rem" onclick="shareTo('pinterest')">📌 Pinterest</button>
-          <button class="tbtn tbtn-out" style="width:100%;justify-content:flex-start;margin-bottom:.3rem" onclick="shareTo('email')">✉ Email</button>
-          <button class="tbtn tbtn-out" style="width:100%;justify-content:flex-start" onclick="shareTo('copy')" id="copyBtn">⎘ Copy Link</button>
+          <div style="font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#A07860;font-weight:800;padding:.3rem .5rem .55rem" data-i18n="shareTitle">Share this worksheet</div>
+          <div class="vshare compact" id="sheetShare"></div>
         </div>
       </div>
       <button class="tbtn tbtn-dark" onclick="doPrint()">⬇ PDF</button>
@@ -385,9 +402,156 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
   </div>
   <div class="pg-nav" id="pgNav"></div>
   <div id="wsContainer"></div>
+  <!-- Post-generate share nudge (shared component — /assets/share.js) -->
+  <div class="vshare nudge" id="genNudge" style="display:none;max-width:560px;margin:1rem auto"></div>
 </div>
 
 <script>
+// ══════════════════════════
+// I18N
+// ══════════════════════════
+let curLang=localStorage.getItem('vl-lang')||'en';
+const STRINGS={
+en:{
+  home:'← Home',loading:'Building your worksheet…',creatingPdf:'Creating your PDF…',
+  heroDesc:'Pick a level and topic — 5 pages, 4 different activities per page. Print or save as PDF.',
+  step1:'① Pick a level and hit Generate!',step2Topic:'② Choose a topic',step2Maze:'② Customise your maze',
+  agePreKG:'Age 2–4',ageKG:'Age 4–5',age1:'Age 6',age2:'Age 7',age3:'Age 8',age4:'Age 9',age5:'Age 10',allAges:'All ages',
+  mazeWho:'👶 Who is it for?',mazeShape:'🔷 Shape',
+  sqBtn:'□ Square',ciBtn:'● Circle',trBtn:'▲ Triangle',heBtn:'♥ Heart',stBtn:'★ Star',diBtn:'◆ Diamond',hxBtn:'⬡ Hexagon',
+  mazeAKLabel:'Include Answer Key page',mazeAKNote:'Adds a 6th page showing all 5 solutions in gold',
+  genBtn:'Generate Worksheet',
+  genTip:'<strong>Worksheets are generated automatically and can occasionally make mistakes.</strong> Please review each sheet before printing or sharing with children.',
+  btnNew:'🔀 New',btnBack:'← Back',btnShare:'↗ Share',
+  shareTitle:'Share this worksheet',shareCopy:'⎘ Copy Link',shareCopied:'✓ Copied!',
+  name:'Name:',date:'Date:',score:'Score:',page:'Page',ansKey:'Answer Key',
+  footerCol:'ViLoLabs.in · Free Colouring Page · ',footerSud:'ViLoLabs.in · Free Picture Sudoku · ',footerMaze:'ViLoLabs.in · Free Printable Maze · ',
+  agePrefix:'Age',
+  diff_Beginner:'Beginner',diff_Easy:'Easy',diff_Medium:'Medium',diff_Hard:'Hard',diff_Expert:'Expert',diff_Master:'Master',
+  shLbl_square:'Maze',shLbl_circle:'Circle Maze',shLbl_triangle:'Triangle Maze',shLbl_heart:'Heart Maze',shLbl_star:'Star Maze',shLbl_diamond:'Diamond Maze',shLbl_hexagon:'Hexagon Maze',
+  mazeInstr1:'Help {animal} find the way out! Draw a line through the open passages.',
+  mazeInstrMulti:'Help every animal find the way out! Draw a line through the open passages.',
+  mazeKeyTitle:'🗝️ Answer Key',mazeKeyNote:"Don't peek until you've tried! Solution paths shown in gold.",mazeKeyCell:'Maze {n}',
+  sudokuInstr:'Every row, every column and every bold box must have all 4 pictures.',
+  sudokuCut:'✂️ Cut out the pictures and paste them in the empty squares',
+  colourTitle:'🎨 Colour {name}!',colourGuide:'Use the small picture in the corner as your colour guide →',
+  colourGuide2:'Use the small picture as your colour guide →',colourGuideLabel:'Colour Guide',suggestedColours:'🖍️ Suggested colours:',
+  colBook:'— Colouring Book',sudokuLabel:'Sudoku',worksheetLabel:'— Worksheet',
+  pt0:"Let's Explore!",pt1:'Think & Match',pt2:'Trace & Write',pt3:'Count & Sort',pt4:'Challenge Time!',
+  t_tracing:'✏️ Tracing',t_colour:'🎨 Colour It!',t_countCircle:'🔢 Count & Circle',t_countWrite:'🔢 Count & Write',
+  t_matchSame:'🔗 Match the Same',t_matchWord:'🔗 Match Picture & Word',t_oddOne:'🔍 Odd One Out',
+  t_pattern:'🔄 Pattern',t_patternChallenge:'🔄 Pattern Challenge',t_sizeOrder:'📏 Size Order',
+  t_shadowMatch:'👥 Shadow Match',t_spotDiff:'🔎 Spot the Difference',t_traceWrite:'✍️ Trace & Write',
+  t_letterTrace:'✏️ Letter Trace',t_numberTrace:'🔢 Number Trace',t_whatNext:'📋 What Comes Next?',
+  t_mazeFind:'🌀 Find the Way!',t_sortIt:'📦 Sort It!',t_missingLetterC:'🔤 Missing Letter',
+  t_addition:'➕ Addition',t_positions:'📍 Positions',t_dotToDot:'🔵 Dot to Dot',
+  t_biggerSmaller:'⚖️ Bigger or Smaller?',t_colourHunt:'🎨 Colour Hunt',t_shapeHunt:'🔷 Shape Hunt',
+  t_letterHunt:'🔤 Letter Hunt',t_missingLetterW:'🔤 Missing Letter',t_missingNumber:'🔢 Missing Number',
+  t_findMatch:'⭕ Find the Match',t_goesTog:'🔗 Goes Together',t_addUp:'➕ Add Up!',
+  t_takeAway:'➖ Take Away!',t_timesTables:'✖️ Times Tables',t_skipCount:'🔢 Skip Counting',
+  t_greaterSmaller:'⚖️ Greater or Smaller?',t_wordSearch:'🔎 Word Search',t_completeWord:'🔤 Complete the Word',
+  i_tracing:'Trace the dotted path from 🟢 to 🔴!',
+  i_matchSame:'Draw a line to match the same pictures!',i_matchWord:'Draw a line to match each picture to its name.',
+  i_oddOne:'Circle the ONE that does NOT belong!',i_pattern:'What comes next? Draw it in the box!',
+  i_patternChallenge:'Complete the pattern. What comes next?',i_sizeOrder:'Number them 1 (smallest) to 3 (biggest).',i_sizeOrderSub:'Write 1, 2 or 3 in each box',
+  i_shadowMatch:'Match each picture to its shadow. Draw a line!',
+  i_spotDiff:'Three are the same. Circle the ONE that is different!',i_spotDiffSub:'⭕ Circle the different one!',
+  i_traceWrite:'Trace the word, then write it yourself!',i_letterTrace:'Trace the letter, then write it in the boxes.',
+  i_numberTrace:'Trace the number, then count and write it.',i_whatNext:'Look at the pattern. What comes next?',
+  i_mazeFind:'Draw a line through the maze from 🟢 Start to 🔴 Finish!',i_sortIt:'Put each picture in the correct group.',
+  i_missingLetterC:'Which letter is missing? Circle the correct one.',
+  i_biggerSmaller:'Circle the BIGGER one in each row.',i_biggerSmallerSub:'⭕ Circle the BIGGER one',
+  i_missingLetterW:'Which letter is missing? Write it in the box.',i_missingNumber:'Which number is missing? Write it in the box.',
+  i_findMatch:'Two pictures are exactly the SAME. Circle both of them!',i_findMatchSub:'⭕ Find the twins!',
+  i_goesTog:'Draw a line to match the things that go together!',i_addUp:'Add the numbers. Write the answer in the box.',
+  i_takeAway:'Subtract the numbers. Write the answer in the box.',i_timesTables:'Multiply the numbers. Write each answer.',
+  i_greaterSmaller:'Write &lt; , &gt; or = in each box.',i_completeWord:'Look at the picture. Fill in the missing letters!',
+  i_colour:'Colour the {name} with your crayons!',i_countCircle:'Count the {n}s. Circle the right number!',
+  i_countWrite1:'Count the {n}s. Write the number!',i_countWriteAll:'Count all the {n}s and write the total.',
+  i_addition:'Count the {n}s and write the answer.',i_dotToDot:'Connect dots 1 to {n} in order!',
+  i_skipCount:'Count by {step}s. Fill in the missing numbers.',
+  i_colourHunt:'Circle every <strong style="color:{clr}">{name}</strong> circle!',
+  i_shapeHunt:'Circle every <strong>{name}</strong>!',i_letterHunt:'Circle every letter <strong>{name}</strong>!',
+  i_wordSearch:'Find and circle these words: <strong>{words}</strong>',
+  i_posInstr:'Draw the {e} <strong>{pos}</strong> the box!',i_posDraw:'Draw {e} <span style="color:var(--gold)">{pos}</span> the box:',i_posGoes:'{e} goes {pos} the box',
+  pos_ABOVE:'ABOVE',pos_BELOW:'BELOW',pos_BESIDE:'BESIDE',pos_INSIDE:'INSIDE'
+},
+hi:{
+  home:'← होम',loading:'वर्कशीट बन रही है…',creatingPdf:'पीडीएफ बन रही है…',
+  heroDesc:'क्लास और टॉपिक चुनो — 5 पेज, हर पेज पर 4 अलग-अलग एक्टिविटी। प्रिंट करो या पीडीएफ सेव करो।',
+  step1:'① क्लास चुनो और वर्कशीट बनाओ!',step2Topic:'② टॉपिक चुनो',step2Maze:'② मेज़ बनाओ',
+  agePreKG:'उम्र 2–4',ageKG:'उम्र 4–5',age1:'उम्र 6',age2:'उम्र 7',age3:'उम्र 8',age4:'उम्र 9',age5:'उम्र 10',allAges:'सभी उम्र',
+  mazeWho:'👶 किसके लिए है?',mazeShape:'🔷 शेप',
+  sqBtn:'□ स्क्वेयर',ciBtn:'● सर्कल',trBtn:'▲ ट्राइएंगल',heBtn:'♥ हार्ट',stBtn:'★ स्टार',diBtn:'◆ डायमंड',hxBtn:'⬡ हेक्सागन',
+  mazeAKLabel:'आंसर की पेज जोड़ें',mazeAKNote:'5 सॉल्यूशन वाला 6वां पेज जुड़ेगा',
+  genBtn:'वर्कशीट बनाओ',
+  genTip:'<strong>वर्कशीट ऑटोमैटिक बनती है और कभी-कभी गलती हो सकती है।</strong> बच्चों को देने से पहले एक बार ज़रूर देख लें।',
+  btnNew:'🔀 नई',btnBack:'← वापस',btnShare:'↗ शेयर',
+  shareTitle:'यह वर्कशीट शेयर करें',shareCopy:'⎘ लिंक कॉपी करें',shareCopied:'✓ कॉपी हो गया!',
+  name:'नाम:',date:'डेट:',score:'स्कोर:',page:'पेज',ansKey:'आंसर की',
+  footerCol:'ViLoLabs.in · फ्री कलरिंग पेज · ',footerSud:'ViLoLabs.in · फ्री पिक्चर सुडोकू · ',footerMaze:'ViLoLabs.in · फ्री प्रिंटेबल मेज़ · ',
+  agePrefix:'उम्र',
+  diff_Beginner:'बिगिनर',diff_Easy:'आसान',diff_Medium:'मीडियम',diff_Hard:'हार्ड',diff_Expert:'एक्सपर्ट',diff_Master:'मास्टर',
+  shLbl_square:'मेज़',shLbl_circle:'सर्कल मेज़',shLbl_triangle:'ट्राइएंगल मेज़',shLbl_heart:'हार्ट मेज़',shLbl_star:'स्टार मेज़',shLbl_diamond:'डायमंड मेज़',shLbl_hexagon:'हेक्सागन मेज़',
+  mazeInstr1:'{animal} को रास्ता निकालने में मदद करो! खुले रास्तों से लाइन खींचो।',
+  mazeInstrMulti:'सभी जानवरों को रास्ता निकालने में मदद करो! खुले रास्तों से लाइन खींचो।',
+  mazeKeyTitle:'🗝️ आंसर की',mazeKeyNote:'पहले खुद कोशिश करो! सॉल्यूशन पाथ गोल्ड में दिखाए गए हैं।',mazeKeyCell:'मेज़ {n}',
+  sudokuInstr:'हर लाइन, हर कॉलम और हर बोल्ड बॉक्स में सभी 4 तस्वीरें होनी चाहिए।',
+  sudokuCut:'✂️ तस्वीरें काटो और खाली जगह पर चिपकाओ',
+  colourTitle:'🎨 {name} को कलर करो!',colourGuide:'छोटी तस्वीर देखकर कलर करो →',
+  colourGuide2:'छोटी तस्वीर देखकर कलर करो →',colourGuideLabel:'कलर गाइड',suggestedColours:'🖍️ सजेस्टेड कलर:',
+  colBook:'— कलरिंग बुक',sudokuLabel:'सुडोकू',worksheetLabel:'— वर्कशीट',
+  pt0:'चलो सीखें!',pt1:'सोचो और मिलाओ',pt2:'ट्रेस करो और लिखो',pt3:'गिनो और सजाओ',pt4:'चैलेंज टाइम!',
+  t_tracing:'✏️ ट्रेसिंग',t_colour:'🎨 कलर करो!',t_countCircle:'🔢 गिनो और सर्कल करो',t_countWrite:'🔢 गिनो और लिखो',
+  t_matchSame:'🔗 एक जैसा मिलाओ',t_matchWord:'🔗 तस्वीर और शब्द मिलाओ',t_oddOne:'🔍 अलग कौन है?',
+  t_pattern:'🔄 पैटर्न',t_patternChallenge:'🔄 पैटर्न चैलेंज',t_sizeOrder:'📏 साइज़ के हिसाब से',
+  t_shadowMatch:'👥 परछाई मिलाओ',t_spotDiff:'🔎 अंतर खोजो',t_traceWrite:'✍️ ट्रेस करो और लिखो',
+  t_letterTrace:'✏️ अक्षर ट्रेस',t_numberTrace:'🔢 नंबर ट्रेस',t_whatNext:'📋 आगे क्या?',
+  t_mazeFind:'🌀 रास्ता खोजो!',t_sortIt:'📦 सॉर्ट करो!',t_missingLetterC:'🔤 कौन सा अक्षर गायब है?',
+  t_addition:'➕ जोड़',t_positions:'📍 पोज़ीशन',t_dotToDot:'🔵 डॉट से डॉट',
+  t_biggerSmaller:'⚖️ बड़ा या छोटा?',t_colourHunt:'🎨 कलर हंट',t_shapeHunt:'🔷 शेप हंट',
+  t_letterHunt:'🔤 अक्षर हंट',t_missingLetterW:'🔤 कौन सा अक्षर गायब है?',t_missingNumber:'🔢 कौन सा नंबर गायब है?',
+  t_findMatch:'⭕ जोड़ी खोजो',t_goesTog:'🔗 साथ में क्या जाता है?',t_addUp:'➕ जोड़ो!',
+  t_takeAway:'➖ घटाओ!',t_timesTables:'✖️ पहाड़ा',t_skipCount:'🔢 स्किप काउंटिंग',
+  t_greaterSmaller:'⚖️ बड़ा या छोटा?',t_wordSearch:'🔎 वर्ड सर्च',t_completeWord:'🔤 शब्द पूरा करो',
+  i_tracing:'🟢 से 🔴 तक डॉटेड रास्ता ट्रेस करो!',
+  i_matchSame:'एक जैसी तस्वीरें मिलाओ — लाइन खींचो!',i_matchWord:'तस्वीर और उसका नाम मिलाओ — लाइन खींचो।',
+  i_oddOne:'जो अलग है उस पर सर्कल बनाओ!',i_pattern:'आगे क्या आएगा? बॉक्स में बनाओ!',
+  i_patternChallenge:'पैटर्न पूरा करो। आगे क्या आएगा?',i_sizeOrder:'1 (सबसे छोटा) से 3 (सबसे बड़ा) नंबर लिखो।',i_sizeOrderSub:'हर बॉक्स में 1, 2 या 3 लिखो',
+  i_shadowMatch:'हर तस्वीर को उसकी परछाई से मिलाओ — लाइन खींचो!',
+  i_spotDiff:'तीन एक जैसे हैं। जो अलग है उस पर सर्कल बनाओ!',i_spotDiffSub:'⭕ अलग वाले पर सर्कल बनाओ!',
+  i_traceWrite:'शब्द ट्रेस करो, फिर खुद लिखो!',i_letterTrace:'अक्षर ट्रेस करो, फिर बॉक्स में लिखो।',
+  i_numberTrace:'नंबर ट्रेस करो, फिर गिनकर लिखो।',i_whatNext:'पैटर्न देखो। आगे क्या आएगा?',
+  i_mazeFind:'🟢 से 🔴 तक मेज़ में रास्ता निकालो!',i_sortIt:'हर तस्वीर को सही ग्रुप में रखो।',
+  i_missingLetterC:'कौन सा अक्षर गायब है? सही पर सर्कल बनाओ।',
+  i_biggerSmaller:'हर लाइन में बड़े वाले पर सर्कल बनाओ।',i_biggerSmallerSub:'⭕ बड़े वाले पर सर्कल बनाओ',
+  i_missingLetterW:'कौन सा अक्षर गायब है? बॉक्स में लिखो।',i_missingNumber:'कौन सा नंबर गायब है? बॉक्स में लिखो।',
+  i_findMatch:'दो तस्वीरें बिल्कुल एक जैसी हैं। दोनों पर सर्कल बनाओ!',i_findMatchSub:'⭕ जोड़ी खोजो!',
+  i_goesTog:'साथ में जो चीज़ें जाती हैं उन्हें मिलाओ — लाइन खींचो!',i_addUp:'नंबर जोड़ो। जवाब बॉक्स में लिखो।',
+  i_takeAway:'नंबर घटाओ। जवाब बॉक्स में लिखो।',i_timesTables:'नंबर गुणा करो। हर जवाब लिखो।',
+  i_greaterSmaller:'हर बॉक्स में &lt; , &gt; या = लिखो।',i_completeWord:'तस्वीर देखो। गायब अक्षर भरो!',
+  i_colour:'{name} को क्रेयॉन से कलर करो!',i_countCircle:'{n} गिनो। सही नंबर पर सर्कल बनाओ!',
+  i_countWrite1:'{n} गिनो। नंबर लिखो!',i_countWriteAll:'सभी {n} गिनो और टोटल लिखो।',
+  i_addition:'{n} गिनो और जवाब लिखो।',i_dotToDot:'1 से {n} तक डॉट्स जोड़ो!',
+  i_skipCount:'{step}-{step} से गिनो। गायब नंबर भरो।',
+  i_colourHunt:'हर <strong style="color:{clr}">{name}</strong> सर्कल पर सर्कल बनाओ!',
+  i_shapeHunt:'हर <strong>{name}</strong> पर सर्कल बनाओ!',i_letterHunt:'हर <strong>{name}</strong> अक्षर पर सर्कल बनाओ!',
+  i_wordSearch:'इन शब्दों को ढूंढो और सर्कल करो: <strong>{words}</strong>',
+  i_posInstr:'{e} को बॉक्स के <strong>{pos}</strong> बनाओ!',i_posDraw:'{e} बॉक्स के <span style="color:var(--gold)">{pos}</span>:',i_posGoes:'{e} बॉक्स के {pos} जाता है',
+  pos_ABOVE:'ऊपर',pos_BELOW:'नीचे',pos_BESIDE:'बगल में',pos_INSIDE:'अंदर'
+}
+};
+function T(k){return(STRINGS[curLang]||STRINGS.en)[k]??STRINGS.en[k]??k;}
+function Tf(k,...pairs){let s=T(k);for(let i=0;i<pairs.length;i+=2)s=s.replace(new RegExp('{'+pairs[i]+'}','g'),String(pairs[i+1]));return s;}
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=T(el.dataset.i18n));
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>el.innerHTML=T(el.dataset.i18nHtml));
+  const lt=document.getElementById('langToggle');
+  if(lt)lt.textContent=curLang==='en'?'हि':'EN';
+  document.documentElement.lang=curLang==='hi'?'hi':'en';
+}
+function toggleLang(){curLang=curLang==='en'?'hi':'en';localStorage.setItem('vl-lang',curLang);applyLang();}
+
 // ══════════════════════════
 // EMOJI DATABASE
 // ══════════════════════════
@@ -533,7 +697,7 @@ const ACT_POOLS={
   '4':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
   '5':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','pattern-abc','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search']};
 
-const PAGE_TITLES=['Let\'s Explore!','Think & Match','Trace & Write','Count & Sort','Challenge Time!'];
+function pageTitles(i){return[T('pt0'),T('pt1'),T('pt2'),T('pt3'),T('pt4')][i]||'';}
 
 // themed decorative page borders — one theme per page
 const BORDER_THEMES=[
@@ -981,12 +1145,13 @@ function ageSpec(age){
   const tiers=[['⭐','Beginner'],['⭐','Beginner'],['⭐⭐','Easy'],['⭐⭐','Easy'],
     ['⭐⭐⭐','Medium'],['⭐⭐⭐','Medium'],['⭐⭐⭐⭐','Hard'],['⭐⭐⭐⭐','Hard'],
     ['🔥🔥','Expert'],['🔥🔥🔥','Master']];
+  // diff is the raw English key; T() translates it
   return{age:+age,size,genRand,pick,stars:tiers[i][0],diff:tiers[i][1]};
 }
 function updateMzAge(v){
   mzAge=+v;
   const sp=ageSpec(mzAge);
-  document.getElementById('mzAgeVal').innerHTML='<b>Age '+(mzAge>=12?'12+':mzAge)+'</b><span>'+sp.stars+' '+sp.diff+'</span>';
+  document.getElementById('mzAgeVal').innerHTML='<b>'+T('agePrefix')+' '+(mzAge>=12?'12+':mzAge)+'</b><span>'+sp.stars+' '+T('diff_'+sp.diff)+'</span>';
   if(mzAge>=9){document.getElementById('mzAK').checked=true;mzAK=true;}
 }
 function selMzShape(b){document.querySelectorAll('.mz-shape-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');mzShape=b.dataset.shape;}
@@ -1200,7 +1365,8 @@ function libItem(it,mode){
   return{src,
     e:`<img src="${src}" class="wimg" alt="">`,
     n:it.label||it.name||'',
-    l:((it.name||'a').replace(/[^a-zA-Z]/g,'')[0]||'A').toUpperCase()};
+    l:((it.name||'a').replace(/[^a-zA-Z]/g,'')[0]||'A').toUpperCase(),
+    cat:it.category||''};
 }
 function libPool(mode){
   return LIB.filter(it=>mode==='png'?it.png:it.emoji).map(it=>libItem(it,mode));
@@ -1268,14 +1434,10 @@ function selLvl(btn){
 
   document.getElementById('mazeOptsSec').style.display='none';
   if(curLvl==='colouring'){
-    curTopic=null;
-    document.getElementById('genBtn').disabled=true;
-    document.getElementById('genBtnTxt').textContent='Choose a Colouring Topic →';
-    topicSec.style.display='block';
-    topicGrid.innerHTML=Object.entries(COL_TOPICS).map(([k,v])=>`
-      <button class="top-btn" data-topic="${k}" onclick="selTopic(this)">
-        <span class="top-e">${v.e}</span><span class="top-l">${v.l}</span>
-      </button>`).join('');
+    curTopic='mixed';
+    topicSec.style.display='none';
+    document.getElementById('genBtn').disabled=false;
+    document.getElementById('genBtnTxt').textContent='🎨 '+T('genBtn');
   } else if(curLvl==='maze'){
     curTopic='mixed';
     topicSec.style.display='none';
@@ -1408,6 +1570,18 @@ async function _wsUpdateUrlAfterGenerate(seed){
     category:cfg.category, seed, libVersion:LIB_VERSION
   };
   _wsPushed = false;
+  _showGenNudge();   // surface the share nudge with the fresh worksheet URL
+}
+
+// ── Post-generate share nudge ──────────────────────────────────
+// A calm banner under the worksheet inviting a share at the moment of value.
+function _showGenNudge(){
+  const el=document.getElementById('genNudge');
+  if(!el||!window.ViloShare) return;
+  el.style.display='block';
+  _mountShare('#genNudge', curLang==='hi'
+    ? 'वर्कशीट तैयार है! किसी और पैरेंट की मदद करें — शेयर करें 💛'
+    : 'Made a worksheet? Help another parent — share it 💛');
 }
 
 // ── Commit-time push: called from doPrint() and shareTo() ──────
@@ -1422,26 +1596,56 @@ function _wsPushIfCommitted(){
   _wsPushed = true;
 }
 
-// ── Share popover (toolbar) ─────────────────────────────────────
+// ── Share (shared component /assets/share.js) ───────────────────
+// Labels: brand names stay; only Share/Email/Copy/toast are translated.
+function _shareLabels(){
+  return (curLang==='hi')
+    ? {share:'शेयर', wa:'WhatsApp', tg:'Telegram', fb:'Facebook', pin:'Pinterest',
+       x:'X', mail:'ईमेल', copy:'कॉपी', copyLink:'लिंक कॉपी करें', copied:'लिंक कॉपी हो गया! ✓'}
+    : {share:'Share', wa:'WhatsApp', tg:'Telegram', fb:'Facebook', pin:'Pinterest',
+       x:'X', mail:'Email', copy:'Copy', copyLink:'Copy link', copied:'Link copied! ✓'};
+}
+// Short, natural one-liner that travels WITH the link (not the SEO title).
+function _shareMsg(){
+  return (curLang==='hi')
+    ? 'बच्चों को व्यस्त भी रखती है और सिखाती भी — एक बढ़िया चीज़ मिली: बच्चों के लिए फ्री प्रिंटेबल वर्कशीट, हर बार नई, बिना साइन-अप 👇'
+    : 'Keeps the little ones busy and learning — found a little gem: free printable worksheets for kids, fresh every time, no sign-up 👇';
+}
+// Appended after the link → invites the receiver to make their own (growth loop).
+function _shareTail(){
+  const create = location.origin + '/sheets.html';
+  return (curLang==='hi')
+    ? '\n\n✨ खुद की वर्कशीट बनानी है? यहाँ फ्री बनाएं 👉 ' + create
+    : '\n\n✨ Want to make your own? Create a free worksheet 👉 ' + create;
+}
+// Mount/refresh a share bar with the CURRENT worksheet URL + DB-register on click.
+function _mountShare(sel, hook, rowOnly){
+  if(!window.ViloShare) return;
+  ViloShare.mount(sel, {
+    url: location.href,            // fresh per generation
+    title: document.title,
+    message: _shareMsg(),          // natural text sent alongside the link
+    tail: _shareTail(),            // "make your own" CTA → back to the generator
+    hook: hook || '',
+    labels: _shareLabels(),
+    rowOnly: !!rowOnly,            // popover = explicit row only (native handled by toolbar btn)
+    beforeShare: _wsPushIfCommitted  // register worksheet in DB so the shared link is indexable
+  });
+}
+// Toolbar Share: on phones fire the native sheet directly (one tap → WhatsApp,
+// Copy & every app); on desktop open the popover with the explicit button row.
+function onToolbarShare(){
+  if(window.ViloShare && ViloShare.canNative()){
+    ViloShare.nativeShare({url:location.href, title:document.title, text:_shareMsg(), tail:_shareTail(), before:_wsPushIfCommitted});
+  } else {
+    toggleSharePop();
+  }
+}
 function toggleSharePop(){
   const pop=document.getElementById('sharePop');
-  pop.style.display=(pop.style.display==='none'||!pop.style.display)?'block':'none';
-}
-function shareTo(target){
-  // User committed → register worksheet in DB (once per generation).
-  _wsPushIfCommitted();
-  const url=location.href;
-  const text=document.title;
-  if(target==='whatsapp') window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(text+' '+url),'_blank');
-  else if(target==='pinterest') window.open('https://pinterest.com/pin/create/button/?url='+encodeURIComponent(url)+'&description='+encodeURIComponent(text),'_blank');
-  else if(target==='email') window.location.href='mailto:?subject='+encodeURIComponent(text)+'&body='+encodeURIComponent(url);
-  else if(target==='copy'){
-    navigator.clipboard&&navigator.clipboard.writeText(url).then(()=>{
-      const b=document.getElementById('copyBtn');const o=b.textContent;b.textContent='✓ Copied!';
-      setTimeout(()=>b.textContent=o,1600);
-    });
-  }
-  if(target!=='copy') document.getElementById('sharePop').style.display='none';
+  const show=(pop.style.display==='none'||!pop.style.display);
+  pop.style.display=show?'block':'none';
+  if(show) _mountShare('#sheetShare', '', true);   // desktop: explicit row only
 }
 // Close popover when clicking outside
 document.addEventListener('click',e=>{
@@ -1449,11 +1653,18 @@ document.addEventListener('click',e=>{
   if(pop&&pop.style.display==='block'&&!pop.contains(e.target)&&e.target!==btn) pop.style.display='none';
 });
 
-// ── On-load: if URL has ?w=<slug>, restore that exact worksheet ──
+// ── On-load: if URL has /worksheets/<slug> or ?w=<slug>, restore that exact worksheet ──
 (function _wsRestoreFromUrl(){
   if(!window.WSeo) return;
-  const params=new URLSearchParams(location.search);
-  const slug=params.get('w');
+  // 1) Path form: /worksheets/<slug>  (shared link format)
+  // 2) Query form: ?w=<slug>          (legacy / fallback)
+  let slug=null;
+  const m=location.pathname.match(/\/worksheets\/([^\/?#]+)/);
+  if(m && m[1] && m[1]!=='index.html') slug=m[1];
+  if(!slug){
+    const params=new URLSearchParams(location.search);
+    slug=params.get('w');
+  }
   if(!slug) return;
   WSeo.loadKeywords().then(kw=>{
     if(!kw) return;
@@ -1461,7 +1672,8 @@ document.addEventListener('click',e=>{
     if(!cfg) return;
     // Restore curLvl + curTopic state before generate()
     curLvl=cfg.grade;
-    if(cfg.grade==='colouring') curTopic=cfg.category;
+    if(cfg.grade==='colouring') curTopic=cfg.category||'mixed';
+    else curTopic='mixed';
     // Trigger generate with the seed from URL — produces identical worksheet
     setTimeout(()=>generate({seed:cfg.seed}),50);
   });
@@ -1472,10 +1684,10 @@ function buildAll(){
   const topicName=curLvl==='colouring'?(COL_TOPICS[curTopic]?.l||'Colouring'):'Fun Mix';
   document.getElementById('tbLbl').textContent=lvlName;
   document.getElementById('tbTitle').textContent=
-    curLvl==='colouring'?(topicName+' — Colouring Book'):
-    curLvl==='sudoku'?'Picture Sudoku':
-    curLvl==='maze'?(mzShape.charAt(0).toUpperCase()+mzShape.slice(1)+' Maze · Age '+(mzAge>=12?'12+':mzAge)):
-    (topicName+' — Worksheet');
+    curLvl==='colouring'?(topicName+' '+T('colBook')):
+    curLvl==='sudoku'?T('sudokuLabel'):
+    curLvl==='maze'?((T('shLbl_'+mzShape)||T('shLbl_square'))+' · '+T('agePrefix')+' '+(mzAge>=12?'12+':mzAge)):
+    (topicName+' '+T('worksheetLabel'));
   const container=document.getElementById('wsContainer');
   const nav=document.getElementById('pgNav');
   container.innerHTML='';nav.innerHTML='';
@@ -1485,6 +1697,7 @@ function buildAll(){
   else if(curLvl==='maze'){buildMazeAll(container,nav);}
   else{buildWorksheetAll(container,nav,lvlName,topicName);}
   curPage=0;
+  fitPreviewWidth();                       // fix preview scale BEFORE measuring
   requestAnimationFrame(()=>fitCells());
   paintImages(container);
   paintShadows(container);
@@ -1536,23 +1749,23 @@ function buildColouringPagePng(idx,page,lvlName,topicName){
   return`
     <div class="pg-hdr">
       <span class="pg-brand">ViLo<em>Labs</em> Colouring</span>
-      <span class="pg-num">Page ${idx+1} / 5</span>
+      <span class="pg-num">${T('page')} ${idx+1} / 5</span>
     </div>
     <div class="col-title-row">
       <div>
-        <div class="col-title-main">🎨 Colour ${subjectLabel}!</div>
-        <div class="col-title-sub">Use the small picture in the corner as your colour guide →</div>
+        <div class="col-title-main">${Tf('colourTitle','name',subjectLabel)}</div>
+        <div class="col-title-sub">${T('colourGuide')}</div>
       </div>
     </div>
     <div class="col-main-wrap col-png-wrap">
       <img src="/${page.file}" alt="${subjectLabel}" class="col-png" loading="lazy">
     </div>
     <div class="pg-nameline" style="border-top:1px solid #EDE4D6">
-      <div class="nl"><span>Name:</span><div class="nl-line"></div></div>
-      <div class="nl"><span>Date:</span><div class="nl-line" style="max-width:80px"></div></div>
+      <div class="nl"><span>${T('name')}</span><div class="nl-line"></div></div>
+      <div class="nl"><span>${T('date')}</span><div class="nl-line" style="max-width:80px"></div></div>
     </div>
     <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600">
-      ViLoLabs.com · Free Colouring Page · ${date}
+      ${T('footerCol')}${date}
     </div>`;
 }
 
@@ -1564,28 +1777,28 @@ function buildColouringPage(idx,subj,lvlName,topicName){
   return`
     <div class="pg-hdr">
       <span class="pg-brand">ViLo<em>Labs</em> Colouring</span>
-      <span class="pg-num">Page ${idx+1} / 5</span>
+      <span class="pg-num">${T('page')} ${idx+1} / 5</span>
     </div>
     <div class="col-title-row">
       <div>
-        <div class="col-title-main">🎨 Colour the ${subj.name}! ${subj.emoji}</div>
-        <div class="col-title-sub">Use the small picture as your colour guide →</div>
+        <div class="col-title-main">${Tf('colourTitle','name',subj.name+' '+subj.emoji)}</div>
+        <div class="col-title-sub">${T('colourGuide2')}</div>
       </div>
       <div class="col-ref-wrap">
         ${refSVG}
-        <div class="col-ref-lbl">Colour Guide</div>
+        <div class="col-ref-lbl">${T('colourGuideLabel')}</div>
       </div>
     </div>
     <div class="col-main-wrap">${bigSVG}</div>
     <div class="col-crayon-row">
-      <span class="col-crayon-lbl">🖍️ Suggested colours:</span>${palRow}
+      <span class="col-crayon-lbl">${T('suggestedColours')}</span>${palRow}
     </div>
     <div class="pg-nameline" style="border-top:1px solid #EDE4D6">
-      <div class="nl"><span>Name:</span><div class="nl-line"></div></div>
-      <div class="nl"><span>Date:</span><div class="nl-line" style="max-width:80px"></div></div>
+      <div class="nl"><span>${T('name')}</span><div class="nl-line"></div></div>
+      <div class="nl"><span>${T('date')}</span><div class="nl-line" style="max-width:80px"></div></div>
     </div>
     <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600">
-      ViLoLabs.com · Free Colouring Page · ${date}
+      ${T('footerCol')}${date}
     </div>`;
 }
 
@@ -1664,19 +1877,19 @@ function buildSudokuPage(idx){
   const cut=need.map(v=>`<div class="su-cut-box"><div class="su-sci">✂️</div><img src="${pool[v]}" alt=""></div>`).join('');
   const title=cat.replace(/-/g,' ').toUpperCase();
   return`
-    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Sudoku</span><span class="pg-num">Page ${idx+1} / 5</span></div>
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Sudoku</span><span class="pg-num">${T('page')} ${idx+1} / 5</span></div>
     <div class="su-title">🧩 ${title}</div>
-    <div class="su-instr">Every row, every column and every bold box must have all 4 pictures.</div>
+    <div class="su-instr">${T('sudokuInstr')}</div>
     <div class="su-wrap">
       <div class="su-grid">${svg}</div>
-      <div style="font-size:.72rem;font-weight:800;color:#A07860;text-align:center">✂️ Cut out the pictures and paste them in the empty squares</div>
+      <div style="font-size:.72rem;font-weight:800;color:#A07860;text-align:center">${T('sudokuCut')}</div>
       <div class="su-cut">${cut}</div>
     </div>
     <div class="pg-nameline">
-      <div class="nl"><span>Name:</span><div class="nl-line"></div></div>
-      <div class="nl"><span>Date:</span><div class="nl-line" style="max-width:80px"></div></div>
+      <div class="nl"><span>${T('name')}</span><div class="nl-line"></div></div>
+      <div class="nl"><span>${T('date')}</span><div class="nl-line" style="max-width:80px"></div></div>
     </div>
-    <div style="padding:.4rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.com · Free Picture Sudoku · ${date}</div>`;
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">${T('footerSud')}${date}</div>`;
 }
 
 // ── MAZE ENGINE (recursive-backtracker — perfect maze, one unique solution path)
@@ -1942,23 +2155,22 @@ function buildMazePage(idx,sp,shape,per){
   const built=[];
   for(let i=0;i<per;i++) built.push(buildOneMaze(sp,shape,per===1));
   const mazes=built.map(o=>({mz:o.mz,entry:o.entry,exit:o.exit}));
-  const shLbl={square:'Maze',circle:'Circle Maze',triangle:'Triangle Maze',heart:'Heart Maze',star:'Star Maze',diamond:'Diamond Maze',hexagon:'Hexagon Maze'};
-  const diff=sp.stars+' '+sp.diff;
-  const ageTxt=sp.age>=12?'Age 12+':'Age '+sp.age;
+  const diff=sp.stars+' '+T('diff_'+sp.diff);
+  const ageTxt=(sp.age>=12?(T('agePrefix')+' 12+'):(T('agePrefix')+' '+sp.age));
   const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
   const instr=per===1
-    ?`Help ${built[0].pair.s} find the way out! Draw a line through the open passages.`
-    :`Help every animal find the way out! Draw a line through the open passages.`;
+    ?Tf('mazeInstr1','animal',built[0].pair.s)
+    :T('mazeInstrMulti');
   const body=per===1
     ?`<div class="mz-wrap">${built[0].svgEl}</div>`
     :`<div class="mz-grid mz-grid-${per}">${built.map(o=>`<div class="mz-cell">${o.svgEl}</div>`).join('')}</div>`;
   const html=`
-    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Maze</span><span class="pg-num">Page ${idx+1} / 5</span></div>
-    <div class="mz-page-title">🌀 ${shLbl[shape]||'Maze'} &nbsp;<span style="font-size:.85rem;font-weight:700">${ageTxt} · ${diff}</span></div>
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Maze</span><span class="pg-num">${T('page')} ${idx+1} / 5</span></div>
+    <div class="mz-page-title">🌀 ${T('shLbl_'+shape)||T('shLbl_square')} &nbsp;<span style="font-size:.85rem;font-weight:700">${ageTxt} · ${diff}</span></div>
     <div class="mz-page-instr">${instr}</div>
     ${body}
-    <div class="pg-nameline"><div class="nl"><span>Name:</span><div class="nl-line"></div></div><div class="nl"><span>Date:</span><div class="nl-line" style="max-width:80px"></div></div></div>
-    <div style="padding:.35rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.com · Free Printable Maze · ${date}</div>`;
+    <div class="pg-nameline"><div class="nl"><span>${T('name')}</span><div class="nl-line"></div></div><div class="nl"><span>${T('date')}</span><div class="nl-line" style="max-width:80px"></div></div></div>
+    <div style="padding:.35rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">${T('footerMaze')}${date}</div>`;
   return{mazes,html};
 }
 function buildMazeKeyPage(arr){
@@ -1968,7 +2180,7 @@ function buildMazeKeyPage(arr){
     const cs=Math.max(3,Math.min(8,Math.floor(150/Math.max(mz.cols,mz.rows))));
     const W=mz.cols*cs,H=mz.rows*cs,sw=Math.max(0.6,cs*0.18);
     const ec=entry%mz.cols,er=Math.floor(entry/mz.cols),xc=exit%mz.cols,xr=Math.floor(exit/mz.cols);
-    return`<div class="mzk-cell"><div class="mzk-num">Maze ${i+1}</div>
+    return`<div class="mzk-cell"><div class="mzk-num">${Tf('mazeKeyCell','n',i+1)}</div>
       <svg viewBox="-2 -2 ${W+4} ${H+4}" style="width:100%;height:auto;display:block">
         ${mazeSolutionPath(mz,entry,exit,cs)}
         <path d="${mazeWallPath(mz,cs)}" stroke="#1A1108" stroke-width="${sw}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1980,19 +2192,22 @@ function buildMazeKeyPage(arr){
   const cols=cells.length<=6?3:cells.length<=12?4:5;
   if(cells.length%cols===cols-1)
     cells.push('<div class="mzk-cell" style="opacity:.25;display:flex;align-items:center;justify-content:center;font-size:3rem">🌀</div>');
-  return`<div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Maze</span><span class="pg-num">Answer Key</span></div>
-    <div style="text-align:center;padding:.5rem 0 .1rem;font-size:1.25rem;font-weight:900;color:var(--dark)">🗝️ Answer Key</div>
-    <div style="text-align:center;font-size:.72rem;font-weight:800;color:#A07860;padding-bottom:.4rem">Don't peek until you've tried! Solution paths shown in gold.</div>
+  return`<div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Maze</span><span class="pg-num">${T('ansKey')}</span></div>
+    <div style="text-align:center;padding:.5rem 0 .1rem;font-size:1.25rem;font-weight:900;color:var(--dark)">${T('mazeKeyTitle')}</div>
+    <div style="text-align:center;font-size:.72rem;font-weight:800;color:#A07860;padding-bottom:.4rem">${T('mazeKeyNote')}</div>
     <div class="mzk-grid" style="grid-template-columns:repeat(${cols},1fr)">${cells.join('')}</div>
-    <div style="padding:.35rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.com · Free Printable Maze · ${date}</div>`;
+    <div style="padding:.35rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">${T('footerMaze')}${date}</div>`;
 }
 
 // ── WORKSHEET PAGES
 function buildWorksheetAll(container,nav,lvlName,topicName){
   _sheetUsed.clear();
   const pool=shuffle([...(ACT_POOLS[curLvl]||ACT_POOLS['1'])]);
-  // pick ONE render style for the whole worksheet (never mix on a page)
-  curMode=wsRand()<0.5?'png':'emoji';
+  // pick ONE render style for the whole worksheet (never mix on a page).
+  // PNG-FIRST: prefer real PNG artwork whenever available; the fallbacks below
+  // switch to emoji only when the PNG pool is too small (themed category with
+  // <12 PNGs, or global PNG pool <10).
+  curMode='png';
   let srcItems;
   if(LIB&&LIB.length){
     // ── Theme the worksheet first: if a category is set, force curMode to
@@ -2132,18 +2347,18 @@ function buildPromoBlock(){
 }
 
 function buildPage(idx,acts,items,lvlName,topicName){
-  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
   const cells=idx===4
     ? acts.slice(0,2).map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('')
         +`<div class="cell promo-cell">${buildPromoBlock()}</div>`
     : acts.map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('');
   const th=BORDER_THEMES[idx%BORDER_THEMES.length];
   return`
-    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Worksheets</span><span class="pg-num">Page ${idx+1}/5 · ${PAGE_TITLES[idx]}</span></div>
-    <div class="pg-meta"><span>📚 ${lvlName}</span><span>·</span><span>🎲 ${topicName}</span><span>·</span><span>📅 ${date}</span></div>
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Worksheets</span><span class="pg-num">${T('page')} ${idx+1}/5 · ${pageTitles(idx)}</span></div>
+    <div class="pg-meta"><span>📚 ${lvlName}</span><span>·</span><span>🎲 ${topicName}</span></div>
     <div class="pg-nameline">
-      <div class="nl"><span>Name:</span><div class="nl-line"></div></div>
-      <div class="nl"><span>Score:</span><div class="nl-line" style="max-width:50px"></div></div>
+      <div class="nl nl-name"><span>${T('name')}</span><div class="nl-line"></div></div>
+      <div class="nl nl-date"><span>${T('date')}</span><div class="nl-line"></div></div>
+      <div class="nl nl-score"><span>${T('score')}</span><div class="nl-line"></div></div>
     </div>
     <div class="act-frame" style="background:${th.bg}">
       <div class="bstrip bstrip-t">${borderStrip(th,34)}</div>
@@ -2152,7 +2367,7 @@ function buildPage(idx,acts,items,lvlName,topicName){
       <div class="bstrip bstrip-r">${borderStrip(th,17)}</div>
       <div class="act-grid">${cells}</div>
     </div>
-    <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.com · Free for classroom &amp; home use</div>`;
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.in · Free for classroom &amp; home use</div>`;
 }
 
 // ── ACTIVITIES
@@ -2172,7 +2387,7 @@ function buildAct(type,items,all){
       {d:'M14,50 Q55,8 96,50 Q128,82 152,50',lbl:'Curved Path'}];
     const p=paths[rnd(0,2)];
     const sy=p.d.includes('M14,50')?50:65;
-    return`<div class="act-hdr"><div class="act-type">✏️ Tracing</div><div class="act-instr">Trace the dotted path from 🟢 to 🔴!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_tracing')}</div><div class="act-instr">${T('i_tracing')}</div></div>
     <div class="act-body">
       <svg viewBox="0 0 166 88" style="width:100%;height:auto;display:block">
         <rect x="0" y="0" width="166" height="88" fill="#FDFAF5" rx="8"/>
@@ -2189,7 +2404,7 @@ function buildAct(type,items,all){
     const colKeys=COL_CATS.all;
     const cs=COL_LIB[colKeys[rnd(0,colKeys.length-1)]];
     const palRow=cs.palette.map(c=>`<div style="width:15px;height:32px;background:${c};border-radius:3px 3px 7px 7px;border:1.5px solid rgba(0,0,0,.1)"></div>`).join('');
-    return`<div class="act-hdr"><div class="act-type">🎨 Colour It!</div><div class="act-instr">Colour the ${cs.name} with your crayons!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_colour')}</div><div class="act-instr">${Tf('i_colour','name',cs.name)}</div></div>
     <div class="act-body" style="align-items:stretch;">
       <svg viewBox="0 0 200 240" class="col-act-svg">${cs.draw(false)}</svg>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.3rem;flex-shrink:0;">
@@ -2202,7 +2417,7 @@ function buildAct(type,items,all){
   case 'counting-small':{
     const n=rnd(1,5);
     const nums=shuffle([n,...new Set([rnd(1,5),rnd(1,5),rnd(1,5)])]).slice(0,4);
-    return`<div class="act-hdr"><div class="act-type">🔢 Count & Circle</div><div class="act-instr">Count the ${i0.n}s. Circle the right number!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_countCircle')}</div><div class="act-instr">${Tf('i_countCircle','n',i0.n)}</div></div>
     <div class="act-body">
       <div class="cnt-emojis">${Array(n).fill(i0.e).map(e=>`<span style="font-size:${g}">${e}</span>`).join('')}</div>
       <div style="display:flex;gap:.65rem;margin-top:.5rem;justify-content:center">
@@ -2212,7 +2427,7 @@ function buildAct(type,items,all){
 
   case 'counting-medium':{
     const n=rnd(3,10);
-    return`<div class="act-hdr"><div class="act-type">🔢 Count & Write</div><div class="act-instr">Count the ${i0.n}s. Write the number!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_countWrite')}</div><div class="act-instr">${Tf('i_countWrite1','n',i0.n)}</div></div>
     <div class="act-body">
       <div class="cnt-emojis">${Array(n).fill(i0.e).map(e=>`<span style="font-size:${g}">${e}</span>`).join('')}</div>
       <div style="display:flex;align-items:center;gap:.55rem;margin-top:.5rem">
@@ -2223,7 +2438,7 @@ function buildAct(type,items,all){
 
   case 'counting-large':{
     const n=rnd(8,20);
-    return`<div class="act-hdr"><div class="act-type">🔢 Count & Write</div><div class="act-instr">Count all the ${i0.n}s and write the total.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_countWrite')}</div><div class="act-instr">${Tf('i_countWriteAll','n',i0.n)}</div></div>
     <div class="act-body">
       <div class="cnt-emojis" style="gap:.25rem">${Array(n).fill(i0.e).map(e=>`<span style="font-size:${s}">${e}</span>`).join('')}</div>
       <div style="display:flex;align-items:center;gap:.5rem;margin-top:.5rem">
@@ -2234,7 +2449,7 @@ function buildAct(type,items,all){
 
   case 'matching-pic':{
     const mp=pickDistinct(all,3);
-    return`<div class="act-hdr"><div class="act-type">🔗 Match the Same</div><div class="act-instr">Draw a line to match the same pictures!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_matchSame')}</div><div class="act-instr">${T('i_matchSame')}</div></div>
     <div class="act-body" style="width:100%">
       <div class="match-wrap">
         <div class="match-col">${mp.map(x=>`<div class="match-item"><span style="font-size:${g}">${x.e}</span><div class="match-dot"></div></div>`).join('')}</div>
@@ -2245,7 +2460,7 @@ function buildAct(type,items,all){
 
   case 'matching-word':{
     const mw=pickDistinct(all,3);
-    return`<div class="act-hdr"><div class="act-type">🔗 Match Picture & Word</div><div class="act-instr">Draw a line to match each picture to its name.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_matchWord')}</div><div class="act-instr">${T('i_matchWord')}</div></div>
     <div class="act-body" style="width:100%">
       <div class="match-wrap">
         <div class="match-col" style="justify-content:space-around;align-self:stretch">${mw.map(x=>`<div class="match-item" style="min-height:${g}"><span style="font-size:${g}">${x.e}</span><div class="match-dot"></div></div>`).join('')}</div>
@@ -2257,7 +2472,7 @@ function buildAct(type,items,all){
   case 'odd-one-out':{
     const pos=rnd(0,3);
     const row=[i0,i0,i0,i0].map((x,i)=>i===pos?i1:x);
-    return`<div class="act-hdr"><div class="act-type">🔍 Odd One Out</div><div class="act-instr">Circle the ONE that does NOT belong!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_oddOne')}</div><div class="act-instr">${T('i_oddOne')}</div></div>
     <div class="act-body">
       <div class="odd-grid">
         ${row.map(x=>`<div class="odd-item" style="width:${bx*1.2}px;height:${bx*1.2}px"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
@@ -2268,7 +2483,7 @@ function buildAct(type,items,all){
   case 'pattern-ab':{
     const [pa,pb]=pickFresh(all,2,'pat-ab');
     const a=pa.e,b=pb.e;
-    return`<div class="act-hdr"><div class="act-type">🔄 Pattern</div><div class="act-instr">What comes next? Draw it in the box!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_pattern')}</div><div class="act-instr">${T('i_pattern')}</div></div>
     <div class="act-body">
       <div class="pat-row">
         ${[a,b,a,b,a,'?'].map(x=>x==='?'?`<div class="pat-blank" style="width:${bx}px;height:${bx}px"></div>`:`<span style="font-size:${g}">${x}</span>`).join('')}
@@ -2281,7 +2496,7 @@ function buildAct(type,items,all){
     const a=pa.e,b=pb.e,c=pc.e;
     const variants=[[a,b,c,a,b,'?'],[a,a,b,a,a,'?'],[a,b,b,a,b,'?']];
     const v=variants[rnd(0,2)];
-    return`<div class="act-hdr"><div class="act-type">🔄 Pattern Challenge</div><div class="act-instr">Complete the pattern. What comes next?</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_patternChallenge')}</div><div class="act-instr">${T('i_patternChallenge')}</div></div>
     <div class="act-body">
       <div class="pat-row">
         ${v.map(x=>x==='?'?`<div class="pat-blank" style="width:${bx}px;height:${bx}px"></div>`:`<span style="font-size:${g}">${x}</span>`).join('')}
@@ -2292,21 +2507,24 @@ function buildAct(type,items,all){
       </div>
     </div>`;}
 
-  case 'size-order':
-    return`<div class="act-hdr"><div class="act-type">📏 Size Order</div><div class="act-instr">Number them 1 (smallest) to 3 (biggest).</div></div>
+  case 'size-order':{
+    // fresh object per instance — if size-order appears twice on a sheet, each
+    // uses a DIFFERENT object (pickFresh tracks what's already been used).
+    const so=(pickFresh(all,1,'size-order')[0])||i0;
+    return`<div class="act-hdr"><div class="act-type">${T('t_sizeOrder')}</div><div class="act-instr">${T('i_sizeOrder')}</div></div>
     <div class="act-body">
       <div class="sz-row">
         ${shuffle([s,g,m]).map(sz=>`<div class="sz-item">
-          <span style="font-size:${sz}">${i0.e}</span>
+          <span style="font-size:${sz}">${so.e}</span>
           <div class="sz-num-box"></div>
         </div>`).join('')}
       </div>
-      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem;text-align:center">Write 1, 2 or 3 in each box</div>
-    </div>`;
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem;text-align:center">${T('i_sizeOrderSub')}</div>
+    </div>`;}
 
   case 'shadow-match':{
     const sm=pickFresh(all,3,'shadow');
-    return`<div class="act-hdr"><div class="act-type">👥 Shadow Match</div><div class="act-instr">Match each picture to its shadow. Draw a line!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_shadowMatch')}</div><div class="act-instr">${T('i_shadowMatch')}</div></div>
     <div class="act-body" style="width:100%">
       <div style="display:flex;justify-content:space-between;width:100%;align-items:flex-start">
         <div class="shad-col">${sm.map(x=>`<span style="font-size:${bx}px;line-height:0">${x.e}</span>`).join('')}</div>
@@ -2318,16 +2536,16 @@ function buildAct(type,items,all){
   case 'spot-diff':{
     const dIdx=rnd(0,3);
     const row=[i0,i0,i0,i0].map((x,i)=>i===dIdx?i1:x);
-    return`<div class="act-hdr"><div class="act-type">🔎 Spot the Difference</div><div class="act-instr">Three are the same. Circle the ONE that is different!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_spotDiff')}</div><div class="act-instr">${T('i_spotDiff')}</div></div>
     <div class="act-body">
       <div class="spot-grid">
         ${row.map(x=>`<div class="spot-item" style="width:${bx*1.25}px;height:${bx*1.25}px"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
       </div>
-      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem">⭕ Circle the different one!</div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem">${T('i_spotDiffSub')}</div>
     </div>`;}
 
   case 'word-trace':
-    return`<div class="act-hdr"><div class="act-type">✍️ Trace & Write</div><div class="act-instr">Trace the word, then write it yourself!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_traceWrite')}</div><div class="act-instr">${T('i_traceWrite')}</div></div>
     <div class="act-body" style="width:100%">
       <div style="font-size:${m};text-align:center">${i0.e}</div>
       <div class="wt-word" style="font-size:${s=='1rem'?'1.3rem':s=='1.1rem'?'1.4rem':'1.6rem'}">${i0.n.toUpperCase()}</div>
@@ -2337,7 +2555,7 @@ function buildAct(type,items,all){
 
   case 'letter-trace':{
     const L=i0.l||'A';
-    return`<div class="act-hdr"><div class="act-type">✏️ Letter Trace</div><div class="act-instr">Trace the letter, then write it in the boxes.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_letterTrace')}</div><div class="act-instr">${T('i_letterTrace')}</div></div>
     <div class="act-body">
       <div style="display:flex;align-items:flex-end;gap:1.1rem;justify-content:center">
         <div>
@@ -2354,7 +2572,7 @@ function buildAct(type,items,all){
 
   case 'number-trace':{
     const n=rnd(2,7);
-    return`<div class="act-hdr"><div class="act-type">🔢 Number Trace</div><div class="act-instr">Trace the number, then count and write it.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_numberTrace')}</div><div class="act-instr">${T('i_numberTrace')}</div></div>
     <div class="act-body">
       <div style="display:flex;align-items:center;gap:1rem;justify-content:center">
         <div class="nt-num" style="font-size:${m}">${n}</div>
@@ -2387,7 +2605,7 @@ function buildAct(type,items,all){
     const seqRow=[sa,sb,sc,sa,sb];          // 5 shown items
     const seqOpts=shuffle([sa,sb,sc]);      // all 3 as options — answer is sc
     const arw=`<span style="font-size:.85rem;color:#C4B8AC;font-weight:900">→</span>`;
-    return`<div class="act-hdr"><div class="act-type">📋 What Comes Next?</div><div class="act-instr">Look at the pattern. What comes next?</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_whatNext')}</div><div class="act-instr">${T('i_whatNext')}</div></div>
     <div class="act-body">
       <div style="display:flex;align-items:center;gap:.25rem;flex-wrap:nowrap;justify-content:center">
         ${seqRow.map(x=>`<span style="font-size:${g}">${x.e}</span>${arw}`).join('')}
@@ -2414,19 +2632,26 @@ function buildAct(type,items,all){
       mA={src:'',e:ep.s,n:'',l:''};
       mB={src:'',e:ep.e,n:'',l:''};
     }
-    return`<div class="act-hdr"><div class="act-type">🌀 Find the Way!</div><div class="act-instr">Draw a line through the maze from 🟢 Start to 🔴 Finish!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_mazeFind')}</div><div class="act-instr">${T('i_mazeFind')}</div></div>
     <div class="act-body" style="width:100%">${mazeActSVG(dim[0],dim[1],mA,mB)}</div>`;}
 
   case 'sort':{
-    // Pick 2 different categories with ≥2 items each so group labels make sense
+    // Group by REAL category (works in png + emoji mode). Use the item's own
+    // category; fall back to parsing it out of a /library/<cat>/ path.
+    const catOf=x=> x.cat || (x.src && x.src.indexOf('/library/')>-1
+                                ? x.src.split('/library/')[1].split('/')[0] : '');
     const sortByCat={};
-    all.forEach(x=>{const c=x.src?x.src.split('/')[2]:'misc';if(!sortByCat[c])sortByCat[c]=[];sortByCat[c].push(x);});
+    all.forEach(x=>{const c=catOf(x); if(!c) return; (sortByCat[c]=sortByCat[c]||[]).push(x);});
     const sortCats=shuffle(Object.entries(sortByCat).filter(([,v])=>v.length>=2));
-    const [catNameA,catItemsA]=sortCats[0]||['A',all.slice(0,2)];
-    const [catNameB,catItemsB]=sortCats[1]||['B',all.slice(2,4)];
+    // Need TWO real categories to make a meaningful sort. If the page doesn't
+    // have them (e.g. a single-theme worksheet), fall back to a sensible
+    // activity instead of inventing nonsense "A"/"B" groups.
+    if(sortCats.length<2) return buildAct('odd-one-out',items,all);
+    const [catNameA,catItemsA]=sortCats[0];
+    const [catNameB,catItemsB]=sortCats[1];
     const gA=shuffle(catItemsA).slice(0,2), gB=shuffle(catItemsB).slice(0,2);
     const catLabel=c=>c.charAt(0).toUpperCase()+c.slice(1).replace(/-/g,' ');
-    return`<div class="act-hdr"><div class="act-type">📦 Sort It!</div><div class="act-instr">Put each picture in the correct group.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_sortIt')}</div><div class="act-instr">${T('i_sortIt')}</div></div>
     <div class="act-body" style="width:100%">
       <div style="display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;margin-bottom:.4rem">
         ${shuffle([...gA,...gB]).map(x=>`<span style="font-size:${g}">${x.e}</span>`).join('')}
@@ -2446,7 +2671,7 @@ function buildAct(type,items,all){
     const mIdx=rnd(1,Math.max(1,word.length-1));
     const disp=word.split('').map((ch,i)=>i===mIdx?'_':ch).join('');
     const opts=shuffle([word[mIdx],...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter(c=>c!==word[mIdx]).slice(0,2)]);
-    return`<div class="act-hdr"><div class="act-type">🔤 Missing Letter</div><div class="act-instr">Which letter is missing? Circle the correct one.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_missingLetterC')}</div><div class="act-instr">${T('i_missingLetterC')}</div></div>
     <div class="act-body">
       <div style="font-size:${m};text-align:center">${i0.e}</div>
       <div class="ml-word" style="font-size:${g}">${disp.split('').map(c=>c==='_'?`<span class="ml-blank" style="width:${bx*0.7}px"></span>`:c).join(' ')}</div>
@@ -2455,7 +2680,7 @@ function buildAct(type,items,all){
 
   case 'simple-add':{
     const a=rnd(1,curLvl==='2'?4:8),b=rnd(1,curLvl==='2'?4:8);
-    return`<div class="act-hdr"><div class="act-type">➕ Addition</div><div class="act-instr">Count the ${i0.n}s and write the answer.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_addition')}</div><div class="act-instr">${Tf('i_addition','n',i0.n)}</div></div>
     <div class="act-body">
       <div class="add-row">
         <div class="add-group">${Array(a).fill(i0.e).map(e=>`<span style="font-size:${s}">${e}</span>`).join('')}</div>
@@ -2469,20 +2694,20 @@ function buildAct(type,items,all){
 
   case 'positions':{
     const pos=shuffle(['ABOVE','BELOW','BESIDE','INSIDE'])[0];
-    return`<div class="act-hdr"><div class="act-type">📍 Positions</div><div class="act-instr">Draw the ${i0.n} <strong>${pos}</strong> the box!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_positions')}</div><div class="act-instr">${Tf('i_posInstr','e',i0.e,'pos',T('pos_'+pos))}</div></div>
     <div class="act-body">
       <div style="font-size:.7rem;font-weight:900;color:var(--dark);text-align:center;margin-bottom:.4rem">
-        Draw ${i0.e} <span style="color:var(--gold)">${pos}</span> the box:
+        ${Tf('i_posDraw','e',i0.e,'pos',T('pos_'+pos))}
       </div>
       <div style="width:64px;height:50px;border:3px solid var(--dark);border-radius:10px;background:white"></div>
-      <div style="font-size:.6rem;color:#A07860;font-weight:700;margin-top:.3rem">${i0.e} goes ${pos} the box</div>
+      <div style="font-size:.6rem;color:#A07860;font-weight:700;margin-top:.3rem">${Tf('i_posGoes','e',i0.e,'pos',T('pos_'+pos))}</div>
     </div>`;}
 
   case 'dot-to-dot':{
     const nDots=curLvl==='3'?8:curLvl==='4'?12:15;
     const n=rnd(6,nDots);
     const pts=Array.from({length:n},(_,i)=>{const a=(i/n)*Math.PI*2-Math.PI/2;const r=28+rnd(-6,6);return{x:Math.round(75+r*Math.cos(a)),y:Math.round(52+r*Math.sin(a))};});
-    return`<div class="act-hdr"><div class="act-type">🔵 Dot to Dot</div><div class="act-instr">Connect dots 1 to ${n} in order!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_dotToDot')}</div><div class="act-instr">${Tf('i_dotToDot','n',n)}</div></div>
     <div class="act-body" style="width:100%">
       <svg viewBox="0 0 150 105" style="width:100%;height:auto;display:block">
         <rect x="0" y="0" width="150" height="105" fill="#FDFAF5" rx="8"/>
@@ -2495,7 +2720,7 @@ function buildAct(type,items,all){
     </div>`;}
 
   case 'bigger-smaller':
-    return`<div class="act-hdr"><div class="act-type">⚖️ Bigger or Smaller?</div><div class="act-instr">Circle the BIGGER one in each row.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_biggerSmaller')}</div><div class="act-instr">${T('i_biggerSmaller')}</div></div>
     <div class="act-body">
       ${[[i0,i1],[i2,i3]].map(row=>{const [big,small]=shuffle(row);return`
         <div style="display:flex;align-items:flex-end;gap:1.1rem;justify-content:center">
@@ -2505,7 +2730,7 @@ function buildAct(type,items,all){
               <div class="bs-circle" style="width:22px;height:22px"></div>
             </div>`).join('<span style="font-size:.8rem;font-weight:900;color:#C4B8AC">vs</span>')}
         </div>`;}).join('')}
-      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.3rem">⭕ Circle the BIGGER one</div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.3rem">${T('i_biggerSmallerSub')}</div>
     </div>`;
 
   case 'colour-id':{
@@ -2513,7 +2738,7 @@ function buildAct(type,items,all){
     const tgt=COLS[rnd(0,COLS.length-1)];
     const d=Math.min(Math.round(bx*1.05),74);
     const cells=shuffle([tgt,tgt,tgt,...pick(COLS.filter(c=>c!==tgt),3)]);
-    return`<div class="act-hdr"><div class="act-type">🎨 Colour Hunt</div><div class="act-instr">Circle every <strong style="color:${tgt[1]}">${tgt[0]}</strong> circle!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_colourHunt')}</div><div class="act-instr">${Tf('i_colourHunt','clr',tgt[1],'name',tgt[0])}</div></div>
     <div class="act-body">
       <div style="display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center">
         ${cells.map(c=>`<div style="width:${d}px;height:${d}px;border-radius:50%;background:${c[1]};border:2.5px solid rgba(0,0,0,.18)"></div>`).join('')}
@@ -2528,7 +2753,7 @@ function buildAct(type,items,all){
     const d=Math.min(Math.round(bx*1.05),74);
     const tints=['#F6C9A8','#A8C8E8','#B8E0C0','#F4B8D0','#D8C8E8','#F0DCA0'];
     const cells=shuffle([tgt,tgt,tgt,...pick(names.filter(n=>n!==tgt),3)]);
-    return`<div class="act-hdr"><div class="act-type">🔷 Shape Hunt</div><div class="act-instr">Circle every <strong>${tgt}</strong>!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_shapeHunt')}</div><div class="act-instr">${Tf('i_shapeHunt','name',tgt)}</div></div>
     <div class="act-body">
       <div style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center">
         ${cells.map((sh,i)=>`<svg viewBox="0 0 60 60" width="${d}" height="${d}"><g fill="${tints[i%tints.length]}" stroke="#1A1108" stroke-width="3" stroke-linejoin="round">${SH[sh]}</g></svg>`).join('')}
@@ -2540,7 +2765,7 @@ function buildAct(type,items,all){
     const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     const tgt=A[rnd(0,25)];
     const cells=shuffle([tgt,tgt,tgt,...pick(A.filter(c=>c!==tgt),5)]);
-    return`<div class="act-hdr"><div class="act-type">🔤 Letter Hunt</div><div class="act-instr">Circle every letter <strong>${tgt}</strong>!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_letterHunt')}</div><div class="act-instr">${Tf('i_letterHunt','name',tgt)}</div></div>
     <div class="act-body">
       <div style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center">
         ${cells.map(c=>`<div style="width:42px;height:42px;border:2.5px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;background:white;color:var(--dark)">${c}</div>`).join('')}
@@ -2555,7 +2780,7 @@ function buildAct(type,items,all){
     const mIdx=rnd(1,3);
     const ans=seq[mIdx];
     const opts=shuffle([ans,...pick(A.filter(c=>c!==ans),2)]);
-    return`<div class="act-hdr"><div class="act-type">🔤 Missing Letter</div><div class="act-instr">Which letter is missing? Write it in the box.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_missingLetterW')}</div><div class="act-instr">${T('i_missingLetterW')}</div></div>
     <div class="act-body">
       <div style="display:flex;gap:.4rem;justify-content:center;align-items:center;flex-wrap:wrap">
         ${seq.map((c,i)=>i===mIdx
@@ -2575,7 +2800,7 @@ function buildAct(type,items,all){
     const mIdx=rnd(1,3);
     const ans=seq[mIdx];
     const opts=shuffle([ans,ans+1,Math.max(0,ans-1)]);
-    return`<div class="act-hdr"><div class="act-type">🔢 Missing Number</div><div class="act-instr">Which number is missing? Write it in the box.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_missingNumber')}</div><div class="act-instr">${T('i_missingNumber')}</div></div>
     <div class="act-body">
       <div style="display:flex;gap:.4rem;justify-content:center;align-items:center;flex-wrap:wrap">
         ${seq.map((v,i)=>i===mIdx
@@ -2593,19 +2818,19 @@ function buildAct(type,items,all){
     const dup=base[rnd(0,base.length-1)];
     const cells=shuffle([...base,dup]);
     const d=Math.round(bx*1.25);
-    return`<div class="act-hdr"><div class="act-type">⭕ Find the Match</div><div class="act-instr">Two pictures are exactly the SAME. Circle both of them!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_findMatch')}</div><div class="act-instr">${T('i_findMatch')}</div></div>
     <div class="act-body">
       <div style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center">
         ${cells.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
       </div>
-      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">⭕ Find the twins!</div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${T('i_findMatchSub')}</div>
     </div>`;}
 
   case 'things-together':{
     const prs=LIB?libPairs('emoji').slice(0,3):[];
     if(prs.length<3) return buildAct('matching-pic',items,all);
     const L=prs.map(p=>p[0]),R=derange(prs.map(p=>p[1]));
-    return`<div class="act-hdr"><div class="act-type">🔗 Goes Together</div><div class="act-instr">Draw a line to match the things that go together!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_goesTog')}</div><div class="act-instr">${T('i_goesTog')}</div></div>
     <div class="act-body" style="width:100%">
       <div class="match-wrap">
         <div class="match-col" style="justify-content:space-around;align-self:stretch">${L.map(x=>`<div class="match-item" style="min-height:${g}"><span style="font-size:${g}">${x.e}</span><div class="match-dot"></div></div>`).join('')}</div>
@@ -2618,7 +2843,7 @@ function buildAct(type,items,all){
     const big=(curLvl==='4'||curLvl==='5');
     const mk=()=>[rnd(big?23:11,big?94:54),rnd(big?23:11,big?94:54)];
     const probs=[mk(),mk()];
-    return`<div class="act-hdr"><div class="act-type">➕ Add Up!</div><div class="act-instr">Add the numbers. Write the answer in the box.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_addUp')}</div><div class="act-instr">${T('i_addUp')}</div></div>
     <div class="act-body">
       <div style="display:flex;gap:1.3rem;justify-content:center;flex-wrap:wrap">
         ${probs.map(([a,b])=>`<div style="font-family:'Courier New',monospace;font-size:1.7rem;font-weight:900;color:var(--dark);border:2.5px solid var(--border);border-radius:12px;padding:.55rem 1rem;background:#fff;text-align:right;min-width:96px">
@@ -2633,7 +2858,7 @@ function buildAct(type,items,all){
     const big=(curLvl==='4'||curLvl==='5');
     const mk=()=>{const a=rnd(big?45:26,big?98:68);return[a,rnd(11,a-6)];};
     const probs=[mk(),mk()];
-    return`<div class="act-hdr"><div class="act-type">➖ Take Away!</div><div class="act-instr">Subtract the numbers. Write the answer in the box.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_takeAway')}</div><div class="act-instr">${T('i_takeAway')}</div></div>
     <div class="act-body">
       <div style="display:flex;gap:1.3rem;justify-content:center;flex-wrap:wrap">
         ${probs.map(([a,b])=>`<div style="font-family:'Courier New',monospace;font-size:1.7rem;font-weight:900;color:var(--dark);border:2.5px solid var(--border);border-radius:12px;padding:.55rem 1rem;background:#fff;text-align:right;min-width:96px">
@@ -2647,7 +2872,7 @@ function buildAct(type,items,all){
   case 'multiply':{
     const maxB=(curLvl==='5'?9:curLvl==='4'?8:5);
     const probs=[0,1,2].map(()=>[rnd(2,9),rnd(2,maxB)]);
-    return`<div class="act-hdr"><div class="act-type">✖️ Times Tables</div><div class="act-instr">Multiply the numbers. Write each answer.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_timesTables')}</div><div class="act-instr">${T('i_timesTables')}</div></div>
     <div class="act-body">
       <div style="display:flex;flex-direction:column;gap:.65rem">
         ${probs.map(([a,b])=>`<div style="display:flex;align-items:center;gap:.5rem;justify-content:center;font-size:1.45rem;font-weight:900;color:var(--dark)">
@@ -2662,7 +2887,7 @@ function buildAct(type,items,all){
     const start=step*rnd(1,4);
     const seq=[0,1,2,3,4,5].map(i=>start+i*step);
     const blanks=shuffle([1,2,3,4]).slice(0,2);
-    return`<div class="act-hdr"><div class="act-type">🔢 Skip Counting</div><div class="act-instr">Count by ${step}s. Fill in the missing numbers.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_skipCount')}</div><div class="act-instr">${Tf('i_skipCount','step',step)}</div></div>
     <div class="act-body">
       <div style="display:flex;gap:.28rem;justify-content:center;align-items:center;flex-wrap:wrap">
         ${seq.map((v,i)=>blanks.includes(i)
@@ -2676,7 +2901,7 @@ function buildAct(type,items,all){
     const big=(curLvl==='5');
     const mk=()=>[rnd(big?105:11,big?989:98),rnd(big?105:11,big?989:98)];
     const rows=[mk(),mk(),mk()];
-    return`<div class="act-hdr"><div class="act-type">⚖️ Greater or Smaller?</div><div class="act-instr">Write &lt; , &gt; or = in each box.</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_greaterSmaller')}</div><div class="act-instr">${T('i_greaterSmaller')}</div></div>
     <div class="act-body">
       <div style="display:flex;flex-direction:column;gap:.55rem">
         ${rows.map(([a,b])=>`<div style="display:flex;align-items:center;gap:.7rem;justify-content:center;font-size:1.45rem;font-weight:900;color:var(--dark)">
@@ -2714,7 +2939,7 @@ function buildAct(type,items,all){
     }
     const AZ='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     for(let r=0;r<S;r++)for(let c=0;c<S;c++)if(grid[r][c]==='')grid[r][c]=AZ[rnd(0,25)];
-    return`<div class="act-hdr"><div class="act-type">🔎 Word Search</div><div class="act-instr">Find and circle these words: <strong>${placed.join(' &nbsp;·&nbsp; ')}</strong></div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_wordSearch')}</div><div class="act-instr">${Tf('i_wordSearch','words',placed.join(' &nbsp;·&nbsp; '))}</div></div>
     <div class="act-body">
       <div style="display:flex;flex-direction:column;gap:3px">
         ${grid.map(row=>`<div style="display:flex;gap:3px">${row.map(ch=>`<div style="width:38px;height:38px;border:2px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;background:#fff;color:var(--dark)">${ch}</div>`).join('')}</div>`).join('')}
@@ -2727,7 +2952,7 @@ function buildAct(type,items,all){
     if(word.length<3) word='STAR';
     const nBlank=word.length>5?2:1;
     const idxs=shuffle(word.split('').map((_,i)=>i)).slice(0,nBlank);
-    return`<div class="act-hdr"><div class="act-type">🔤 Complete the Word</div><div class="act-instr">Look at the picture. Fill in the missing letters!</div></div>
+    return`<div class="act-hdr"><div class="act-type">${T('t_completeWord')}</div><div class="act-instr">${T('i_completeWord')}</div></div>
     <div class="act-body">
       <span style="font-size:${m}">${it.e}</span>
       <div style="display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;margin-top:.5rem">
@@ -2782,12 +3007,29 @@ function fitCells(){
   });
 }
 
+// ── PREVIEW SCALER — pages render at a FIXED 560px logical width (deterministic
+// wrapping). On viewports narrower than that, shrink the whole preview with `zoom`
+// so it fits the screen WITHOUT changing the internal layout. `zoom` (unlike a
+// transform) collapses the box, so margins/centering stay correct and no leftover
+// whitespace or horizontal scrollbar appears. Layout/wrap is computed at 560px
+// regardless of zoom → a shared link looks identical to the original on any device.
+const WS_PAGE_W=560;
+function fitPreviewWidth(){
+  const c=document.getElementById('wsContainer');
+  if(!c) return;
+  c.style.zoom='';                          // reset first so clientWidth is the TRUE
+  const avail=c.clientWidth;                // (unzoomed) CSS width — keeps this idempotent
+  if(avail>0 && avail<WS_PAGE_W) c.style.zoom=(avail/WS_PAGE_W);
+}
+window.addEventListener('resize',()=>{ fitPreviewWidth(); requestAnimationFrame(()=>fitCells()); });
+
 // ── UTILS
 function showPage(idx){
   document.querySelectorAll('.ws-page').forEach((p,i)=>p.classList.toggle('act',i===idx));
   document.querySelectorAll('.pg-dot').forEach((d,i)=>d.classList.toggle('act',i===idx));
   curPage=idx;
   document.getElementById('pg'+idx)?.scrollIntoView({behavior:'smooth',block:'start'});
+  fitPreviewWidth();
   requestAnimationFrame(()=>fitCells());
 }
 function showScreen(id){
@@ -2822,10 +3064,16 @@ function doPrint(){
 }
 async function generatePDF(){
   const lt=document.querySelector('.load-t');
-  if(lt)lt.textContent='Creating your PDF…';
+  if(lt)lt.textContent=T('creatingPdf');
   showLoader();
   const pages=[...document.querySelectorAll('.ws-page')];
-  document.documentElement.style.fontSize='19px';
+  const _wsc=document.getElementById('wsContainer');
+  const _prevZoom=_wsc?_wsc.style.zoom:'';
+  if(_wsc)_wsc.style.zoom='';               // capture at native 794px, not preview-scaled
+  // NOTE: do NOT bump the root font-size here. Activity boxes are sized in px
+  // but glyphs/images are sized in rem — a larger root makes rem images overflow
+  // the px boxes (touching borders). Keeping the web 16px root preserves the
+  // box/image ratio so the PDF matches the on-screen layout exactly.
   document.body.classList.add('pdfmode');
   await new Promise(r=>setTimeout(r,350));
   // wait for webfonts + every image so fitCells measures FINAL sizes
@@ -2862,10 +3110,13 @@ async function generatePDF(){
   }
   document.body.classList.remove('pdfmode');
   document.documentElement.style.fontSize='';
+  if(_wsc)_wsc.style.zoom=_prevZoom;        // restore preview scale
+  fitPreviewWidth();
   requestAnimationFrame(()=>fitCells());
-  if(lt)lt.textContent='Building your worksheet…';
+  if(lt)lt.textContent=T('loading');
   hideLoader();
 }
+applyLang();
 </script>
 <p class="site-disclaimer">ViLoLabs Worksheets are generated automatically and can occasionally make mistakes. Please review each sheet before printing or sharing with children.</p>
 </body>

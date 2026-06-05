@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="64" height="64" role="img" aria-label="ViLoLabs">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E8BC72"/>
+      <stop offset="1" stop-color="#C8963C"/>
+    </linearGradient>
+  </defs>
+  <!-- dark rounded square so the gold reads on any tab background -->
+  <rect x="3" y="3" width="94" height="94" rx="22" fill="#1A1108" stroke="url(#g)" stroke-width="2.5"/>
+  <!-- bold geometric V (font-independent so it renders as a favicon) -->
+  <path d="M30 31 L50 71 L70 31" fill="none" stroke="url(#g)" stroke-width="10.5"
+        stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- four-point sparkle in the V's opening -->
+  <path fill="url(#g)" transform="translate(50 45)"
+        d="M0,-8 Q1.2,-1.2 8,0 Q1.2,1.2 0,8 Q-1.2,1.2 -8,0 Q-1.2,-1.2 0,-8 Z"/>
+</svg>

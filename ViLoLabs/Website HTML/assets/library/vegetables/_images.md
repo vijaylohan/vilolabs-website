@@ -2,10 +2,10 @@
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 10 done · 5 to create.
+Status: 15 done · 0 to create.
 
 ============================================================
-DONE (10)
+DONE (15)
 ============================================================
 
 ## corn.png   ✅ DONE
@@ -58,31 +58,27 @@ Green pea pod with peas.
 PROMPT: flat cartoon clipart, cute open green pea pod, three round green peas inside, small stem, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:vegetable | alive:non-living | state:solid
 
-============================================================
-TO CREATE (5)
-============================================================
-
-## potato.png
+## potato.png   ✅ DONE
 Brown potato.
 PROMPT: flat cartoon clipart, cute brown potato, oval lumpy body, small dark eye spots, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:vegetable | alive:non-living | state:solid
 
-## carrot.png
+## carrot.png   ✅ DONE
 Orange carrot with green tops.
 PROMPT: flat cartoon clipart, cute orange carrot, tapered pointed body with ridge lines, leafy green tops, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:vegetable | alive:non-living | state:solid
 
-## broccoli.png
+## broccoli.png   ✅ DONE
 Green broccoli floret.
 PROMPT: flat cartoon clipart, cute green broccoli, bumpy tree-like florets, thick green stalk, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:vegetable | alive:non-living | state:solid
 
-## chili-pepper.png
+## chili-pepper.png   ✅ DONE
 Red chili pepper with green stem.
 PROMPT: flat cartoon clipart, cute red chili pepper, curved glossy body, small green stem on top, highlight, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:vegetable | alive:non-living | state:solid
 
-## asparagus.png
+## asparagus.png   ✅ DONE
 Bundle of green asparagus spears.
 PROMPT: flat cartoon clipart, cute bundle of green asparagus spears, slender stalks with pointed budded tips, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:vegetable | alive:non-living | state:solid

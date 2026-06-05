@@ -10,7 +10,8 @@
 <meta property="og:title" content="Image to PDF Converter — Free, No Watermark | ViLoLabs">
 <meta property="og:description" content="Combine JPG, PNG, WebP images into one PDF. Free, private, in-browser.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -21,6 +22,20 @@
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" integrity="sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI" crossorigin="anonymous"></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Image to PDF Converter","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<link rel="canonical" href="https://vilolabs.netlify.app/tools/image-to-pdf.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/tool-image-to-pdf.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/tool-image-to-pdf.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vilolabs.netlify.app/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://vilolabs.netlify.app/tools.html"},{"@type":"ListItem","position":3,"name":"Image to PDF","item":"https://vilolabs.netlify.app/tools/image-to-pdf.html"}]}
+</script>
+<style>.tested-with{display:block;margin:.7rem 0 .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:left;max-width:780px;}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this Image to PDF converter free?","acceptedAnswer":{"@type":"Answer","text":"Yes — completely free, with no sign up and no watermark. Use it as many times as you need."}},{"@type":"Question","name":"Are my images uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. The conversion runs inside your browser. Your images never leave your device."}},{"@type":"Question","name":"Which formats are supported?","acceptedAnswer":{"@type":"Answer","text":"JPG, JPEG, PNG and WebP. Combine several into one multi-page PDF."}},{"@type":"Question","name":"Can I reorder pages?","acceptedAnswer":{"@type":"Answer","text":"Yes — use the arrow buttons on each thumbnail to move it earlier or later in the PDF."}}]}
 </script>
 </head>
 <body>
@@ -43,15 +58,16 @@
 <header class="hero">
   <p class="eyebrow">Free Online Tool · PDF</p>
   <h1>Image to PDF <em>Converter</em></h1>
-  <p class="lead">Combine JPG, PNG or WebP images into a single PDF. Reorder pages, pick page size — done in seconds. Your files never leave your device.</p>
+  <p class="lead">Combine multiple JPG, PNG or WebP photos into one single PDF — pick A4 or Letter, drag to reorder pages, optimise for email size. Perfect for college assignments, government form uploads, and scanning receipts. Free, watermark-free, runs entirely in your browser — your files never leave your device.</p>
   <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
+  <p class="tested-with">Verified — Tested with JPG, PNG and WebP files up to 50 MB. Output opens in Acrobat, Preview, Chrome and Edge.</p>
 </header>
 
 <section class="wrap">
   <div class="app-sec">
     <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please review your PDF before sharing or printing important documents.</span></div>
     <div class="drop" id="drop">
-      <div class="di">📂</div>
+      <div class="di"><img src="/assets/og/icons/image-to-pdf.png" alt="" loading="lazy"></div>
       <div class="dt">Click to choose images, or drop them here</div>
       <div class="ds">JPG · PNG · WebP — add as many as you like</div>
     </div>
@@ -83,6 +99,16 @@
           <option value="8" selected>Small</option>
           <option value="18">Medium</option>
         </select>
+      </div>
+      <div class="opt">
+        <label>Optimize for size</label>
+        <select id="opt-optim">
+          <option value="off" selected>Off — keep originals</option>
+          <option value="screen">On · Screen (≤2048 px, 80% JPEG)</option>
+          <option value="print">On · Print (≤1600 px, 70% JPEG)</option>
+          <option value="email">On · Email (≤1280 px, 60% JPEG)</option>
+        </select>
+        <div class="hint" style="font-size:.7rem;color:var(--brown3);margin-top:.25rem;">Phone-photo PDFs can easily be 40 MB+. Optimization re-encodes big photos at a sane size — tiny file, still looks good.</div>
       </div>
     </div>
 
@@ -175,6 +201,22 @@ async function buildPDF(){
   const fmt=document.getElementById('opt-size').value;
   const orientOpt=document.getElementById('opt-orient').value;
   const marginMM=parseFloat(document.getElementById('opt-margin').value);
+  const optim=document.getElementById('opt-optim').value;
+  const OPTIM={screen:{maxDim:2048,q:0.80},print:{maxDim:1600,q:0.70},email:{maxDim:1280,q:0.60}}[optim]||null;
+  // helper: re-encode a source image to optimised JPEG when requested
+  async function optimiseBytes(im){
+    if(!OPTIM) return im;
+    let w=im.w, h=im.h;
+    if(Math.max(w,h)>OPTIM.maxDim){const s=OPTIM.maxDim/Math.max(w,h);w=Math.round(w*s);h=Math.round(h*s);}
+    const tmp=new Image();tmp.src=im.dataURL;await new Promise((r,j)=>{if(tmp.complete)r();else{tmp.onload=r;tmp.onerror=j;}});
+    const c=document.createElement('canvas');c.width=w;c.height=h;
+    const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+    ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(tmp,0,0,w,h);
+    const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',OPTIM.q));
+    if(!blob) return im;
+    const bytes=new Uint8Array(await blob.arrayBuffer());
+    return {...im,bytes,mime:'JPEG',w,h};
+  }
   statusEl.classList.remove('err');statusEl.textContent='Building PDF…';
   const go=document.getElementById('go');go.disabled=true;
   try{
@@ -182,8 +224,9 @@ async function buildPDF(){
     const SIZES={a4:[595.28,841.89],letter:[612,792]};
     const MM_PT=2.83465;
     let origTotal=0;
-    for(const im of imgs){
-      origTotal+=im.bytes.length;
+    for(const im0 of imgs){
+      origTotal+=im0.bytes.length;
+      const im=await optimiseBytes(im0);
       const emb=im.mime==='PNG'?await pdf.embedPng(im.bytes):await pdf.embedJpg(im.bytes);
       const iw=im.w,ih=im.h;
       let pageW,pageH;

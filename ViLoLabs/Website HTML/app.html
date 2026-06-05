@@ -13,7 +13,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ViLoLabs Apps — Free Android Apps for Learning &amp; Productivity">
 <meta name="twitter:description" content="Free, lightweight Android apps for kids' learning, worksheets and everyday tools. Launching soon.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -75,7 +76,8 @@ nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-co
   width:38px;height:5px;border-radius:3px;background:rgba(200,150,60,.3);}
 .phone .screen{width:100%;height:100%;border-radius:15px;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:.5rem;}
-.phone .app-emoji{font-size:2.6rem;}
+.phone .app-ico{display:flex;align-items:center;justify-content:center;}
+.phone .app-ico svg{width:50px;height:50px;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;}
 .phone .app-mini{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;}
 .app-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.55rem;margin-bottom:.45rem;}
 .app-card .cat{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;}
@@ -87,7 +89,8 @@ nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-co
 /* delivery / how */
 .how{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;}
 .how-card{border:1px solid rgba(200,150,60,.14);border-radius:13px;padding:1.6rem;background:rgba(200,150,60,.025);}
-.how-card .hi{font-size:1.7rem;margin-bottom:.7rem;}
+.how-card .hi{margin-bottom:.7rem;color:var(--gold2);}
+.how-card .hi svg{width:34px;height:34px;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round;}
 .how-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.3rem;margin-bottom:.35rem;}
 .how-card p{font-size:.86rem;color:rgba(245,240,232,.5);font-weight:300;}
 
@@ -115,6 +118,13 @@ footer .cp{font-size:.74rem;color:var(--brown2);}
   .nav-links a:not(.nav-cta){display:none;}
 }
 </style>
+<script src="/assets/db.js"></script>
+<link rel="canonical" href="https://vilolabs.netlify.app/app.html">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/apps.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/apps.jpg">
 </head>
 <body>
 <div id="cursor"></div>
@@ -151,7 +161,7 @@ footer .cp{font-size:.74rem;color:var(--brown2);}
     <div class="app-card">
       <span class="badge">Coming Soon</span>
       <div class="phone"><div class="screen" style="background:linear-gradient(160deg,#3a2c12,#1c1408);">
-        <div class="app-emoji">📝</div><div class="app-mini" style="color:var(--gold2)">ViLo Sheets</div>
+        <div class="app-ico" style="color:var(--gold2)"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M6 3h7l5 5v13H6z"/><path d="M13 3v5h5"/><path d="M9 12.5h6M9 15.5h6M9 18h4"/></svg></div><div class="app-mini" style="color:var(--gold2)">ViLo Sheets</div>
       </div></div>
       <p class="cat">Kids · Education</p>
       <h3>ViLo Worksheets</h3>
@@ -166,7 +176,7 @@ footer .cp{font-size:.74rem;color:var(--brown2);}
     <div class="app-card">
       <span class="badge">Coming Soon</span>
       <div class="phone"><div class="screen" style="background:linear-gradient(160deg,#123a2c,#081c14);">
-        <div class="app-emoji">🧠</div><div class="app-mini" style="color:#7fd9a8">ViLo Learn</div>
+        <div class="app-ico" style="color:#7fd9a8"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M9.5 18.5h5"/><path d="M10.5 21h3"/><path d="M12 3a6 6 0 0 0-3.8 10.6c.7.6 1.1 1.2 1.2 2.4h5.2c.1-1.2.5-1.8 1.2-2.4A6 6 0 0 0 12 3z"/><path d="M12 8.5v3.5"/></svg></div><div class="app-mini" style="color:#7fd9a8">ViLo Learn</div>
       </div></div>
       <p class="cat">Kids · Learning Games</p>
       <h3>ViLo Learn</h3>
@@ -181,7 +191,7 @@ footer .cp{font-size:.74rem;color:var(--brown2);}
     <div class="app-card">
       <span class="badge">Coming Soon</span>
       <div class="phone"><div class="screen" style="background:linear-gradient(160deg,#2c1238,#140820);">
-        <div class="app-emoji">🛠️</div><div class="app-mini" style="color:#c79be8">ViLo Tools</div>
+        <div class="app-ico" style="color:#c79be8"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M15.5 6.5a3.5 3.5 0 0 1-4.6 4.6L6 16l2 2 4.9-4.9a3.5 3.5 0 0 1 4.6-4.6l-2.3 2.3-1.6-.4-.4-1.6z"/></svg></div><div class="app-mini" style="color:#c79be8">ViLo Tools</div>
       </div></div>
       <p class="cat">Utilities · Productivity</p>
       <h3>ViLo Tools</h3>
@@ -196,7 +206,7 @@ footer .cp{font-size:.74rem;color:var(--brown2);}
     <div class="app-card">
       <span class="badge">In the Lab</span>
       <div class="phone"><div class="screen" style="background:linear-gradient(160deg,#2a2018,#14100a);">
-        <div class="app-emoji">✨</div><div class="app-mini" style="color:var(--brown3)">More soon</div>
+        <div class="app-ico" style="color:var(--brown3)"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 3l1.7 6.3L20 11l-6.3 1.7L12 19l-1.7-6.3L4 11l6.3-1.7z"/></svg></div><div class="app-mini" style="color:var(--brown3)">More soon</div>
       </div></div>
       <p class="cat">The Whiteboard</p>
       <h3>More on the Way</h3>
@@ -216,12 +226,12 @@ footer .cp{font-size:.74rem;color:var(--brown2);}
   <h2 class="sec-h">Two simple <em>ways</em>.</h2>
   <div class="how">
     <div class="how-card">
-      <div class="hi">▶️</div>
+      <div class="hi"><svg viewBox="0 0 24 24"><path d="M5 4.5v15l13-7.5z" fill="currentColor" stroke="none"/></svg></div>
       <h3>Google Play Store</h3>
       <p>Once published, each app gets a Play Store listing — install and update the way you already do.</p>
     </div>
     <div class="how-card">
-      <div class="hi">📥</div>
+      <div class="hi"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 3v11"/><path d="M7.5 10l4.5 4.5L16.5 10"/><path d="M5 20h14"/></svg></div>
       <h3>Direct Download</h3>
       <p>Prefer not to use the store? A safe, direct APK download will be available here on the ViLoLabs website.</p>
     </div>

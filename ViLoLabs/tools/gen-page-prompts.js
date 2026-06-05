@@ -138,20 +138,24 @@ function buildDots(names) {
   const pick = names.slice(0, 100);
   const out = [];
   out.push(`# Dot-to-Dot Pictures — Image List (${pick.length})`, '');
-  out.push('ASSET TYPE: simple single-outline picture for dot-to-dot.');
-  out.push('SPEC: JPG or PNG, square, 2000x2000 px minimum.');
-  out.push('A clean smooth continuous outline. The engine places numbered dots');
-  out.push('along the outline — so keep the shape simple with little inner detail.', '');
+  out.push('ASSET TYPE: HALF-FINISHED dot-to-dot worksheet (line + dots baked in).');
+  out.push('SPEC: JPG or PNG, A4 portrait, 2480x3508 px (300 DPI).');
+  out.push('Each image is split in half — ONE half is drawn as a complete bold');
+  out.push('continuous outline (so the child sees what they are making), the OTHER');
+  out.push('half is replaced with a sequence of small numbered dots along where the');
+  out.push('outline would go. Connecting the dots 1→2→3→… in order completes the');
+  out.push('picture. Dots and numbers are intentionally SMALL so the visible line');
+  out.push('half stays the visual focus.', '');
   out.push('NAMING: entry names have NO file extension. Save as .jpg OR .png.', '');
-  out.push('DEFAULTS: class:page-asset | activity:dot-to-dot | format:half-page');
+  out.push('DEFAULTS: class:page-asset | activity:dot-to-dot | format:full-page');
   out.push('TAG KEY: subject:<word>', '');
   out.push(SEP, `DOT-TO-DOT PICTURES (${pick.length})`, SEP, '');
   for (const name of pick) {
     const p = pretty(name);
     out.push(`## ${name}-dots`);
-    out.push(`Dot-to-dot ${p} outline.`);
-    out.push(`PROMPT: very simple bold black single-line outline of a cute cartoon ${p} for a children's dot-to-dot worksheet, smooth continuous outline shape, minimal inner detail, no color, no shading, pure white background, large and centered, no dots, no numbers, no text, 2000x2000 pixels resolution`);
-    out.push(`TAGS: class:page-asset | activity:dot-to-dot | format:half-page | subject:${name}`, '');
+    out.push(`Half-finished dot-to-dot ${p} — one half outlined, the other half small numbered dots to connect.`);
+    out.push(`PROMPT: A4 portrait printable half-finished dot-to-dot worksheet for young children, single large centered cute cartoon ${p}, the picture is split exactly in half (left/right or top/bottom — whichever matches the subject's natural symmetry better), ONE half is drawn as a complete bold black smooth continuous outline so the child clearly sees what they are completing, the OTHER half is shown only as a sequence of small uniform black filled dots placed along where the outer outline would naturally go, sequential tiny black numbers 1 2 3 4 5 and so on printed beside each dot in a clean small unobtrusive font, the dots follow the natural curve of the missing half so when the child connects them in order they complete the picture, dots and numbers are deliberately SMALL so they do NOT dominate — the visible outline half stays the main feature, between 12 and 20 dots total along the outline of the missing half, pure white background, no color fill, no shading, no inner detail dots in the missing half (dots only along the outer outline), no extra text beyond the small dot numbers, no labels, large and centered, 2480x3508 pixels resolution`);
+    out.push(`TAGS: class:page-asset | activity:dot-to-dot | format:full-page | subject:${name}`, '');
   }
   return out.join('\n').trimEnd() + '\n';
 }

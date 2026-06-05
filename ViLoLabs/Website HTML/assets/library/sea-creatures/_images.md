@@ -2,10 +2,10 @@
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 18 done · 1 to create.
+Status: 19 done · 0 to create.
 
 ============================================================
-DONE (18)
+DONE (19)
 ============================================================
 
 ## jellyfish.png   ✅ DONE
@@ -98,11 +98,7 @@ Hermit crab in a spiral shell.
 PROMPT: flat cartoon clipart, cute hermit crab peeking from a spiral shell, two small claws, little legs, eyes on stalks, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:sea-creature | alive:living | habitat:sea | can:swim
 
-============================================================
-TO CREATE (1)
-============================================================
-
-## seahorse.png
+## seahorse.png   ✅ DONE
 Yellow seahorse with curled tail.
 PROMPT: flat cartoon clipart, cute yellow seahorse, curved body, long snout, curled tail, small fin on back, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:sea-creature | alive:living | habitat:sea | can:swim

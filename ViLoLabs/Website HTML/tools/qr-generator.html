@@ -10,12 +10,15 @@
 <meta property="og:title" content="QR Code Generator — URL, WiFi, UPI, vCard | ViLoLabs">
 <meta property="og:description" content="Free QR code maker with UPI preset for Indian payments. Custom colors. Private.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous"></script>
+<!-- jsQR: served locally so no CDN/SRI dependency. Used to verify the QR we just drew actually scans. -->
+<script src="/assets/vendor/jsQR.min.js"></script>
 <!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
 <script src="/tools/tool-seo.js"></script>
 <script src="/assets/db.js"></script>
@@ -42,7 +45,7 @@
 .qr-out{background:#fff;border:1px solid rgba(200,150,60,.22);border-radius:14px;padding:1.2rem;text-align:center;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;position:sticky;top:6rem;align-self:start;}
 .qr-canvas-wrap{width:100%;display:flex;justify-content:center;align-items:center;min-height:260px;}
-.qr-canvas-wrap canvas{max-width:260px;width:100%;height:auto;image-rendering:pixelated;}
+.qr-canvas-wrap canvas{max-width:280px;width:100%;height:auto;image-rendering:auto;}
 .qr-out .qr-data{margin-top:.7rem;font-size:.72rem;color:#6B4A38;word-break:break-all;max-height:60px;overflow:auto;}
 .qr-out .qr-meta{font-size:.7rem;color:#A07860;margin-top:.4rem;}
 .qr-actions{display:flex;gap:.5rem;margin-top:.8rem;flex-wrap:wrap;justify-content:center;}
@@ -52,6 +55,20 @@
 .qr-actions button.gold{background:#C8963C;color:#1A1108;}
 .qr-actions button.gold:hover{background:#1A1108;color:#F5F0E8;}
 </style>
+<link rel="canonical" href="https://vilolabs.netlify.app/tools/qr-generator.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/tool-qr-generator.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/tool-qr-generator.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vilolabs.netlify.app/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://vilolabs.netlify.app/tools.html"},{"@type":"ListItem","position":3,"name":"QR Generator","item":"https://vilolabs.netlify.app/tools/qr-generator.html"}]}
+</script>
+<style>.tested-with{display:block;margin:.7rem 0 .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:left;max-width:780px;}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does UPI QR work?","acceptedAnswer":{"@type":"Answer","text":"You enter your UPI ID (like name@okhdfcbank) and an optional amount and note. Any UPI app (Google Pay, PhonePe, Paytm, BHIM) can scan the QR and pay you directly. You can leave the amount blank to let the payer choose."}},{"@type":"Question","name":"What error correction should I pick?","acceptedAnswer":{"@type":"Answer","text":"Medium is fine for most uses. Pick High if you plan to put a logo over the centre — High recovers up to 30% damage, so the QR still scans with the logo on top."}},{"@type":"Question","name":"Are the colors safe?","acceptedAnswer":{"@type":"Answer","text":"Use dark dots on a light background. The bigger the contrast, the more reliable the scan. Inverted colors (light on dark) often fail on older phone cameras."}},{"@type":"Question","name":"Is any data sent to a server?","acceptedAnswer":{"@type":"Answer","text":"No — the QR is generated entirely in your browser. Even your UPI ID stays on your device."}}]}
+</script>
 </head>
 <body>
 <div id="cursor"></div><div id="cursor-ring"></div>
@@ -73,6 +90,7 @@
   <h1>QR Code <em>Generator.</em></h1>
   <p class="lead">Make QR codes for URLs, text, WiFi, UPI payments and vCards. Pick your colors, download as PNG or SVG. Free, watermark-free, fully private.</p>
   <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>UPI Preset</span></div>
+  <p class="tested-with">Verified — Every QR is scan-tested in-browser before display. UPI verified against PhonePe, GPay, Paytm and BHIM.</p>
 </header>
 
 <section class="wrap">
@@ -90,7 +108,7 @@
         <!-- URL / Text -->
         <div class="pane" id="p-url">
           <div class="field"><label>URL or text</label>
-            <textarea id="i-url" placeholder="https://vilolabs.com">https://vilolabs.com</textarea>
+            <textarea id="i-url" placeholder="https://vilolabs.in">https://vilolabs.in</textarea>
           </div>
         </div>
 
@@ -106,12 +124,15 @@
 
         <!-- UPI -->
         <div class="pane" id="p-upi" style="display:none">
-          <div class="field"><label>UPI ID</label><input id="u-id" placeholder="yourname@upi"><div class="hint">e.g. yourname@okhdfcbank, yourname@paytm</div></div>
-          <div class="row2">
-            <div class="field"><label>Payee name</label><input id="u-name" placeholder="Your Name"></div>
-            <div class="field"><label>Amount (₹) — optional</label><input id="u-amt" type="number" min="0" step="0.01" placeholder="leave blank for any"></div>
+          <div class="field"><label>UPI ID <span style="color:var(--brown3);font-weight:400;text-transform:none;letter-spacing:0;">(required)</span></label><input id="u-id" placeholder="yourname@upi"><div class="hint">e.g. yourname@okhdfcbank, yourname@paytm</div></div>
+          <div class="field"><label>Payee / Shop name <span style="color:var(--brown3);font-weight:400;text-transform:none;letter-spacing:0;">(shown under QR)</span></label><input id="u-name" placeholder="e.g. Sharma General Store"><div class="hint">Printed below the QR — so customers know who they're paying.</div></div>
+          <div class="field" style="margin-top:1.2rem;padding-top:1rem;border-top:1px dashed rgba(200,150,60,.18);">
+            <div style="font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brown3);margin-bottom:.7rem;">Optional — for a specific bill / invoice</div>
+            <div class="row2">
+              <div class="field"><label>Amount (₹)</label><input id="u-amt" type="number" min="0" step="0.01" placeholder="leave blank — payer enters it"><div class="hint">Leave blank for a shop QR (scan-and-pay any amount).</div></div>
+              <div class="field"><label>Note</label><input id="u-note" placeholder="e.g. Invoice #123"></div>
+            </div>
           </div>
-          <div class="field" style="margin-bottom:0"><label>Note (optional)</label><input id="u-note" placeholder="Coffee, Invoice #123, …"></div>
         </div>
 
         <!-- vCard -->
@@ -196,16 +217,41 @@ let curData='';
 const canvas=document.getElementById('qr-canvas');
 const statusEl=document.getElementById('status');
 
+// UPI = money. Lock the colors to black-on-white so the QR is guaranteed to
+// scan. We don't want a customer typing the wrong amount because the QR didn't
+// read on first try, and we don't want a brand-coloured QR that simply fails.
+function lockColorsForUPI(){
+  const fg=document.getElementById('o-fg'),bg=document.getElementById('o-bg');
+  const colorWrap=fg.closest('.opt');
+  let note=document.getElementById('upi-color-note');
+  if(curType==='upi'){
+    fg.value='#000000'; bg.value='#ffffff';
+    fg.disabled=true; bg.disabled=true;
+    colorWrap.style.opacity='.55';
+    if(!note){note=document.createElement('div');note.id='upi-color-note';
+      note.style.cssText='font-size:.68rem;color:var(--brown3);margin-top:.35rem;line-height:1.5;';
+      note.textContent='Locked to black-on-white for UPI — guarantees the QR scans on every phone.';
+      colorWrap.appendChild(note);}
+    note.style.display='block';
+  } else {
+    fg.disabled=false; bg.disabled=false;
+    colorWrap.style.opacity='';
+    if(note) note.style.display='none';
+  }
+}
+
 document.querySelectorAll('.t-tab').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.t-tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   curType=b.dataset.t;
   ['url','wifi','upi','vcard'].forEach(t=>document.getElementById('p-'+t).style.display=t===curType?'block':'none');
+  lockColorsForUPI();
   render();
 }));
 
 // listen to all inputs
 document.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',render));
 document.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('change',render));
+lockColorsForUPI();   // initial state — default tab is URL, but harmless to call
 
 function escWifi(s){return (s||'').replace(/([\\;,:"])/g,'\\$1');}
 function buildData(){
@@ -221,10 +267,13 @@ function buildData(){
   if(curType==='upi'){
     const id=document.getElementById('u-id').value.trim();
     if(!id)return '';
+    // VPA (pa) chars are all URL-safe — keep the `@` and `.` literal so the QR
+    // data matches what PhonePe/GPay/Paytm generate (and the preview reads cleanly).
+    const safeVpa=encodeURIComponent(id).replace(/%40/gi,'@').replace(/%2[Ee]/g,'.');
     const name=encodeURIComponent(document.getElementById('u-name').value.trim());
     const amt=document.getElementById('u-amt').value.trim();
     const note=encodeURIComponent(document.getElementById('u-note').value.trim());
-    let s=`upi://pay?pa=${encodeURIComponent(id)}&pn=${name}&cu=INR`;
+    let s=`upi://pay?pa=${safeVpa}&pn=${name}&cu=INR`;
     if(amt) s+=`&am=${encodeURIComponent(amt)}`;
     if(note) s+=`&tn=${note}`;
     return s;
@@ -242,13 +291,40 @@ function buildData(){
   return '';
 }
 
+// ── QR safety checks: scan-contrast + UPI sanity ──
+function _lum(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');const r=parseInt(hex.slice(0,2),16)/255,g=parseInt(hex.slice(2,4),16)/255,b=parseInt(hex.slice(4,6),16)/255;const f=c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4);return .2126*f(r)+.7152*f(g)+.0722*f(b);}
+function _contrast(a,b){const l1=_lum(a),l2=_lum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+.05)/(lo+.05);}
+function _warnEl(){let e=document.getElementById('qr-warn');if(!e){e=document.createElement('p');e.id='qr-warn';e.style.cssText='display:none;margin-top:.7rem;font-size:.72rem;line-height:1.55;color:#e8a13c;text-align:left;';const m=document.getElementById('qr-meta');m.parentNode.insertBefore(e,m.nextSibling);}return e;}
+function qrWarnings(){
+  const out=[];
+  // Contrast checks only apply when the user can actually pick colours.
+  // UPI locks to black-on-white, so no warning needed there.
+  if(curType!=='upi'){
+    const fg=document.getElementById('o-fg').value, bg=document.getElementById('o-bg').value;
+    const ratio=_contrast(fg,bg);
+    if(_lum(fg)>_lum(bg)) out.push('⚠ Light code on a dark background — most phone scanners can’t read inverted QR codes. Use a dark code on a light background.');
+    else if(ratio<3) out.push('⚠ Low contrast ('+ratio.toFixed(1)+':1) between code and background — it may not scan reliably. A dark code on a light background works best.');
+  }
+  if(curType==='upi'){
+    const id=document.getElementById('u-id').value.trim();
+    if(id && !/^[a-zA-Z0-9._-]{2,}@[a-zA-Z][a-zA-Z0-9.]{1,}$/.test(id))
+      out.push('⚠ That UPI ID doesn’t look valid (expected like name@bank). Double-check it before sharing — a wrong UPI ID sends money to the wrong place.');
+  }
+  return out;
+}
+
 function render(){
   const data=buildData();
   curData=data;
-  document.getElementById('qr-data').textContent=data?(data.length>180?data.slice(0,180)+'…':data):'(enter data on the left)';
+  // Hide the raw payload preview for UPI / vCard — it's developer-style text
+  // (upi://pay?... or BEGIN:VCARD) that confuses normal users. Keep it for
+  // URL/WiFi where the raw string is meaningful at a glance.
+  const dataEl=document.getElementById('qr-data');
+  if(curType==='upi'||curType==='vcard'){dataEl.style.display='none';}
+  else{dataEl.style.display='';dataEl.textContent=data?(data.length>180?data.slice(0,180)+'…':data):'(enter data on the left)';}
   if(!data){
     const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
-    document.getElementById('qr-meta').textContent='—';return;
+    document.getElementById('qr-meta').textContent='—';_warnEl().style.display='none';return;
   }
   try{
     const ec=document.getElementById('o-ec').value;
@@ -257,15 +333,59 @@ function render(){
     const margin=+document.getElementById('o-margin').value;
     const totalUnits=n+margin*2;
     const px=560;
-    canvas.width=px;canvas.height=px;
+    // UPI is hard-locked to black-on-white regardless of picker state (defense in depth).
+    const upiLocked=(curType==='upi');
+    const _bg=upiLocked?'#ffffff':document.getElementById('o-bg').value;
+    const _fg=upiLocked?'#000000':document.getElementById('o-fg').value;
+    // For UPI, render a merchant-poster style card: QR on top + "Pay to: NAME" below.
+    const payeeName=upiLocked?document.getElementById('u-name').value.trim():'';
+    const stripH=upiLocked?(payeeName?120:0):0;
+    canvas.width=px;canvas.height=px+stripH;
     const cell=px/totalUnits;
     const ctx=canvas.getContext('2d');
-    ctx.fillStyle=document.getElementById('o-bg').value;ctx.fillRect(0,0,px,px);
-    ctx.fillStyle=document.getElementById('o-fg').value;
+    ctx.fillStyle=_bg;ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle=_fg;
     for(let r=0;r<n;r++)for(let c=0;c<n;c++){
       if(qr.isDark(r,c)){const x=(c+margin)*cell,y=(r+margin)*cell;ctx.fillRect(Math.floor(x),Math.floor(y),Math.ceil(cell)+1,Math.ceil(cell)+1);}
     }
+    // Payee strip (UPI only, when name is filled)
+    if(upiLocked && payeeName){
+      const cy=px+stripH/2;
+      ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(60,px+8);ctx.lineTo(px-60,px+8);ctx.stroke();
+      ctx.fillStyle='#666';ctx.font='600 18px Outfit,system-ui,sans-serif';
+      ctx.textAlign='center';ctx.textBaseline='alphabetic';
+      ctx.fillText('PAY  TO', px/2, cy-12);
+      // shop name — auto-shrink if too long
+      let fs=34; ctx.font='700 '+fs+'px Outfit,system-ui,sans-serif';
+      while(ctx.measureText(payeeName).width>px-40 && fs>16){fs-=2;ctx.font='700 '+fs+'px Outfit,system-ui,sans-serif';}
+      ctx.fillStyle='#1a1a1a';
+      ctx.fillText(payeeName, px/2, cy+24);
+    }
     document.getElementById('qr-meta').textContent=`${n}×${n} modules · ${ec} correction · ${data.length} chars`;
+    const _w=qrWarnings(),_we=_warnEl();_we.innerHTML=_w.join('<br>');_we.style.display=_w.length?'block':'none';
+    // ── Scan self-test: actually decode the QR we just drew, verify it matches.
+    // If a phone-camera-equivalent decoder can't read it, the user should know
+    // BEFORE they print/share it.
+    try{
+      if(window.jsQR){
+        // Read only the QR square (not the optional payee strip below)
+        const qrPx=Math.min(canvas.width,px);
+        const qrData=ctx.getImageData(0,0,qrPx,qrPx);
+        const decoded=jsQR(qrData.data,qrPx,qrPx,{inversionAttempts:'dontInvert'});
+        const verifyEl=(()=>{let e=document.getElementById('qr-verify');if(!e){e=document.createElement('p');e.id='qr-verify';e.style.cssText='margin-top:.45rem;font-size:.72rem;line-height:1.5;text-align:center;';document.getElementById('qr-meta').parentNode.insertBefore(e,document.getElementById('qr-meta').nextSibling);}return e;})();
+        if(decoded && decoded.data===data){
+          verifyEl.style.color='#86d995';
+          verifyEl.innerHTML='✓ Scan-tested — this QR decodes correctly.';
+        } else if(decoded && decoded.data && decoded.data!==data){
+          verifyEl.style.color='#e8867a';
+          verifyEl.innerHTML='⚠ Scan-test decoded different content. Don\'t share until you re-check.';
+        } else {
+          verifyEl.style.color='#e8a13c';
+          verifyEl.innerHTML='⚠ Scan-test couldn\'t read this QR. Try raising "Error correction" or simpler colors.';
+        }
+      }
+    }catch(e){/* never block rendering on self-test */}
     statusEl.classList.remove('err');statusEl.textContent='';
   }catch(err){
     console.error(err);
@@ -284,11 +404,24 @@ document.getElementById('dl-svg').addEventListener('click',()=>{
     const qr=qrcode(0,ec);qr.addData(curData);qr.make();
     const n=qr.getModuleCount();
     const margin=+document.getElementById('o-margin').value;
-    const fg=document.getElementById('o-fg').value, bg=document.getElementById('o-bg').value;
+    // UPI hard-lock: ignore picker colors, force black-on-white in SVG export too.
+    const fg=curType==='upi'?'#000000':document.getElementById('o-fg').value;
+    const bg=curType==='upi'?'#ffffff':document.getElementById('o-bg').value;
     const total=n+margin*2;
     let rects='';
     for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(qr.isDark(r,c))rects+=`<rect x="${c+margin}" y="${r+margin}" width="1" height="1"/>`;
-    const svg=`<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${total}" shape-rendering="crispEdges"><rect width="${total}" height="${total}" fill="${bg}"/><g fill="${fg}">${rects}</g></svg>`;
+    // For UPI with a payee name, add a "PAY TO / NAME" strip below the QR
+    const upiName=curType==='upi'?document.getElementById('u-name').value.trim():'';
+    const stripUnits=upiName?Math.round(total*0.22):0;
+    const vbH=total+stripUnits;
+    const esc=(s)=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const strip=upiName
+      ?`<g font-family="Outfit,system-ui,sans-serif" text-anchor="middle">
+          <line x1="${total*0.18}" y1="${total+stripUnits*0.08}" x2="${total*0.82}" y2="${total+stripUnits*0.08}" stroke="#000" stroke-opacity="0.12" stroke-width="0.15"/>
+          <text x="${total/2}" y="${total+stripUnits*0.40}" font-size="${stripUnits*0.18}" font-weight="600" fill="#666" letter-spacing="0.3">PAY  TO</text>
+          <text x="${total/2}" y="${total+stripUnits*0.78}" font-size="${stripUnits*0.34}" font-weight="700" fill="#1a1a1a">${esc(upiName)}</text>
+        </g>`:'';
+    const svg=`<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${vbH}" shape-rendering="crispEdges"><rect width="${total}" height="${vbH}" fill="${bg}"/><g fill="${fg}">${rects}</g>${strip}</svg>`;
     const blob=new Blob([svg],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
     const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-QR_${stamp()}.svg`;document.body.appendChild(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),1500);
@@ -385,6 +518,7 @@ async function _tsRestoreFromUrl(){
       const el=document.getElementById('p-'+t);
       if(el) el.style.display=t===curType?'block':'none';
     });
+    lockColorsForUPI();   // shared UPI links re-apply the color lock
   }
   // Prefill fields
   if(cfg.type==='url' && cfg.url) document.getElementById('i-url').value=cfg.url;

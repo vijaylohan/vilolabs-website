@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Online Tools — Image to PDF, Merge PDF, Resize Image, QR Generator &amp; More | ViLoLabs</title>
-<meta name="description" content="Free online tools by ViLoLabs. Convert Image to PDF, Merge PDF, Compress &amp; Resize Image, generate QR codes, PDF to Word — fast, private, no sign up, no watermark. All in your browser.">
-<meta name="keywords" content="free online tools, image to pdf, merge pdf, compress pdf, resize image, compress image, qr code generator, pdf to word, free pdf tools, no watermark, no sign up">
+<title>Free Online Tools — Image to PDF, Merge PDF, Compress PDF, Resize Image, QR Generator, PDF to Word | ViLoLabs</title>
+<meta name="description" content="Free, private online tools: Image to PDF, Merge PDF, Compress PDF, Resize Image (with UPSC/SSC/IBPS govt-form presets), Compress Image, QR Code Generator (UPI / WiFi / vCard) and PDF to Word. Runs in your browser — files never leave your device. No sign up, no watermark.">
+<meta name="keywords" content="free online tools, image to pdf converter, merge pdf, compress pdf online, resize image, compress image, qr code generator, upi qr code generator, pdf to word, passport photo resize, govt form photo resize, 200 kb photo resize, free pdf tools, no watermark, no sign up, runs in browser">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Free Online Tools — Image to PDF, Merge PDF, Resize &amp; More | ViLoLabs">
 <meta property="og:description" content="Free, private tools that run in your browser. No sign up, no watermark.">
@@ -13,7 +13,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Free Online Tools — Image to PDF, Merge PDF, Resize &amp; More | ViLoLabs">
 <meta name="twitter:description" content="Free, private tools that run in your browser. No sign up, no watermark.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -28,8 +29,9 @@
   border-radius:14px;background:rgba(200,150,60,.03);transition:transform .35s,border-color .35s,background .35s;
   text-decoration:none;color:inherit;}
 .tool-card:hover{transform:translateY(-6px);border-color:rgba(200,150,60,.4);background:rgba(200,150,60,.06);}
-.tool-ico{width:48px;height:48px;border-radius:11px;background:rgba(200,150,60,.12);display:flex;align-items:center;
+.tool-ico{width:56px;height:56px;border-radius:11px;background:rgba(200,150,60,.10);display:flex;align-items:center;
   justify-content:center;margin-bottom:1rem;font-size:1.5rem;}
+.tool-ico img{width:42px;height:42px;object-fit:contain;display:block;}
 .tool-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.4rem;margin-bottom:.4rem;}
 .tool-card p{font-size:.86rem;color:rgba(245,240,232,.5);font-weight:300;flex:1;margin-bottom:1rem;}
 .tool-card .open{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600;}
@@ -39,6 +41,32 @@
 .badge.soon{background:rgba(200,150,60,.1);color:var(--brown3);border:1px solid rgba(200,150,60,.2);}
 .tool-card.disabled{pointer-events:none;opacity:.55;}
 </style>
+<script src="/assets/db.js"></script>
+<link rel="canonical" href="https://vilolabs.netlify.app/tools.html">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/tools.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/tools.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"ViLo Tools — Free Online Browser Tools","url":"https://vilolabs.netlify.app/tools.html","description":"Free, private tools that run in your browser — no sign up, no watermark, files never leave your device.","isPartOf":{"@type":"WebSite","name":"ViLoLabs","url":"https://vilolabs.netlify.app/"},"mainEntity":{"@type":"ItemList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Image to PDF","url":"https://vilolabs.netlify.app/tools/image-to-pdf.html"},
+{"@type":"ListItem","position":2,"name":"Merge PDF","url":"https://vilolabs.netlify.app/tools/merge-pdf.html"},
+{"@type":"ListItem","position":3,"name":"Resize Image","url":"https://vilolabs.netlify.app/tools/resize-image.html"},
+{"@type":"ListItem","position":4,"name":"Compress Image","url":"https://vilolabs.netlify.app/tools/compress-image.html"},
+{"@type":"ListItem","position":5,"name":"Compress PDF","url":"https://vilolabs.netlify.app/tools/compress-pdf.html"},
+{"@type":"ListItem","position":6,"name":"QR Code Generator","url":"https://vilolabs.netlify.app/tools/qr-generator.html"},
+{"@type":"ListItem","position":7,"name":"PDF to Word","url":"https://vilolabs.netlify.app/tools/pdf-to-word.html"}
+]}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Are these tools really free?","acceptedAnswer":{"@type":"Answer","text":"Yes — completely free, with no sign up and no watermark on your output. Use them as often as you like."}},
+{"@type":"Question","name":"Are my files uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Each tool runs entirely inside your web browser. Your files never leave your device, so it is fully private and safe."}},
+{"@type":"Question","name":"Do the tools work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes — every tool works on phones, tablets and computers in any modern browser."}},
+{"@type":"Question","name":"Which tool should I open first?","acceptedAnswer":{"@type":"Answer","text":"For documents, try Image to PDF or Merge PDF. For photos, try Resize Image — it has a 200 KB preset and one-click Govt Form presets for UPSC, SSC and IBPS."}}
+]}
+</script>
 </head>
 <body>
 <div id="cursor"></div>
@@ -71,7 +99,7 @@
 
     <a href="tools/image-to-pdf.html" class="tool-card">
       <span class="badge live">Live</span>
-      <div class="tool-ico">📄</div>
+      <div class="tool-ico"><img src="/assets/og/icons/image-to-pdf.png" alt="" loading="lazy"></div>
       <h3>Image to PDF</h3>
       <p>Combine JPG, PNG or WebP images into a single clean PDF. Reorder pages, pick page size, done.</p>
       <span class="open">Open Tool →</span>
@@ -79,7 +107,7 @@
 
     <a href="tools/merge-pdf.html" class="tool-card">
       <span class="badge live">Live</span>
-      <div class="tool-ico">📚</div>
+      <div class="tool-ico"><img src="/assets/og/icons/merge-pdf.png" alt="" loading="lazy"></div>
       <h3>Merge PDF</h3>
       <p>Join several PDFs into one document. Drag to reorder, then download — instantly.</p>
       <span class="open">Open Tool →</span>
@@ -87,7 +115,7 @@
 
     <a href="tools/resize-image.html" class="tool-card">
       <span class="badge live">Live</span>
-      <div class="tool-ico">📐</div>
+      <div class="tool-ico"><img src="/assets/og/icons/resize-image.png" alt="" loading="lazy"></div>
       <h3>Resize Image</h3>
       <p>Resize to exact pixels, percent — or to a target KB size (200 KB, 100 KB) for govt forms.</p>
       <span class="open">Open Tool →</span>
@@ -95,7 +123,7 @@
 
     <a href="tools/compress-image.html" class="tool-card">
       <span class="badge live">Live</span>
-      <div class="tool-ico">🗜️</div>
+      <div class="tool-ico"><img src="/assets/og/icons/compress-image.png" alt="" loading="lazy"></div>
       <h3>Compress Image</h3>
       <p>Shrink JPG and PNG file size for email and uploads — you choose the quality.</p>
       <span class="open">Open Tool →</span>
@@ -103,7 +131,7 @@
 
     <a href="tools/compress-pdf.html" class="tool-card">
       <span class="badge live">Live</span>
-      <div class="tool-ico">📉</div>
+      <div class="tool-ico"><img src="/assets/og/icons/compress-pdf.png" alt="" loading="lazy"></div>
       <h3>Compress PDF</h3>
       <p>Reduce PDF file size by re-encoding embedded images — fast and private.</p>
       <span class="open">Open Tool →</span>
@@ -111,7 +139,7 @@
 
     <a href="tools/qr-generator.html" class="tool-card">
       <span class="badge live">Live</span>
-      <div class="tool-ico">🔳</div>
+      <div class="tool-ico"><img src="/assets/og/icons/qr-generator.png" alt="" loading="lazy"></div>
       <h3>QR Generator</h3>
       <p>Make QR codes for URLs, text, WiFi, UPI payments and vCards — download as PNG.</p>
       <span class="open">Open Tool →</span>
@@ -119,15 +147,15 @@
 
     <a href="tools/pdf-to-word.html" class="tool-card">
       <span class="badge live">Live</span>
-      <div class="tool-ico">📝</div>
+      <div class="tool-ico"><img src="/assets/og/icons/pdf-to-word.png" alt="" loading="lazy"></div>
       <h3>PDF to Word</h3>
-      <p>Extract text from a PDF into an editable .docx document. Great for text-heavy PDFs.</p>
+      <p>Extract the text from a PDF into an editable Word file (.doc). Best for text-heavy PDFs — layout isn't preserved.</p>
       <span class="open">Open Tool →</span>
     </a>
 
     <div class="tool-card disabled">
       <span class="badge soon">Soon</span>
-      <div class="tool-ico">🖼️</div>
+      <div class="tool-ico"><img src="/assets/og/icons/pdf-to-image.png" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🖼️',style:'font-size:1.5rem;line-height:1;'}))"></div>
       <h3>PDF to Image</h3>
       <p>Export every PDF page as a high-quality JPG or PNG image — page by page.</p>
       <span class="open">Coming Soon</span>
@@ -135,7 +163,7 @@
 
     <div class="tool-card disabled">
       <span class="badge soon">Soon</span>
-      <div class="tool-ico">✂️</div>
+      <div class="tool-ico"><img src="/assets/og/icons/split-pdf.png" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'✂️',style:'font-size:1.5rem;line-height:1;'}))"></div>
       <h3>Split PDF</h3>
       <p>Extract a range of pages from a PDF, or split into separate files.</p>
       <span class="open">Coming Soon</span>

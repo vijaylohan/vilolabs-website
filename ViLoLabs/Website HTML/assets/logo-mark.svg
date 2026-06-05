@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512" role="img" aria-label="ViLoLabs">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E8BC72"/>
+      <stop offset="1" stop-color="#C8963C"/>
+    </linearGradient>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&amp;display=swap');
+      .v{font-family:'Cormorant Garamond',serif;font-weight:600;}
+    </style>
+  </defs>
+
+  <!-- serif V in the brand font, gold gradient -->
+  <text x="50" y="80" text-anchor="middle" font-size="96" class="v" fill="url(#gold)">V</text>
+
+  <!-- 4-point sparkle nested in the V's opening (the "idea") -->
+  <path fill="url(#gold)" transform="translate(50 40)"
+        d="M0,-7.5 Q1.1,-1.1 7.5,0 Q1.1,1.1 0,7.5 Q-1.1,1.1 -7.5,0 Q-1.1,-1.1 0,-7.5 Z"/>
+</svg>

@@ -55,12 +55,26 @@ nav.site-nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;j
   background:linear-gradient(180deg,rgba(200,150,60,.05),rgba(200,150,60,.015));}
 
 /* DROP ZONE */
-.drop{border:2px dashed rgba(200,150,60,.32);border-radius:14px;padding:2.4rem 1.5rem;text-align:center;
-  cursor:pointer;transition:border-color .25s,background .25s;}
-.drop:hover,.drop.over{border-color:var(--gold);background:rgba(200,150,60,.06);}
-.drop .di{font-size:2.2rem;margin-bottom:.5rem;}
-.drop .dt{font-size:1rem;font-weight:500;}
-.drop .ds{font-size:.78rem;color:var(--brown3);margin-top:.3rem;}
+.drop{border:2px dashed rgba(200,150,60,.32);border-radius:14px;padding:2.6rem 1.5rem 2.3rem;text-align:center;
+  cursor:pointer;background:linear-gradient(180deg,rgba(200,150,60,.025) 0,rgba(200,150,60,0) 100%);
+  transition:all .3s ease;position:relative;}
+.drop:hover,.drop.over{border-color:var(--gold);background:rgba(200,150,60,.06);transform:translateY(-1px);
+  box-shadow:0 6px 24px rgba(200,150,60,.07);}
+/* Icon container — supports both emoji and gold PNG icons */
+.drop .di{margin-bottom:.7rem;display:flex;align-items:center;justify-content:center;}
+.drop .di img{width:72px;height:72px;object-fit:contain;display:block;
+  filter:drop-shadow(0 4px 12px rgba(200,150,60,.18));transition:transform .3s ease;}
+.drop:hover .di img,.drop.over .di img{transform:translateY(-2px) scale(1.04);}
+/* Legacy emoji fallback */
+.drop .di:not(:has(img)){font-size:2.2rem;}
+.drop .dt{font-size:1.05rem;font-weight:500;margin-bottom:.25rem;}
+.drop .ds{font-size:.78rem;color:var(--brown3);margin-top:.1rem;}
+/* Subtle "upload arrow" hint badge */
+.drop::before{content:"↑";position:absolute;top:.9rem;right:1.1rem;font-size:.85rem;
+  color:var(--gold);opacity:.4;font-weight:700;letter-spacing:0;
+  border:1px solid rgba(200,150,60,.25);border-radius:50%;width:24px;height:24px;
+  display:flex;align-items:center;justify-content:center;line-height:1;}
+.drop:hover::before,.drop.over::before{opacity:1;transform:translateY(-2px);}
 
 /* THUMBS GRID */
 .thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.8rem;margin-top:1.4rem;}

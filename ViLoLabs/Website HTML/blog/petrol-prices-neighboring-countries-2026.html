@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>India Has Cheaper Petrol Than Most of Its Neighbours — 2026 Verified Data | ViLo Pulse</title>
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <meta name="description" content="Verified May 2026 data: India ₹95, Bangladesh ₹102, Bhutan ₹110, Sri Lanka ₹121, China ₹123, Nepal ₹136, Pakistan ₹141. Full neighbour-country petrol price comparison.">
   <meta property="og:title" content="India Has Cheaper Petrol Than Most of Its Neighbours — The 2026 Numbers">
   <meta property="og:description" content="India is now cheaper than Pakistan, Nepal, Sri Lanka, China and Bhutan. Only Bangladesh comes close. Verified May 2026 data with INR equivalents.">
@@ -13,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/blog/shared/blog.css">
+  <link rel="stylesheet" href="/assets/share.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <script src="/assets/db.js"></script>
 
@@ -99,6 +101,13 @@
     ]
   }
   </script>
+<link rel="canonical" href="https://vilolabs.netlify.app/blog/petrol-prices-neighboring-countries-2026.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/blog-petrol-prices-neighboring-countries-2026.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/blog-petrol-prices-neighboring-countries-2026.jpg">
 </head>
 <body>
 
@@ -395,12 +404,8 @@
   </p>
 
   <!-- Share bar -->
-  <div class="share-bar">
-    <span class="share-label">Share</span>
-    <a class="share-btn whatsapp" id="shareWA" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
-    <a class="share-btn twitter" id="shareTW" href="#" target="_blank" rel="noopener">𝕏 Twitter</a>
-    <button class="share-btn copy" onclick="copyLink()">🔗 Copy link</button>
-  </div>
+  <!-- Share bar (shared component — /assets/share.js) -->
+  <div class="vshare" data-hook="Found this useful? Send it to someone 👇"></div>
 
   <!-- FAQ -->
   <h2 id="section-faq">Frequently Asked Questions</h2>
@@ -721,11 +726,7 @@ function sortTable(col) {
 
 renderTable(COUNTRIES);
 
-/* ── Share links ── */
-const shareText = encodeURIComponent('India Has Cheaper Petrol Than Most of Its Neighbours — The 2026 Numbers');
-const shareUrl  = encodeURIComponent(location.href);
-document.getElementById('shareWA').href = `https://wa.me/?text=${shareText}%20${shareUrl}`;
-document.getElementById('shareTW').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+/* ── Share handled by shared component (/assets/share.js) ── */
 
 /* ── Reading progress ── */
 window.addEventListener('scroll', () => {
@@ -752,14 +753,7 @@ function toggleFaq(el) {
   if (!isOpen) { ans.classList.add('open'); el.classList.add('open'); }
 }
 
-/* ── Copy link ── */
-function copyLink() {
-  navigator.clipboard.writeText(location.href).then(() => {
-    const btn = document.querySelector('.share-btn.copy');
-    btn.textContent = '✓ Copied!';
-    setTimeout(() => btn.textContent = '🔗 Copy link', 2000);
-  });
-}
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>

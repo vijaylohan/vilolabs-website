@@ -33,3 +33,9 @@ npm-debug.log*
 # Claude Code session files
 .claude/projects/
 .claude/sessions/
+
+# Local backups (manual logo/asset reverts — keep local only)
+.logo-revert/
+
+# Per-machine Claude Code settings (personal permissions list, not project config)
+.claude/settings.local.json

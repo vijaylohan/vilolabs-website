@@ -10,7 +10,8 @@
 <meta property="og:title" content="Compress Image Online — JPG, PNG, WebP | ViLoLabs">
 <meta property="og:description" content="Shrink image file size in your browser. Free, private, no watermark.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -31,6 +32,20 @@
 .save{font-size:.72rem;color:var(--green);font-weight:700;margin-top:.2rem;}
 @media(max-width:560px){.preview{grid-template-columns:1fr;}}
 </style>
+<link rel="canonical" href="https://vilolabs.netlify.app/tools/compress-image.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/tool-compress-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/tool-compress-image.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vilolabs.netlify.app/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://vilolabs.netlify.app/tools.html"},{"@type":"ListItem","position":3,"name":"Compress Image","item":"https://vilolabs.netlify.app/tools/compress-image.html"}]}
+</script>
+<style>.tested-with{display:block;margin:.7rem 0 .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:left;max-width:780px;}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What quality should I pick?","acceptedAnswer":{"@type":"Answer","text":"75% is a good default for most photos — you save a lot of size without seeing a difference. Drop to 60% for email attachments, push to 85%+ for important detail."}},{"@type":"Question","name":"Why doesn't PNG get much smaller?","acceptedAnswer":{"@type":"Answer","text":"PNG is a lossless format — the slider doesn't apply to it the way it does to JPG/WebP. To compress PNG more, switch the output format to JPG or WebP."}},{"@type":"Question","name":"What's WebP good for?","acceptedAnswer":{"@type":"Answer","text":"WebP is a modern format that's typically 25–35% smaller than JPG at the same visual quality. Great for the web, supported in all current browsers."}},{"@type":"Question","name":"Need exact file size like 200 KB?","acceptedAnswer":{"@type":"Answer","text":"Use Resize Image instead — it has a target-KB mode with a 200 KB preset for govt forms."}}]}
+</script>
 </head>
 <body>
 <div id="cursor"></div><div id="cursor-ring"></div>
@@ -50,15 +65,16 @@
 <header class="hero">
   <p class="eyebrow">Free Online Tool · Image</p>
   <h1>Compress Image <em>quality.</em></h1>
-  <p class="lead">Shrink JPG, PNG and WebP file size for email, uploads and the web. Choose your quality, see the savings live — files never leave your device.</p>
+  <p class="lead">Shrink JPG, PNG or WebP image file size for WhatsApp, Gmail, government form uploads and faster websites. Pick a quality, see the savings live, keep the original dimensions. Free, watermark-free, runs in your browser — files never leave your device.</p>
   <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
+  <p class="tested-with">Verified — Tested with phone photos, screenshots and scanned forms. JPG, PNG and WebP supported.</p>
 </header>
 
 <section class="wrap">
   <div class="app-sec">
     <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please review the compressed image before sharing or printing important documents.</span></div>
     <div class="drop" id="drop">
-      <div class="di">🗜️</div>
+      <div class="di"><img src="/assets/og/icons/compress-image.png" alt="" loading="lazy"></div>
       <div class="dt">Click to choose an image, or drop it here</div>
       <div class="ds">JPG · PNG · WebP</div>
     </div>

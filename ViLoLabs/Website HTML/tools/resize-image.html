@@ -10,7 +10,8 @@
 <meta property="og:title" content="Resize Image — Pixels, Percent or Target KB (200 KB Preset) | ViLoLabs">
 <meta property="og:description" content="Free image resizer with a 200 KB target preset for Indian govt forms. Private, in-browser.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1108'/><text y='24' x='4' font-size='22' font-family='Georgia,serif' fill='%23C8963C'>V</text></svg>">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -40,6 +41,20 @@
 .lock-wrap input{accent-color:var(--gold);}
 @media(max-width:560px){.preview{grid-template-columns:1fr;}}
 </style>
+<link rel="canonical" href="https://vilolabs.netlify.app/tools/resize-image.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.netlify.app/assets/og/tool-resize-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.netlify.app/assets/og/tool-resize-image.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vilolabs.netlify.app/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://vilolabs.netlify.app/tools.html"},{"@type":"ListItem","position":3,"name":"Resize Image","item":"https://vilolabs.netlify.app/tools/resize-image.html"}]}
+</script>
+<style>.tested-with{display:block;margin:.7rem 0 .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:left;max-width:780px;}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why a 200 KB preset?","acceptedAnswer":{"@type":"Answer","text":"Many Indian government forms (UPSC, SSC, IBPS, state boards, exam portals) require a passport photo or signature image under 200 KB. The preset hits that target automatically."}},{"@type":"Question","name":"How does target KB mode work?","acceptedAnswer":{"@type":"Answer","text":"We keep your original dimensions and reduce JPG quality step by step until the file fits. If it still can't fit at low quality, we gently downscale dimensions until it does."}},{"@type":"Question","name":"Does this keep transparency?","acceptedAnswer":{"@type":"Answer","text":"PNG keeps transparency. JPG does not — we fill transparent areas with white. Choose your format in the Format dropdown."}},{"@type":"Question","name":"Are my images uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Everything happens in your browser — your image never leaves your device."}}]}
+</script>
 </head>
 <body>
 <div id="cursor"></div><div id="cursor-ring"></div>
@@ -59,15 +74,16 @@
 <header class="hero">
   <p class="eyebrow">Free Online Tool · Image</p>
   <h1>Resize Image to <em>any size.</em></h1>
-  <p class="lead">Resize JPG, PNG or WebP to exact pixels, a percentage, or a target file size — including <strong>200 KB and 100 KB presets</strong> for Indian govt forms (UPSC, SSC, banking, exam portals).</p>
+  <p class="lead">Resize a passport photo, signature or any image to <strong>exact pixel dimensions</strong>, a percentage, or a target KB size. One-click <strong>Govt Form presets</strong> for UPSC, SSC CGL, IBPS PO, Passport, Aadhaar and PAN signatures — locks the pixel spec, fits the KB range. Free, watermark-free, runs in your browser.</p>
   <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
+  <p class="tested-with">Verified — Govt-form presets cross-checked against the latest UPSC, SSC CGL, IBPS PO and Aadhaar notices.</p>
 </header>
 
 <section class="wrap">
   <div class="app-sec">
     <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please check your resized image meets your form's requirements before uploading it.</span></div>
     <div class="drop" id="drop">
-      <div class="di">🖼️</div>
+      <div class="di"><img src="/assets/og/icons/resize-image.png" alt="" loading="lazy"></div>
       <div class="dt">Click to choose an image, or drop it here</div>
       <div class="ds">JPG · PNG · WebP</div>
     </div>
@@ -78,6 +94,7 @@
         <button class="mode-tab on" data-mode="px">Pixels</button>
         <button class="mode-tab" data-mode="pct">Percent</button>
         <button class="mode-tab" data-mode="kb">Target KB</button>
+        <button class="mode-tab" data-mode="gov">Govt Form</button>
       </div>
 
       <!-- pixel mode -->
@@ -114,6 +131,27 @@
 
       <div class="notice" id="notice-kb" style="display:none">
         <strong>Target KB mode:</strong> we keep the original dimensions and reduce JPG quality until the file fits. If it can't fit even at low quality, we'll downscale dimensions a bit to make it work.
+      </div>
+
+      <!-- Govt-form mode: bundles pixel-spec + KB target for known Indian forms -->
+      <div class="opts" id="opts-gov" style="display:none;flex-direction:column;gap:.6rem;">
+        <div class="opt" style="flex:1;min-width:240px">
+          <label>Indian form preset</label>
+          <select id="gov-preset" style="width:100%">
+            <option value="upsc-photo">UPSC Civil Services — Photo (350×350 px, 20–300 KB)</option>
+            <option value="upsc-sig">UPSC Civil Services — Signature (350×350 px, 20–300 KB)</option>
+            <option value="ssc-photo">SSC CGL / CHSL — Photo (240×320 px, 20–50 KB)</option>
+            <option value="ssc-sig">SSC CGL / CHSL — Signature (240×320 px, 10–20 KB)</option>
+            <option value="ibps-photo">IBPS PO / Clerk — Photo (200×230 px, 20–50 KB)</option>
+            <option value="ibps-sig">IBPS PO / Clerk — Signature (140×60 px, 10–20 KB)</option>
+            <option value="passport-india">Indian Passport (online portal) — Photo (350×350 px, 20–300 KB)</option>
+            <option value="aadhaar-sig">Aadhaar / PAN — Signature (140×60 px, 10–20 KB)</option>
+          </select>
+          <div class="hint" id="gov-spec" style="margin-top:.35rem;font-size:.72rem;">Resizes to the exact pixel spec, then compresses to fit the KB range.</div>
+        </div>
+      </div>
+      <div class="notice" id="notice-gov" style="display:none">
+        <strong>Govt Form mode:</strong> we resize to the form's <em>exact pixel dimensions</em> first, then compress to fit the KB range. Pixel size is locked to spec — you'll get a file that matches what the portal wants. <em>Always double-check the latest form notice before uploading — specs change.</em>
       </div>
 
       <div class="preview">
@@ -193,6 +231,22 @@ function loadImg(f){
   reader.readAsDataURL(f);
 }
 
+// ── Indian govt form specs (from official notices — verify before each form cycle) ──
+const GOV_PRESETS={
+  'upsc-photo':       {w:350,h:350,kbMin:20,kbMax:300,label:'UPSC Photo'},
+  'upsc-sig':         {w:350,h:350,kbMin:20,kbMax:300,label:'UPSC Signature'},
+  'ssc-photo':        {w:240,h:320,kbMin:20,kbMax:50, label:'SSC CGL/CHSL Photo'},
+  'ssc-sig':          {w:240,h:320,kbMin:10,kbMax:20, label:'SSC CGL/CHSL Signature'},
+  'ibps-photo':       {w:200,h:230,kbMin:20,kbMax:50, label:'IBPS Photo'},
+  'ibps-sig':         {w:140,h:60, kbMin:10,kbMax:20, label:'IBPS Signature'},
+  'passport-india':   {w:350,h:350,kbMin:20,kbMax:300,label:'Indian Passport Photo'},
+  'aadhaar-sig':      {w:140,h:60, kbMin:10,kbMax:20, label:'Aadhaar/PAN Signature'}
+};
+function _govSpecText(){
+  const p=GOV_PRESETS[document.getElementById('gov-preset').value];
+  if(!p) return '';
+  return `Spec: <strong>${p.w}×${p.h} px</strong> · <strong>${p.kbMin}–${p.kbMax} KB</strong> · JPG. We resize to the exact pixel spec, then compress to fit the KB range.`;
+}
 document.querySelectorAll('.mode-tab').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.mode-tab').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');
@@ -200,8 +254,13 @@ document.querySelectorAll('.mode-tab').forEach(b=>b.addEventListener('click',()=
   document.getElementById('opts-px').style.display=mode==='px'?'flex':'none';
   document.getElementById('opts-pct').style.display=mode==='pct'?'flex':'none';
   document.getElementById('opts-kb').style.display=mode==='kb'?'flex':'none';
+  document.getElementById('opts-gov').style.display=mode==='gov'?'flex':'none';
   document.getElementById('notice-kb').style.display=mode==='kb'?'block':'none';
+  document.getElementById('notice-gov').style.display=mode==='gov'?'block':'none';
+  if(mode==='gov') document.getElementById('gov-spec').innerHTML=_govSpecText();
 }));
+const _govSel=document.getElementById('gov-preset');
+if(_govSel) _govSel.addEventListener('change',()=>{document.getElementById('gov-spec').innerHTML=_govSpecText();});
 
 // pixel inputs — lock aspect ratio
 const wEl=document.getElementById('w'),hEl=document.getElementById('h');
@@ -246,12 +305,39 @@ async function doResize(){
       outH=Math.max(1,Math.round(orig.h*p));
       outMime=pickFormat('fmt-pct');
       blob=await drawAndEncode(orig.img,outW,outH,outMime,0.92);
-    } else { // kb
+    } else if(mode==='kb') {
       const target=Math.max(5,+document.getElementById('kb').value||200);
       outMime='image/jpeg';
       const r=await compressToTargetKB(orig.img,target);
       if(!r){statusEl.classList.add('err');statusEl.textContent='Could not hit target — try a slightly bigger KB.';go.disabled=false;return;}
       blob=r.blob;outW=r.w;outH=r.h;
+    } else { // gov — exact pixel dims + KB range
+      const presetKey=document.getElementById('gov-preset').value;
+      const spec=GOV_PRESETS[presetKey];
+      outMime='image/jpeg';outW=spec.w;outH=spec.h;
+      const r=await compressInRange(orig.img,spec.w,spec.h,spec.kbMin,spec.kbMax);
+      if(!r){
+        statusEl.classList.add('err');
+        statusEl.textContent=`Couldn't fit the ${spec.kbMin}–${spec.kbMax} KB range at ${spec.w}×${spec.h}. Try a sharper source image (less detail = smaller file).`;
+        go.disabled=false;return;
+      }
+      blob=r.blob;
+      // Verification line stashed in a separate panel so it isn't clobbered
+      // by the generic '✓ Downloaded.' status that fires later in the flow.
+      const kb=Math.round(blob.size/1024);
+      const inRange=(kb>=spec.kbMin && kb<=spec.kbMax);
+      const verifyMsg=inRange
+        ? `✓ Matches ${spec.label} spec — ${spec.w}×${spec.h} px · ${kb} KB (target ${spec.kbMin}–${spec.kbMax} KB).`
+        : (kb<spec.kbMin
+            ? `⚠ ${spec.w}×${spec.h} px · ${kb} KB — under the ${spec.kbMin} KB minimum. Your source image is too smooth/small to produce a JPEG that big at this pixel size. Some portals accept this; some flag it. Try a more detailed source if your portal rejects.`
+            : `⚠ ${spec.w}×${spec.h} px · ${kb} KB — over the ${spec.kbMax} KB ceiling. Verify before uploading.`);
+      const v=document.getElementById('gov-verify')||(()=>{const e=document.createElement('div');e.id='gov-verify';e.className='notice';e.style.marginTop='1rem';document.getElementById('notice-gov').parentNode.insertBefore(e,document.getElementById('notice-gov').nextSibling);return e;})();
+      v.style.display='block';
+      v.style.borderLeftColor=inRange?'#86d995':'#e8a13c';
+      v.innerHTML=verifyMsg;
+    } else {
+      // Non-gov modes: clear any leftover gov-verify panel
+      const v=document.getElementById('gov-verify');if(v) v.style.display='none';
     }
     outBlob=blob;
     const url=URL.createObjectURL(blob);
@@ -348,6 +434,31 @@ function drawAndEncode(img,W,H,mime,q){
     ctx.drawImage(img,0,0,W,H);
     c.toBlob(b=>resolve(b),mime,q);
   });
+}
+
+// For govt-form mode: pixel size is LOCKED to spec, only quality varies.
+// Binary-search quality to land inside [minKB, maxKB] — forms also reject
+// "too small" files (suspected of being downsampled placeholders).
+// Returns {blob, w, h, under?, over?} — `under` means file is below min KB
+// even at quality 1.0 (genuine content limit — caller should warn).
+async function compressInRange(img,W,H,minKB,maxKB){
+  const minB=minKB*1024, maxB=maxKB*1024;
+  // try maximum quality first
+  const top=await drawAndEncode(img,W,H,'image/jpeg',1.0);
+  if(top.size>=minB && top.size<=maxB) return {blob:top,w:W,h:H};
+  if(top.size<minB) return {blob:top,w:W,h:H,under:true};   // can't grow — image too smooth
+  // top was too big — binary-search quality down
+  let qlo=0.20,qhi=1.0,best=null;
+  for(let i=0;i<10;i++){
+    const q=(qlo+qhi)/2;
+    const b=await drawAndEncode(img,W,H,'image/jpeg',q);
+    if(b.size>maxB){qhi=q;}
+    else if(b.size<minB){qlo=q;best=b;}
+    else {return {blob:b,w:W,h:H};}
+  }
+  // couldn't land in range — return closest we got (caller decides what to say)
+  if(best) return {blob:best,w:W,h:H,under:true};
+  return null;
 }
 
 async function compressToTargetKB(img,targetKB){

@@ -37,19 +37,15 @@ const OUT    = path.join(ASSETS, 'library.json');
 // against a frozen snapshot of the old library.
 //
 // HISTORY:
-//   1 — initial baseline (2026-05-24)
-//   2 — rename symbols/yes do schema → symbols/skull-crossbones (2026-05-25)
-//       (asset was added today, no worksheet had a chance to use the old slug)
-//   3 — rename symbols/ten -frame → symbols/ten-frame (2026-05-25)
-//       (whitespace cleanup; same-day rename, no live URLs affected)
-//   4 — NEGATIVE emoji list added (2026-05-25): pirate/mask/dog-house/etc
-//       lose their emoji match because the Fluent matcher had mapped them
-//       to wrong emojis (e.g. pirate→parrot). They become PNG-only.
-//       No live worksheets had been generated against these items.
-//   5 — rename tools/rop.png → tools/rope.png + bulk new coloring page
-//       entries (forest/farmhouse/scene variants) — same-day, no live URLs.
+//   1 — public launch baseline (2026-05-29). Clean reset before the
+//       vilolabs.in domain goes live. The pre-launch worksheets table was
+//       truncated in Supabase (only dev/test rows existed), so the earlier
+//       dev versions (old 1–8: initial baseline, symbol renames, NEGATIVE
+//       emoji list, typo fixes, plus the large image-library expansion) are
+//       collapsed into this single fresh baseline. No public /worksheets/<slug>
+//       URLs existed yet, so nothing breaks.
 // ─────────────────────────────────────────────────────────────────
-const LIBRARY_VERSION = 5;
+const LIBRARY_VERSION = 1;
 
 const prettify = s => s.split(/[-_]/)
   .map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');

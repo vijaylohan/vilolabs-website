@@ -1,0 +1,70 @@
+/* ════════════════════════════════════════════════════════════════
+   ViLoLabs — shared Share component  (works on light AND dark pages)
+   Used by: blog posts, /worksheets/<slug>, sheets.html, etc.
+   Every button carries its own colour so it's background-independent.
+   Relies only on --gold / --gold2 / --char (defined site-wide; has fallbacks).
+   ════════════════════════════════════════════════════════════════ */
+.vshare{
+  --vs-gold:var(--gold,#C8963C); --vs-gold2:var(--gold2,#E8BC72); --vs-char:var(--char,#1A1108);
+  padding:1.4rem 0; margin:1.8rem 0;
+  border-top:1px solid rgba(200,150,60,.22);
+  border-bottom:1px solid rgba(200,150,60,.22);
+}
+.vshare-hook{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.3rem; font-weight:700; color:var(--vs-gold);
+  margin-bottom:.95rem; display:flex; align-items:center; gap:.5rem; flex-wrap:wrap;
+}
+.vshare-row{display:flex; flex-wrap:wrap; gap:.55rem; align-items:center}
+
+.vsbtn{
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.6rem 1.05rem; border-radius:10px;
+  font-family:'Outfit',system-ui,sans-serif; font-size:.9rem; font-weight:600;
+  cursor:pointer; border:none; text-decoration:none; white-space:nowrap;
+  transition:transform .15s, box-shadow .15s, opacity .15s;
+}
+.vsbtn:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.28)}
+.vsbtn:active{transform:translateY(0)}
+.vsbtn svg{width:18px; height:18px; flex-shrink:0}
+
+/* primary native-share button (mobile) — brand gold, biggest */
+.vsbtn.native{
+  background:linear-gradient(135deg,var(--vs-gold2),var(--vs-gold)); color:var(--vs-char);
+  font-size:1rem; padding:.8rem 1.6rem; box-shadow:0 6px 18px rgba(200,150,60,.3);
+}
+.vsbtn.native svg{width:20px; height:20px}
+
+/* platform colours — background-independent */
+.vsbtn.wa  {background:#25D366; color:#0a3d20}
+.vsbtn.tg  {background:#229ED9; color:#fff}
+.vsbtn.fb  {background:#1877F2; color:#fff}
+.vsbtn.pin {background:#E60023; color:#fff}
+.vsbtn.x   {background:#1a1a1a; color:#fff; border:1px solid rgba(255,255,255,.22)}
+.vsbtn.mail{background:#5b6470; color:#fff}
+.vsbtn.copy{background:transparent; color:var(--vs-gold); border:1.5px solid var(--vs-gold)}
+
+.vshare [hidden]{display:none!important}
+
+/* toast */
+.vshare-toast{
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--gold,#C8963C); color:var(--char,#1A1108);
+  padding:.65rem 1.3rem; border-radius:10px; font-family:'Outfit',sans-serif;
+  font-weight:600; font-size:.85rem; opacity:0; pointer-events:none;
+  transition:all .3s; z-index:9999;
+}
+.vshare-toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+/* compact variant (e.g. inside the sheets.html popover) */
+.vshare.compact{border:none; padding:0; margin:0}
+.vshare.compact .vshare-hook{font-size:1rem; margin-bottom:.6rem}
+.vshare.compact .vshare-row{flex-direction:column; align-items:stretch}
+.vshare.compact .vsbtn{justify-content:flex-start; font-size:.86rem; padding:.55rem .8rem}
+
+/* post-generate nudge banner */
+.vshare.nudge{
+  border:1px solid rgba(200,150,60,.35); border-radius:14px;
+  background:rgba(200,150,60,.06); padding:1.1rem 1.2rem; margin:1rem 0;
+}
+.vshare.nudge .vshare-hook{margin-bottom:.7rem; font-size:1.15rem}
