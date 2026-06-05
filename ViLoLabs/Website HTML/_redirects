@@ -1,23 +1,24 @@
-# ViLoLabs Netlify _redirects
+# ViLoLabs — Cloudflare Pages _redirects
 # ──────────────────────────────────────────────────────────────
-# Worksheet slug routing: every /worksheets/<slug> URL is served
-# by /worksheets/index.html. Client-side JS parses the slug from
-# location.pathname and renders the matching worksheet view.
-# Status 200 = rewrite (URL stays the same in browser, page served).
+# Cloudflare Pages auto-strips `.html` extensions and auto-serves
+# directory index.html files. Targets here are written WITHOUT .html
+# (and with a trailing slash for directory roots) so Cloudflare's
+# normalization layer doesn't reject the rewrite.
+#
+# Status 200 = rewrite (URL stays the same in browser, target page served).
+# Client-side JS on the target reads location.pathname and renders the
+# slug-specific view.
 
-# Pretty URLs for /worksheets/<slug>
-/worksheets/*    /worksheets/index.html    200
+# Pretty URLs for /worksheets/<slug>  →  serve /worksheets/index.html
+/worksheets/*    /worksheets/    200
 
-# Backwards-compat: old sheets.html link still works
-/sheets.html     /sheets.html              200
-
-# Tool-share pretty URLs — /tools/<tool>/<slug> rewrites to /tools/<tool>.html
-# The tool's onload JS reads the slug from location.pathname and restores config.
-/tools/resize-image/*      /tools/resize-image.html      200
-/tools/qr-generator/*      /tools/qr-generator.html      200
-/tools/image-to-pdf/*      /tools/image-to-pdf.html      200
-/tools/compress-image/*    /tools/compress-image.html    200
-/tools/compress-pdf/*      /tools/compress-pdf.html      200
-/tools/merge-pdf/*         /tools/merge-pdf.html         200
+# Tool-share pretty URLs — /tools/<tool>/<slug>  →  serve /tools/<tool>.html
+# (Cloudflare resolves the extensionless path to the underlying .html file.)
+/tools/resize-image/*      /tools/resize-image      200
+/tools/qr-generator/*      /tools/qr-generator      200
+/tools/image-to-pdf/*      /tools/image-to-pdf      200
+/tools/compress-image/*    /tools/compress-image    200
+/tools/compress-pdf/*      /tools/compress-pdf      200
+/tools/merge-pdf/*         /tools/merge-pdf         200
 
 # (Add more redirects here as the site grows.)
