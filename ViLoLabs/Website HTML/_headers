@@ -19,22 +19,12 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-# Cloudflare Pages defaults .js/.css to max-age=14400. Try to force the shared
-# app code to always-revalidate via exact paths so code updates ship instantly.
-/assets/share.js
-  Cache-Control: public, max-age=0, must-revalidate
-/assets/share.css
-  Cache-Control: public, max-age=0, must-revalidate
-/assets/db.js
-  Cache-Control: public, max-age=0, must-revalidate
-/worksheets/worksheet-seo.js
-  Cache-Control: public, max-age=0, must-revalidate
-/tools/tool-seo.js
-  Cache-Control: public, max-age=0, must-revalidate
-/tools/shared.css
-  Cache-Control: public, max-age=0, must-revalidate
-/blog/shared/blog.css
-  Cache-Control: public, max-age=0, must-revalidate
+# NOTE: Cloudflare Pages hard-codes Cache-Control: public, max-age=14400 on
+# .js/.css and _headers CANNOT override it (verified — /*, /*.js, and exact
+# paths all ignored; only HTML/JSON/images/security headers above take effect).
+# So shared JS/CSS updates reach returning visitors within 4h (must-revalidate
+# → never permanently stuck). For INSTANT JS/CSS updates, cache-bust by bumping
+# a ?v= query on the <script>/<link> references when that file changes.
 
 # ── Rarely-changing media → cache for a day (safe to be slightly stale) ──
 /assets/library/*
