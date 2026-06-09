@@ -93,8 +93,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .pg-brand{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-weight:600;color:rgba(245,240,232,.7)}
 .pg-brand em{font-style:normal;color:var(--gold)}
 .pg-num{font-size:.6rem;font-weight:700;color:rgba(245,240,232,.4);letter-spacing:.1em}
-.pg-meta{padding:.38rem 1rem;font-size:.58rem;color:#A07860;font-weight:700;display:flex;gap:.5rem;flex-wrap:wrap;border-bottom:1px solid #EDE4D6;background:#FDFAF5}
-.pg-nameline{display:flex;gap:1rem;padding:.55rem 1rem .6rem;border-bottom:1.5px solid #EDE4D6;font-size:.66rem;font-weight:700;color:#A07860;align-items:flex-end}
+.pg-meta{padding:.38rem 1rem;font-size:.58rem;color:#7a5a30;font-weight:700;display:flex;gap:.5rem;flex-wrap:wrap;border-bottom:1px solid #EDE4D6;background:#FDFAF5}
+.pg-nameline{display:flex;gap:1rem;padding:.55rem 1rem .6rem;border-bottom:1.5px solid #EDE4D6;font-size:.66rem;font-weight:700;color:#4a3520;align-items:flex-end}
 .nl{display:flex;align-items:flex-end;gap:.4rem}
 .nl-name{flex:2.4}.nl-date{flex:1.5}.nl-score{flex:1}
 .nl-line{flex:1;border-bottom:1.5px solid var(--border);height:1.15em}
@@ -123,8 +123,13 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .promo-qr-cap{font-size:.5rem;color:var(--brown);margin-top:.25rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
 .cell:nth-child(3),.cell:nth-child(4){border-bottom:none}
 .act-hdr{margin-bottom:.45rem}
-.act-type{font-size:.52rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.2rem}
+.act-type{font-size:.52rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#8a5d10;margin-bottom:.2rem}
 .act-instr{font-size:.82rem;color:#241608;font-weight:800;line-height:1.5}
+/* PRINT CONTRAST: muted browns / golds wash out on paper. Darken the worksheet's
+   soft label colours so every printed sheet is legible. Applies on screen + print
+   + PDF (html2canvas renders the live DOM). Scoped to .ws-page only. */
+.ws-page [style*="A07860"]{color:#6b4a2c!important}
+.ws-page [style*="#A07860"]{color:#6b4a2c!important}
 .act-body{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.5rem;padding-top:.3rem}
 .wimg{width:1em;height:1em;object-fit:contain;vertical-align:middle;display:block}
 /* PDF capture mode — renders each page at exact A4 (794x1123 @96dpi) */
