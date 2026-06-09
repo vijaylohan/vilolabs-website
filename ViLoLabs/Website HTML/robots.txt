@@ -1,5 +1,5 @@
 # ViLoLabs — robots.txt
-# Everything is crawlable. Replace the Sitemap URL below once your real domain is set up.
+# Everything is crawlable. Live at vilolabs.in (launched 2026-06-09).
 
 User-agent: *
 Allow: /
@@ -32,5 +32,4 @@ Disallow: /
 User-agent: Claude-Web
 Disallow: /
 
-# TODO: when domain is registered, replace this with the real URL
 Sitemap: https://vilolabs.in/sitemap.xml

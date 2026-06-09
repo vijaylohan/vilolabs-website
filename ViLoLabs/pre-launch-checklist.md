@@ -1,9 +1,20 @@
 # ViLoLabs — Launch Plan & Checklist
 
-**🪔 Launch date: Tuesday, 9 June 2026** — confirmed by user.
-Decision: *all* technical work happens **on Jun 9 itself**. Jun 7 + Jun 8 = rest.
+## ✅✅✅ LAUNCHED — 9 June 2026 🪔
 
-Last update: 2026-06-06.
+Site is LIVE at **https://vilolabs.in** — HTTPS, all tools working, worksheets
+generate + print, share system live. Google Search Console verified; sitemap
+submitted and **processed (23 pages discovered)**. Domain switch, real 404 page,
+and worksheet print-legibility fixes all shipped.
+
+Everything below is now HISTORY (kept for the record) + the post-launch backlog.
+
+---
+
+**🪔 Launch date: Tuesday, 9 June 2026** — DONE.
+All technical work executed on Jun 9 as planned.
+
+Last update: 2026-06-09 (launch day).
 
 ---
 
