@@ -3135,11 +3135,15 @@ async function generatePDF(){
     const {jsPDF}=window.jspdf;
     const pdf=new jsPDF('p','mm','a4');
     for(let i=0;i<pages.length;i++){
-      // scale:3 + quality:0.95 → noticeably sharper PNG clipart at A4 print size.
-      // Trade-off: ~40% larger file vs scale:2/0.92, but worksheets print beautifully.
-      const cv=await html2canvas(pages[i],{scale:3,backgroundColor:'#ffffff',useCORS:true,logging:false,imageTimeout:0});
+      // Per-page progress so the wait never feels frozen.
+      if(lt)lt.textContent=T('creatingPdf')+' — '+(i+1)+'/'+pages.length;
+      // scale:2 ≈ 190 DPI at A4 — crisp for clipart/line-art worksheets, ~2× faster
+      // and a much smaller file than scale:3. imageTimeout caps a stuck image.
+      const cv=await html2canvas(pages[i],{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false,imageTimeout:8000});
       if(i>0)pdf.addPage();
-      pdf.addImage(cv.toDataURL('image/jpeg',0.95),'JPEG',0,0,210,297);
+      pdf.addImage(cv.toDataURL('image/jpeg',0.94),'JPEG',0,0,210,297);
+      // yield to the browser between pages so the loader/UI stays responsive
+      await new Promise(r=>setTimeout(r,0));
     }
     const sd=new Date(),sp=n=>String(n).padStart(2,'0');
     const fnStamp=`${sd.getFullYear()}-${sp(sd.getMonth()+1)}-${sp(sd.getDate())}_${sp(sd.getHours())}${sp(sd.getMinutes())}${sp(sd.getSeconds())}`;
