@@ -1,19 +1,24 @@
 # ViLoLabs — Cloudflare Pages _redirects
 # ──────────────────────────────────────────────────────────────
-# Cloudflare Pages auto-strips `.html` extensions and auto-serves
-# directory index.html files. Targets here are written WITHOUT .html
-# (and with a trailing slash for directory roots) so Cloudflare's
-# normalization layer doesn't reject the rewrite.
+# Rules are evaluated TOP-TO-BOTTOM, first match wins. Status 200 = rewrite
+# (URL stays in the bar, target served). Client-side JS reads location.pathname
+# and renders the slug-specific view.
 #
-# Status 200 = rewrite (URL stays the same in browser, target page served).
-# Client-side JS on the target reads location.pathname and renders the
-# slug-specific view.
+# ⚠️ CRITICAL: the /worksheets/* slug catch-all below would otherwise swallow
+# the generator's OWN data files that physically live in /worksheets/
+# (worksheet-seo.js, seo-keywords.json) and rewrite them to the landing HTML —
+# which silently breaks slug generation, sharing, and the Supabase save on
+# sheets.html. So those real assets are passed through explicitly FIRST.
 
-# Pretty URLs for /worksheets/<slug>  →  serve /worksheets/index.html
-/worksheets/*    /worksheets/    200
+# Real static assets under /worksheets/ — serve as-is (must come BEFORE the splat)
+/worksheets/worksheet-seo.js     /worksheets/worksheet-seo.js     200
+/worksheets/seo-keywords.json    /worksheets/seo-keywords.json    200
+
+# Pretty URLs for /worksheets/<slug>  →  serve the landing page
+/worksheets/*    /worksheets/index.html    200
 
 # Tool-share pretty URLs — /tools/<tool>/<slug>  →  serve /tools/<tool>.html
-# (Cloudflare resolves the extensionless path to the underlying .html file.)
+# (no real files live under these dirs, so the splat is safe here)
 /tools/resize-image/*      /tools/resize-image      200
 /tools/qr-generator/*      /tools/qr-generator      200
 /tools/image-to-pdf/*      /tools/image-to-pdf      200
