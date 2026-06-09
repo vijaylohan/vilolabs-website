@@ -33,4 +33,4 @@ User-agent: Claude-Web
 Disallow: /
 
 # TODO: when domain is registered, replace this with the real URL
-Sitemap: https://vilolabs.netlify.app/sitemap.xml
+Sitemap: https://vilolabs.in/sitemap.xml

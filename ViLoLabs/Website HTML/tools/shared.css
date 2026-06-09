@@ -48,7 +48,7 @@ nav.site-nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;j
 .sec-tag{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;}
 .sec-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.8rem,3.4vw,2.7rem);margin-bottom:2rem;}
 .sec-h em{font-style:italic;color:var(--gold);}
-.section-pad{padding:2.6rem 0;}
+.section-pad{padding-top:2.6rem;padding-bottom:2.6rem;}
 
 /* TOOL APP CONTAINER */
 .app-sec{margin-top:1.5rem;padding:2.1rem;border:1px solid rgba(200,150,60,.18);border-radius:18px;
@@ -145,7 +145,7 @@ nav.site-nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;j
 .faq-item p{font-size:.88rem;color:rgba(245,240,232,.55);font-weight:300;}
 
 /* FOOTER */
-footer.site-foot{margin-top:4rem;border-top:1px solid rgba(200,150,60,.1);padding:2.4rem 0;text-align:center;}
+footer.site-foot{margin-top:4rem;border-top:1px solid rgba(200,150,60,.1);padding:2.4rem 1.5rem;text-align:center;}
 footer.site-foot .fl{display:flex;gap:1.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;}
 footer.site-foot a{font-size:.78rem;color:var(--brown3);text-decoration:none;}
 footer.site-foot a:hover{color:var(--gold);}

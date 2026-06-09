@@ -254,10 +254,10 @@ HARD RULES — VIOLATING ANY OF THESE BREAKS THE LAYOUT
       "@graph": [
         {
           "@type": "Article",
-          "@id": "https://vilolabs.netlify.app/blog/<slug>.html#article",
+          "@id": "https://vilolabs.in/blog/<slug>.html#article",
           "headline": "<exact post title>",
           "description": "<meta description, ~150 chars>",
-          "url": "https://vilolabs.netlify.app/blog/<slug>.html",
+          "url": "https://vilolabs.in/blog/<slug>.html",
           "datePublished": "<YYYY-MM-DD>",
           "dateModified": "<YYYY-MM-DD>",
           "inLanguage": "en-IN",
@@ -266,21 +266,21 @@ HARD RULES — VIOLATING ANY OF THESE BREAKS THE LAYOUT
           "author": {
             "@type": "Organization",
             "name": "ViLoLabs",
-            "url": "https://vilolabs.netlify.app/about.html"
+            "url": "https://vilolabs.in/about.html"
           },
           "publisher": {
             "@type": "Organization",
             "name": "ViLoLabs",
-            "url": "https://vilolabs.netlify.app/",
-            "logo": { "@type": "ImageObject", "url": "https://vilolabs.netlify.app/favicon.svg" }
+            "url": "https://vilolabs.in/",
+            "logo": { "@type": "ImageObject", "url": "https://vilolabs.in/favicon.svg" }
           },
-          "mainEntityOfPage": { "@type": "WebPage", "@id": "https://vilolabs.netlify.app/blog/<slug>.html" }
+          "mainEntityOfPage": { "@type": "WebPage", "@id": "https://vilolabs.in/blog/<slug>.html" }
         },
         {
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vilolabs.netlify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Pulse", "item": "https://vilolabs.netlify.app/pulse.html" },
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vilolabs.in/" },
+            { "@type": "ListItem", "position": 2, "name": "Pulse", "item": "https://vilolabs.in/pulse.html" },
             { "@type": "ListItem", "position": 3, "name": "<short post title for breadcrumb>" }
           ]
         },
