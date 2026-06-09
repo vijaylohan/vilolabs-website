@@ -19,6 +19,13 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
+# Cloudflare Pages defaults .js/.css to max-age=14400; these explicit, more
+# specific rules force them to always-revalidate so code updates ship instantly.
+/*.js
+  Cache-Control: public, max-age=0, must-revalidate
+/*.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 # ── Rarely-changing media → cache for a day (safe to be slightly stale) ──
 /assets/library/*
   Cache-Control: public, max-age=86400
