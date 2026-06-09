@@ -1464,6 +1464,20 @@ function selTopic(btn){
   document.getElementById('genBtn').disabled=false;
 }
 
+// ── Render-readiness guards ───────────────────────────────────
+// _wsReady: false while a worksheet's images are still loading; true once every
+//   clipart has finished. PDF/print needs all images painted; we gate on this so
+//   a too-early tap gives feedback instead of a half-rendered capture.
+// _pdfBusy: re-entrancy guard so a double-tap can't kick off two PDF renders.
+let _wsReady = false;
+let _pdfBusy = false;
+function _markWsReadyWhenLoaded(){
+  _wsReady = false;
+  const imgs=[...document.querySelectorAll('.ws-page img')];
+  Promise.all(imgs.map(i=>i.complete?0:new Promise(res=>{i.onload=i.onerror=res;})))
+    .then(()=>{ _wsReady = true; });
+}
+
 // ── GENERATE  (now SEO-aware: each generate produces a permanent URL)
 // Flow:  1) Set seed (fresh or from URL ?w=)   2) buildAll() uses seeded RNG
 //        3) Build SEO slug + history.pushState   4) Show worksheet screen
@@ -1483,6 +1497,7 @@ function generate(opts){
     await _wsUpdateUrlAfterGenerate(seed);
     hideLoader();
     showScreen('wsScreen');
+    _markWsReadyWhenLoaded();   // flip _wsReady once all clipart has loaded
   },900);
 }
 function regen(){
@@ -1495,6 +1510,7 @@ function regen(){
     await _wsUpdateUrlAfterGenerate(seed);   // slug/URL/save ready before interactive
     hideLoader();
     showPage(0);
+    _markWsReadyWhenLoaded();
   },700);
 }
 
@@ -3073,6 +3089,8 @@ function showToast(msg){
 }
 // PDF — generate & download directly (100% client-side, no server, no print dialog)
 function doPrint(){
+  if(_pdfBusy){ showToast('Your PDF is being prepared — one moment…'); return; }
+  if(!_wsReady){ showToast('Almost there — the worksheet is still loading. Try again in a second.'); return; }
   // User committed → register worksheet in DB (once per generation).
   _wsPushIfCommitted();
   if(window.jspdf&&window.html2canvas){generatePDF();return;}
@@ -3085,6 +3103,8 @@ function doPrint(){
   },400);
 }
 async function generatePDF(){
+  if(_pdfBusy) return;            // re-entrancy guard — ignore double-taps
+  _pdfBusy=true;
   const lt=document.querySelector('.load-t');
   if(lt)lt.textContent=T('creatingPdf');
   showLoader();
@@ -3137,6 +3157,7 @@ async function generatePDF(){
   requestAnimationFrame(()=>fitCells());
   if(lt)lt.textContent=T('loading');
   hideLoader();
+  _pdfBusy=false;                // release the re-entrancy lock
 }
 applyLang();
 </script>
