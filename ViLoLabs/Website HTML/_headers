@@ -1,0 +1,34 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# ViLoLabs — HTTP headers (Cloudflare Pages reads this file like _redirects)
+# ══════════════════════════════════════════════════════════════════════════════
+# CACHE POLICY — the important part:
+#   Our HTML, JS, CSS and JSON must ALWAYS revalidate, so the moment we push an
+#   update EVERY returning visitor gets it. Without this, code files were cached
+#   for 4h (max-age=14400) → after a fix, returning browsers kept running the old,
+#   broken build until their cache expired. Revalidation is cheap: the browser
+#   sends an ETag check → 304 (use cache) if unchanged, fresh bytes if we shipped
+#   a change. Heavy, rarely-changing media (clipart, emoji, og cards) is cached.
+#
+# Rules apply top-to-bottom; for a shared header the LAST matching rule wins —
+# so the media overrides below take precedence over the catch-all default.
+
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# ── Rarely-changing media → cache for a day (safe to be slightly stale) ──
+/assets/library/*
+  Cache-Control: public, max-age=86400
+/assets/emoji/*
+  Cache-Control: public, max-age=86400
+/assets/og/*
+  Cache-Control: public, max-age=86400
+/assets/pages/*
+  Cache-Control: public, max-age=86400
+/assets/favicon.svg
+  Cache-Control: public, max-age=86400
+/assets/logo.svg
+  Cache-Control: public, max-age=86400
