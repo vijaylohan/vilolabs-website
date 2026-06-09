@@ -39,6 +39,21 @@ E:\Website\
 - Then run ONE command:  `cd ViLoLabs && node tools/build-all.js`
   (cleans backgrounds, matches emoji, updates lists, rebuilds library.json)
 
+## ⚠️ Cache-busting shared JS/CSS (REQUIRED after editing them)
+Cloudflare Pages hard-caps `.js`/`.css` at `max-age=14400` (4h) and `_headers`
+CANNOT override it (verified). So after editing ANY shared front-end file —
+`assets/share.js`, `assets/share.css`, `assets/db.js`, `worksheets/worksheet-seo.js`,
+`tools/tool-seo.js`, `tools/shared.css`, `blog/shared/blog.css` — you MUST run:
+```
+node ViLoLabs/tools/stamp-assets.js
+```
+It stamps a content-hash `?v=<hash>` on every reference across all HTML, so the
+new version reaches returning visitors INSTANTLY (the URL changes). Forgetting
+this = pushed fixes don't reach returning users for up to 4h. HTML, JSON
+(library.json, seo-keywords.json) and `_headers`-controlled files are already
+always-revalidate, so only the shared JS/CSS need the stamp.
+- `ViLoLabs/Website HTML/_headers` = cache policy + security headers (Cloudflare Pages).
+
 ## Running Local Preview
 ```powershell
 # From E:\Website
