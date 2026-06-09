@@ -1475,11 +1475,14 @@ function generate(opts){
   const seed=(opts.seed!=null)?opts.seed:(window.WSeo?WSeo.newSeed():((Math.random()*0x100000000)>>>0));
   wsSetSeed(seed);
   showLoader();
-  setTimeout(()=>{
+  setTimeout(async ()=>{
     buildAll();
+    // Build the slug/URL/_wsCurrentMeta BEFORE the sheet becomes interactive,
+    // so an immediate Share/Print always has the real /worksheets/<slug> link
+    // and registers in Supabase (keywords are preloaded → this is ~instant).
+    await _wsUpdateUrlAfterGenerate(seed);
     hideLoader();
     showScreen('wsScreen');
-    _wsUpdateUrlAfterGenerate(seed);
   },900);
 }
 function regen(){
@@ -1487,11 +1490,11 @@ function regen(){
   const seed=window.WSeo?WSeo.newSeed():((Math.random()*0x100000000)>>>0);
   wsSetSeed(seed);
   showLoader();
-  setTimeout(()=>{
+  setTimeout(async ()=>{
     buildAll();
+    await _wsUpdateUrlAfterGenerate(seed);   // slug/URL/save ready before interactive
     hideLoader();
     showPage(0);
-    _wsUpdateUrlAfterGenerate(seed);
   },700);
 }
 
@@ -1624,11 +1627,19 @@ function _shareTail(){
     ? '\n\n✨ खुद की वर्कशीट बनानी है? यहाँ फ्री बनाएं 👉 ' + create
     : '\n\n✨ Want to make your own? Create a free worksheet 👉 ' + create;
 }
+// The authoritative shareable URL = the current worksheet's own /worksheets/<slug>.
+// Derived from _wsCurrentMeta (not location.href) so a share NEVER sends the bare
+// /sheets.html home link even if the URL bar hasn't caught up yet.
+function _currentSheetUrl(){
+  return (typeof _wsCurrentMeta!=='undefined' && _wsCurrentMeta && _wsCurrentMeta.slug)
+    ? (location.origin + '/worksheets/' + _wsCurrentMeta.slug)
+    : location.href;
+}
 // Mount/refresh a share bar with the CURRENT worksheet URL + DB-register on click.
 function _mountShare(sel, hook, rowOnly){
   if(!window.ViloShare) return;
   ViloShare.mount(sel, {
-    url: location.href,            // fresh per generation
+    url: _currentSheetUrl(),       // the real /worksheets/<slug>, not the home link
     title: document.title,
     message: _shareMsg(),          // natural text sent alongside the link
     tail: _shareTail(),            // "make your own" CTA → back to the generator
@@ -1642,7 +1653,7 @@ function _mountShare(sel, hook, rowOnly){
 // Copy & every app); on desktop open the popover with the explicit button row.
 function onToolbarShare(){
   if(window.ViloShare && ViloShare.canNative()){
-    ViloShare.nativeShare({url:location.href, title:document.title, text:_shareMsg(), tail:_shareTail(), before:_wsPushIfCommitted});
+    ViloShare.nativeShare({url:_currentSheetUrl(), title:document.title, text:_shareMsg(), tail:_shareTail(), before:_wsPushIfCommitted});
   } else {
     toggleSharePop();
   }
@@ -1660,6 +1671,11 @@ document.addEventListener('click',e=>{
 });
 
 // ── On-load: if URL has /worksheets/<slug> or ?w=<slug>, restore that exact worksheet ──
+// Preload the SEO keyword map on page load so the FIRST generate's slug/URL/DB
+// registration is ready instantly (no cold network fetch → no race where an
+// early Share/Print sends the home link or skips the Supabase save).
+if(window.WSeo && WSeo.loadKeywords){ try{ WSeo.loadKeywords(); }catch(e){} }
+
 (function _wsRestoreFromUrl(){
   if(!window.WSeo) return;
   // 1) Path form: /worksheets/<slug>  (shared link format)
