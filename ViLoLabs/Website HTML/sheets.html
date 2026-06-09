@@ -1471,11 +1471,21 @@ function selTopic(btn){
 // _pdfBusy: re-entrancy guard so a double-tap can't kick off two PDF renders.
 let _wsReady = false;
 let _pdfBusy = false;
-function _markWsReadyWhenLoaded(){
+// Pre-warm EVERY page in the background right after generate, so the PDF is fast
+// whether or not the user paged through. Pages the user never views otherwise
+// have their images undecoded + untrimmed, forcing html2canvas to do that work
+// (slowly) at capture time — which is why "clicking each page first" felt faster.
+// Here we trim + load + DECODE all artwork on all 5 pages up front.
+async function _markWsReadyWhenLoaded(){
   _wsReady = false;
+  const c=document.getElementById('wsContainer');
+  try{ await paintImages(c); }catch(e){}           // trim artwork on ALL pages
   const imgs=[...document.querySelectorAll('.ws-page img')];
-  Promise.all(imgs.map(i=>i.complete?0:new Promise(res=>{i.onload=i.onerror=res;})))
-    .then(()=>{ _wsReady = true; });
+  // wait for every image (incl. swapped-in trimmed data-URLs) to finish loading
+  try{ await Promise.all(imgs.map(i=>i.complete?0:new Promise(res=>{i.onload=i.onerror=res;}))); }catch(e){}
+  // force-decode so html2canvas doesn't pay the decode cost during PDF capture
+  try{ await Promise.all(imgs.map(i=>i.decode?i.decode().catch(()=>{}):0)); }catch(e){}
+  _wsReady = true;
 }
 
 // ── GENERATE  (now SEO-aware: each generate produces a permanent URL)
