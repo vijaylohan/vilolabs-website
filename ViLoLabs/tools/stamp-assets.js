@@ -25,7 +25,7 @@ const ASSETS = {
   'share.js':         'assets/share.js',
   'share.css':        'assets/share.css',
   'db.js':            'assets/db.js',
-  'worksheet-seo.js': 'worksheets/worksheet-seo.js',
+  'worksheet-seo.js': 'assets/worksheet-seo.js',
   'tool-seo.js':      'tools/tool-seo.js',
   'shared.css':       'tools/shared.css',
   'blog.css':         'blog/shared/blog.css',

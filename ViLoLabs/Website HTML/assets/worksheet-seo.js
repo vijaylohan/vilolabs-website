@@ -148,11 +148,9 @@
   function loadKeywords() {
     if (_kwCache) return Promise.resolve(_kwCache);
     if (_kwPromise) return _kwPromise;
-    // Resolve URL relative to this script's host page — works from sheets.html
-    // (root) and from /worksheets/index.html (subfolder).
-    const url = (location.pathname.includes('/worksheets/'))
-      ? 'seo-keywords.json'
-      : 'worksheets/seo-keywords.json';
+    // Absolute path — the data files live in /assets/ (deliberately OUTSIDE
+    // /worksheets/, so the /worksheets/* slug rewrite can never swallow them).
+    const url = '/assets/seo-keywords.json';
     _kwPromise = fetch(url + '?v=' + Date.now())
       .then(r => r.json())
       .then(j => { _kwCache = j; return j; })

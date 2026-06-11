@@ -4,18 +4,16 @@
 # (URL stays in the bar, target served). Client-side JS reads location.pathname
 # and renders the slug-specific view.
 #
-# ⚠️ CRITICAL: the /worksheets/* slug catch-all below would otherwise swallow
-# the generator's OWN data files that physically live in /worksheets/
-# (worksheet-seo.js, seo-keywords.json) and rewrite them to the landing HTML —
-# which silently breaks slug generation, sharing, and the Supabase save on
-# sheets.html. So those real assets are passed through explicitly FIRST.
-
-# Real static assets under /worksheets/ — serve as-is (must come BEFORE the splat)
-/worksheets/worksheet-seo.js     /worksheets/worksheet-seo.js     200
-/worksheets/seo-keywords.json    /worksheets/seo-keywords.json    200
+# ⚠️ HARD-WON RULES OF THIS FILE (each was a production bug):
+# 1. Rewrite targets must NOT contain ".html" — Cloudflare silently DROPS the
+#    rule (e.g. "/worksheets/index.html" killed the slug catch-all → every
+#    shared worksheet URL 404'd). Use the directory form "/worksheets/".
+# 2. A splat like /worksheets/* swallows REAL files in that folder too. The
+#    worksheet data files (worksheet-seo.js, seo-keywords.json) therefore live
+#    in /assets/, NOT /worksheets/. Never put real assets under a splat path.
 
 # Pretty URLs for /worksheets/<slug>  →  serve the landing page
-/worksheets/*    /worksheets/index.html    200
+/worksheets/*    /worksheets/    200
 
 # Tool-share pretty URLs — /tools/<tool>/<slug>  →  serve /tools/<tool>.html
 # (no real files live under these dirs, so the splat is safe here)
