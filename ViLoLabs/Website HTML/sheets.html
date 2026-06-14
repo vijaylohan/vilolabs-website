@@ -278,8 +278,13 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .act-type{display:inline-block;background:#fff;border:1.5px solid #C8963C;border-radius:6px;padding:.14rem .5rem;margin-bottom:.3rem!important;}
 
 .site-disclaimer{padding:1.2rem 1rem 2rem;text-align:center;font-size:.7rem;color:rgba(61,43,31,.55);font-style:italic;max-width:560px;margin:1rem auto 0;line-height:1.55;}
+.pc-wrap{max-width:520px;margin:1.4rem auto .2rem;text-align:center;}
+.pc-lbl{display:block;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--brown3);margin-bottom:.55rem;}
+.pc-row{display:flex;align-items:center;gap:.9rem;justify-content:center;}
+.pc-row input[type=range]{flex:1;max-width:340px;accent-color:var(--gold);height:6px;}
+.pc-val{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--gold);min-width:84px;text-align:left;}
 @media print{
-  .hdr,.tbar,.pg-nav,.setup,.loader,.toast,.site-disclaimer,.gen-tip{display:none!important}
+  .hdr,.tbar,.pg-nav,.setup,.loader,.toast,.site-disclaimer,.gen-tip,.pc-wrap{display:none!important}
   html{font-size:19px!important}
   body{background:#fff!important}
   .ws-scr{padding:0!important;display:block!important}
@@ -329,7 +334,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
   <div class="s-hero">
     <span class="s-emoji">📝</span>
     <h1 class="s-h">ViLo <em>Worksheets</em></h1>
-    <p class="s-p" data-i18n="heroDesc">Pick a level and topic — 5 pages, 4 different activities per page. Print or save as PDF.</p>
+    <p class="s-p" data-i18n="heroDesc">Pick a level, choose how many pages (5–15) — 4 different activities per page. Print or save as PDF.</p>
   </div>
   <p class="step-lbl" data-i18n="step1">① Pick a level and hit Generate!</p>
   <div class="lvl-grid" id="lvlGrid">
@@ -372,9 +377,16 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
         <input type="checkbox" id="mzAK" onchange="updateMzAK()">
         <div>
           <div class="mz-ak-lbl" data-i18n="mazeAKLabel">Include Answer Key page</div>
-          <div class="mz-ak-note" data-i18n="mazeAKNote">Adds a 6th page showing all 5 solutions in gold</div>
+          <div class="mz-ak-note" data-i18n="mazeAKNote">Adds an extra page showing every maze's solution in gold</div>
         </div>
       </label>
+    </div>
+  </div>
+  <div class="pc-wrap" id="pcWrap">
+    <label class="pc-lbl" for="pcRange" data-i18n="pcLbl">How many pages?</label>
+    <div class="pc-row">
+      <input type="range" id="pcRange" min="5" max="15" step="1" value="5" oninput="onPcChange(this.value)">
+      <span class="pc-val"><span id="pcVal">5</span> <span data-i18n="pcPages">pages</span></span>
     </div>
   </div>
   <div class="gen-wrap">
@@ -403,6 +415,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
           <div class="vshare compact" id="sheetShare"></div>
         </div>
       </div>
+      <button class="tbtn tbtn-out" onclick="doBrowserPrint()" data-i18n="btnPrint">🖨 Print</button>
       <button class="tbtn tbtn-dark" onclick="doPrint()">⬇ PDF</button>
     </div>
   </div>
@@ -420,12 +433,13 @@ let curLang=localStorage.getItem('vl-lang')||'en';
 const STRINGS={
 en:{
   home:'← Home',loading:'Building your worksheet…',creatingPdf:'Creating your PDF…',
-  heroDesc:'Pick a level and topic — 5 pages, 4 different activities per page. Print or save as PDF.',
+  heroDesc:'Pick a level, choose how many pages (5–15) — 4 different activities per page. Print or save as PDF.',
+  pcLbl:'How many pages?',pcPages:'pages',btnPrint:'🖨 Print',
   step1:'① Pick a level and hit Generate!',step2Topic:'② Choose a topic',step2Maze:'② Customise your maze',
   agePreKG:'Age 2–4',ageKG:'Age 4–5',age1:'Age 6',age2:'Age 7',age3:'Age 8',age4:'Age 9',age5:'Age 10',allAges:'All ages',
   mazeWho:'👶 Who is it for?',mazeShape:'🔷 Shape',
   sqBtn:'□ Square',ciBtn:'● Circle',trBtn:'▲ Triangle',heBtn:'♥ Heart',stBtn:'★ Star',diBtn:'◆ Diamond',hxBtn:'⬡ Hexagon',
-  mazeAKLabel:'Include Answer Key page',mazeAKNote:'Adds a 6th page showing all 5 solutions in gold',
+  mazeAKLabel:'Include Answer Key page',mazeAKNote:'Adds an extra page showing every maze’s solution in gold',
   genBtn:'Generate Worksheet',
   genTip:'<strong>Worksheets are generated automatically and can occasionally make mistakes.</strong> Please review each sheet before printing or sharing with children.',
   btnNew:'🔀 New',btnBack:'← Back',btnShare:'↗ Share',
@@ -484,12 +498,13 @@ en:{
 },
 hi:{
   home:'← होम',loading:'वर्कशीट बन रही है…',creatingPdf:'पीडीएफ बन रही है…',
-  heroDesc:'क्लास और टॉपिक चुनो — 5 पेज, हर पेज पर 4 अलग-अलग एक्टिविटी। प्रिंट करो या पीडीएफ सेव करो।',
+  heroDesc:'क्लास चुनो, कितने पेज चाहिए (5–15) चुनो — हर पेज पर 4 अलग एक्टिविटी। प्रिंट करो या पीडीएफ सेव करो।',
+  pcLbl:'कितने पेज?',pcPages:'पेज',btnPrint:'🖨 प्रिंट',
   step1:'① क्लास चुनो और वर्कशीट बनाओ!',step2Topic:'② टॉपिक चुनो',step2Maze:'② मेज़ बनाओ',
   agePreKG:'उम्र 2–4',ageKG:'उम्र 4–5',age1:'उम्र 6',age2:'उम्र 7',age3:'उम्र 8',age4:'उम्र 9',age5:'उम्र 10',allAges:'सभी उम्र',
   mazeWho:'👶 किसके लिए है?',mazeShape:'🔷 शेप',
   sqBtn:'□ स्क्वेयर',ciBtn:'● सर्कल',trBtn:'▲ ट्राइएंगल',heBtn:'♥ हार्ट',stBtn:'★ स्टार',diBtn:'◆ डायमंड',hxBtn:'⬡ हेक्सागन',
-  mazeAKLabel:'आंसर की पेज जोड़ें',mazeAKNote:'5 सॉल्यूशन वाला 6वां पेज जुड़ेगा',
+  mazeAKLabel:'आंसर की पेज जोड़ें',mazeAKNote:'हर मेज़ का सॉल्यूशन सोने में दिखाने वाला एक एक्स्ट्रा पेज जुड़ेगा',
   genBtn:'वर्कशीट बनाओ',
   genTip:'<strong>वर्कशीट ऑटोमैटिक बनती है और कभी-कभी गलती हो सकती है।</strong> बच्चों को देने से पहले एक बार ज़रूर देख लें।',
   btnNew:'🔀 नई',btnBack:'← वापस',btnShare:'↗ शेयर',
@@ -1134,7 +1149,7 @@ const COL_CATS={
 // ══════════════════════════
 // STATE
 // ══════════════════════════
-let curLvl=null,curTopic=null,curPage=0;
+let curLvl=null,curTopic=null,curPage=0,curPageCount=5;
 let mzAge=7,mzShape='square',mzAK=false;
 // s=start char, e=real goal, d=decoy goal — a real, tempting treat (NOT the goal) for the trap opening
 const MZ_PAIRS=[
@@ -1491,10 +1506,22 @@ async function _markWsReadyWhenLoaded(){
 // ── GENERATE  (now SEO-aware: each generate produces a permanent URL)
 // Flow:  1) Set seed (fresh or from URL ?w=)   2) buildAll() uses seeded RNG
 //        3) Build SEO slug + history.pushState   4) Show worksheet screen
+function onPcChange(v){curPageCount=Math.max(5,Math.min(15,+v||5));const el=document.getElementById('pcVal');if(el)el.textContent=curPageCount;}
+function doBrowserPrint(){
+  if(!_wsReady){showToast('Almost there — the worksheet is still loading. Try again in a second.');return;}
+  _wsPushIfCommitted();
+  document.querySelectorAll('.ws-page').forEach(p=>p.style.display='block');
+  setTimeout(()=>{
+    window.print();
+    setTimeout(()=>{document.querySelectorAll('.ws-page').forEach((p,i)=>{p.style.display='';p.classList.toggle('act',i===curPage);});},600);
+  },200);
+}
 function generate(opts){
   if(!curLvl)return;
   if(curLvl==='colouring'&&!curTopic)return;
   opts=opts||{};
+  const pcEl=document.getElementById('pcRange');
+  if(pcEl)curPageCount=Math.max(5,Math.min(15,+pcEl.value||5));
   // Seed: if URL provided one, use it; else fresh.
   const seed=(opts.seed!=null)?opts.seed:(window.WSeo?WSeo.newSeed():((Math.random()*0x100000000)>>>0));
   wsSetSeed(seed);
@@ -1771,7 +1798,8 @@ function buildColouringAll(container,nav,lvlName,topicName){
     ...pngPages.map(p=>({kind:'png', page:p})),
     ...svgKeys.map(k=>({kind:'svg', subj:COL_LIB[k]}))
   ];
-  const picked=pick(shuffle(pool),5);
+  const picked=pick(shuffle(pool),curPageCount);
+  if(picked.length<curPageCount) curPageCount=picked.length||5;
   picked.forEach((entry,p)=>{
     const pg=document.createElement('div');
     pg.className='ws-page'+(p===0?' act':'');
@@ -1797,7 +1825,7 @@ function buildColouringPagePng(idx,page,lvlName,topicName){
   return`
     <div class="pg-hdr">
       <span class="pg-brand">ViLo<em>Labs</em> Colouring</span>
-      <span class="pg-num">${T('page')} ${idx+1} / 5</span>
+      <span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span>
     </div>
     <div class="col-title-row">
       <div>
@@ -1825,7 +1853,7 @@ function buildColouringPage(idx,subj,lvlName,topicName){
   return`
     <div class="pg-hdr">
       <span class="pg-brand">ViLo<em>Labs</em> Colouring</span>
-      <span class="pg-num">${T('page')} ${idx+1} / 5</span>
+      <span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span>
     </div>
     <div class="col-title-row">
       <div>
@@ -1866,7 +1894,7 @@ function makeSudoku(){
   return g;
 }
 function buildSudokuAll(container,nav){
-  for(let p=0;p<5;p++){
+  for(let p=0;p<curPageCount;p++){
     const pg=document.createElement('div');
     pg.className='ws-page'+(p===0?' act':'');pg.id='pg'+p;
     pg.innerHTML=buildSudokuPage(p);
@@ -1925,7 +1953,7 @@ function buildSudokuPage(idx){
   const cut=need.map(v=>`<div class="su-cut-box"><div class="su-sci">✂️</div><img src="${pool[v]}" alt=""></div>`).join('');
   const title=cat.replace(/-/g,' ').toUpperCase();
   return`
-    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Sudoku</span><span class="pg-num">${T('page')} ${idx+1} / 5</span></div>
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Sudoku</span><span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span></div>
     <div class="su-title">🧩 ${title}</div>
     <div class="su-instr">${T('sudokuInstr')}</div>
     <div class="su-wrap">
@@ -2137,7 +2165,7 @@ function buildMazeAll(container,nav){
   const mzDataArr=[];
   const sp=ageSpec(mzAge);
   const per=mazesPerPage(sp.size);
-  for(let p=0;p<5;p++){
+  for(let p=0;p<curPageCount;p++){
     const pg=document.createElement('div');
     pg.className='ws-page'+(p===0?' act':'');pg.id='pg'+p;
     const pd=buildMazePage(p,sp,mzShape,per);
@@ -2213,7 +2241,7 @@ function buildMazePage(idx,sp,shape,per){
     ?`<div class="mz-wrap">${built[0].svgEl}</div>`
     :`<div class="mz-grid mz-grid-${per}">${built.map(o=>`<div class="mz-cell">${o.svgEl}</div>`).join('')}</div>`;
   const html=`
-    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Maze</span><span class="pg-num">${T('page')} ${idx+1} / 5</span></div>
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Maze</span><span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span></div>
     <div class="mz-page-title">🌀 ${T('shLbl_'+shape)||T('shLbl_square')} &nbsp;<span style="font-size:.85rem;font-weight:700">${ageTxt} · ${diff}</span></div>
     <div class="mz-page-instr">${instr}</div>
     ${body}
@@ -2290,7 +2318,7 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
   // same image doesn't repeat across activities on a single page.
   const POOL_TARGET = Math.min(80, srcItems.length);
   const allItems=pick(shuffle(srcItems),POOL_TARGET);
-  for(let p=0;p<5;p++){
+  for(let p=0;p<curPageCount;p++){
     // re-shuffle per page so every page has a DIFFERENT set of 4 activities
     const pageActs=shuffle(pool).slice(0,4);
     while(pageActs.length<4)pageActs.push(pool[rnd(0,pool.length-1)]);
@@ -2401,7 +2429,7 @@ function buildPage(idx,acts,items,lvlName,topicName){
     : acts.map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('');
   const th=BORDER_THEMES[idx%BORDER_THEMES.length];
   return`
-    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Worksheets</span><span class="pg-num">${T('page')} ${idx+1}/5 · ${pageTitles(idx)}</span></div>
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Worksheets</span><span class="pg-num">${T('page')} ${idx+1}/${curPageCount} · ${pageTitles(idx)}</span></div>
     <div class="pg-meta"><span>📚 ${lvlName}</span><span>·</span><span>🎲 ${topicName}</span></div>
     <div class="pg-nameline">
       <div class="nl nl-name"><span>${T('name')}</span><div class="nl-line"></div></div>

@@ -312,7 +312,7 @@ async function doResize(){
       const r=await compressToTargetKB(orig.img,target);
       if(!r){statusEl.classList.add('err');statusEl.textContent='Could not hit target — try a slightly bigger KB.';go.disabled=false;return;}
       blob=r.blob;outW=r.w;outH=r.h;
-    } else { // gov — exact pixel dims + KB range
+    } else if (mode==='gov') { // gov — exact pixel dims + KB range
       const presetKey=document.getElementById('gov-preset').value;
       const spec=GOV_PRESETS[presetKey];
       outMime='image/jpeg';outW=spec.w;outH=spec.h;
