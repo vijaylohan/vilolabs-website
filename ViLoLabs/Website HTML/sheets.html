@@ -279,17 +279,16 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 
 .site-disclaimer{padding:1.2rem 1rem 2rem;text-align:center;font-size:.7rem;color:rgba(61,43,31,.55);font-style:italic;max-width:560px;margin:1rem auto 0;line-height:1.55;}
 .pc-wrap{max-width:420px;margin:1.4rem auto .2rem;text-align:center;}
-.pc-lbl{display:block;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--brown3);margin-bottom:1.6rem;}
-.pc-track{position:relative;padding:0 14px;}
-.pc-track input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:28px;margin:0;}
+.pc-lbl{display:block;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--brown3);margin-bottom:.9rem;}
+.pc-track{position:relative;padding:22px 22px;}
+.pc-track input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:6px;margin:0;display:block;}
 .pc-track input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:linear-gradient(to right,var(--gold) 0%,var(--gold) var(--pc-pct,0%),rgba(200,150,60,.18) var(--pc-pct,0%),rgba(200,150,60,.18) 100%);}
 .pc-track input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:rgba(200,150,60,.18);}
 .pc-track input[type=range]::-moz-range-progress{height:6px;border-radius:6px;background:var(--gold);}
-.pc-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:30px;height:30px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 2px 8px rgba(200,150,60,.45);margin-top:-12px;cursor:pointer;}
-.pc-track input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 2px 8px rgba(200,150,60,.45);cursor:pointer;}
-.pc-bubble{position:absolute;top:-2px;left:calc(15px + var(--pc-x,0) * (100% - 30px));transform:translate(-50%,-100%);background:var(--char);color:var(--gold2);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.05rem;padding:.18rem .55rem;border-radius:8px;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.18);min-width:34px;text-align:center;transition:left .08s linear;}
-.pc-bubble::after{content:'';position:absolute;left:50%;bottom:-5px;transform:translateX(-50%) rotate(45deg);width:8px;height:8px;background:var(--char);}
-.pc-ends{display:flex;justify-content:space-between;margin-top:.45rem;font-size:.66rem;color:var(--brown3);letter-spacing:.08em;font-weight:600;padding:0 4px;}
+.pc-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#E8BC72,#C8963C);border:3px solid #fff;box-shadow:0 4px 14px rgba(200,150,60,.55),inset 0 -2px 4px rgba(0,0,0,.12);margin-top:-19px;cursor:grab;}
+.pc-track input[type=range]:active::-webkit-slider-thumb{cursor:grabbing;}
+.pc-track input[type=range]::-moz-range-thumb{width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#E8BC72,#C8963C);border:3px solid #fff;box-shadow:0 4px 14px rgba(200,150,60,.55);cursor:grab;}
+.pc-bubble{position:absolute;top:25px;left:calc(22px + var(--pc-x,0) * (100% - 44px));transform:translate(-50%,-50%);color:#fff;font-family:'Cormorant Garamond',serif;font-weight:800;font-size:1.25rem;line-height:1;pointer-events:none;text-align:center;min-width:30px;text-shadow:0 1px 2px rgba(61,43,31,.55);transition:left .08s linear;}
 @media print{
   .hdr,.tbar,.pg-nav,.setup,.loader,.toast,.site-disclaimer,.gen-tip,.pc-wrap{display:none!important}
   html{font-size:19px!important}
@@ -394,7 +393,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
     <div class="pc-track">
       <input type="range" id="pcRange" min="5" max="15" step="1" value="5" oninput="onPcChange(this.value)">
       <span class="pc-bubble" id="pcBubble">5</span>
-      <div class="pc-ends"><span>5</span><span>15</span></div>
     </div>
   </div>
   <div class="gen-wrap">
@@ -492,6 +490,9 @@ en:{
   i_missingLetterW:'Which letter is missing? Write it in the box.',i_missingNumber:'Which number is missing? Write it in the box.',
   i_findMatch:'Two pictures are exactly the SAME. Circle both of them!',i_findMatchSub:'⭕ Find the twins!',
   i_goesTog:'Draw a line to match the things that go together!',i_addUp:'Add the numbers. Write the answer in the box.',
+  t_fruitVeg:'🍎 Fruit or Vegetable?',i_fruitVeg:'Circle every fruit you can find!',i_fruitVegSub:'⭕ Fruits only — leave the vegetables alone.',
+  t_taste:'🍋 Sweet or Sour?',i_tasteSour:'Three of these are sweet. Circle the SOUR one!',i_tasteSub:'⭕ Find the sour fruit.',
+  t_whoIs:'🧑‍⚕️ Who is the…?',i_whoIs:'Circle the {role}!',i_whoIsSub:'⭕ Look at the clothes — who is the {role}?',
   i_takeAway:'Subtract the numbers. Write the answer in the box.',i_timesTables:'Multiply the numbers. Write each answer.',
   i_greaterSmaller:'Write &lt; , &gt; or = in each box.',i_completeWord:'Look at the picture. Fill in the missing letters!',
   i_colour:'Colour the {name} with your crayons!',i_countCircle:'Count the {n}s. Circle the right number!',
@@ -557,6 +558,9 @@ hi:{
   i_missingLetterW:'कौन सा अक्षर गायब है? बॉक्स में लिखो।',i_missingNumber:'कौन सा नंबर गायब है? बॉक्स में लिखो।',
   i_findMatch:'दो तस्वीरें बिल्कुल एक जैसी हैं। दोनों पर सर्कल बनाओ!',i_findMatchSub:'⭕ जोड़ी खोजो!',
   i_goesTog:'साथ में जो चीज़ें जाती हैं उन्हें मिलाओ — लाइन खींचो!',i_addUp:'नंबर जोड़ो। जवाब बॉक्स में लिखो।',
+  t_fruitVeg:'🍎 फल या सब्ज़ी?',i_fruitVeg:'हर फल पर सर्कल बनाओ!',i_fruitVegSub:'⭕ सिर्फ फल — सब्ज़ियों को छोड़ दो।',
+  t_taste:'🍋 मीठा या खट्टा?',i_tasteSour:'इनमें से तीन मीठे हैं। खट्टे फल पर सर्कल बनाओ!',i_tasteSub:'⭕ खट्टा फल ढूंढो।',
+  t_whoIs:'🧑‍⚕️ कौन है…?',i_whoIs:'{role} पर सर्कल बनाओ!',i_whoIsSub:'⭕ कपड़े देखो — {role} कौन है?',
   i_takeAway:'नंबर घटाओ। जवाब बॉक्स में लिखो।',i_timesTables:'नंबर गुणा करो। हर जवाब लिखो।',
   i_greaterSmaller:'हर बॉक्स में &lt; , &gt; या = लिखो।',i_completeWord:'तस्वीर देखो। गायब अक्षर भरो!',
   i_colour:'{name} को क्रेयॉन से कलर करो!',i_countCircle:'{n} गिनो। सही नंबर पर सर्कल बनाओ!',
@@ -719,10 +723,10 @@ let ES = ESIZES['1'];
 
 const ACT_POOLS={
   prekg:['trace-path','colouring','counting-small','matching-pic','odd-one-out','pattern-ab','size-order','colour-id','shape-id','circle-match'],
-  kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together'],
-  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','letter-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together'],
-  '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search'],
-  '3':  ['matching-word','things-together','odd-one-out','pattern-abc','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
+  kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together','fruit-or-veg','find-profession'],
+  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','letter-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together','fruit-or-veg','taste-fruit','find-profession'],
+  '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search','fruit-or-veg','taste-fruit','find-profession'],
+  '3':  ['matching-word','things-together','odd-one-out','pattern-abc','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search','fruit-or-veg','taste-fruit','find-profession'],
   '4':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
   '5':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','pattern-abc','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search']};
 
@@ -1404,6 +1408,21 @@ const LIB_EXCLUDE=new Set(['tools/screw']);
 function libPool(mode){
   return LIB.filter(it=>!LIB_EXCLUDE.has(it.id) && (mode==='png'?it.png:it.emoji)).map(it=>libItem(it,mode));
 }
+// Filter the library by a predicate (it=>boolean) and return rendered items in
+// the current curMode. Used by the new fruit/vegetable, taste and profession
+// activities — they need narrow pools that ignore the worksheet's broad theme.
+function libWhere(pred, mode){
+  mode=mode||curMode||'emoji';
+  return LIB.filter(it=>!LIB_EXCLUDE.has(it.id) && pred(it) && (mode==='png'?it.png:it.emoji))
+            .map(it=>libItem(it,mode));
+}
+// Taste tags for the fruit assets. Most fruits read as 'sweet' to kids — only
+// lemon is reliably 'sour'. Keep the table tight; activities use whatever's
+// present at sheet build time.
+const FRUIT_TASTE={apple:'sweet',grapes:'sweet',watermelon:'sweet',pear:'sweet',orange:'sweet',peach:'sweet',pineapple:'sweet',mango:'sweet',banana:'sweet',strawberry:'sweet',lemon:'sour',fig:'sweet',cherry:'sweet'};
+// Profession label for the people assets we ship. Items not listed here are
+// treated as generic 'people' and skipped by the find-profession picker.
+const PEOPLE_ROLES={'doctor':'doctor','police-officer':'police officer','firefighter':'firefighter','chef':'chef','farmer':'farmer','postman':'postman','astronaut':'astronaut','pirate':'pirate','magician':'magician','clown':'clown','king':'king','queen':'queen','princess':'princess','beekeeper':'beekeeper','explorer':'explorer','scuba-diver':'scuba diver','superhero-kid':'superhero','mermaid':'mermaid'};
 // ── Narrative seeker→goal pairs for the inline maze activity ──
 // Pairs live in tools/maze-pairs.json — validated at build time, then
 // emitted to library.json as `mazePairs`. sheets.html just reads them.
@@ -2342,14 +2361,44 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
   // same image doesn't repeat across activities on a single page.
   const POOL_TARGET = Math.min(80, srcItems.length);
   const allItems=pick(shuffle(srcItems),POOL_TARGET);
+  // Track (acttype + sorted item ids) signatures across the WHOLE sheet so the
+  // same activity never reuses the same 4-image combination on another page.
+  // Per-activity buildAct() may not actually use the items we hand it (e.g. math
+  // activities ignore them), so the signature is only stamped when the activity
+  // is image-driven; non-image activities are fine to repeat verbatim.
+  const _IMG_ACTS=new Set(['matching-pic','matching-word','odd-one-out','shadow-match','spot-diff','sort','sequence','things-together','circle-match','size-order','pattern-ab','pattern-abc','fruit-or-veg','taste-fruit','find-profession']);
+  const _sliceSig=(act,slice)=>act+'|'+slice.map(x=>(x&&x.id)||(x&&x.png)||(x&&x.emoji)||'').sort().join('~');
   for(let p=0;p<curPageCount;p++){
     // re-shuffle per page so every page has a DIFFERENT set of 4 activities
     const pageActs=shuffle(pool).slice(0,4);
     while(pageActs.length<4)pageActs.push(pool[rnd(0,pool.length-1)]);
-    // Each page gets a fresh 16-item slice from the larger pool. This makes
-    // collisions between activities on the same page virtually impossible.
+    // Each page gets a fresh 16-item slice from the larger pool. With more
+    // pages than the pool can cleanly support, mod-cycle.
     const start=(p*16)%Math.max(POOL_TARGET-15,1);
-    const pageItems=shuffle(allItems.slice(start,start+16).concat(allItems.slice(0,Math.max(0,16-(POOL_TARGET-start)))));
+    const baseSlice=allItems.slice(start,start+16).concat(allItems.slice(0,Math.max(0,16-(POOL_TARGET-start))));
+    let pageItems=shuffle(baseSlice);
+    // Per-activity dedupe: ensure (acttype + 4-image set) hasn't already
+    // appeared on this sheet. We try up to 8 reshuffles of pageItems before
+    // accepting whatever we have — pages with image-only activities won't
+    // collide on identical artwork even at 15-page generations.
+    for(let tries=0;tries<8;tries++){
+      let collide=false;
+      for(let i=0;i<4;i++){
+        const act=pageActs[i];
+        if(!_IMG_ACTS.has(act)) continue;
+        const slice=pageItems.slice(i*4,i*4+4);
+        const sig=_sliceSig(act,slice);
+        if(_sheetUsed.has(sig)){collide=true;break;}
+      }
+      if(!collide) break;
+      pageItems=shuffle(baseSlice);
+    }
+    // stamp signatures (image-driven activities only)
+    for(let i=0;i<4;i++){
+      const act=pageActs[i];
+      if(!_IMG_ACTS.has(act)) continue;
+      _sheetUsed.add(_sliceSig(act,pageItems.slice(i*4,i*4+4)));
+    }
     const pg=document.createElement('div');
     pg.className='ws-page'+(p===0?' act':'');
     pg.id='pg'+p;
@@ -2937,6 +2986,59 @@ function buildAct(type,items,all){
         <div style="flex:1;min-width:46px"></div>
         <div class="match-col" style="justify-content:space-around;align-self:stretch">${R.map(x=>`<div class="match-item" style="min-height:${g}"><div class="match-dot"></div><span style="font-size:${g}">${x.e}</span></div>`).join('')}</div>
       </div>
+    </div>`;}
+
+  case 'fruit-or-veg':{
+    // Mixed grid of 3 fruits + 3 vegetables — kid circles the fruits.
+    const fruits=LIB?shuffle(libWhere(it=>it.category==='fruits')):[];
+    const vegs  =LIB?shuffle(libWhere(it=>it.category==='vegetables')):[];
+    if(fruits.length<3||vegs.length<3) return buildAct('matching-pic',items,all);
+    const grid=shuffle([...fruits.slice(0,3),...vegs.slice(0,3)]);
+    const d=Math.round(bx*1.15);
+    return`<div class="act-hdr"><div class="act-type">${T('t_fruitVeg')}</div><div class="act-instr">${T('i_fruitVeg')}</div></div>
+    <div class="act-body">
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center">
+        ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${T('i_fruitVegSub')}</div>
+    </div>`;}
+
+  case 'taste-fruit':{
+    // Show 3 sweet + 1 sour (or vice versa). Kid circles the odd taste out.
+    const allFruits=LIB?libWhere(it=>it.category==='fruits' && FRUIT_TASTE[it.name]):[];
+    const sweet=shuffle(allFruits.filter(x=>FRUIT_TASTE[x.n]==='sweet'||FRUIT_TASTE[(x.n||'').toLowerCase()]==='sweet'));
+    const sour =shuffle(allFruits.filter(x=>FRUIT_TASTE[x.n]==='sour' ||FRUIT_TASTE[(x.n||'').toLowerCase()]==='sour'));
+    // libWhere returns rendered items; FRUIT_TASTE keys are raw asset names.
+    // Re-resolve by reading the raw library to bucket sweet vs sour.
+    const fruitsRaw=LIB?LIB.filter(it=>it.category==='fruits' && FRUIT_TASTE[it.name] && (curMode==='png'?it.png:it.emoji)):[];
+    const sw=shuffle(fruitsRaw.filter(it=>FRUIT_TASTE[it.name]==='sweet')).map(it=>libItem(it,curMode));
+    const so=shuffle(fruitsRaw.filter(it=>FRUIT_TASTE[it.name]==='sour' )).map(it=>libItem(it,curMode));
+    if(sw.length<3||so.length<1) return buildAct('odd-one-out',items,all);
+    const grid=shuffle([...sw.slice(0,3),so[0]]);
+    const d=Math.round(bx*1.2);
+    return`<div class="act-hdr"><div class="act-type">${T('t_taste')}</div><div class="act-instr">${T('i_tasteSour')}</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap">
+        ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${T('i_tasteSub')}</div>
+    </div>`;}
+
+  case 'find-profession':{
+    // Show 4 people, ask kid to circle the doctor / police / firefighter etc.
+    const peopleRaw=LIB?LIB.filter(it=>it.category==='people' && PEOPLE_ROLES[it.name] && (curMode==='png'?it.png:it.emoji)):[];
+    if(peopleRaw.length<4) return buildAct('odd-one-out',items,all);
+    const target=peopleRaw[rnd(0,peopleRaw.length-1)];
+    const others=shuffle(peopleRaw.filter(p=>p.name!==target.name)).slice(0,3);
+    const grid=shuffle([target,...others]).map(it=>libItem(it,curMode));
+    const role=PEOPLE_ROLES[target.name];
+    const d=Math.round(bx*1.2);
+    return`<div class="act-hdr"><div class="act-type">${T('t_whoIs')}</div><div class="act-instr">${Tf('i_whoIs','role',role)}</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap">
+        ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${Tf('i_whoIsSub','role',role)}</div>
     </div>`;}
 
   case 'add-column':{
