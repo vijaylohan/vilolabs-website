@@ -726,7 +726,7 @@ const ACT_POOLS={
   '4':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
   '5':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','pattern-abc','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search']};
 
-function pageTitles(i){return[T('pt0'),T('pt1'),T('pt2'),T('pt3'),T('pt4')][i]||'';}
+function pageTitles(i){const a=[T('pt0'),T('pt1'),T('pt2'),T('pt3'),T('pt4')];return a[i%a.length]||'';}
 
 // themed decorative page borders — one theme per page
 const BORDER_THEMES=[
@@ -2443,7 +2443,7 @@ function buildPromoBlock(){
 }
 
 function buildPage(idx,acts,items,lvlName,topicName){
-  const cells=idx===4
+  const cells=idx===curPageCount-1
     ? acts.slice(0,2).map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('')
         +`<div class="cell promo-cell">${buildPromoBlock()}</div>`
     : acts.map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('');
