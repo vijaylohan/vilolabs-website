@@ -1397,8 +1397,12 @@ function libItem(it,mode){
     l:((it.name||'a').replace(/[^a-zA-Z]/g,'')[0]||'A').toUpperCase(),
     cat:it.category||''};
 }
+// Items deliberately excluded from worksheet rendering — the asset stays in the
+// library for catalog/search but never lands on a generated sheet. Add an id here
+// to retire it from kids' worksheets without deleting the file.
+const LIB_EXCLUDE=new Set(['tools/screw']);
 function libPool(mode){
-  return LIB.filter(it=>mode==='png'?it.png:it.emoji).map(it=>libItem(it,mode));
+  return LIB.filter(it=>!LIB_EXCLUDE.has(it.id) && (mode==='png'?it.png:it.emoji)).map(it=>libItem(it,mode));
 }
 // ── Narrative seeker→goal pairs for the inline maze activity ──
 // Pairs live in tools/maze-pairs.json — validated at build time, then
