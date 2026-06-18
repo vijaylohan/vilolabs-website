@@ -496,6 +496,12 @@ en:{
   t_fruitVeg:'🍎 Fruit or Vegetable?',i_fruitVeg:'Circle every fruit you can find!',i_fruitVegSub:'⭕ Fruits only — leave the vegetables alone.',
   t_taste:'🍋 Sweet or Sour?',i_tasteSour:'Three of these are sweet. Circle the SOUR one!',i_tasteSub:'⭕ Find the sour fruit.',
   t_whoIs:'🧑‍⚕️ Who is the…?',i_whoIs:'Circle the {role}!',i_whoIsSub:'⭕ Look at the clothes — who is the {role}?',
+  t_hungryThirsty:'🍽️ What Would You Pick?',i_whenHungry:'Circle what you would EAT when HUNGRY!',i_whenHungrySub:'⭕ Find the food!',i_whenThirsty:'Circle what you would DRINK when THIRSTY!',i_whenThirstySub:'⭕ Find the drink!',
+  t_bodyPartUse:'🖐️ Which Part Do You Use?',i_bodyPartUse:'Circle the body part you use to {action}!',i_bodyPartUseSub:'⭕ Which part helps you {action}?',
+  bp_see:'SEE',bp_hear:'HEAR',bp_smell:'SMELL',bp_eat:'EAT',bp_walk:'WALK',bp_hold:'HOLD THINGS',bp_kick:'KICK',bp_carry:'CARRY',
+  t_useFor:'🔧 What Would You Use?',i_useFor:'Circle what you use to {action}!',i_useForSub:'⭕ Find what helps you {action}.',
+  uf_fly:'FLY',uf_cook:'COOK',uf_write:'WRITE',uf_water:'TRAVEL ON WATER',uf_warm:'STAY WARM',uf_cool:'STAY COOL',
+  t_animalTrait:'🐾 Which Animal?',at_fly:'Circle the animal that can FLY!',at_flySub:'⭕ Find the one that flies.',at_water:'Circle the animal that lives in WATER!',at_waterSub:'⭕ Find the water animal.',at_nolegs:'Circle the animal with NO LEGS!',at_nolegsSub:'⭕ Find the one with no legs.',
   i_takeAway:'Subtract the numbers. Write the answer in the box.',i_timesTables:'Multiply the numbers. Write each answer.',
   i_greaterSmaller:'Write &lt; , &gt; or = in each box.',i_completeWord:'Look at the picture. Fill in the missing letters!',
   i_colour:'Colour the {name} with your crayons!',i_countCircle:'Count the {n}s. Circle the right number!',
@@ -564,6 +570,12 @@ hi:{
   t_fruitVeg:'🍎 फल या सब्ज़ी?',i_fruitVeg:'हर फल पर सर्कल बनाओ!',i_fruitVegSub:'⭕ सिर्फ फल — सब्ज़ियों को छोड़ दो।',
   t_taste:'🍋 मीठा या खट्टा?',i_tasteSour:'इनमें से तीन मीठे हैं। खट्टे फल पर सर्कल बनाओ!',i_tasteSub:'⭕ खट्टा फल ढूंढो।',
   t_whoIs:'🧑‍⚕️ कौन है…?',i_whoIs:'{role} पर सर्कल बनाओ!',i_whoIsSub:'⭕ कपड़े देखो — {role} कौन है?',
+  t_hungryThirsty:'🍽️ तुम क्या चुनोगे?',i_whenHungry:'भूख लगने पर तुम क्या खाओगे? उस पर सर्कल बनाओ!',i_whenHungrySub:'⭕ खाने वाली चीज़ ढूंढो!',i_whenThirsty:'प्यास लगने पर तुम क्या पियोगे? उस पर सर्कल बनाओ!',i_whenThirstySub:'⭕ पीने वाली चीज़ ढूंढो!',
+  t_bodyPartUse:'🖐️ कौन सा अंग काम आएगा?',i_bodyPartUse:'{action} के लिए कौन सा अंग चाहिए? सर्कल बनाओ!',i_bodyPartUseSub:'⭕ {action} में कौन सा अंग मदद करता है?',
+  bp_see:'देखना',bp_hear:'सुनना',bp_smell:'सूंघना',bp_eat:'खाना',bp_walk:'चलना',bp_hold:'पकड़ना',bp_kick:'लात मारना',bp_carry:'उठाना',
+  t_useFor:'🔧 तुम क्या काम में लोगे?',i_useFor:'{action} के लिए क्या चाहिए? सर्कल बनाओ!',i_useForSub:'⭕ {action} में काम आने वाली चीज़ ढूंढो।',
+  uf_fly:'उड़ना',uf_cook:'खाना पकाना',uf_write:'लिखना',uf_water:'पानी पर सफर',uf_warm:'गर्म रहना',uf_cool:'ठंडा रहना',
+  t_animalTrait:'🐾 कौन सा जानवर?',at_fly:'उड़ने वाले जानवर पर सर्कल बनाओ!',at_flySub:'⭕ उड़ने वाला ढूंढो।',at_water:'पानी में रहने वाले जानवर पर सर्कल बनाओ!',at_waterSub:'⭕ पानी वाला जानवर ढूंढो।',at_nolegs:'बिना पैर वाले जानवर पर सर्कल बनाओ!',at_nolegsSub:'⭕ बिना पैर वाला ढूंढो।',
   i_takeAway:'नंबर घटाओ। जवाब बॉक्स में लिखो।',i_timesTables:'नंबर गुणा करो। हर जवाब लिखो।',
   i_greaterSmaller:'हर बॉक्स में &lt; , &gt; या = लिखो।',i_completeWord:'तस्वीर देखो। गायब अक्षर भरो!',
   i_colour:'{name} को क्रेयॉन से कलर करो!',i_countCircle:'{n} गिनो। सही नंबर पर सर्कल बनाओ!',
@@ -725,11 +737,11 @@ const ESIZES={prekg:{m:'7rem',g:'6.5rem',s:'4.2rem',cnt:'3rem',box:90},
 let ES = ESIZES['1'];
 
 const ACT_POOLS={
-  prekg:['trace-path','colouring','counting-small','matching-pic','odd-one-out','pattern-ab','size-order','colour-id','shape-id','circle-match'],
-  kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together','fruit-or-veg','find-profession'],
-  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','letter-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together','fruit-or-veg','taste-fruit','find-profession'],
-  '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search','fruit-or-veg','taste-fruit','find-profession'],
-  '3':  ['matching-word','things-together','odd-one-out','pattern-abc','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search','fruit-or-veg','taste-fruit','find-profession'],
+  prekg:['trace-path','colouring','counting-small','matching-pic','odd-one-out','pattern-ab','size-order','colour-id','shape-id','circle-match','body-part-use'],
+  kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together','fruit-or-veg','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait'],
+  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','letter-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait'],
+  '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search','fruit-or-veg','taste-fruit','find-profession','body-part-use','use-for','animal-trait'],
+  '3':  ['matching-word','things-together','odd-one-out','pattern-abc','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search','fruit-or-veg','taste-fruit','find-profession','use-for','animal-trait'],
   '4':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
   '5':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','pattern-abc','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search']};
 
@@ -1426,6 +1438,16 @@ const FRUIT_TASTE={apple:'sweet',grapes:'sweet',watermelon:'sweet',pear:'sweet',
 // Profession label for the people assets we ship. Items not listed here are
 // treated as generic 'people' and skipped by the find-profession picker.
 const PEOPLE_ROLES={'doctor':'doctor','police-officer':'police officer','firefighter':'firefighter','chef':'chef','farmer':'farmer','postman':'postman','astronaut':'astronaut','pirate':'pirate','magician':'magician','clown':'clown','king':'king','queen':'queen','princess':'princess','beekeeper':'beekeeper','explorer':'explorer','scuba-diver':'scuba diver','superhero-kid':'superhero','mermaid':'mermaid'};
+
+// ── Data maps for the 4 new "circle the right one" activities ──
+const HUNGRY_FOOD=new Set(['bread','cake','biscuits','ice-cream','waffle','hamburger','egg','hot-dog','pancakes','muffin','cookies','steak','honey','popcorn','french-fries','chips','macarons','jam-jar']);
+const THIRSTY_DRINK=new Set(['juice','milk','tea','tropical-drink']);
+const BODY_PART_USE={eye:'see',ear:'hear',nose:'smell',lips:'eat',leg:'walk',hand:'hold',foot:'kick',arm:'carry'};
+const USE_FOR_GROUP={airplane:'fly',helicopter:'fly','hot-air-balloon':'fly',pot:'cook',kettle:'cook',ladle:'cook',spatula:'cook',whisk:'cook','oven-mitt':'cook',pen:'write',pencil:'write',crayon:'write',marker:'write',boat:'water',ship:'water',submarine:'water',coat:'warm',sweater:'warm',mittens:'warm',scarf:'warm',earmuffs:'warm',shorts:'cool',swimsuit:'cool',sunglasses:'cool','t-shirt':'cool'};
+const TRAIT_FLY=new Set(['bee','butterfly','dragonfly','bluebird','parrot','duck','owl','sparrow','flamingo','toucan','cockatiel','peacock','hen','rooster','vulture','ibis','goose','swan']);
+const TRAIT_WATER=new Set(['fish','whale','dolphin','crab','jellyfish','seahorse','octopus','shark','seal','sea-turtle','clownfish','goldfish','pufferfish','starfish','clam','hermit-crab']);
+const TRAIT_NOLEGS=new Set(['worm','snail','fish','jellyfish','whale','dolphin','seahorse','clownfish','goldfish','pufferfish','shark']);
+
 // ── Narrative seeker→goal pairs for the inline maze activity ──
 // Pairs live in tools/maze-pairs.json — validated at build time, then
 // emitted to library.json as `mazePairs`. sheets.html just reads them.
@@ -2369,7 +2391,7 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
   // Per-activity buildAct() may not actually use the items we hand it (e.g. math
   // activities ignore them), so the signature is only stamped when the activity
   // is image-driven; non-image activities are fine to repeat verbatim.
-  const _IMG_ACTS=new Set(['matching-pic','matching-word','odd-one-out','shadow-match','spot-diff','sort','sequence','things-together','circle-match','size-order','pattern-ab','pattern-abc','fruit-or-veg','taste-fruit','find-profession']);
+  const _IMG_ACTS=new Set(['matching-pic','matching-word','odd-one-out','shadow-match','spot-diff','sort','sequence','things-together','circle-match','size-order','pattern-ab','pattern-abc','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait']);
   const _sliceSig=(act,slice)=>act+'|'+slice.map(x=>(x&&x.id)||(x&&x.png)||(x&&x.emoji)||'').sort().join('~');
   for(let p=0;p<curPageCount;p++){
     // re-shuffle per page so every page has a DIFFERENT set of 4 activities
@@ -3042,6 +3064,84 @@ function buildAct(type,items,all){
         ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
       </div>
       <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${Tf('i_whoIsSub','role',role)}</div>
+    </div>`;}
+
+  case 'hungry-thirsty':{
+    const isThirsty=Math.random()<0.35;
+    const correctSet=isThirsty?THIRSTY_DRINK:HUNGRY_FOOD;
+    const correctRaw=LIB?LIB.filter(it=>correctSet.has(it.name)&&(curMode==='png'?it.png:it.emoji)):[];
+    if(correctRaw.length<1) return buildAct('fruit-or-veg',items,all);
+    const target=correctRaw[rnd(0,correctRaw.length-1)];
+    const bothSets=new Set([...HUNGRY_FOOD,...THIRSTY_DRINK]);
+    const distPool=LIB?shuffle(LIB.filter(it=>!bothSets.has(it.name)&&!['fruits','vegetables','food'].includes(it.category)&&(curMode==='png'?it.png:it.emoji))):[];
+    if(distPool.length<3) return buildAct('fruit-or-veg',items,all);
+    const grid=shuffle([target,...distPool.slice(0,3)]).map(it=>libItem(it,curMode));
+    const d=Math.round(bx*1.2);
+    return`<div class="act-hdr"><div class="act-type">${T('t_hungryThirsty')}</div><div class="act-instr">${T(isThirsty?'i_whenThirsty':'i_whenHungry')}</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap">
+        ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${T(isThirsty?'i_whenThirstySub':'i_whenHungrySub')}</div>
+    </div>`;}
+
+  case 'body-part-use':{
+    const bpEntries=Object.entries(BODY_PART_USE);
+    const [correctPart,action]=bpEntries[rnd(0,bpEntries.length-1)];
+    const bpRaw=LIB?LIB.filter(it=>it.category==='body-parts'&&(curMode==='png'?it.png:it.emoji)):[];
+    const correctItem=bpRaw.find(it=>it.name===correctPart);
+    if(!correctItem) return buildAct('find-profession',items,all);
+    const others=shuffle(bpRaw.filter(it=>it.name!==correctPart)).slice(0,3);
+    if(others.length<3) return buildAct('find-profession',items,all);
+    const grid=shuffle([correctItem,...others]).map(it=>libItem(it,curMode));
+    const d=Math.round(bx*1.2);
+    const actionLbl=T('bp_'+action);
+    return`<div class="act-hdr"><div class="act-type">${T('t_bodyPartUse')}</div><div class="act-instr">${Tf('i_bodyPartUse','action',actionLbl)}</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap">
+        ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${Tf('i_bodyPartUseSub','action',actionLbl)}</div>
+    </div>`;}
+
+  case 'use-for':{
+    const groups=['fly','cook','write','water','warm','cool'];
+    const group=groups[rnd(0,groups.length-1)];
+    const correctNames=Object.entries(USE_FOR_GROUP).filter(([,v])=>v===group).map(([k])=>k);
+    const correctRaw=LIB?LIB.filter(it=>correctNames.includes(it.name)&&(curMode==='png'?it.png:it.emoji)):[];
+    if(correctRaw.length<1) return buildAct('fruit-or-veg',items,all);
+    const target=correctRaw[rnd(0,correctRaw.length-1)];
+    const allUseNames=new Set(Object.keys(USE_FOR_GROUP));
+    const distPool=LIB?shuffle(LIB.filter(it=>!allUseNames.has(it.name)&&['animals','food','fruits','vegetables'].includes(it.category)&&(curMode==='png'?it.png:it.emoji))):[];
+    if(distPool.length<3) return buildAct('fruit-or-veg',items,all);
+    const grid=shuffle([target,...distPool.slice(0,3)]).map(it=>libItem(it,curMode));
+    const d=Math.round(bx*1.2);
+    const actionLbl=T('uf_'+group);
+    return`<div class="act-hdr"><div class="act-type">${T('t_useFor')}</div><div class="act-instr">${Tf('i_useFor','action',actionLbl)}</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap">
+        ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${Tf('i_useForSub','action',actionLbl)}</div>
+    </div>`;}
+
+  case 'animal-trait':{
+    const traits=['fly','water','nolegs'];
+    const trait=traits[rnd(0,traits.length-1)];
+    const traitSet=trait==='fly'?TRAIT_FLY:trait==='water'?TRAIT_WATER:TRAIT_NOLEGS;
+    const allRaw=LIB?LIB.filter(it=>(curMode==='png'?it.png:it.emoji)):[];
+    const correctPool=shuffle(allRaw.filter(it=>traitSet.has(it.name)));
+    const allTraitNames=new Set([...TRAIT_FLY,...TRAIT_WATER,...TRAIT_NOLEGS]);
+    const distPool=shuffle(allRaw.filter(it=>it.category==='animals'&&!allTraitNames.has(it.name)));
+    if(correctPool.length<1||distPool.length<3) return buildAct('odd-one-out',items,all);
+    const grid=shuffle([correctPool[0],...distPool.slice(0,3)]).map(it=>libItem(it,curMode));
+    const d=Math.round(bx*1.2);
+    return`<div class="act-hdr"><div class="act-type">${T('t_animalTrait')}</div><div class="act-instr">${T('at_'+trait)}</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap">
+        ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${T('at_'+trait+'Sub')}</div>
     </div>`;}
 
   case 'add-column':{
