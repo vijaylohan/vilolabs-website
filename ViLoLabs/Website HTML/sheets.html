@@ -288,7 +288,10 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .pc-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#E8BC72,#C8963C);border:3px solid #fff;box-shadow:0 4px 14px rgba(200,150,60,.55),inset 0 -2px 4px rgba(0,0,0,.12);margin-top:-19px;cursor:grab;}
 .pc-track input[type=range]:active::-webkit-slider-thumb{cursor:grabbing;}
 .pc-track input[type=range]::-moz-range-thumb{width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#E8BC72,#C8963C);border:3px solid #fff;box-shadow:0 4px 14px rgba(200,150,60,.55);cursor:grab;}
-.pc-bubble{position:absolute;top:25px;left:calc(22px + var(--pc-x,0) * (100% - 44px));transform:translate(-50%,-50%);color:#fff;font-family:'Cormorant Garamond',serif;font-weight:800;font-size:1.25rem;line-height:1;pointer-events:none;text-align:center;min-width:30px;text-shadow:0 1px 2px rgba(61,43,31,.55);transition:left .08s linear;}
+/* thumb center travels from (padding-left + thumb-radius) to (width - padding-right - thumb-radius).
+   With padding 22px and thumb 44px (radius 22), that's 44 → (100% - 44). So bubble.left needs to
+   start at 44px and traverse (100% - 88px). translateX(-50%) keeps the digit centered on the thumb. */
+.pc-bubble{position:absolute;top:25px;left:calc(44px + var(--pc-x,0) * (100% - 88px));transform:translate(-50%,-50%);color:#fff;font-family:'Cormorant Garamond',serif;font-weight:800;font-size:1.3rem;line-height:1;pointer-events:none;text-align:center;min-width:30px;text-shadow:0 1px 2px rgba(61,43,31,.55);transition:left .08s linear;}
 @media print{
   .hdr,.tbar,.pg-nav,.setup,.loader,.toast,.site-disclaimer,.gen-tip,.pc-wrap{display:none!important}
   html{font-size:19px!important}
