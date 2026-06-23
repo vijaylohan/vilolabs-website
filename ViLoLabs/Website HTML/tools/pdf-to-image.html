@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF to Image Converter — Free PDF to JPG / PNG, No Watermark | ViLoLabs</title>
+<meta name="description" content="Free online PDF to image converter. Export every page of a PDF as a JPG or PNG image. Pick resolution, preview thumbnails, download per page. No sign up, no watermark, fully private — runs in your browser.">
+<meta name="keywords" content="pdf to image, pdf to jpg, pdf to png, pdf to picture, free pdf converter, convert pdf to image online, no watermark, pdf to high resolution image">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="PDF to Image — Free JPG / PNG Export | ViLoLabs">
+<meta property="og:description" content="Export every PDF page as a clean JPG or PNG. Private, in-browser, free.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css?v=60f1458f">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"PDF to Image Converter","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+.opt-row{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:1rem;align-items:flex-end}
+.opt{display:flex;flex-direction:column;gap:.35rem;font-size:.78rem;color:rgba(245,240,232,.75)}
+.opt label{font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:.65rem;color:var(--gold)}
+.opt select,.opt input[type=range]{background:var(--char2);border:1px solid rgba(200,150,60,.25);color:var(--cream);padding:.45rem .6rem;border-radius:5px;font-family:inherit;font-size:.85rem;min-width:130px}
+.opt .qval{font-size:.78rem;color:var(--gold2)}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.9rem;margin-top:1.3rem}
+.thumb{background:var(--char2);border:1px solid rgba(200,150,60,.18);border-radius:10px;padding:.7rem .7rem .9rem;display:flex;flex-direction:column;gap:.55rem;overflow:hidden}
+.thumb .canvas-wrap{background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1.3;overflow:hidden}
+.thumb .canvas-wrap img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.thumb .meta{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;color:rgba(245,240,232,.6)}
+.thumb .meta b{color:var(--gold2);font-weight:600}
+.thumb button{padding:.5rem .8rem;border:1px solid var(--gold);background:var(--gold);color:var(--char);border-radius:5px;font-family:inherit;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;width:100%}
+.thumb button:hover{background:var(--gold2);border-color:var(--gold2)}
+.progress{width:100%;height:6px;background:rgba(200,150,60,.1);border-radius:3px;overflow:hidden;margin-top:.8rem;display:none}
+.progress.show{display:block}
+.progress .bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;transition:width .25s}
+.dl-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.dl-row button{padding:.7rem 1.4rem;border:1px solid var(--gold);background:none;color:var(--gold);border-radius:5px;font-family:inherit;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.dl-row button.primary{background:var(--gold);color:var(--char)}
+.dl-row button:hover{transform:translateY(-2px)}
+.dl-row button:disabled{opacity:.4;cursor:not-allowed;transform:none}
+</style>
+<script src="/assets/db.js?v=fde68ebc"></script>
+<link rel="canonical" href="https://vilolabs.in/tools/pdf-to-image">
+<meta property="og:url" content="https://vilolabs.in/tools/pdf-to-image">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://vilolabs.in/assets/og/tool-pdf-to-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta name="twitter:image" content="https://vilolabs.in/assets/og/tool-pdf-to-image.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vilolabs.in/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://vilolabs.in/tools"},{"@type":"ListItem","position":3,"name":"PDF to Image","item":"https://vilolabs.in/tools/pdf-to-image"}]}
+</script>
+<style>.tested-with{display:block;margin:.7rem 0 .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:left;max-width:780px}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What formats can I export?","acceptedAnswer":{"@type":"Answer","text":"JPG and PNG. JPG is smaller and best for photos/scans. PNG is lossless and best for screenshots, diagrams, or anything with sharp text."}},{"@type":"Question","name":"What resolution will I get?","acceptedAnswer":{"@type":"Answer","text":"Pick between Standard (96 DPI), High (192 DPI) and Ultra (288 DPI). Higher DPI means larger files but sharper text and detail when printed or zoomed."}},{"@type":"Question","name":"Will my PDF be uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. pdf.js reads your file directly in your browser — nothing leaves your device."}},{"@type":"Question","name":"Can I download all images at once?","acceptedAnswer":{"@type":"Answer","text":"Yes — click \"Download All as ZIP\" and we package every page into a single ZIP file you can extract in one click."}}]}
+</script>
+</head>
+<body>
+<div id="cursor"></div><div id="cursor-ring"></div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="logo">ViLo<em>Labs</em></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../tools.html">Tools</a></li>
+    <li><a href="../app.html">Apps</a></li>
+    <li><a href="../sheets.html">Worksheets</a></li>
+  </ul>
+</nav>
+
+<div class="wrap"><p class="crumb"><a href="../index.html">Home</a><span class="sep">/</span><a href="../tools.html">Tools</a><span class="sep">/</span>PDF to Image</p></div>
+
+<header class="hero">
+  <p class="eyebrow">Free Online Tool · PDF</p>
+  <h1>PDF to <em>Image.</em></h1>
+  <p class="lead">Export every PDF page as a clean JPG or PNG image. Pick the resolution, preview every page, download what you need. Files stay on your device.</p>
+  <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
+  <p class="tested-with">Verified — Output opens cleanly in every image viewer (Photos, Preview, browser, mobile). Text and vector graphics are rasterised at the chosen DPI.</p>
+</header>
+
+<section class="wrap">
+  <div class="app-sec">
+    <div class="use-tip"><span><strong>Tools can make mistakes</strong> — please check a couple of pages before relying on the full set. Higher DPI gives sharper output but larger files.</span></div>
+    <div class="notice"><strong>How it works:</strong> we render each PDF page to a canvas in your browser and save it as an image. Pick a format and a resolution, then preview every page below. Nothing is uploaded anywhere.</div>
+
+    <div class="drop" id="drop">
+      <div class="di"><img src="/assets/og/icons/pdf-to-image.png" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🖼️',style:'font-size:2rem;line-height:1;'}))"></div>
+      <div class="dt">Click to choose a PDF, or drop it here</div>
+      <div class="ds">We'll render every page so you can save it as JPG or PNG</div>
+    </div>
+    <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+
+    <div id="panel" style="display:none">
+      <div class="opt-row">
+        <div class="opt">
+          <label for="fmt">Format</label>
+          <select id="fmt">
+            <option value="png">PNG (lossless, best for text)</option>
+            <option value="jpg" selected>JPG (smaller, best for photos)</option>
+          </select>
+        </div>
+        <div class="opt">
+          <label for="dpi">Resolution</label>
+          <select id="dpi">
+            <option value="1">Standard · 96 DPI</option>
+            <option value="2" selected>High · 192 DPI</option>
+            <option value="3">Ultra · 288 DPI</option>
+          </select>
+        </div>
+        <div class="opt" id="qOpt">
+          <label for="quality">JPG Quality <span class="qval" id="qval">90%</span></label>
+          <input type="range" id="quality" min="50" max="100" step="5" value="90">
+        </div>
+      </div>
+
+      <div class="progress" id="progress"><div class="bar" id="bar"></div></div>
+
+      <div class="dl-row" id="dlrow" style="display:none">
+        <button class="primary" id="dl-all">Download All as ZIP</button>
+        <span class="status" id="status"></span>
+      </div>
+
+      <div class="thumbs" id="thumbs"></div>
+
+      <div class="actions" style="margin-top:.8rem">
+        <button class="clear-btn" id="clr">Choose another PDF</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section-pad">
+  <p class="sec-tag">Good to Know</p>
+  <h2 class="sec-h">Common <em>questions</em>.</h2>
+  <div class="faq-item"><h3>What formats can I export?</h3><p>JPG and PNG. <em>JPG</em> is smaller and best for photos or scans. <em>PNG</em> is lossless and best for screenshots, diagrams, or anything with sharp text.</p></div>
+  <div class="faq-item"><h3>What resolution will I get?</h3><p>Pick between Standard (96 DPI), High (192 DPI) and Ultra (288 DPI). Higher DPI means larger files but sharper text and detail when printed or zoomed.</p></div>
+  <div class="faq-item"><h3>Will my PDF be uploaded?</h3><p>No. pdf.js reads your file directly in your browser — nothing leaves your device.</p></div>
+  <div class="faq-item"><h3>Can I download all images at once?</h3><p>Yes — click <em>Download All as ZIP</em> and we package every page into a single ZIP file. One click, one file, then extract on your device.</p></div>
+</section>
+
+<footer class="site-foot">
+  <div class="fl"><a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../app.html">Apps</a><a href="../sheets.html">Worksheets</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></div>
+  <p class="cp">© <span id="yr"></span> ViLoLabs · Free online tools, built in India for the world.</p>
+  <p class="disclaimer">ViLoLabs tools can make mistakes. Please verify your output before sharing or printing.</p>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+(function(){const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');if(window.matchMedia('(hover:none),(pointer:coarse)').matches){cur.style.display='none';ring.style.display='none';document.documentElement.style.cursor='auto';return;}let rx=0,ry=0,cx=0,cy=0;document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});(function loop(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();})();
+
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const stamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;};
+const sanitize=s=>String(s||'PDF').replace(/[^a-zA-Z0-9_\-]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'').slice(0,60)||'PDF';
+const escHtml=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+let pages=[];   // [{num, canvas, w, h}]
+let pdfName='PDF';
+
+const drop=document.getElementById('drop');
+const fileInput=document.getElementById('file');
+const statusEl=document.getElementById('status');
+const barEl=document.getElementById('bar');
+const progEl=document.getElementById('progress');
+const thumbsEl=document.getElementById('thumbs');
+const fmtEl=document.getElementById('fmt');
+const dpiEl=document.getElementById('dpi');
+const qEl=document.getElementById('quality');
+const qval=document.getElementById('qval');
+const qOpt=document.getElementById('qOpt');
+
+drop.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',e=>e.target.files[0]&&load(e.target.files[0]));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f&&(f.type==='application/pdf'||/\.pdf$/i.test(f.name)))load(f);});
+document.getElementById('clr').addEventListener('click',()=>{pages=[];fileInput.value='';document.getElementById('panel').style.display='none';thumbsEl.innerHTML='';statusEl.textContent='';});
+document.getElementById('dl-all').addEventListener('click',downloadAll);
+fmtEl.addEventListener('change',()=>{qOpt.style.display=fmtEl.value==='jpg'?'flex':'none';});
+qEl.addEventListener('input',()=>{qval.textContent=qEl.value+'%';});
+dpiEl.addEventListener('change',()=>{if(pages.length){load(null,true);}});
+
+async function load(file,rerender){
+  if(file){pdfName=sanitize(file.name.replace(/\.pdf$/i,''));window._lastFile=file;}
+  const f=file||window._lastFile;
+  if(!f)return;
+  document.getElementById('panel').style.display='block';
+  document.getElementById('dlrow').style.display='none';
+  thumbsEl.innerHTML='';
+  pages=[];
+  statusEl.classList.remove('err');statusEl.textContent='Reading PDF…';
+  progEl.classList.add('show');barEl.style.width='0%';
+  try{
+    const buf=await f.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+    const scale=+dpiEl.value*1.5;  // 1.5x base × 1/2/3 multiplier
+    for(let i=1;i<=pdf.numPages;i++){
+      statusEl.textContent=`Rendering page ${i} / ${pdf.numPages}…`;
+      const page=await pdf.getPage(i);
+      const vp=page.getViewport({scale});
+      const canvas=document.createElement('canvas');
+      canvas.width=Math.round(vp.width);
+      canvas.height=Math.round(vp.height);
+      const ctx=canvas.getContext('2d');
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+      await page.render({canvasContext:ctx,viewport:vp}).promise;
+      pages.push({num:i,canvas,w:canvas.width,h:canvas.height});
+      appendThumb(pages.length-1);
+      barEl.style.width=Math.round(i/pdf.numPages*100)+'%';
+      await new Promise(r=>setTimeout(r,0));
+    }
+    statusEl.textContent=`✓ Rendered ${pdf.numPages} page${pdf.numPages>1?'s':''}. Pick a format and download.`;
+    document.getElementById('dlrow').style.display='flex';
+  }catch(err){
+    console.error(err);
+    statusEl.classList.add('err');statusEl.textContent='Render failed: '+(err.message||'unknown');
+  }
+  progEl.classList.remove('show');
+}
+
+function appendThumb(idx){
+  const p=pages[idx];
+  const card=document.createElement('div');
+  card.className='thumb';
+  // Use a tiny preview img (60% pixel scale) so the displayed thumbnail keeps
+  // the page's true aspect ratio via object-fit:contain. The full-res canvas
+  // stays in the `pages` array for the actual download.
+  const thumbCanvas=document.createElement('canvas');
+  const sc=Math.min(1, 480/Math.max(p.w,p.h));
+  thumbCanvas.width=Math.round(p.w*sc);
+  thumbCanvas.height=Math.round(p.h*sc);
+  const tctx=thumbCanvas.getContext('2d');
+  tctx.imageSmoothingEnabled=true;
+  tctx.imageSmoothingQuality='high';
+  tctx.drawImage(p.canvas,0,0,thumbCanvas.width,thumbCanvas.height);
+  const previewUrl=thumbCanvas.toDataURL('image/jpeg',0.85);
+  card.innerHTML=`
+    <div class="canvas-wrap"><img src="${previewUrl}" alt="Page ${p.num} preview"></div>
+    <div class="meta"><span>Page <b>${p.num}</b></span><span>${p.w}×${p.h}</span></div>
+    <button data-idx="${idx}">Download</button>`;
+  card.querySelector('button').addEventListener('click',()=>downloadOne(idx));
+  thumbsEl.appendChild(card);
+}
+
+function blobFor(canvas,fmt,quality){
+  return new Promise(res=>{
+    const mime=fmt==='png'?'image/png':'image/jpeg';
+    canvas.toBlob(b=>res(b), mime, fmt==='jpg'?(+quality/100):undefined);
+  });
+}
+
+async function downloadOne(idx){
+  const p=pages[idx];
+  const fmt=fmtEl.value;
+  const blob=await blobFor(p.canvas,fmt,qEl.value);
+  if(!blob){statusEl.textContent='Couldn\'t encode page.';statusEl.classList.add('err');return;}
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`ViLoLabs_${pdfName}_p${String(p.num).padStart(2,'0')}_${stamp()}.${fmt}`;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+
+async function downloadAll(){
+  if(!pages.length)return;
+  const fmt=fmtEl.value;
+  statusEl.classList.remove('err');
+  // Single-page or no JSZip → just save the one file directly.
+  if(pages.length===1 || typeof JSZip==='undefined'){
+    for(let i=0;i<pages.length;i++){
+      statusEl.textContent=`Saving page ${i+1} / ${pages.length}…`;
+      await downloadOne(i);
+      await new Promise(r=>setTimeout(r,180));
+    }
+    statusEl.textContent=`✓ Saved ${pages.length} image${pages.length>1?'s':''}.`;
+    return;
+  }
+  // ZIP all pages into one file.
+  statusEl.textContent=`Packing ${pages.length} images into a ZIP…`;
+  const zip=new JSZip();
+  const folder=zip.folder(`ViLoLabs_${pdfName}`);
+  for(let i=0;i<pages.length;i++){
+    statusEl.textContent=`Encoding page ${i+1} / ${pages.length}…`;
+    const blob=await blobFor(pages[i].canvas,fmt,qEl.value);
+    if(!blob) continue;
+    folder.file(`page_${String(pages[i].num).padStart(2,'0')}.${fmt}`, blob);
+    await new Promise(r=>setTimeout(r,0));
+  }
+  statusEl.textContent=`Building ZIP file…`;
+  const zipBlob=await zip.generateAsync({type:'blob', compression:'STORE'});
+  const url=URL.createObjectURL(zipBlob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`ViLoLabs_${pdfName}_${pages.length}-pages_${stamp()}.zip`;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  const mb=(zipBlob.size/1024/1024).toFixed(2);
+  statusEl.textContent=`✓ Downloaded ZIP with ${pages.length} ${fmt.toUpperCase()} pages (${mb} MB).`;
+}
+</script>
+</body>
+</html>

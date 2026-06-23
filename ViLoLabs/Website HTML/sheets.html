@@ -81,6 +81,24 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .tbtn-dark{background:var(--dark);color:#fff}.tbtn-dark:hover{background:var(--gold)}
 .tbtn-out{background:#fff;color:var(--dark);border:1.5px solid #EDE4D6}.tbtn-out:hover{border-color:var(--gold);color:var(--gold)}
 .pg-nav{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-bottom:.85rem}
+/* ── Worksheet readiness bar ── visible while images load, hides when print-ready */
+.ready-bar{background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(61,43,31,.07);padding:.6rem .85rem;margin-bottom:.85rem;display:none;border:1.5px solid #EDE4D6;transition:opacity .4s,transform .4s}
+.ready-bar.on{display:block}
+.ready-bar.done{border-color:#3FAE6A;background:#F4FBF6}
+.ready-bar-inner{display:flex;align-items:center;gap:.6rem;font-family:'Outfit',sans-serif}
+.ready-bar-spin{width:16px;height:16px;border-radius:50%;border:2.5px solid #EDE4D6;border-top-color:#C8963C;animation:rb-spin .85s linear infinite;flex-shrink:0}
+.ready-bar.done .ready-bar-spin{animation:none;border:none;background:#3FAE6A;position:relative}
+.ready-bar.done .ready-bar-spin::after{content:"✓";color:#fff;font-weight:900;font-size:11px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.ready-bar-text{flex:1;font-size:.82rem;font-weight:700;color:#3D2B1F;min-width:0}
+.ready-bar.done .ready-bar-text{color:#1F6F3A}
+.ready-bar-pct{font-size:.78rem;font-weight:800;color:#A07860;font-variant-numeric:tabular-nums;flex-shrink:0}
+.ready-bar.done .ready-bar-pct{color:#1F6F3A}
+.ready-bar-track{height:6px;background:#F0E8DA;border-radius:3px;overflow:hidden;margin-top:.45rem}
+.ready-bar-fill{height:100%;background:linear-gradient(90deg,#E8BC72,#C8963C);width:0;transition:width .25s}
+.ready-bar.done .ready-bar-fill{background:#3FAE6A;width:100%!important}
+@keyframes rb-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+/* Disabled state for Print/PDF buttons while not yet ready */
+.tbtn[disabled]{opacity:.5;cursor:not-allowed;filter:grayscale(.4)}
 .pg-dot{width:32px;height:32px;border-radius:50%;border:2px solid #EDE4D6;background:#fff;cursor:pointer;font-size:.7rem;font-weight:900;display:flex;align-items:center;justify-content:center;transition:all .2s;color:#A07860}
 .pg-dot.act{background:var(--dark);border-color:var(--dark);color:#fff;transform:scale(1.15)}
 .pg-dot:hover:not(.act){border-color:var(--gold);color:var(--gold)}
@@ -274,6 +292,27 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .lvl-btn.sudoku-btn:hover,.lvl-btn.sudoku-btn.sel{border-color:#8A5CFF!important;background:linear-gradient(145deg,#DDCFFF,#C9B0FF)!important;}
 .lvl-btn.maze-btn{border-color:#88D4AB!important;background:linear-gradient(145deg,#E8F8F0,#D0F0E0)!important;}
 .lvl-btn.maze-btn:hover,.lvl-btn.maze-btn.sel{border-color:#2E9E62!important;background:linear-gradient(145deg,#C0EDD4,#A0E0C0)!important;}
+.lvl-btn.math-btn{border-color:#F5A623!important;background:linear-gradient(145deg,#FFF8EC,#FFEECE)!important;}
+.lvl-btn.math-btn:hover,.lvl-btn.math-btn.sel{border-color:#D4800A!important;background:linear-gradient(145deg,#FFE8A0,#FFD060)!important;}
+.math-diff-grid{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem}
+.math-diff-btn{flex:1;min-width:80px;padding:.55rem .4rem;border:2px solid #F5A623;border-radius:12px;background:#FFF8EC;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:700;color:#8B5E00;text-align:center;line-height:1.3;transition:all .15s}
+.math-diff-btn:hover,.math-diff-btn.sel{border-color:#D4800A;background:linear-gradient(145deg,#FFE8A0,#FFD060);color:#5C3A00}
+.nc-box{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;border:2.5px solid #888;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;background:#fff;color:#222;padding:0 4px}
+.nc-box.given{border-color:#C8963C;background:#FFF8EC;color:#8B5E00}
+.nc-op{font-size:.78rem;font-weight:700;color:#666;padding:0 .1rem;white-space:nowrap}
+.nc-arrow{font-size:.9rem;color:#aaa}
+.mg-cell{width:38px;height:38px;border:2.5px solid #bbb;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:1.05rem;background:#fff;color:#222}
+.mg-cell.given{border-color:#C8963C;background:#FFF8EC;color:#8B5E00}
+.mg-op{width:18px;height:38px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#888;font-size:.9rem}
+.mm-full{flex:1;display:flex;flex-direction:column;min-height:460px;background:#fff;border-radius:14px;margin:.4rem;overflow:hidden}
+.pdfmode .mm-full{flex:1!important;min-height:0!important;margin:.4rem!important}
+@media print{.mm-full{flex:1!important;min-height:0!important}}
+.mm-full-cell{display:flex;flex-direction:column;padding:0;background:#fff}
+/* Math Master last-page layout: math on top, promo below — override the
+   default 2×2 .act-grid forced by .pdfmode rules so the math fills full width. */
+.mm-last-grid{grid-template-columns:1fr!important;grid-template-rows:1fr auto!important;min-height:0!important}
+.pdfmode .mm-last-grid{grid-template-columns:1fr!important;grid-template-rows:1fr auto!important;min-height:0!important}
+@media print{.mm-last-grid{grid-template-columns:1fr!important;grid-template-rows:1fr auto!important}}
 /* ── FUN ACTIVITY TYPE LABELS ── */
 .act-type{display:inline-block;background:#fff;border:1.5px solid #C8963C;border-radius:6px;padding:.14rem .5rem;margin-bottom:.3rem!important;}
 
@@ -357,6 +396,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
     <button class="lvl-btn colouring-btn" data-level="colouring" onclick="selLvl(this)"><span class="lvl-e">🎨</span><span class="lvl-n">Colouring</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
     <button class="lvl-btn sudoku-btn" data-level="sudoku" onclick="selLvl(this)"><span class="lvl-e">🧩</span><span class="lvl-n">Sudoku</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
     <button class="lvl-btn maze-btn" data-level="maze" onclick="selLvl(this)"><span class="lvl-e">🌀</span><span class="lvl-n">Maze</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
+    <button class="lvl-btn math-btn" data-level="mathmaster" onclick="selLvl(this)"><span class="lvl-e">🧮</span><span class="lvl-n">Math Master</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
   </div>
   <div id="topicSec" style="display:none">
     <p class="step-lbl" style="margin-top:1.5rem" data-i18n="step2Topic">② Choose a topic</p>
@@ -389,6 +429,18 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
           <div class="mz-ak-note" data-i18n="mazeAKNote">Adds an extra page showing every maze's solution in gold</div>
         </div>
       </label>
+    </div>
+  </div>
+  <div id="mathOptsSec" style="display:none">
+    <p class="step-lbl" style="margin-top:1.4rem" data-i18n="step2Math">② Pick class / age</p>
+    <div class="math-diff-grid">
+      <button class="math-diff-btn" data-diff="lkg" onclick="selMathDiff(this)">🌱 LKG<br><small data-i18n="mmLkgAge">Age 3–4</small></button>
+      <button class="math-diff-btn" data-diff="ukg" onclick="selMathDiff(this)">🌿 UKG<br><small data-i18n="mmUkgAge">Age 4–5</small></button>
+      <button class="math-diff-btn" data-diff="1" onclick="selMathDiff(this)">⭐ <span data-i18n="mmCl1">Class 1</span><br><small data-i18n="mmCl1Age">Age 6</small></button>
+      <button class="math-diff-btn" data-diff="2" onclick="selMathDiff(this)">⭐ <span data-i18n="mmCl2">Class 2</span><br><small data-i18n="mmCl2Age">Age 7</small></button>
+      <button class="math-diff-btn" data-diff="3" onclick="selMathDiff(this)">🚀 <span data-i18n="mmCl3">Class 3</span><br><small data-i18n="mmCl3Age">Age 8</small></button>
+      <button class="math-diff-btn" data-diff="4" onclick="selMathDiff(this)">💡 <span data-i18n="mmCl4">Class 4</span><br><small data-i18n="mmCl4Age">Age 9</small></button>
+      <button class="math-diff-btn" data-diff="5" onclick="selMathDiff(this)">🏆 <span data-i18n="mmCl5">Class 5</span><br><small data-i18n="mmCl5Age">Age 10</small></button>
     </div>
   </div>
   <div class="pc-wrap" id="pcWrap">
@@ -424,9 +476,17 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
           <div class="vshare compact" id="sheetShare"></div>
         </div>
       </div>
-      <button class="tbtn tbtn-out" onclick="doBrowserPrint()" data-i18n="btnPrint">🖨 Print</button>
-      <button class="tbtn tbtn-dark" onclick="doPrint()">⬇ PDF</button>
+      <button class="tbtn tbtn-out" id="btnPrint" onclick="doBrowserPrint()" data-i18n="btnPrint">🖨 Print</button>
+      <button class="tbtn tbtn-dark" id="btnPdf" onclick="doPrint()">⬇ PDF</button>
     </div>
+  </div>
+  <div id="readyBar" class="ready-bar" aria-live="polite">
+    <div class="ready-bar-inner">
+      <div class="ready-bar-spin" id="readyBarSpin"></div>
+      <div class="ready-bar-text" id="readyBarText">Preparing your worksheet…</div>
+      <div class="ready-bar-pct" id="readyBarPct">0%</div>
+    </div>
+    <div class="ready-bar-track"><div class="ready-bar-fill" id="readyBarFill"></div></div>
   </div>
   <div class="pg-nav" id="pgNav"></div>
   <div id="wsContainer"></div>
@@ -496,6 +556,10 @@ en:{
   t_fruitVeg:'🍎 Fruit or Vegetable?',i_fruitVeg:'Circle every fruit you can find!',i_fruitVegSub:'⭕ Fruits only — leave the vegetables alone.',
   t_taste:'🍋 Sweet or Sour?',i_tasteSour:'Three of these are sweet. Circle the SOUR one!',i_tasteSub:'⭕ Find the sour fruit.',
   t_whoIs:'🧑‍⚕️ Who is the…?',i_whoIs:'Circle the {role}!',i_whoIsSub:'⭕ Look at the clothes — who is the {role}?',
+  step2Math:'② Pick class / age',mmLkgAge:'Age 3–4',mmUkgAge:'Age 4–5',mmCl1:'Class 1',mmCl1Age:'Age 6',mmCl2:'Class 2',mmCl2Age:'Age 7',mmCl3:'Class 3',mmCl3Age:'Age 8',mmCl4:'Class 4',mmCl4Age:'Age 9',mmCl5:'Class 5',mmCl5Age:'Age 10',
+  mm_picAddT:'🧮 Picture Addition',mm_picAddI:'Count each group. Write the number. Add them up!',mm_picAddSub:'⭕ Fill every empty box.',
+  mm_crosswordT:'🧩 Math Crossword',mm_crosswordI:'Fill in every empty box so every row and column equation is correct!',mm_crosswordSub:'⭕ Boxes shared by two equations must work for both.',
+  mm_chainT:'🔗 Number Chain',mm_chainI:'Follow the chain. Do each step in order. Fill in every empty box!',mm_chainSub:'⭕ Add or subtract as the arrow says.',
   t_hungryThirsty:'🍽️ What Would You Pick?',i_whenHungry:'Circle what you would EAT when HUNGRY!',i_whenHungrySub:'⭕ Find the food!',i_whenThirsty:'Circle what you would DRINK when THIRSTY!',i_whenThirstySub:'⭕ Find the drink!',
   t_bodyPartUse:'🖐️ Which Part Do You Use?',i_bodyPartUse:'Circle the body part you use to {action}!',i_bodyPartUseSub:'⭕ Which part helps you {action}?',
   bp_see:'SEE',bp_hear:'HEAR',bp_smell:'SMELL',bp_eat:'EAT',bp_walk:'WALK',bp_hold:'HOLD THINGS',bp_kick:'KICK',bp_carry:'CARRY',
@@ -570,6 +634,10 @@ hi:{
   t_fruitVeg:'🍎 फल या सब्ज़ी?',i_fruitVeg:'हर फल पर सर्कल बनाओ!',i_fruitVegSub:'⭕ सिर्फ फल — सब्ज़ियों को छोड़ दो।',
   t_taste:'🍋 मीठा या खट्टा?',i_tasteSour:'इनमें से तीन मीठे हैं। खट्टे फल पर सर्कल बनाओ!',i_tasteSub:'⭕ खट्टा फल ढूंढो।',
   t_whoIs:'🧑‍⚕️ कौन है…?',i_whoIs:'{role} पर सर्कल बनाओ!',i_whoIsSub:'⭕ कपड़े देखो — {role} कौन है?',
+  step2Math:'② क्लास / उम्र चुनो',mmLkgAge:'उम्र 3–4',mmUkgAge:'उम्र 4–5',mmCl1:'क्लास 1',mmCl1Age:'उम्र 6',mmCl2:'क्लास 2',mmCl2Age:'उम्र 7',mmCl3:'क्लास 3',mmCl3Age:'उम्र 8',mmCl4:'क्लास 4',mmCl4Age:'उम्र 9',mmCl5:'क्लास 5',mmCl5Age:'उम्र 10',
+  mm_picAddT:'🧮 तस्वीरों से जोड़',mm_picAddI:'हर ग्रुप गिनो। नंबर लिखो। फिर जोड़ो!',mm_picAddSub:'⭕ हर खाली बॉक्स भरो।',
+  mm_crosswordT:'🧩 मैथ क्रॉसवर्ड',mm_crosswordI:'हर खाली बॉक्स भरो — हर लाइन और कॉलम का गणित सही होना चाहिए!',mm_crosswordSub:'⭕ जो बॉक्स दोनों में हैं वो दोनों के लिए सही होने चाहिए।',
+  mm_chainT:'🔗 नंबर चेन',mm_chainI:'चेन को फॉलो करो। हर स्टेप क्रम से करो। हर खाली बॉक्स भरो!',mm_chainSub:'⭕ तीर के हिसाब से जोड़ो या घटाओ।',
   t_hungryThirsty:'🍽️ तुम क्या चुनोगे?',i_whenHungry:'भूख लगने पर तुम क्या खाओगे? उस पर सर्कल बनाओ!',i_whenHungrySub:'⭕ खाने वाली चीज़ ढूंढो!',i_whenThirsty:'प्यास लगने पर तुम क्या पियोगे? उस पर सर्कल बनाओ!',i_whenThirstySub:'⭕ पीने वाली चीज़ ढूंढो!',
   t_bodyPartUse:'🖐️ कौन सा अंग काम आएगा?',i_bodyPartUse:'{action} के लिए कौन सा अंग चाहिए? सर्कल बनाओ!',i_bodyPartUseSub:'⭕ {action} में कौन सा अंग मदद करता है?',
   bp_see:'देखना',bp_hear:'सुनना',bp_smell:'सूंघना',bp_eat:'खाना',bp_walk:'चलना',bp_hold:'पकड़ना',bp_kick:'लात मारना',bp_carry:'उठाना',
@@ -724,7 +792,7 @@ const TOPIC_META={
 
 const COL_TOPICS={all:{e:'🎨',l:'All Subjects'},animals:{e:'🐾',l:'Animals'},fruits:{e:'🍎',l:'Fruits & Food'},objects:{e:'🏠',l:'Objects & Nature'}};
 
-const LEVEL_NAMES={prekg:'Pre-KG',kg:'Kindergarten','1':'Class 1','2':'Class 2','3':'Class 3','4':'Class 4','5':'Class 5',colouring:'Colouring Book',sudoku:'Sudoku',maze:'Maze'};
+const LEVEL_NAMES={prekg:'Pre-KG',kg:'Kindergarten','1':'Class 1','2':'Class 2','3':'Class 3','4':'Class 4','5':'Class 5',colouring:'Colouring Book',sudoku:'Sudoku',maze:'Maze','mm-lkg':'Math Master · LKG','mm-ukg':'Math Master · UKG','mm-1':'Math Master · Class 1','mm-2':'Math Master · Class 2','mm-3':'Math Master · Class 3','mm-4':'Math Master · Class 4','mm-5':'Math Master · Class 5'};
 
 // EMOJI SIZES per level — main/grid/small (sized generously for children)
 const ESIZES={prekg:{m:'7rem',g:'6.5rem',s:'4.2rem',cnt:'3rem',box:90},
@@ -733,7 +801,14 @@ const ESIZES={prekg:{m:'7rem',g:'6.5rem',s:'4.2rem',cnt:'3rem',box:90},
   '2':{m:'4.6rem',g:'4rem',s:'2.75rem',cnt:'2rem',box:59},
   '3':{m:'4.05rem',g:'3.6rem',s:'2.45rem',cnt:'1.8rem',box:54},
   '4':{m:'3.55rem',g:'3.2rem',s:'2.2rem',cnt:'1.6rem',box:50},
-  '5':{m:'3.3rem',g:'2.9rem',s:'2.05rem',cnt:'1.5rem',box:45}};
+  '5':{m:'3.3rem',g:'2.9rem',s:'2.05rem',cnt:'1.5rem',box:45},
+  'mm-lkg':{m:'6.1rem',g:'5.4rem',s:'3.7rem',cnt:'2.5rem',box:77},
+  'mm-ukg':{m:'6.1rem',g:'5.4rem',s:'3.7rem',cnt:'2.5rem',box:77},
+  'mm-1':{m:'5.3rem',g:'4.6rem',s:'3.2rem',cnt:'2.2rem',box:68},
+  'mm-2':{m:'4.6rem',g:'4rem',s:'2.75rem',cnt:'2rem',box:59},
+  'mm-3':{m:'4.05rem',g:'3.6rem',s:'2.45rem',cnt:'1.8rem',box:54},
+  'mm-4':{m:'3.55rem',g:'3.2rem',s:'2.2rem',cnt:'1.6rem',box:50},
+  'mm-5':{m:'3.3rem',g:'2.9rem',s:'2.05rem',cnt:'1.5rem',box:45}};
 let ES = ESIZES['1'];
 
 const ACT_POOLS={
@@ -743,7 +818,14 @@ const ACT_POOLS={
   '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search','fruit-or-veg','taste-fruit','find-profession','body-part-use','use-for','animal-trait'],
   '3':  ['matching-word','things-together','odd-one-out','pattern-abc','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search','fruit-or-veg','taste-fruit','find-profession','use-for','animal-trait'],
   '4':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
-  '5':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','pattern-abc','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search']};
+  '5':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','pattern-abc','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
+  'mm-lkg':  ['mm-pic-add'],
+  'mm-ukg':  ['mm-pic-add'],
+  'mm-1':    ['mm-pic-add'],
+  'mm-2':    ['mm-crossword'],
+  'mm-3':    ['mm-crossword'],
+  'mm-4':    ['mm-chain'],
+  'mm-5':    ['mm-chain']};
 
 function pageTitles(i){const a=[T('pt0'),T('pt1'),T('pt2'),T('pt3'),T('pt4')];return a[i%a.length]||'';}
 
@@ -1302,12 +1384,15 @@ async function silhouetteURL(src){
   _shadCache.set(src,out); return out;
 }
 // Trim every worksheet image so artwork fills its box. Idempotent.
-async function paintImages(root){
+async function paintImages(root, onProgress){
   const els=[...(root||document).querySelectorAll('img.wimg:not([data-trimmed])')];
-  for(const el of els){
+  const total=Math.max(1,els.length);
+  for(let i=0;i<els.length;i++){
+    const el=els[i];
     el.dataset.trimmed='1';
     const orig=el.getAttribute('src');
     if(orig&&!orig.startsWith('data:')) el.src=await trimURL(orig);
+    if(onProgress) onProgress(i+1, els.length);
   }
 }
 // Embed maze start/end icons as data URIs so they survive into the PDF.
@@ -1510,6 +1595,7 @@ function selLvl(btn){
   const topicGrid=document.getElementById('topicGrid');
 
   document.getElementById('mazeOptsSec').style.display='none';
+  document.getElementById('mathOptsSec').style.display='none';
   if(curLvl==='colouring'){
     curTopic='mixed';
     topicSec.style.display='none';
@@ -1521,6 +1607,14 @@ function selLvl(btn){
     document.getElementById('mazeOptsSec').style.display='block';
     document.getElementById('genBtn').disabled=false;
     document.getElementById('genBtnTxt').textContent='🌀 Generate Maze!';
+  } else if(curLvl==='mathmaster'){
+    curTopic='mixed';
+    topicSec.style.display='none';
+    document.getElementById('mathOptsSec').style.display='block';
+    document.getElementById('genBtn').disabled=true;
+    document.getElementById('genBtnTxt').textContent='🧮 Generate Math Sheet!';
+    // reset diff selection
+    document.querySelectorAll('.math-diff-btn').forEach(b=>b.classList.remove('sel'));
   } else {
     curTopic='mixed';
     topicSec.style.display='none';
@@ -1528,6 +1622,14 @@ function selLvl(btn){
     document.getElementById('genBtnTxt').textContent='✨ Generate Worksheet!';
   }
 }
+function selMathDiff(btn){
+  document.querySelectorAll('.math-diff-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  curLvl='mm-'+btn.dataset.diff;
+  ES=ESIZES[curLvl]||ESIZES['2'];
+  document.getElementById('genBtn').disabled=false;
+}
+function isMathMaster(){return typeof curLvl==='string'&&curLvl.startsWith('mm-');}
 function selTopic(btn){
   document.querySelectorAll('.top-btn').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
@@ -1547,16 +1649,74 @@ let _pdfBusy = false;
 // have their images undecoded + untrimmed, forcing html2canvas to do that work
 // (slowly) at capture time — which is why "clicking each page first" felt faster.
 // Here we trim + load + DECODE all artwork on all 5 pages up front.
+function _rbShow(){
+  const bar=document.getElementById('readyBar');if(!bar)return;
+  bar.classList.add('on');bar.classList.remove('done');
+  _rbSetPct(0,'Preparing your worksheet…');
+  const print=document.getElementById('btnPrint'),pdf=document.getElementById('btnPdf');
+  if(print)print.disabled=true; if(pdf)pdf.disabled=true;
+}
+function _rbSetPct(pct,text){
+  const f=document.getElementById('readyBarFill'),
+        p=document.getElementById('readyBarPct'),
+        t=document.getElementById('readyBarText');
+  if(f) f.style.width=Math.max(0,Math.min(100,pct))+'%';
+  if(p) p.textContent=Math.round(Math.max(0,Math.min(100,pct)))+'%';
+  if(t&&text) t.textContent=text;
+}
+function _rbDone(){
+  const bar=document.getElementById('readyBar');if(!bar)return;
+  bar.classList.add('done');
+  _rbSetPct(100,'✓ Ready to print, share or download');
+  const print=document.getElementById('btnPrint'),pdf=document.getElementById('btnPdf');
+  if(print)print.disabled=false; if(pdf)pdf.disabled=false;
+  // soft-hide after a few seconds so it doesn't clutter the page forever
+  setTimeout(()=>{bar.style.opacity='0';bar.style.transform='translateY(-6px)';},2800);
+  setTimeout(()=>{bar.classList.remove('on');bar.style.opacity='';bar.style.transform='';},3400);
+}
+
 async function _markWsReadyWhenLoaded(){
   _wsReady = false;
+  _rbShow();
   const c=document.getElementById('wsContainer');
-  try{ await paintImages(c); }catch(e){}           // trim artwork on ALL pages
+  // Force-eager every image so lazy ones on hidden pages still load.
+  document.querySelectorAll('.ws-page img[loading="lazy"]').forEach(i=>{
+    i.loading='eager';
+    // Kick stalled images: re-assign src to trigger a fresh load if needed.
+    if(!i.complete){const s=i.src;i.src='';i.src=s;}
+  });
+  _rbSetPct(5,'Trimming clipart…');
+  // Trim phase fills 5% → 25% as each image is trimmed.
+  try{
+    await paintImages(c, (done,tot)=>{
+      const pct = 5 + (done/Math.max(1,tot)) * 20;
+      _rbSetPct(pct, `Trimming clipart… ${done}/${tot}`);
+    });
+  }catch(e){}
   const imgs=[...document.querySelectorAll('.ws-page img')];
+  const total=Math.max(1,imgs.length);
   // wait for every image (incl. swapped-in trimmed data-URLs) to finish loading
-  try{ await Promise.all(imgs.map(i=>i.complete?0:new Promise(res=>{i.onload=i.onerror=res;}))); }catch(e){}
+  let loadedCount=0;
+  const loadBudget = 60;   // load phase fills 25% → 85%
+  const onOne=()=>{
+    loadedCount++;
+    const pct=25 + (loadedCount/total)*loadBudget;
+    _rbSetPct(pct,`Loading clipart… ${loadedCount}/${total}`);
+  };
+  try{
+    await Promise.all(imgs.map(i=>{
+      if(i.complete){onOne();return Promise.resolve();}
+      return new Promise(res=>{
+        i.onload=()=>{onOne();res();};
+        i.onerror=()=>{onOne();res();};
+      });
+    }));
+  }catch(e){}
+  _rbSetPct(88,'Decoding images…');
   // force-decode so html2canvas doesn't pay the decode cost during PDF capture
   try{ await Promise.all(imgs.map(i=>i.decode?i.decode().catch(()=>{}):0)); }catch(e){}
   _wsReady = true;
+  _rbDone();
 }
 
 // ── GENERATE  (now SEO-aware: each generate produces a permanent URL)
@@ -1902,7 +2062,7 @@ function buildColouringPagePng(idx,page,lvlName,topicName){
       </div>
     </div>
     <div class="col-main-wrap col-png-wrap">
-      <img src="/${page.file}" alt="${subjectLabel}" class="col-png" loading="lazy">
+      <img src="/${page.file}" alt="${subjectLabel}" class="col-png">
     </div>
     <div class="pg-nameline" style="border-top:1px solid #EDE4D6">
       <div class="nl"><span>${T('name')}</span><div class="nl-line"></div></div>
@@ -2393,6 +2553,9 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
   // is image-driven; non-image activities are fine to repeat verbatim.
   const _IMG_ACTS=new Set(['matching-pic','matching-word','odd-one-out','shadow-match','spot-diff','sort','sequence','things-together','circle-match','size-order','pattern-ab','pattern-abc','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait']);
   const _sliceSig=(act,slice)=>act+'|'+slice.map(x=>(x&&x.id)||(x&&x.png)||(x&&x.emoji)||'').sort().join('~');
+  // Math Master Answer Key — enable cache so Class 4 & 5 can render a final
+  // page with miniature solutions for all activity pages.
+  window._mmPuzzleCache = (curLvl==='mm-4'||curLvl==='mm-5') ? [] : null;
   for(let p=0;p<curPageCount;p++){
     // re-shuffle per page so every page has a DIFFERENT set of 4 activities
     const pageActs=shuffle(pool).slice(0,4);
@@ -2432,6 +2595,39 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
     const dot=document.createElement('button');
     dot.className='pg-dot'+(p===0?' act':'');
     dot.textContent=p+1;dot.onclick=()=>showPage(p);
+    nav.appendChild(dot);
+  }
+  // ── Math Master Answer Key page (Class 4 & 5 only) ──
+  if((curLvl==='mm-4'||curLvl==='mm-5') && window._mmPuzzleCache && window._mmPuzzleCache.length){
+    const akIdx = curPageCount;
+    const th = BORDER_THEMES[akIdx % BORDER_THEMES.length];
+    const bodyHTML = `<div class="mm-full">${buildMMAnswerKey()}</div>`;
+    const pgHTML = `
+      <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Worksheets</span><span class="pg-num">🔑 ${T('ansKey')||'Answer Key'} · ${curLvl==='mm-4'?'Class 4':'Class 5'}</span></div>
+      <div class="pg-meta"><span>📚 ${lvlName}</span><span>·</span><span>🎲 ${topicName}</span></div>
+      <div class="pg-nameline">
+        <div class="nl nl-name"><span>${T('name')}</span><div class="nl-line"></div></div>
+        <div class="nl nl-date"><span>${T('date')}</span><div class="nl-line"></div></div>
+        <div class="nl nl-score"><span>${T('score')}</span><div class="nl-line"></div></div>
+      </div>
+      <div class="act-frame" style="background:${th.bg}">
+        <div class="bstrip bstrip-t">${borderStrip(th,34)}</div>
+        <div class="bstrip bstrip-b">${borderStrip(th,34)}</div>
+        <div class="bstrip bstrip-l">${borderStrip(th,17)}</div>
+        <div class="bstrip bstrip-r">${borderStrip(th,17)}</div>
+        ${bodyHTML}
+      </div>
+      <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.in · Free for classroom &amp; home use</div>`;
+    const pg=document.createElement('div');
+    pg.className='ws-page';
+    pg.id='pg'+akIdx;
+    pg.innerHTML=pgHTML;
+    container.appendChild(pg);
+    const dot=document.createElement('button');
+    dot.className='pg-dot';
+    dot.textContent='🔑';
+    dot.title='Answer Key';
+    dot.onclick=()=>showPage(akIdx);
     nav.appendChild(dot);
   }
 }
@@ -2521,11 +2717,24 @@ function buildPromoBlock(){
 }
 
 function buildPage(idx,acts,items,lvlName,topicName){
-  const cells=idx===curPageCount-1
-    ? acts.slice(0,2).map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('')
-        +`<div class="cell promo-cell">${buildPromoBlock()}</div>`
-    : acts.map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('');
   const th=BORDER_THEMES[idx%BORDER_THEMES.length];
+  let bodyHTML;
+  if(isMathMaster()){
+    // Class 4 & 5 get a separate Answer Key page — no compact last page, no
+    // promo inline; the promo lives on the answer key.
+    const hasAnswerKey = (curLvl==='mm-4'||curLvl==='mm-5');
+    const isLast = (idx===curPageCount-1);
+    const useCompact = isLast && !hasAnswerKey;
+    bodyHTML = useCompact
+      ? `<div class="act-grid mm-last-grid"><div class="cell mm-full-cell">${buildMathMasterPage(idx,items,true)}</div><div class="cell promo-cell">${buildPromoBlock()}</div></div>`
+      : `<div class="mm-full">${buildMathMasterPage(idx,items,false)}</div>`;
+  } else {
+    const cells=idx===curPageCount-1
+      ? acts.slice(0,2).map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('')
+          +`<div class="cell promo-cell">${buildPromoBlock()}</div>`
+      : acts.map((act,i)=>`<div class="cell">${buildAct(act,items.slice(i*4,i*4+4),items)}</div>`).join('');
+    bodyHTML = `<div class="act-grid">${cells}</div>`;
+  }
   return`
     <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Worksheets</span><span class="pg-num">${T('page')} ${idx+1}/${curPageCount} · ${pageTitles(idx)}</span></div>
     <div class="pg-meta"><span>📚 ${lvlName}</span><span>·</span><span>🎲 ${topicName}</span></div>
@@ -2539,10 +2748,490 @@ function buildPage(idx,acts,items,lvlName,topicName){
       <div class="bstrip bstrip-b">${borderStrip(th,34)}</div>
       <div class="bstrip bstrip-l">${borderStrip(th,17)}</div>
       <div class="bstrip bstrip-r">${borderStrip(th,17)}</div>
-      <div class="act-grid">${cells}</div>
+      ${bodyHTML}
     </div>
     <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.in · Free for classroom &amp; home use</div>`;
 }
+
+// ── Math Master — ONE full-page puzzle per page ──
+function buildMathMasterPage(idx,items,compact){
+  if(curLvl==='mm-lkg'||curLvl==='mm-ukg'||curLvl==='mm-1') return buildMMPicAdd(idx,items,compact);
+  if(curLvl==='mm-2'||curLvl==='mm-3') return buildMMCrossword(idx,items,compact);
+  return buildMMChain(idx,items,compact);
+}
+
+// Picture math for LKG / UKG / Class 1.
+// Three patterns chosen at random per page so worksheets feel fresh:
+//   A) Counting  → [picture group]  □            (just count and write)
+//   B) Addition  → [group] + [group] = □         (only one answer box per row)
+//   C) Subtract  → [group] − [group] = □
+// LKG sees mostly A/B with small numbers; UKG mixes all three; Class 1 leans
+// toward B/C with bigger numbers. Layout is a single column with 8 rows or a
+// 2-column grid with 4 rows — picked at random for visual variety.
+function buildMMPicAdd(idx,items,compact){
+  const isLkg=curLvl==='mm-lkg';
+  const isUkg=curLvl==='mm-ukg';
+  // Age-appropriate number ranges (final answer = sum or difference):
+  //   LKG → up to 10 (kids count 1-10)
+  //   UKG → up to 15
+  //   Class 1 → up to 25
+  // Per-side image cap keeps the row readable; compact mode caps tighter.
+  const maxTotal     = isLkg?10 : isUkg?15 : 25;
+  const maxPerSide   = compact
+    ? (isLkg?4 : isUkg?6  : 7)
+    : (isLkg?5 : isUkg?8  : 13);
+  const pngPool = LIB ? libPool('png') : [];
+  const sourcePool = pngPool.length ? pngPool : (LIB?libPool('emoji'):[]);
+  const twoCols = compact ? false : Math.random()<0.5;
+  const allowed = twoCols
+    ? (isLkg ? ['count','add']     : isUkg ? ['count','add']     : ['add','count'])
+    : (isLkg ? ['add','add','sub'] : isUkg ? ['add','add','sub'] : ['add','sub','add','sub']);
+  const pattern = allowed[rnd(0,allowed.length-1)];
+  const rowCount = compact ? 4 : (twoCols ? 10 : 8);
+  const picks=shuffle(items.concat(sourcePool)).slice(0,rowCount);
+  while(picks.length<rowCount) picks.push({e:'⭐'});
+  const PALETTE=['#22A06B','#E07A22','#3D7DE8','#D7437B','#7B3FE4','#E0B82A','#1FA39A','#D24A4A'];
+
+  // Same box size for every row on this page (varies by class+layout only).
+  const boxPx = compact ? 48 : (twoCols ? 50 : 58);
+  const opPx  = twoCols ? 30 : 36;
+  const chipPx= 30;
+  // Two-side rows lay out as CSS Grid for precise column widths (no overlap):
+  //   chip | group A | op | group B | = | box
+  // count rows: chip | group | box
+  const rowGridCols = pattern==='count'
+    ? `${chipPx}px minmax(0,1fr) ${boxPx}px`
+    : `${chipPx}px minmax(0,1fr) ${opPx}px minmax(0,1fr) ${opPx}px ${boxPx}px`;
+  const opStyle  = `font-size:${twoCols?'1.4rem':'1.65rem'};font-weight:900;color:#333;text-align:center;line-height:1`;
+  const boxStyle = `width:${boxPx}px;height:${boxPx}px;border:3px solid CCOL;border-radius:12px;background:#fff;color:#222;font-weight:800;font-size:1.15rem;display:flex;align-items:center;justify-content:center`;
+
+  // Image group sizing — PNG items use container-relative widths (cell = 1fr of
+  // group width / perRow) so the group ALWAYS fits its column, no overflow no
+  // matter how many images. Emoji fallback uses font-size-based sizing.
+  function group(item,n){
+    let perRow;
+    if(n<=2)       perRow = n;
+    else if(n<=4)  perRow = n;
+    else if(n<=8)  perRow = Math.ceil(n/2);
+    else           perRow = Math.ceil(n/3);
+    const numImgRows = Math.ceil(n/perRow);
+    const maxPx = compact ? 38 : (twoCols ? 42 : 56);
+    if(item.src){
+      // PNG: images sit in a grid sized to BOTH container width AND height.
+      // object-fit:contain preserves aspect — no aspect-ratio:1 (which would
+      // force a square box that can overflow row height when many images stack).
+      const ic = `<img src="${item.src}" alt="" class="wimg" style="width:100%;height:100%;object-fit:contain;display:block;max-width:${maxPx}px;max-height:${maxPx}px">`;
+      return `<div style="display:grid;grid-template-columns:repeat(${perRow},minmax(0,1fr));grid-template-rows:repeat(${numImgRows},minmax(0,1fr));gap:2px 3px;width:100%;height:100%;align-items:center;justify-items:center;overflow:hidden">${Array(n).fill(ic).join('')}</div>`;
+    } else {
+      // Emoji fallback — font-size based
+      let sz;
+      if(n<=2) sz=compact?2.4:(twoCols?2.6:3.0);
+      else if(n<=4) sz=compact?1.8:(twoCols?2.0:2.4);
+      else if(n<=8) sz=compact?1.4:(twoCols?1.6:1.85);
+      else sz=compact?1.1:1.35;
+      const sp=`<span style="font-size:${sz}rem;line-height:1">${item.e}</span>`;
+      return `<div style="display:grid;grid-template-columns:repeat(${perRow},auto);gap:2px 4px;justify-content:center;align-content:center;max-height:100%;overflow:hidden">${Array(n).fill(sp).join('')}</div>`;
+    }
+  }
+
+  // Pick A & B so the SUM (or difference) is age-appropriate AND per-side capped.
+  function pickAddPair(){
+    for(let t=0;t<25;t++){
+      const sum=rnd(2, maxTotal);
+      const a=rnd(1, Math.min(maxPerSide, sum-1));
+      const b=sum-a;
+      if(b>=1 && b<=maxPerSide) return [a,b];
+    }
+    return [1,1];
+  }
+  function pickSubPair(){
+    for(let t=0;t<25;t++){
+      const a=rnd(2, maxPerSide);
+      const b=rnd(1, a-1);
+      const diff=a-b;
+      if(diff<=maxTotal) return [a,b];
+    }
+    return [2,1];
+  }
+  function pickCountVal(){
+    return rnd(isLkg?2:3, Math.min(maxPerSide, maxTotal));
+  }
+
+  function rowHTML(p,i){
+    const accent=PALETTE[i%PALETTE.length];
+    const numChip=`<div style="background:${accent};color:#fff;width:${chipPx}px;height:${chipPx}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem">${i+1}</div>`;
+    let cells='';
+    if(pattern==='count'){
+      const a=pickCountVal();
+      cells=`${numChip}<div style="display:flex;align-items:center;justify-content:center;overflow:hidden;min-width:0;height:100%;min-height:0">${group(p,a)}</div><div style="${boxStyle.replace('CCOL',accent)}"></div>`;
+    } else {
+      const [a,b] = pattern==='add' ? pickAddPair() : pickSubPair();
+      const sym = pattern==='add' ? '+' : '−';
+      cells=`${numChip}
+        <div style="display:flex;align-items:center;justify-content:center;overflow:hidden;min-width:0;height:100%;min-height:0">${group(p,a)}</div>
+        <div style="${opStyle}">${sym}</div>
+        <div style="display:flex;align-items:center;justify-content:center;overflow:hidden;min-width:0;height:100%;min-height:0">${group(p,b)}</div>
+        <div style="${opStyle}">=</div>
+        <div style="${boxStyle.replace('CCOL',accent)}"></div>`;
+    }
+    return`<div style="display:grid;grid-template-columns:${rowGridCols};gap:.5rem;align-items:center;padding:.5rem .65rem;border:3px solid ${accent};border-radius:16px;background:#fff;box-shadow:0 1px 3px rgba(60,40,20,.05);min-height:0;overflow:hidden">${cells}</div>`;
+  }
+
+  const rows=picks.map(rowHTML).join('');
+  const layout=twoCols
+    ? `<div style="display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:.55rem;flex:1;min-height:0">${rows}</div>`
+    : `<div style="display:grid;grid-template-rows:repeat(${rowCount},1fr);gap:.5rem;flex:1;min-height:0">${rows}</div>`;
+  return`<div style="padding:.8rem .9rem;display:flex;flex-direction:column;height:100%;min-height:0">
+    <div style="text-align:center;margin-bottom:.5rem;flex-shrink:0">
+      <span class="act-type" style="font-size:.95rem">${T('mm_picAddT')}</span>
+      <div style="font-weight:800;color:#333;font-size:.92rem;margin-top:.2rem">${T('mm_picAddI')}</div>
+    </div>
+    ${layout}
+    <div style="text-align:center;font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem;flex-shrink:0">${T('mm_picAddSub')}</div>
+  </div>`;
+}
+
+// ── True CROSS-NUMBER puzzle generator ──
+// Every equation reads as 5 cells:  [n0] [op] [n1] [=] [n2].
+// Equations run horizontally AND vertically, intersecting on shared NUMBER cells.
+// CORRECTNESS GUARANTEE — construct by derivation, never guess:
+//   • Start from one number cell (the root).
+//   • Each new equation anchors on exactly ONE existing number cell, then the
+//     other two numbers are COMPUTED from the anchor + chosen operator so the
+//     equation is true by construction. The shared cell keeps its value, so its
+//     across-equation and down-equation are both satisfied automatically.
+//   ⇒ A mathematically wrong combination is impossible.
+// Number cells live on the even sub-lattice (root at 0,0); operators/'=' sit on
+// the odd offsets between them, so numbers and operators can never collide.
+
+// Derive a true equation (n0 OP n1 = n2) given the anchor's value and which
+// slot (0=n0, 1=n1, 2=n2) the anchor occupies. Returns null if impossible.
+function mmDeriveEq(anchorVal, slot, op, cfg){
+  const divisorsOf=(n,fmax)=>{const out=[];for(let d=2;d<=fmax;d++){if(n%d===0&&n/d<=cfg.maxV&&n/d>=1)out.push(d);}return out;};
+  for(let t=0;t<50;t++){
+    let n0,n1,n2;
+    if(op==='+'){
+      if(slot===0){n0=anchorVal;n1=rnd(1,cfg.opMax);n2=n0+n1;}
+      else if(slot===1){n1=anchorVal;n0=rnd(1,cfg.opMax);n2=n0+n1;}
+      else{n2=anchorVal;if(n2<2)return null;n0=rnd(1,n2-1);n1=n2-n0;}
+    } else if(op==='−'){
+      if(slot===0){n0=anchorVal;if(n0<2)return null;n1=rnd(1,n0-1);n2=n0-n1;}
+      else if(slot===1){n1=anchorVal;n0=n1+rnd(1,cfg.opMax);n2=n0-n1;}
+      else{n2=anchorVal;n1=rnd(1,cfg.opMax);n0=n2+n1;}
+    } else { // ×
+      if(slot===0){n0=anchorVal;n1=rnd(1,cfg.facMax);n2=n0*n1;}
+      else if(slot===1){n1=anchorVal;n0=rnd(1,cfg.facMax);n2=n0*n1;}
+      else{n2=anchorVal;const ds=divisorsOf(n2,cfg.facMax);if(!ds.length)return null;n0=ds[rnd(0,ds.length-1)];n1=n2/n0;}
+    }
+    if(n0>=1&&n1>=1&&n2>=1&&n0<=cfg.maxV&&n1<=cfg.maxV&&n2<=cfg.maxV) return {n0,n1,n2};
+  }
+  return null;
+}
+
+function buildMMCrossword(idx,items,compact){
+  let cfg=({'mm-2':{ops:['+'],          opMax:5,facMax:5,maxV:18,target:8 ,R:4},
+            'mm-3':{ops:['+','−'],      opMax:7,facMax:5,maxV:30,target:12,R:5},
+            'mm-4':{ops:['+','−'],      opMax:9,facMax:5,maxV:50,target:16,R:6},
+            'mm-5':{ops:['+','−','×'],  opMax:9,facMax:5,maxV:99,target:18,R:6}})[curLvl]
+            || {ops:['+'],opMax:5,facMax:5,maxV:18,target:8,R:4};
+  // Compact mode (last page — sharing space with promo block) → shrink by ~45%
+  if(compact){ cfg={...cfg, target: Math.max(4, Math.round(cfg.target*0.55)), R: Math.max(3, cfg.R-2)}; }
+  // Per-page silhouette shape — biases branch placement so the puzzle outline
+  // resembles a circle / pentagon / hexagon / square. One shape per page.
+  const SHAPES=['square','circle','pentagon','hexagon'];
+  const shape=SHAPES[rnd(0,3)];
+  const R=cfg.R;
+  // Cells are square (cellPx × cellPx), so r,c work directly as screen coords.
+  const inShape=(r,c)=>{
+    const y=r, x=c;
+    if(shape==='square') return Math.abs(y)<=R && Math.abs(x)<=R;
+    if(shape==='circle') return (x*x + y*y) <= (R+0.5)*(R+0.5);
+    // pentagon / hexagon — point-in-polygon vs. regular polygon centered at origin
+    const sides=shape==='pentagon'?5:6;
+    const pts=[];
+    for(let i=0;i<sides;i++){
+      const ang=-Math.PI/2 + 2*Math.PI*i/sides;
+      pts.push([Math.cos(ang)*(R+0.7), Math.sin(ang)*(R+0.7)]);
+    }
+    let inside=false;
+    for(let i=0,j=sides-1;i<sides;j=i++){
+      const xi=pts[i][0], yi=pts[i][1], xj=pts[j][0], yj=pts[j][1];
+      if(((yi>y)!==(yj>y)) && (x<(xj-xi)*(y-yi)/(yj-yi)+xi)) inside=!inside;
+    }
+    return inside;
+  };
+  const num={};   // "r,c" -> value   (number cells)
+  const op={};    // "r,c" -> "+/−/×" or "="   (operator cells)
+  const eqs=[];   // each: [k0,k1,k2] number-cell keys
+  const anchors=[]; // number cells available to branch from
+  const K=(r,c)=>r+','+c;
+  num[K(0,0)]=rnd(2,Math.floor(cfg.maxV/2));
+  anchors.push({r:0,c:0});
+  let placed=0, tries=0, fails=0;
+  while(placed<cfg.target && tries<2500 && fails<300){
+    tries++;
+    // Bias toward outermost anchors 60% of the time, any anchor 40% — pushes
+    // the puzzle outward to fill the shape while still completing the interior.
+    let a;
+    if(Math.random()<0.6){
+      const sorted=anchors.map(p=>({p,d:p.r*p.r+p.c*p.c})).sort((a,b)=>b.d-a.d);
+      const pickFrom=sorted.slice(0, Math.max(3, Math.ceil(sorted.length*0.5)));
+      a=pickFrom[rnd(0,pickFrom.length-1)].p;
+    } else {
+      a=anchors[rnd(0,anchors.length-1)];
+    }
+    const aVal=num[K(a.r,a.c)];
+    const dir=Math.random()<0.5?[0,1]:[1,0]; // H or V (unit step; numbers are 2 apart)
+    const [dr,dc]=dir;
+    const slot=rnd(0,2); // anchor becomes n0 / n1 / n2
+    // slot0 cell sits `slot*2` steps before the anchor along the direction
+    const baseR=a.r-slot*2*dr, baseC=a.c-slot*2*dc;
+    // the 5 cells: numbers at offsets 0,2,4 ; ops at 1,3
+    const cells=[0,1,2,3,4].map(i=>K(baseR+i*dr, baseC+i*dc));
+    const numKeys=[cells[0],cells[2],cells[4]];
+    const opKeys =[cells[1],cells[3]];
+    // every cell except the anchor must be empty
+    let ok=true;
+    cells.forEach((ck,i)=>{ if(i===slot*2) return; if(num[ck]!==undefined||op[ck]!==undefined) ok=false; });
+    // every cell must lie inside the page's chosen shape
+    if(ok){
+      for(let i=0;i<5;i++){
+        const r=baseR+i*dr, c=baseC+i*dc;
+        if(!inShape(r,c)){ok=false;break;}
+      }
+    }
+    if(!ok) continue;
+    const chosenOp=cfg.ops[rnd(0,cfg.ops.length-1)];
+    const e=mmDeriveEq(aVal, slot, chosenOp, cfg);
+    if(!e){fails++; continue;}
+    fails=0;
+    const vals=[e.n0,e.n1,e.n2];
+    // commit
+    numKeys.forEach((nk,i)=>{ if(i!==slot) num[nk]=vals[i]; });
+    op[opKeys[0]]=chosenOp; op[opKeys[1]]='=';
+    eqs.push(numKeys);
+    numKeys.forEach((nk,i)=>{ if(i!==slot){const [r,c]=nk.split(',').map(Number);anchors.push({r,c});} });
+    placed++;
+  }
+  // ── Blank ~60% of the numbers ──
+  // Two guarantees:
+  //   • Every equation has at least ONE given number (no all-blank equation)
+  //   • Every equation has at least ONE blank (no all-given "auto-solved" eq)
+  const rootK=K(0,0);
+  const numKeysAll=Object.keys(num);
+  const blank=new Set(shuffle(numKeysAll.filter(k=>k!==rootK)).slice(0,Math.round(numKeysAll.length*0.6)));
+  blank.delete(rootK);
+  // Iterate until stable — fixing one equation can disturb another (cells are shared).
+  for(let pass=0;pass<10;pass++){
+    let changed=false;
+    eqs.forEach(([a,b,c])=>{
+      const cells=[a,b,c];
+      const bc=cells.filter(k=>blank.has(k)).length;
+      if(bc===0){
+        // all-given → blank a non-root cell. Prefer one unique to this equation
+        // (won't disturb another); otherwise any non-root.
+        const nonRoot=cells.filter(k=>k!==rootK);
+        if(nonRoot.length===0) return;
+        const unique=nonRoot.find(k=>{
+          let count=0;
+          for(const e of eqs) if(e.includes(k)) count++;
+          return count===1;
+        });
+        const candidate=unique||nonRoot[rnd(0,nonRoot.length-1)];
+        blank.add(candidate);
+        changed=true;
+      } else if(bc===3){
+        blank.delete(cells[rnd(0,2)]);
+        changed=true;
+      }
+    });
+    if(!changed) break;
+  }
+  // ── bounds ──
+  let minR=1e9,maxR=-1e9,minC=1e9,maxC=-1e9;
+  [...Object.keys(num),...Object.keys(op)].forEach(k=>{const [r,c]=k.split(',').map(Number);
+    minR=Math.min(minR,r);maxR=Math.max(maxR,r);minC=Math.min(minC,c);maxC=Math.max(maxC,c);});
+  const cols=maxC-minC+1;
+  const used=new Set([...Object.keys(num),...Object.keys(op)]);
+  // sizing by class — boxes big enough for kids to write comfortably on A4.
+  // Numbers should land at ~14-18mm when printed (10mm minimum for 2-digit kids).
+  let cellPx=({'mm-2':62,'mm-3':54,'mm-4':48,'mm-5':46})[curLvl]||52;
+  if(compact) cellPx=Math.round(cellPx*0.78);
+  const fNum=curLvl==='mm-5'?'.95rem':'1.05rem';
+  const fOp =curLvl==='mm-5'?'.8rem':'.9rem';
+  // Per-page box shape — every number AND operator cell is rendered as the same
+  // SVG primitive (square, circle, pentagon, hexagon) so the whole puzzle takes
+  // a clear visual identity that varies page-to-page.
+  const SHAPE_POLYS={
+    square:'8,8 92,8 92,92 8,92',
+    pentagon:'50,5 95,38 81,95 19,95 5,38',
+    hexagon:'25,6 75,6 96,50 75,94 25,94 4,50'
+  };
+  function shapedCell(isBlank,text,isOp){
+    const fill=isBlank?'#FFFFFF':(isOp?'#FFFDF6':'#FFF4D6');
+    const stroke='#C8963C';
+    const textColor=isOp?'#9A6A12':'#5C3A00';
+    const fontSize=isOp?44:50;
+    const shapeEl=shape==='circle'
+      ? `<circle cx="50" cy="50" r="44" fill="${fill}" stroke="${stroke}" stroke-width="5"/>`
+      : `<polygon points="${SHAPE_POLYS[shape]}" fill="${fill}" stroke="${stroke}" stroke-width="5"/>`;
+    const txt=text!==''?`<text x="50" y="50" dominant-baseline="central" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="800" font-size="${fontSize}" fill="${textColor}">${text}</text>`:'';
+    return `<svg viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="display:block">${shapeEl}${txt}</svg>`;
+  }
+  let html='';
+  // Connectors: thin gold bars rendered BENEATH the cells, joining every pair
+  // of adjacent (number↔operator) cells along an equation. Cells share grid
+  // edges; each connector spans the seam between two adjacent grid coordinates.
+  const conKey=(r,c,r2,c2)=>r+','+c+'|'+r2+','+c2;
+  const drawnCon=new Set();
+  function addConnector(k1,k2){
+    const ck=conKey(...k1.split(',').map(Number),...k2.split(',').map(Number));
+    if(drawnCon.has(ck)) return;
+    drawnCon.add(ck);
+    const [r1,c1]=k1.split(',').map(Number), [r2,c2]=k2.split(',').map(Number);
+    const gr=Math.min(r1,r2)-minR+1, gc=Math.min(c1,c2)-minC+1;
+    if(r1===r2){ // horizontal seam between (r,c) and (r,c+1)
+      html+=`<div style="grid-row:${gr};grid-column:${gc}/${gc+2};align-self:center;justify-self:center;height:14%;width:45%;background:#C8963C;z-index:0;border-radius:2px;min-height:5px"></div>`;
+    } else { // vertical seam
+      html+=`<div style="grid-row:${gr}/${gr+2};grid-column:${gc};align-self:center;justify-self:center;width:14%;height:45%;background:#C8963C;z-index:0;border-radius:2px;min-width:5px"></div>`;
+    }
+  }
+  // For each equation, link n0↔op1, op1↔n1, n1↔op2, op2↔n2
+  eqs.forEach(([a,b,c])=>{
+    const [ra,ca]=a.split(',').map(Number);
+    const [rb,cb]=b.split(',').map(Number);
+    const dr=Math.sign(rb-ra), dc=Math.sign(cb-ca);
+    const mid1=K(ra+dr, ca+dc);     // op1 between a and b
+    const mid2=K(rb+dr, cb+dc);     // = between b and c
+    addConnector(a, mid1);
+    addConnector(mid1, b);
+    addConnector(b, mid2);
+    addConnector(mid2, c);
+  });
+  Object.entries(num).forEach(([k,v])=>{
+    const [r,c]=k.split(',').map(Number), gr=r-minR+1, gc=c-minC+1;
+    const isBlank=blank.has(k);
+    html+=`<div style="grid-row:${gr};grid-column:${gc};display:flex;align-items:center;justify-content:center;position:relative;z-index:1;min-width:0;min-height:0">${shapedCell(isBlank,isBlank?'':v,false)}</div>`;
+  });
+  Object.entries(op).forEach(([k,v])=>{
+    const [r,c]=k.split(',').map(Number), gr=r-minR+1, gc=c-minC+1;
+    html+=`<div style="grid-row:${gr};grid-column:${gc};display:flex;align-items:center;justify-content:center;position:relative;z-index:1;min-width:0;min-height:0">${shapedCell(false,v,true)}</div>`;
+  });
+  // decorative library pics — fill the LARGEST empty rectangles (up to 3),
+  // each image sized to cover its whole pocket.
+  const decos=shuffle(items.concat(LIB?libPool('emoji'):[]));
+  const free=(r,c)=>!used.has(K(r,c));
+  const rectEmpty=(r0,c0,r1,c1)=>{for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){if(!free(r,c))return false;}return true;};
+  let di=0;
+  for(let n=0;n<3 && di<decos.length;n++){
+    // find the largest fully-empty rectangle in the current grid
+    let best=null,bestArea=0;
+    for(let r0=minR;r0<=maxR;r0++)for(let c0=minC;c0<=maxC;c0++){
+      if(!free(r0,c0)) continue;
+      for(let r1=r0;r1<=maxR;r1++){
+        if(!free(r1,c0)) break;
+        for(let c1=c0;c1<=maxC;c1++){
+          if(!rectEmpty(r0,c0,r1,c1)) break;
+          const area=(r1-r0+1)*(c1-c0+1);
+          if(area>bestArea){bestArea=area;best=[r0,c0,r1,c1];}
+        }
+      }
+    }
+    if(!best||bestArea<4) break; // need at least a 2×2 pocket
+    const [r0,c0,r1,c1]=best;
+    const gr=r0-minR+1, gc=c0-minC+1, rs=r1-r0+1, cs=c1-c0+1;
+    const d=decos[di];
+    // Use the .wimg pattern: outer span's font-size sets the image size, paintImages()
+    // trims whitespace and bakes in a data URL so the PDF renders cleanly.
+    const fontPx=Math.min(rs,cs)*cellPx*0.92;
+    html+=`<div style="grid-row:${gr}/${gr+rs};grid-column:${gc}/${gc+cs};display:flex;align-items:center;justify-content:center;overflow:hidden;min-width:0;min-height:0"><span style="font-size:${fontPx}px;line-height:1;display:inline-flex;align-items:center;justify-content:center">${d.e}</span></div>`;
+    for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++)used.add(K(r,c));
+    di++;
+  }
+  const shapeIcon={square:'■',circle:'●',pentagon:'⬟',hexagon:'⬢'}[shape];
+  const shapeLbl={square:'Square',circle:'Circle',pentagon:'Pentagon',hexagon:'Hexagon'}[shape];
+  const rows=maxR-minR+1;
+  // Cache for the optional Answer Key page (Class 4 & 5 only — see worksheet
+  // generation). Stores enough to re-render the same puzzle small with every
+  // number visible.
+  if(window._mmPuzzleCache){
+    window._mmPuzzleCache[idx]={
+      num:{...num}, op:{...op}, shape, minR, maxR, minC, maxC, cols, rows,
+      shapeIcon, shapeLbl
+    };
+  }
+  // Grid uses minmax(0, cellPx) so columns shrink to fit container width;
+  // aspect-ratio keeps cells square so rows shrink proportionally.
+  return`<div style="padding:.8rem .9rem;display:flex;flex-direction:column;height:100%">
+    <div style="text-align:center;margin-bottom:.4rem">
+      <span class="act-type" style="font-size:.95rem">${T('mm_crosswordT')}</span>
+      <span style="display:inline-block;margin-left:.5rem;padding:.15rem .55rem;border:1.5px solid #C8963C;border-radius:14px;font-size:.65rem;font-weight:800;color:#8B5E00;background:#FFF6DD">${shapeIcon} ${shapeLbl}</span>
+      <div style="font-weight:800;color:#333;font-size:.92rem;margin-top:.2rem">${T('mm_crosswordI')}</div>
+    </div>
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <div style="display:grid;grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},1fr);aspect-ratio:${cols}/${rows};width:100%;max-width:${cols*cellPx*1.8}px;max-height:100%;justify-items:stretch;align-items:stretch">${html}</div>
+    </div>
+    <div style="text-align:center;font-size:.62rem;color:#A07860;font-weight:700;margin-top:.4rem">${T('mm_crosswordSub')}</div>
+  </div>`;
+}
+
+// Render a mini answer-key version of all cached Math Master puzzles.
+// Used as an extra last page for Class 4 & 5 worksheets.
+function buildMMAnswerKey(){
+  const cache=window._mmPuzzleCache||[];
+  const valid=cache.filter(p=>p&&p.num);
+  if(!valid.length) return '';
+  const SHAPE_POLYS={square:'8,8 92,8 92,92 8,92',pentagon:'50,5 95,38 81,95 19,95 5,38',hexagon:'25,6 75,6 96,50 75,94 25,94 4,50'};
+  function shapedCellSmall(shape,text,isOp){
+    const fill = isOp ? '#FFFDF6' : '#FFF4D6';
+    const stroke='#C8963C';
+    const textColor = isOp ? '#9A6A12' : '#5C3A00';
+    const fontSize = isOp ? 44 : 50;
+    const shapeEl = shape==='circle'
+      ? `<circle cx="50" cy="50" r="44" fill="${fill}" stroke="${stroke}" stroke-width="5"/>`
+      : `<polygon points="${SHAPE_POLYS[shape]}" fill="${fill}" stroke="${stroke}" stroke-width="5"/>`;
+    const txt = text!==''
+      ? `<text x="50" y="50" dominant-baseline="central" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="800" font-size="${fontSize}" fill="${textColor}">${text}</text>`
+      : '';
+    return `<svg viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="display:block">${shapeEl}${txt}</svg>`;
+  }
+  const miniPuzzles = valid.map((p,i)=>{
+    let html='';
+    Object.entries(p.num).forEach(([k,v])=>{
+      const [r,c]=k.split(',').map(Number), gr=r-p.minR+1, gc=c-p.minC+1;
+      html+=`<div style="grid-row:${gr};grid-column:${gc};display:flex;align-items:center;justify-content:center;min-width:0;min-height:0">${shapedCellSmall(p.shape,v,false)}</div>`;
+    });
+    Object.entries(p.op).forEach(([k,v])=>{
+      const [r,c]=k.split(',').map(Number), gr=r-p.minR+1, gc=c-p.minC+1;
+      html+=`<div style="grid-row:${gr};grid-column:${gc};display:flex;align-items:center;justify-content:center;min-width:0;min-height:0">${shapedCellSmall(p.shape,v,true)}</div>`;
+    });
+    return `<div style="background:#fff;border:2px solid #EDE4D6;border-radius:10px;padding:.5rem;display:flex;flex-direction:column;gap:.3rem;overflow:hidden;min-width:0;min-height:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;font-size:.62rem;color:#8B5E00;font-weight:800;flex-shrink:0">
+        <span>Page ${i+1}</span><span>${p.shapeIcon} ${p.shapeLbl}</span>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:0">
+        <div style="display:grid;grid-template-columns:repeat(${p.cols},1fr);grid-template-rows:repeat(${p.rows},1fr);aspect-ratio:${p.cols}/${p.rows};width:100%;max-width:100%;max-height:100%;justify-items:stretch;align-items:stretch">${html}</div>
+      </div>
+    </div>`;
+  });
+  // Layout: top row has 3 puzzles, bottom row has 2 puzzles (centered),
+  // then a single full-width horizontal promo strip at the bottom.
+  const topRow = miniPuzzles.slice(0,3).join('');
+  const botRow = miniPuzzles.slice(3,5).join('');
+  return `<div style="padding:.8rem .9rem;display:flex;flex-direction:column;height:100%;gap:.45rem;min-height:0">
+    <div style="text-align:center;flex-shrink:0">
+      <span class="act-type" style="font-size:.95rem">🔑 Answer Key</span>
+      <div style="font-weight:800;color:#333;font-size:.85rem;margin-top:.15rem">Complete solutions for every puzzle in this worksheet.</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;flex:1.1;min-height:0">${topRow}</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;flex:1.1;min-height:0;width:75%;margin:0 auto">${botRow}</div>
+    <div class="promo-cell" style="flex:0 0 auto;border:2px dashed #C8963C;border-radius:12px;background:#FFFDF0;padding:.5rem .7rem">${buildPromoBlock()}</div>
+    <div style="text-align:center;font-size:.6rem;color:#A07860;font-weight:700;flex-shrink:0">⭐ Don't peek before you've tried — solutions shown in gold.</div>
+  </div>`;
+}
+
+// Class 4-5 use the same generator (config makes them bigger / harder)
+function buildMMChain(idx,items,compact){ return buildMMCrossword(idx,items,compact); }
 
 // ── ACTIVITIES
 function buildAct(type,items,all){
