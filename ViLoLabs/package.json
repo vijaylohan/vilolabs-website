@@ -2,5 +2,9 @@
   "dependencies": {
     "jpeg-js": "^0.4.4",
     "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.1",
+    "wrangler": "^4.105.0"
   }
 }

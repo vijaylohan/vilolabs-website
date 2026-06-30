@@ -12,8 +12,30 @@
 #    worksheet data files (worksheet-seo.js, seo-keywords.json) therefore live
 #    in /assets/, NOT /worksheets/. Never put real assets under a splat path.
 
-# Pretty URLs for /worksheets/<slug>  →  serve the landing page
-/worksheets/*    /worksheets/    200
+# The worksheet hub URL.  Public URL is /worksheet (singular). The actual
+# file is still sheets.html — we rewrite /worksheet → /sheets so the URL
+# bar shows /worksheet but the content comes from sheets.html. Old /sheets
+# and /sheets.html URLs 301-redirect to /worksheet so existing bookmarks
+# and incoming links keep working.
+# ORDER MATTERS: the 301s must come BEFORE the 200 rewrite, otherwise a
+# direct visit to /sheets would hit the rewrite first and the URL bar
+# would stay at /sheets instead of cleanly redirecting to /worksheet.
+/sheets                   /worksheet      301
+/sheets/                  /worksheet      301
+/sheets.html              /worksheet      301
+/worksheet                /sheets         200
+
+# Pretty URLs for /worksheets/<slug>  →  handled by the Pages Function at
+# functions/worksheets/[slug].js, which fetches the worksheet hub via
+# env.ASSETS and stream-injects per-slug SEO meta via HTMLRewriter. The
+# Function replaces the old `/worksheets/* /sheets 200` rewrite — never
+# re-add that rule, it would PREEMPT the Function and break server-rendered SEO.
+#
+# The two normalization rules below still belong here: they redirect the
+# bare path with/without trailing slash so /worksheets/ serves the static
+# landing page (worksheets/index.html), not the Function.
+/worksheets               /worksheets/    200
+/worksheets/              /worksheets/    200
 
 # Tool-share pretty URLs — /tools/<tool>/<slug>  →  serve /tools/<tool>.html
 # (no real files live under these dirs, so the splat is safe here)
@@ -23,5 +45,7 @@
 /tools/compress-image/*    /tools/compress-image    200
 /tools/compress-pdf/*      /tools/compress-pdf      200
 /tools/merge-pdf/*         /tools/merge-pdf         200
+/tools/pdf-to-word/*       /tools/pdf-to-word       200
+/tools/pdf-to-image/*      /tools/pdf-to-image      200
 
 # (Add more redirects here as the site grows.)

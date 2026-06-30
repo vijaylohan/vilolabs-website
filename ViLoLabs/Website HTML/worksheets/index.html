@@ -132,8 +132,8 @@ footer .disclaimer{font-size:.7rem;color:rgba(160,120,96,.7);font-style:italic;m
     <div class="pv-body" id="pv-body">This is a sample worksheet. Click Generate &amp; Download to create the PDF in your browser — no upload, fully private.</div>
     <div class="pv-thumb">Worksheet preview loads when you generate</div>
     <div class="pv-actions">
-      <a class="btn btn-primary" id="btn-generate" href="../sheets.html">Generate &amp; Download</a>
-      <a class="btn btn-outline" id="btn-variation" href="../sheets.html">or try a different worksheet</a>
+      <a class="btn btn-primary" id="btn-generate" href="/worksheet">Generate &amp; Download</a>
+      <a class="btn btn-outline" id="btn-variation" href="/worksheet">or try a different worksheet</a>
     </div>
     <!-- Share bar (shared component — /assets/share.js) -->
     <div class="vshare" id="ws-share" data-hook="Help another parent — share this free worksheet 💛"></div>
@@ -152,7 +152,7 @@ footer .disclaimer{font-size:.7rem;color:rgba(160,120,96,.7);font-style:italic;m
   <div class="faq-item"><h3>Are these worksheets really free?</h3><p>Yes — every worksheet on ViLoLabs is free to download, print, and share with students or your own children. No sign up, no watermark, no hidden cost.</p></div>
   <div class="faq-item"><h3>Can I use these in my classroom?</h3><p>Absolutely. Teachers and homeschool parents are welcome to print as many copies as they need for their students.</p></div>
   <div class="faq-item"><h3>How are these generated?</h3><p>Each worksheet is built fresh by an algorithm running in your browser. The unique ID in the URL means the same link always produces the same worksheet — so you can bookmark or share specific worksheets.</p></div>
-  <div class="faq-item"><h3>Do you have other worksheet packs?</h3><p>Yes — every time someone generates a new worksheet, it gets its own permanent URL. <a href="../sheets.html">Open the generator</a> to make a fresh one.</p></div>
+  <div class="faq-item"><h3>Do you have other worksheet packs?</h3><p>Yes — every time someone generates a new worksheet, it gets its own permanent URL. <a href="/worksheet">Open the generator</a> to make a fresh one.</p></div>
 </section>
 
 <footer>
@@ -193,7 +193,7 @@ function getSlug() {
   const slug = getSlug();
   if (!slug) {
     // No slug → show landing page CTA, hide worksheet view
-    document.getElementById('btn-generate').href = '../sheets.html';
+    document.getElementById('btn-generate').href = '/worksheet';
     return;
   }
 
@@ -201,7 +201,7 @@ function getSlug() {
   // placeholder. Redirect to the generator with the seed so the same worksheet
   // renders + downloads. SEO crawlers still get the HTML below before this fires
   // (h1/meta/canonical are static-enough for indexing).
-  location.replace('../sheets.html?w=' + encodeURIComponent(slug));
+  location.replace('/worksheet?w=' + encodeURIComponent(slug));
   return;
 
   // eslint-disable-next-line no-unreachable
@@ -253,8 +253,8 @@ function getSlug() {
   // ── Wire generate button to sheets.html with seed ──
   // sheets.html will read ?w=<slug>, decode it, seed its RNG, and produce the
   // exact same worksheet for download.
-  document.getElementById('btn-generate').href = '../sheets.html?w=' + encodeURIComponent(slug);
-  document.getElementById('btn-variation').href = '../sheets.html';
+  document.getElementById('btn-generate').href = '/worksheet?w=' + encodeURIComponent(slug);
+  document.getElementById('btn-variation').href = '/worksheet';
 
   // ── Share (shared component — /assets/share.js) ──
   if (window.ViloShare) {
@@ -262,7 +262,7 @@ function getSlug() {
       url: location.origin + '/worksheets/' + slug,
       title: title,
       message: 'Keeps the little ones busy and learning — found a little gem: free printable worksheets for kids, fresh every time, no sign-up 👇',
-      tail: '\n\n✨ Want to make your own? Create a free worksheet 👉 ' + location.origin + '/sheets.html',
+      tail: '\n\n✨ Want to make your own? Create a free worksheet 👉 ' + location.origin + '/worksheet',
       hook: 'Help another parent — share this free worksheet 💛'
     });
   }

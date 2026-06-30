@@ -20,8 +20,9 @@
 const fs   = require('fs');
 const path = require('path');
 
-const SITE_BASE = (process.env.SITE_BASE || 'https://vilolabs.netlify.app').replace(/\/$/, '');
+const SITE_BASE = (process.env.SITE_BASE || 'https://vilolabs.in').replace(/\/$/, '');
 const OUT       = path.join(__dirname, '..', 'Website HTML', 'sitemap.xml');
+const KW_PATH   = path.join(__dirname, '..', 'Website HTML', 'assets', 'seo-keywords.json');
 
 const SUPABASE_URL  = 'https://nosskzzzkpadxakjbzdt.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vc3Nrenp6a3BhZHhha2piemR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NzY3NTIsImV4cCI6MjA5NTE1Mjc1Mn0.pwBuchMlGi6KZ6vrYAfJtcQlraCdtB4DT1WKq9nnQ5I';
@@ -33,8 +34,14 @@ const PAGE_SIZE = 1000;  // Supabase REST default max per request
 const STATIC = [
   { loc: '/',                         priority: '1.0',  changefreq: 'weekly'  },
   { loc: '/about.html',               priority: '0.7',  changefreq: 'monthly' },
-  { loc: '/sheets.html',              priority: '0.9',  changefreq: 'weekly'  },
-  { loc: '/worksheets/',              priority: '0.9',  changefreq: 'daily'   },
+  // /worksheet is the primary ranking target — has visible content + HowTo +
+  // FAQPage JSON-LD baked into sheets.html (which is rewritten under the
+  // /worksheet URL via _redirects). Every /worksheets/<slug> URL serves the
+  // same HTML but with robots:noindex,follow set by the Pages Function, so
+  // /worksheet is the only indexable URL in the worksheets cluster. The old
+  // /sheets URL 301-redirects to /worksheet for backward compatibility.
+  { loc: '/worksheet',                priority: '1.0',  changefreq: 'weekly'  },
+  { loc: '/worksheets/',              priority: '0.6',  changefreq: 'monthly' },
   { loc: '/tools.html',               priority: '0.9',  changefreq: 'weekly'  },
   { loc: '/app.html',                 priority: '0.7',  changefreq: 'monthly' },
   { loc: '/pulse.html',               priority: '0.9',  changefreq: 'daily'   },
@@ -101,15 +108,14 @@ function urlEntry({ loc, lastmod, priority, changefreq }) {
   console.log('=== ViLoLabs sitemap build ===');
   console.log('Base URL: ' + SITE_BASE);
 
-  console.log('\n> Fetching worksheets from Supabase ...');
-  let worksheets = [];
-  try {
-    worksheets = await fetchAll('worksheets', 'slug,created_at');
-    console.log('  ' + worksheets.length + ' worksheet URLs');
-  } catch (e) {
-    console.error('  FAILED: ' + e.message);
-    console.error('  Sitemap will be built WITHOUT worksheets. Fix Supabase access and re-run.');
-  }
+  // Worksheet share URLs (every /worksheets/<slug>) are deliberately NOT
+  // added to the sitemap. They're served by the Cloudflare Pages Function
+  // with robots:noindex,follow — the single ranking target is /sheets (in
+  // STATIC above). Putting noindex URLs in the sitemap = mixed signal that
+  // Google penalizes. The `indexable_presets` allowlist in seo-keywords.json
+  // is kept as a Pinterest pin targeting list + future re-enablement hook,
+  // but it doesn't feed the sitemap right now.
+  const worksheets = [];
 
   console.log('\n> Fetching tool_shares from Supabase ...');
   let shares = [];
@@ -136,12 +142,13 @@ function urlEntry({ loc, lastmod, priority, changefreq }) {
   // Static pages (no lastmod — they're hand-curated, signals high authority)
   STATIC.forEach(s => allEntries.push(s));
 
-  // Worksheets (priority 0.6, changefreq monthly — quantity over individual weight)
+  // Curated worksheets — small handful of hand-picked ranking targets, so
+  // priority is high (0.85) and changefreq is weekly (we want recrawls).
   worksheets.forEach(w => allEntries.push({
     loc: '/worksheets/' + w.slug,
     lastmod: w.created_at,
-    priority: '0.6',
-    changefreq: 'monthly',
+    priority: '0.85',
+    changefreq: 'weekly',
   }));
 
   // Tool preset URLs — ONLY URLs that real users have generated (DB rows).

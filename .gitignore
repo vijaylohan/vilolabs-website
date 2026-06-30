@@ -25,6 +25,11 @@ desktop.ini
 *.log
 npm-debug.log*
 
+# Wrangler local dev cache (Cloudflare Pages Functions emulator)
+.wrangler/
+ViLoLabs/.wrangler/
+ViLoLabs/Website HTML/.wrangler/
+
 # Local environment overrides (never commit secrets)
 .env
 .env.local

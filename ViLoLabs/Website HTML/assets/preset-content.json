@@ -1,0 +1,184 @@
+{
+  "_comment": "Per-slug SEO content for the 10 curated indexable_presets. The Cloudflare Pages Function reads this and injects the H1+intro+HowTo+FAQ+Related links above the worksheet generator UI in sheets.html, AND emits HowTo + FAQPage JSON-LD into the head. Each entry must match a slug in seo-keywords.json.indexable_presets exactly. To add a new curated page: add it here AND to indexable_presets, then re-run tools/build-sitemap.js. Aim for 250-400 words of body text per entry; that's where Google's content-depth threshold sits.",
+  "_lastUpdated": "2026-06-28",
+
+  "coloring-pages-for-kids-animals-0000001": {
+    "h1": "Free Animal Coloring Pages for Kids — Printable PDF",
+    "lead": "Looking for free animal coloring pages your child will actually want to colour? This printable set is packed with cute, recognisable animals — a lion, a turtle, a butterfly, a panda — drawn with thick, clear outlines that don't smear when colouring crayons press hard. Every page is a single, full-bleed illustration with bold lines so even three-year-olds with chunky crayons can colour neatly inside. There's no story to follow, no maze to solve, no time pressure — just a quiet hour of colour. Print as many copies as your kid asks for; we don't watermark, we don't ask for an email, and the PDF you download is the exact same sheet you see on screen.",
+    "howTo": [
+      { "name": "Open the worksheet here", "text": "The five colouring pages load automatically below. Scroll down to preview each one — they're all unique animals, different shapes and poses." },
+      { "name": "Click the PDF button", "text": "Top-right of the worksheet header. Your browser downloads a print-ready PDF in about 5 seconds. No sign-up, no watermark, no email collection." },
+      { "name": "Print on A4 paper", "text": "Open the PDF and hit Print. Any printer, any settings. For sharper outlines on cheap printers, choose Best Quality in printer settings." }
+    ],
+    "faq": [
+      { "q": "What age is this for?", "a": "All ages. Toddlers (2-3) need help staying in the lines but love the satisfaction; preschoolers (4-5) start colouring independently; school kids (6+) often experiment with shading and colour mixing. The bold outlines work across the full range." },
+      { "q": "Can I print these for my classroom?", "a": "Yes — print as many copies as you need for your students. Everything on ViLoLabs is free for classroom, home, and family use. No attribution required (though it's appreciated)." },
+      { "q": "Why are the outlines so thick?", "a": "Young kids press hard. Thin lines smear, break, or get coloured over completely. Thick outlines stay crisp under heavy crayon work — and they print cleanly even on cheap home printers." },
+      { "q": "Do you have other themes?", "a": "Yes — fruits, vehicles, household objects, food and more. Browse the worksheet generator below, or check the related links at the bottom of this page." },
+      { "q": "Is this really free?", "a": "Yes. No sign-up, no email collection, no watermark on the PDF. The site is built by a solo developer in India and runs on a hobby budget." }
+    ],
+    "related": ["coloring-pages-for-kids-fruits-0000002", "coloring-pages-for-kids-objects-0000003", "free-printable-worksheets-preschool-animals-0000005"]
+  },
+
+  "coloring-pages-for-kids-fruits-0000002": {
+    "h1": "Free Fruit Coloring Pages — Printable PDF for Kids",
+    "lead": "Five printable fruit coloring pages your child can finish in one quiet sitting. Each page shows a single fruit drawn with bold, thick outlines — apple, mango, watermelon, banana, grapes — so even young children with chunky crayons can colour neatly inside the lines. The thicker the outline, the more forgiving the page is to small hands learning to control a crayon. We use real-world fruit names and shapes (yes, including the Indian alphonso mango, not a generic illustration), which doubles as a soft vocabulary lesson alongside the colouring. The PDF you download is the exact same sheet you see on screen — no watermarks, no sign-up, no email needed.",
+    "howTo": [
+      { "name": "Browse the five pages", "text": "Each page below is a different fruit. Click the page numbers (1-5) to preview each one before you print." },
+      { "name": "Download the PDF", "text": "Click the PDF button at the top of the worksheet. The download is instant — no email, no account, no watermark." },
+      { "name": "Print and start colouring", "text": "Standard A4 paper works perfectly. Crayons, coloured pencils, sketch pens — anything works because the outlines are designed to stay crisp regardless of medium." }
+    ],
+    "faq": [
+      { "q": "Which fruits are included?", "a": "A rotating mix from the ViLoLabs library — apple, banana, mango, watermelon, orange, grapes, pineapple, strawberry. Each generated set picks 5 fresh fruits from the pool." },
+      { "q": "Can I get a different mix of fruits?", "a": "Yes — click the 'New' button in the worksheet header. A different set of 5 fruits will appear. You can do this as many times as you want." },
+      { "q": "Are the fruit names in Hindi or English?", "a": "Currently English. Hindi labels are on the worksheet roadmap — we'll add them once we've completed our Hindi font pipeline." },
+      { "q": "What age is best for this?", "a": "Best for 2-6 year-olds learning fruit recognition. Older kids enjoy the colouring too but may finish a sheet in five minutes." },
+      { "q": "Is there a paid version with more fruits?", "a": "No paid version. Every worksheet on ViLoLabs is free, no sign-up, no watermark. There's no upgrade path because there's nothing locked." }
+    ],
+    "related": ["coloring-pages-for-kids-animals-0000001", "coloring-pages-for-kids-objects-0000003", "free-printable-worksheets-preschool-fruits-0000006"]
+  },
+
+  "coloring-pages-for-kids-objects-0000003": {
+    "h1": "Free Coloring Pages — Everyday Objects for Kids",
+    "lead": "Five printable colouring pages featuring everyday objects kids actually recognise — a backpack, a clock, a kite, a bicycle, a teapot. These work well as the first colouring pages for very young children because the shapes are simple and the lines are thick, but they also double as a vocabulary builder for kids learning common English words. The full-page illustrations leave room for creative colour choices (a rainbow bicycle? a polka-dot kite?) without prescribing how each object should look. Print as many copies as you need; the PDF is identical to what you see on screen, with no watermark and no sign-up step.",
+    "howTo": [
+      { "name": "Preview the five pages", "text": "Click through pages 1 to 5 in the worksheet below. Each one is a different everyday object." },
+      { "name": "Hit the PDF button", "text": "Top-right of the worksheet. The print-ready PDF downloads instantly with no sign-up." },
+      { "name": "Print at home or school", "text": "Works on any printer with standard A4 paper. For waiting-room use, print three sets at once — the pages keep different kids busy for 15-20 minutes each." }
+    ],
+    "faq": [
+      { "q": "What objects are included?", "a": "Common household and outdoor objects — kite, bicycle, backpack, teapot, lamp, clock, ball, umbrella. The set rotates so a fresh download gives a fresh mix." },
+      { "q": "Are these good for vocabulary practice?", "a": "Yes — many parents use them as the first English-vocab worksheets for toddlers. Object → name → colour is a natural learning sequence at age 2-4." },
+      { "q": "Can I use these for a school activity?", "a": "Yes, freely. Free for classroom, home tutoring, anganwadi, daycare — anywhere kids need crayons and a printed sheet." },
+      { "q": "Do you have themed sets for festivals or seasons?", "a": "Not yet — festival-themed sheets (Diwali, Holi, Christmas) are on the roadmap for late 2026." },
+      { "q": "Why this specific page count?", "a": "Five pages is the right amount for one focused sitting (~30 minutes for a 4-year-old). You can change the count to 10 or 15 in the worksheet header if you want a longer set." }
+    ],
+    "related": ["coloring-pages-for-kids-animals-0000001", "coloring-pages-for-kids-fruits-0000002", "free-printable-worksheets-kindergarten-vehicles-0000008"]
+  },
+
+  "maze-worksheets-for-kids-0000004": {
+    "h1": "Free Maze Worksheets for Kids — Printable PDF",
+    "lead": "Five printable maze worksheets that grow with your child. Each sheet has a clear start, a clear end, and a single correct path — drawn with bold lines so the maze is easy to scan visually and easy to trace with a pencil. The mazes vary in shape (rectangular, circular, themed) and in difficulty across the five pages, so a child who breezes through page 1 still has a real challenge by page 5. Mazes build a specific skill — visual planning and motor-route tracing — that's hard to find in regular worksheets. Print as many copies as you want; the PDF is exactly the on-screen sheet, no watermark, no sign-up.",
+    "howTo": [
+      { "name": "Open the worksheet", "text": "The five mazes load below. Pages 1-2 are easier, 3-4 are medium, page 5 has the most complex path." },
+      { "name": "Print or solve on screen", "text": "Click the PDF button to download a print-ready file, or solve directly on screen using a stylus on a tablet." },
+      { "name": "Trace the path", "text": "Start at the marked entry, find the way to the exit. Encourage your child to plan visually before drawing — that's the part that builds the skill." }
+    ],
+    "faq": [
+      { "q": "What age is this for?", "a": "Best for 5-10 year olds. Kindergarteners can do the easier mazes; older kids (8-10) enjoy the harder ones as a quiet activity." },
+      { "q": "Are the mazes solvable?", "a": "Yes — every maze is generated with exactly one correct path from start to exit. The generator validates solvability before rendering." },
+      { "q": "Can I get a harder set?", "a": "Click 'New' for a fresh batch — different shapes, different paths, similar difficulty range. The 5-page set always spans easy-to-hard within itself." },
+      { "q": "What skill do mazes actually build?", "a": "Visual planning, spatial reasoning, and fine-motor control. Kids who do regular mazes tend to plan better on written assignments later — they learn to look ahead before committing." },
+      { "q": "Can I use mazes in my classroom?", "a": "Yes. Many teachers use them as quiet-time fillers or as early-finisher activities. Print freely for classroom use." }
+    ],
+    "related": ["free-printable-worksheets-grade-1-animals-0000009", "free-printable-worksheets-grade-2-food-0000010", "coloring-pages-for-kids-animals-0000001"]
+  },
+
+  "free-printable-worksheets-preschool-animals-0000005": {
+    "h1": "Free Preschool Worksheets — Animal Theme | Printable PDF",
+    "lead": "A printable activity pack built for preschool (ages 3-4) with an all-animals theme. Across five pages your child will encounter shadow matching, picture counting, tracing, simple sorting, and 'find the odd one out' puzzles — every activity uses cute animal illustrations so the child stays engaged from page 1 to page 5. The variety matters: a single-activity worksheet bores a 3-year-old within ten minutes, but a five-page mix keeps attention because each page feels new. No prep, no laminating, no email needed — print and your child can start.",
+    "howTo": [
+      { "name": "Preview the pack", "text": "Five different activities load below — shadow match, count and write, trace, odd-one-out, simple matching. All animal-themed." },
+      { "name": "Download the PDF", "text": "PDF button at the top-right of the worksheet header. Instant download, no watermark, no sign-up." },
+      { "name": "Sit with your child for 20 minutes", "text": "Preschoolers do better with a parent nearby for the first read-through of each activity. Once they understand the pattern, they can finish independently." }
+    ],
+    "faq": [
+      { "q": "What's actually on each page?", "a": "Page 1-5 mix activities like shadow match (find the silhouette), count the animals, trace the letter, circle the odd one out, and pattern completion. Specific mix varies per generated set." },
+      { "q": "Is this aligned with Indian preschool curriculum?", "a": "Yes — it covers the foundational pre-primary skills outlined in NCERT's NIPUN Bharat framework (number recognition 1-10, basic shapes, sorting, visual matching)." },
+      { "q": "Can I get a Hindi version?", "a": "Hindi text labels are on the roadmap for late 2026. Current version is English-only. The activities themselves are visual and work for any language." },
+      { "q": "My child is 5 — is this too easy?", "a": "Likely too easy. Try the kindergarten or class-1 sheets in the related links — they have the same animal theme but harder activities." },
+      { "q": "Can I print a different set for each child in my class?", "a": "Yes — click 'New' between prints to get fresh page mixes. Each generated set varies which exact activities appear." }
+    ],
+    "related": ["free-printable-worksheets-preschool-fruits-0000006", "free-printable-worksheets-kindergarten-animals-0000007", "coloring-pages-for-kids-animals-0000001"]
+  },
+
+  "free-printable-worksheets-preschool-fruits-0000006": {
+    "h1": "Free Preschool Worksheets — Fruit Theme | Printable PDF",
+    "lead": "A five-page preschool activity pack with fruit illustrations across every page. Kids count fruits, match shadows, trace simple lines, complete patterns, and circle the odd one out — all using clear, child-friendly fruit pictures (apple, mango, banana, watermelon, grapes). The fruit theme doubles as soft vocabulary work for 3-4 year olds learning English fruit names. Five pages is the right amount for one focused sitting (about 20-25 minutes for most preschoolers). No sign-up, no watermark, no email — the PDF download is the exact same sheet you preview on screen.",
+    "howTo": [
+      { "name": "Preview the five pages", "text": "Each page is a different activity with fruit illustrations. Click pages 1-5 in the worksheet header to preview." },
+      { "name": "Click PDF to download", "text": "Print-ready file downloads in under 5 seconds. No watermarks, no email collection." },
+      { "name": "Use at home or in class", "text": "Free for any non-commercial use — home, classroom, anganwadi, daycare. Print as many copies as you need." }
+    ],
+    "faq": [
+      { "q": "What fruits appear in the worksheets?", "a": "Common fruits children recognise — apple, banana, mango (including alphonso variants), watermelon, grapes, strawberry, orange, pineapple. The generator picks a fresh mix per set." },
+      { "q": "My child doesn't know fruit names yet — can they still use this?", "a": "Yes — the activities are visual (count, match, sort). Recognising the fruit name is a bonus, not a requirement. Many parents say their child learned 5-6 new fruit names after a few sittings." },
+      { "q": "Can I get a vegetables version too?", "a": "Not in the curated pages yet, but you can pick 'Vegetables' as a theme in the worksheet generator at the top of the page. Try the related links for similar themed sets." },
+      { "q": "What's the age range?", "a": "Designed for ages 3-4. Younger kids (2) can do parts with help; older kids (5+) will find it easy." },
+      { "q": "Are the worksheets aligned with any curriculum?", "a": "Yes — covers the pre-primary foundational skills (1-10 counting, matching, sorting) outlined in NCERT's NIPUN Bharat framework for Indian preschools." }
+    ],
+    "related": ["free-printable-worksheets-preschool-animals-0000005", "coloring-pages-for-kids-fruits-0000002", "free-printable-worksheets-kindergarten-animals-0000007"]
+  },
+
+  "free-printable-worksheets-kindergarten-animals-0000007": {
+    "h1": "Free Kindergarten Worksheets — Animal Theme | Printable PDF",
+    "lead": "Five-page kindergarten worksheet pack themed entirely around animals. Built for ages 5-6, the pack mixes letter tracing, number practice, shadow matching, simple addition, and pattern completion — every activity uses animal illustrations to hold a kindergartener's attention across all five pages. This is the version a class teacher would print as a Friday morning quiet activity, or a parent would slip into a long car ride. Print at home on any printer, A4 paper. No sign-up, no watermark, no upsell — the downloaded PDF is identical to what you see on screen.",
+    "howTo": [
+      { "name": "Preview each page", "text": "Five different activities load below — all themed around animals. Click pages 1-5 to preview before printing." },
+      { "name": "Download the PDF", "text": "Top-right PDF button. The print-ready file downloads in a few seconds with no sign-up." },
+      { "name": "Print or share", "text": "Print at home or share the page URL with another teacher or parent — the URL stays valid and shows the same exact worksheet on their device." }
+    ],
+    "faq": [
+      { "q": "What skills does this practise?", "a": "Number recognition (1-20), basic addition with pictures, letter tracing, shadow matching, and simple sorting. Mix varies per generated set." },
+      { "q": "Is this for UKG or LKG?", "a": "UKG. The activities expect a child who already recognises numbers 1-10 and basic letters. For LKG, try the preschool-themed sheets in the related links." },
+      { "q": "Can I use this in my coaching class?", "a": "Yes — free for classroom, tuition centre, anganwadi, daycare. No attribution required." },
+      { "q": "Why do you use 'Class' instead of 'Grade'?", "a": "Generated titles use both interchangeably — the SEO templates pick from {Grade 1, 1st Grade, Class 1, First Grade} based on a seeded random. All four refer to the same level." },
+      { "q": "Can I get sheets for higher grades?", "a": "Yes — see the related links for Class 1 and Class 2 themed sets. The full generator at the top of this page supports Pre-KG through Class 5." }
+    ],
+    "related": ["free-printable-worksheets-kindergarten-vehicles-0000008", "free-printable-worksheets-preschool-animals-0000005", "free-printable-worksheets-grade-1-animals-0000009"]
+  },
+
+  "free-printable-worksheets-kindergarten-vehicles-0000008": {
+    "h1": "Free Kindergarten Worksheets — Vehicles & Transport Theme",
+    "lead": "Five-page kindergarten activity pack themed around vehicles and transport — cars, buses, trains, planes, boats, autorickshaws. Vehicles are a high-engagement theme for kindergarteners (especially for children who don't yet love animal or fruit themes), and the activities cover the same foundational skills you'd expect at this level: number recognition, simple addition with pictures, shape matching, letter tracing. Print as many copies as you need — at home, in a classroom, in a tuition centre. PDF is identical to the on-screen preview, no watermark, no sign-up.",
+    "howTo": [
+      { "name": "Preview the worksheet", "text": "Five activity pages load below, all vehicle-themed. Click the page numbers 1-5 to flip between them." },
+      { "name": "Download the PDF", "text": "PDF button top-right. Instant download, no email, no upsell." },
+      { "name": "Use at home or school", "text": "Standard A4 paper. Works on inkjet, laser, or shared printers. Best Quality setting gives sharpest vehicle illustrations." }
+    ],
+    "faq": [
+      { "q": "What vehicles are included?", "a": "Mix of common Indian transport — car, bus, autorickshaw, train, scooter, plane, boat, cycle. Generator picks a fresh subset per set." },
+      { "q": "Are there sheets specifically about Indian transport?", "a": "Yes — autorickshaws, trucks (with Indian branding), buses, scooters all appear. We've avoided generic illustrations that don't match what kids see day-to-day in India." },
+      { "q": "Can I get an aeroplane-only or train-only set?", "a": "Not as a curated indexable preset, but you can generate a vehicle-themed sheet from the worksheet builder above. The mix varies each click." },
+      { "q": "Is the difficulty right for UKG?", "a": "Yes — UKG is the target. The activities expect a child who recognises numbers 1-20 and can trace letters. For LKG, the preschool sheets are a better fit." },
+      { "q": "Can I share this URL with another teacher?", "a": "Yes — every URL on ViLoLabs is shareable. Send the link via WhatsApp or email and the recipient sees the same worksheet." }
+    ],
+    "related": ["free-printable-worksheets-kindergarten-animals-0000007", "free-printable-worksheets-grade-1-animals-0000009", "coloring-pages-for-kids-objects-0000003"]
+  },
+
+  "free-printable-worksheets-grade-1-animals-0000009": {
+    "h1": "Free Class 1 Worksheets — Animal Theme | Printable PDF",
+    "lead": "Five-page Class 1 (Grade 1) worksheet pack themed around animals. Activities include simple addition with pictures (two cats plus three cats), number-bond work, sight-word reading, basic comparing-numbers (more than / less than), and pattern completion — every page uses animal illustrations to keep a six-year-old engaged across the full set. Class 1 students start needing more cognitive challenge than kindergarten worksheets provide; this pack mixes maths, English, and visual reasoning so no single skill becomes the whole sheet. PDF download is the exact on-screen worksheet, free, no sign-up.",
+    "howTo": [
+      { "name": "Preview five pages", "text": "Each page is a different Class-1 activity, all animal-themed. Click pages 1-5 in the worksheet header." },
+      { "name": "Download the PDF", "text": "PDF button at top-right. Instant download, no watermark, no account." },
+      { "name": "Print and use", "text": "Standard A4. Works in classroom worksheets, homework packs, or weekend skill-builder folders. Free for any educational use." }
+    ],
+    "faq": [
+      { "q": "What's the difference between Class 1 and Kindergarten worksheets?", "a": "Class 1 introduces real arithmetic (2+3 with picture support), basic sight-word reading, and starts comparing-numbers. Kindergarten stays at recognition + matching." },
+      { "q": "Does this match CBSE or state board?", "a": "Pitched at the common ground across CBSE, ICSE, and state boards for Class 1. No board uses a single fixed worksheet curriculum at this level — these are foundational skills shared across all of them." },
+      { "q": "Can my child do this without help?", "a": "Most of it, yes. A 6-year-old who's been in school for a year can do 4 of 5 pages independently. Plan to spot-check page 5 — it tends to be the hardest." },
+      { "q": "How long should one sheet take?", "a": "About 25-30 minutes for a Class-1 student doing it carefully. If your child finishes in 10 minutes, they're at Class 2 level — try the related links." },
+      { "q": "Can I print this for a coaching class?", "a": "Yes — free for any educational use including tuition centres and coaching classes." }
+    ],
+    "related": ["free-printable-worksheets-grade-2-food-0000010", "free-printable-worksheets-kindergarten-animals-0000007", "maze-worksheets-for-kids-0000004"]
+  },
+
+  "free-printable-worksheets-grade-2-food-0000010": {
+    "h1": "Free Class 2 Worksheets — Food Theme | Printable PDF",
+    "lead": "Five-page Class 2 (Grade 2) worksheet pack themed around food — pizzas, fruits, rotis, snacks. Activities include two-digit addition with picture support, basic subtraction, sequencing (smallest to largest), missing-number puzzles, and simple word problems. The food theme stays consistent across all five pages, which matters more than people realise: kids who can pattern-match across themed activities transfer the underlying skill better than kids who get the same skill in five visual contexts. PDF is identical to the on-screen preview, downloadable for free with no sign-up.",
+    "howTo": [
+      { "name": "Preview the five pages", "text": "Page 1-5 each show a different Class-2 activity, all food-themed. Use the page-number buttons to flip between them." },
+      { "name": "Download the PDF", "text": "Top-right PDF button. Print-ready file downloads in seconds." },
+      { "name": "Use at home or in school", "text": "Free for home, classroom, and tuition-centre use. No attribution required. Print as many copies as needed." }
+    ],
+    "faq": [
+      { "q": "What maths topics are covered?", "a": "Two-digit addition and subtraction with picture support, missing-number sequences, comparing numbers, and one short word problem. Mix varies per generated set." },
+      { "q": "Is this Class 2 CBSE or generic Grade 2?", "a": "Pitched at the common skill set across CBSE, ICSE, and state boards. Class 2 across all boards focuses on the same foundational arithmetic." },
+      { "q": "My Class 2 child finds the sheets easy. Are harder ones available?", "a": "Yes — pick Class 3 or higher in the worksheet generator at the top of the page. The catalogue covers Pre-KG through Class 5." },
+      { "q": "Can I get a non-food themed Class 2 sheet?", "a": "Yes — themes available for Class 2 include vehicles, sports, nature, household items, and more. Pick from the worksheet generator above." },
+      { "q": "What's the difference between this and the textbook worksheets the school sends?", "a": "Same skills, different presentation. Many parents print these as supplementary practice when the textbook becomes repetitive. Useful for vacation revision too." }
+    ],
+    "related": ["free-printable-worksheets-grade-1-animals-0000009", "maze-worksheets-for-kids-0000004", "free-printable-worksheets-kindergarten-animals-0000007"]
+  }
+}

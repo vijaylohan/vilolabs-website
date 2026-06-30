@@ -1,7 +1,21 @@
 {
   "_comment": "ViLoLabs Worksheets SEO data. Built from real search patterns observed on worksheetfun.com, k5learning.com, education.com (top-ranked worksheet sites globally). Slug values are URL-safe and match high-volume search queries. Update any time — all worksheet pages pick up changes within 30 seconds.",
-  "_lastUpdated": "2026-05-21",
-  "_version": 2,
+  "_lastUpdated": "2026-06-28",
+  "_version": 3,
+
+  "_indexable_comment": "Hand-curated allowlist of worksheet slugs Google may index. Every OTHER /worksheets/<slug> URL (user-generated shares + variant seeds) is served as noindex,follow by the Cloudflare Pages Function — protects against duplicate-content drag while keeping share UX intact. CRITICAL constraint: each slug must match what _wsCurrentConfig() in sheets.html actually produces. The engine only builds single-activity sheets for colouring/maze/sudoku modes; prekg/kg/grade-1-5 always produce mix-activity sheets (see the HONESTY comment at sheets.html:1844). Slugs that claim a single activity at a grade level (e.g. letter-tracing-preschool) WILL break the restore loop — the engine returns mix → the URL silently morphs → Google measures bounce → demotion. Each slug uses a low-numeric stable seed (0000001-...) so the URL always reproduces the same worksheet. Add new entries here + re-run tools/build-sitemap.js to promote a new URL.",
+  "indexable_presets": [
+    "coloring-pages-for-kids-animals-0000001",
+    "coloring-pages-for-kids-fruits-0000002",
+    "coloring-pages-for-kids-objects-0000003",
+    "maze-worksheets-for-kids-0000004",
+    "free-printable-worksheets-preschool-animals-0000005",
+    "free-printable-worksheets-preschool-fruits-0000006",
+    "free-printable-worksheets-kindergarten-animals-0000007",
+    "free-printable-worksheets-kindergarten-vehicles-0000008",
+    "free-printable-worksheets-grade-1-animals-0000009",
+    "free-printable-worksheets-grade-2-food-0000010"
+  ],
 
   "grades": {
     "prekg": {

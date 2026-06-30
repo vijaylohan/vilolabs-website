@@ -9,7 +9,7 @@
      after generation — without <base>, any image not yet loaded would get re-resolved
      against /worksheets/ and 404. -->
 <base href="/">
-<title>ViLo Worksheets — Smart Worksheet Generator</title>
+<title>Free Printable Worksheets for Kids — Pre-KG to Class 5 | ViLoLabs</title>
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
@@ -349,15 +349,53 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
   .col-main-svg{max-width:none!important;width:100%!important;max-height:none!important;}
   .col-act-svg{max-height:none!important;flex:1!important;min-height:0!important;}
 }
+/* ── Page-info content section (below the generator) ─────────────────
+   This block lives BELOW the worksheet so the tool stays above the fold.
+   It carries the keyword content + visible HowTo + FAQ that the JSON-LD
+   in <head> references. Removing the visible content without removing
+   the matching JSON-LD will be classified by Google as spammy structured
+   data. Keep both in sync. */
+.page-info{max-width:760px;margin:2rem auto 0;padding:1.6rem 1.4rem 0;font-family:'Nunito',sans-serif;color:var(--dark);border-top:1px solid rgba(200,150,60,.2)}
+.page-info h2{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;margin:1.4rem 0 0.55rem;color:var(--dark)}
+.page-info h2:first-of-type{margin-top:0}
+.page-info p{font-size:0.97rem;line-height:1.65;color:var(--brown);margin:0 0 0.85rem}
+.page-info ol.steps{list-style:none;counter-reset:step;padding:0;margin:0 0 0.4rem}
+.page-info ol.steps li{counter-increment:step;margin-bottom:0.7rem;padding-left:2.4rem;position:relative;font-size:0.95rem;line-height:1.5;color:var(--brown)}
+.page-info ol.steps li::before{content:counter(step);position:absolute;left:0;top:0;width:1.7rem;height:1.7rem;background:var(--gold);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem}
+.page-info ol.steps .step-name{font-weight:700;color:var(--dark);display:block;margin-bottom:0.15rem}
+.page-info details{background:#FFF8EE;border:1px solid rgba(200,150,60,.22);border-radius:6px;padding:0.65rem 0.95rem;margin-bottom:0.45rem}
+.page-info details[open]{background:#FFF3E0}
+.page-info details summary{font-weight:600;cursor:pointer;color:var(--dark);font-size:0.94rem}
+.page-info details summary::marker{color:var(--gold)}
+.page-info details summary::-webkit-details-marker{color:var(--gold)}
+.page-info details p{margin:0.5rem 0 0;font-size:0.91rem;line-height:1.55;color:var(--brown)}
+.page-info .types{display:flex;flex-wrap:wrap;gap:0.35rem 0.5rem;font-size:0.87rem;line-height:1.6;margin:0 0 0.4rem}
+.page-info .types span{background:#FFF8EE;border:1px solid rgba(200,150,60,.22);border-radius:14px;padding:0.2rem 0.7rem;color:var(--dark)}
+.page-info .made-in{font-size:0.82rem;color:var(--brown);opacity:0.78;text-align:center;margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(200,150,60,.15);font-style:italic}
+@media print{.page-info{display:none!important}}
+.pdfmode .page-info{display:none!important}
 </style>
-<link rel="canonical" href="https://vilolabs.in/sheets">
-<meta property="og:url" content="https://vilolabs.in/sheets">
+<link rel="canonical" href="https://vilolabs.in/worksheet">
+<meta property="og:url" content="https://vilolabs.in/worksheet">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:image" content="https://vilolabs.in/assets/og/worksheets.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="ViLoLabs — Where ideas take shape">
+<meta property="og:image:alt" content="Free printable worksheets for kids — animals, fruits, vehicles themes, instant PDF download">
 <meta name="twitter:image" content="https://vilolabs.in/assets/og/worksheets.jpg">
+<!-- ─────────────────────────────────────────────────────────────────────
+     Structured data for /sheets (the worksheet hub). HowTo + FAQPage MUST
+     stay in sync with the visible <section class="page-info"> block below.
+     Removing the visible content without removing these JSON-LD scripts =
+     Google "spammy structured data" manual action. Keep both in sync. The
+     Cloudflare Pages Function for /worksheets/<slug> serves this same HTML
+     but flips robots to noindex,follow, so these scripts apply only to the
+     indexed /sheets URL.
+     ───────────────────────────────────────────────────────────────────── -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"ViLo Worksheets — Free Printable Worksheets for Kids in India","description":"Free printable worksheets for Pre-KG to Class 5. Coloring pages, letter tracing, mazes, addition, multiplication, and 20+ activity types. No sign-up, no watermark, instant PDF download.","learningResourceType":"Worksheet","educationalLevel":"Pre-Kindergarten through Grade 5","isAccessibleForFree":true,"inLanguage":"en","author":{"@type":"Organization","name":"ViLoLabs","url":"https://vilolabs.in"},"publisher":{"@type":"Organization","name":"ViLoLabs","url":"https://vilolabs.in"},"url":"https://vilolabs.in/worksheet"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"How to use ViLo Worksheets","step":[{"@type":"HowToStep","position":1,"name":"Pick a level","text":"Pre-KG, KG, or Class 1-5. Each level is tuned to age-appropriate activities."},{"@type":"HowToStep","position":2,"name":"Pick a theme","text":"Animals, fruits, vehicles, food, sports, or pick Surprise for a mix."},{"@type":"HowToStep","position":3,"name":"Print or share","text":"Click PDF for an instant print-ready file, or click Share to send the link to another parent or teacher."}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this really free? Forever?","acceptedAnswer":{"@type":"Answer","text":"Yes. No paywall, no upgrade tier, no premium-only worksheets. Every activity, every grade, every theme is free. The site is built and run by a solo developer in India on a hobby budget."}},{"@type":"Question","name":"Are these worksheets aligned with CBSE or state board curriculum?","acceptedAnswer":{"@type":"Answer","text":"Yes — they cover the foundational skills outlined in NCERT's NIPUN Bharat framework, which is the common ground across CBSE, ICSE, and state boards for pre-primary and primary classes."}},{"@type":"Question","name":"Can I print these for my classroom or coaching class?","acceptedAnswer":{"@type":"Answer","text":"Yes — free for any educational use including schools, coaching classes, tuition centres, anganwadis, and daycares. No attribution required, though it's appreciated."}},{"@type":"Question","name":"Why are there no Hindi labels yet?","acceptedAnswer":{"@type":"Answer","text":"Hindi typography is on the roadmap for late 2026. The current version uses English-only labels. The activities themselves are visual and work for any language."}},{"@type":"Question","name":"What ages are these for?","acceptedAnswer":{"@type":"Answer","text":"Pre-KG = ages 3-4, KG = 5-6, Class 1 = 6-7, Class 2 = 7-8, Class 3 = 8-9, Class 4 = 9-10, Class 5 = 10-11. Colouring and maze worksheets work across the full age range."}},{"@type":"Question","name":"Will the same URL show the same worksheet to my friend?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every share URL has a unique seed that reproduces the exact same worksheet. Send the link via WhatsApp or email and your friend sees the same sheet on their device."}},{"@type":"Question","name":"Do you have a mobile app?","acceptedAnswer":{"@type":"Answer","text":"ViLo Apps for Android is in development with a target launch of Q4 2026. The mobile app will mirror the worksheet generator with offline-first PDF download."}},{"@type":"Question","name":"How is this different from worksheetfun or k5learning?","acceptedAnswer":{"@type":"Answer","text":"India-flavoured themes (autorickshaws, alphonso mangos, Indian transport), free without any sign-up, and built by one developer who actually responds to feedback. The international sites are great too — we just fill a slightly different niche."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vilolabs.in/"},{"@type":"ListItem","position":2,"name":"Worksheets","item":"https://vilolabs.in/worksheet"}]}</script>
 </head>
 <body>
 
@@ -493,6 +531,87 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
   <!-- Post-generate share nudge (shared component — /assets/share.js) -->
   <div class="vshare nudge" id="genNudge" style="display:none;max-width:560px;margin:1rem auto"></div>
 </div>
+
+<!-- ────────────────────────────────────────────────────────────────────
+     About / How-to / FAQ content — visible block below the generator.
+     MUST stay in sync with the HowTo + FAQPage JSON-LD scripts in <head>.
+     ──────────────────────────────────────────────────────────────────── -->
+<section class="page-info" id="pageInfo">
+  <h2>About ViLo Worksheets</h2>
+  <p>Free printable worksheets for kids in India — Pre-KG to Class 5. Coloring pages, letter tracing, mazes, sudoku, addition, multiplication, shape recognition, dot-to-dot, and 20+ other activity types. Built and maintained by a solo developer in India. No sign-up, no watermark on the PDF, no email collection. Use freely at home, in school, or in your coaching class.</p>
+
+  <h2>How to use</h2>
+  <ol class="steps">
+    <li><span class="step-name">Pick a level</span>Pre-KG, KG, or Class 1-5. Each level is tuned to age-appropriate activities.</li>
+    <li><span class="step-name">Pick a theme</span>Animals, fruits, vehicles, food, sports, or pick "Surprise" for a mix.</li>
+    <li><span class="step-name">Print or share</span>Click PDF for an instant print-ready file, or click Share to send the link to another parent or teacher.</li>
+  </ol>
+
+  <h2>Frequently asked questions</h2>
+  <details>
+    <summary>Is this really free? Forever?</summary>
+    <p>Yes. No paywall, no upgrade tier, no premium-only worksheets. Every activity, every grade, every theme is free. The site is built and run by a solo developer in India on a hobby budget.</p>
+  </details>
+  <details>
+    <summary>Are these worksheets aligned with CBSE or state board curriculum?</summary>
+    <p>Yes — they cover the foundational skills outlined in NCERT's NIPUN Bharat framework, which is the common ground across CBSE, ICSE, and state boards for pre-primary and primary classes.</p>
+  </details>
+  <details>
+    <summary>Can I print these for my classroom or coaching class?</summary>
+    <p>Yes — free for any educational use including schools, coaching classes, tuition centres, anganwadis, and daycares. No attribution required, though it's appreciated.</p>
+  </details>
+  <details>
+    <summary>Why are there no Hindi labels yet?</summary>
+    <p>Hindi typography is on the roadmap for late 2026. The current version uses English-only labels. The activities themselves are visual and work for any language.</p>
+  </details>
+  <details>
+    <summary>What ages are these for?</summary>
+    <p>Pre-KG = ages 3-4, KG = 5-6, Class 1 = 6-7, Class 2 = 7-8, Class 3 = 8-9, Class 4 = 9-10, Class 5 = 10-11. Colouring and maze worksheets work across the full age range.</p>
+  </details>
+  <details>
+    <summary>Will the same URL show the same worksheet to my friend?</summary>
+    <p>Yes. Every share URL has a unique seed that reproduces the exact same worksheet. Send the link via WhatsApp or email and your friend sees the same sheet on their device.</p>
+  </details>
+  <details>
+    <summary>Do you have a mobile app?</summary>
+    <p>ViLo Apps for Android is in development with a target launch of Q4 2026. The mobile app will mirror the worksheet generator with offline-first PDF download.</p>
+  </details>
+  <details>
+    <summary>How is this different from worksheetfun or k5learning?</summary>
+    <p>India-flavoured themes (autorickshaws, alphonso mangos, Indian transport), free without any sign-up, and built by one developer who actually responds to feedback. The international sites are great too — we just fill a slightly different niche.</p>
+  </details>
+
+  <h2>Worksheet types we support</h2>
+  <p class="types">
+    <span>Coloring pages</span>
+    <span>Maze worksheets</span>
+    <span>Sudoku for kids</span>
+    <span>Letter tracing</span>
+    <span>Number tracing</span>
+    <span>Sight-word tracing</span>
+    <span>Dot-to-dot</span>
+    <span>Counting</span>
+    <span>Shadow matching</span>
+    <span>Picture matching</span>
+    <span>Odd-one-out</span>
+    <span>Pattern worksheets</span>
+    <span>Size sorting</span>
+    <span>Shape recognition</span>
+    <span>Color recognition</span>
+    <span>Sequencing</span>
+    <span>Sorting</span>
+    <span>Addition</span>
+    <span>Subtraction</span>
+    <span>Multiplication</span>
+    <span>Skip counting</span>
+    <span>Comparing numbers</span>
+    <span>Position words</span>
+    <span>Word search</span>
+    <span>Math Master</span>
+    <span>Picture Math</span>
+  </p>
+
+</section>
 
 <script>
 // ══════════════════════════
@@ -1675,6 +1794,37 @@ function _rbDone(){
   setTimeout(()=>{bar.classList.remove('on');bar.style.opacity='';bar.style.transform='';},3400);
 }
 
+// Wait for a single img to actually have pixel data, retrying up to N times
+// if the network drops the first request (production CDN cold-cache misses).
+function _waitForImage(img, maxRetries){
+  return new Promise(resolve=>{
+    let tries=0;
+    const ok=()=>{ if(img.naturalWidth>0) resolve(true); else attempt(); };
+    function attempt(){
+      tries++;
+      if(tries>maxRetries){resolve(false); return;}
+      // If already complete with real pixels, done.
+      if(img.complete && img.naturalWidth>0){resolve(true); return;}
+      // Force a fresh fetch: clear src then re-set with cache-buster on retry.
+      const orig=img.getAttribute('src')||img.src;
+      const sep=orig.includes('?')?'&':'?';
+      const retryUrl = tries===1 ? orig : (orig.startsWith('data:')?orig:(orig+sep+'_r='+tries));
+      const onLoad=()=>{img.removeEventListener('load',onLoad);img.removeEventListener('error',onErr);ok();};
+      const onErr=()=>{img.removeEventListener('load',onLoad);img.removeEventListener('error',onErr);setTimeout(attempt,300*tries);};
+      img.addEventListener('load',onLoad);
+      img.addEventListener('error',onErr);
+      // Only re-assign if needed (don't trash data-URLs).
+      if(!img.complete || img.naturalWidth===0){
+        img.src='';
+        img.src=retryUrl;
+      } else {
+        ok();
+      }
+    }
+    attempt();
+  });
+}
+
 async function _markWsReadyWhenLoaded(){
   _wsReady = false;
   _rbShow();
@@ -1682,36 +1832,58 @@ async function _markWsReadyWhenLoaded(){
   // Force-eager every image so lazy ones on hidden pages still load.
   document.querySelectorAll('.ws-page img[loading="lazy"]').forEach(i=>{
     i.loading='eager';
-    // Kick stalled images: re-assign src to trigger a fresh load if needed.
     if(!i.complete){const s=i.src;i.src='';i.src=s;}
   });
   _rbSetPct(5,'Trimming clipart…');
-  // Trim phase fills 5% → 25% as each image is trimmed.
+  // Trim phase fills 5% → 22% as each image is trimmed.
   try{
     await paintImages(c, (done,tot)=>{
-      const pct = 5 + (done/Math.max(1,tot)) * 20;
+      const pct = 5 + (done/Math.max(1,tot)) * 17;
       _rbSetPct(pct, `Trimming clipart… ${done}/${tot}`);
     });
   }catch(e){}
+  // Shadow markers (Shadow-Match activity) → bake silhouettes now so the
+  // preview isn't full of placeholders.
+  _rbSetPct(22,'Baking shadows…');
+  try{ await paintShadows(c); }catch(e){}
+  // Maze start/end icons → embed as data URIs so the SVG renders the right
+  // animal even before PDF capture (covers Maze worksheets specifically).
+  _rbSetPct(24,'Embedding maze icons…');
+  try{ if(typeof paintMazeIcons==='function') await paintMazeIcons(c); }catch(e){}
   const imgs=[...document.querySelectorAll('.ws-page img')];
   const total=Math.max(1,imgs.length);
-  // wait for every image (incl. swapped-in trimmed data-URLs) to finish loading
-  let loadedCount=0;
-  const loadBudget = 60;   // load phase fills 25% → 85%
-  const onOne=()=>{
+  // wait for every image with real pixels — retry up to 3 times so a single
+  // dropped CDN request doesn't leave a broken thumbnail in the worksheet.
+  let loadedCount=0, failedCount=0;
+  const loadBudget = 60;
+  const onOne=(ok)=>{
     loadedCount++;
+    if(!ok) failedCount++;
     const pct=25 + (loadedCount/total)*loadBudget;
-    _rbSetPct(pct,`Loading clipart… ${loadedCount}/${total}`);
+    _rbSetPct(pct, failedCount
+      ? `Loading clipart… ${loadedCount}/${total} (${failedCount} retrying)`
+      : `Loading clipart… ${loadedCount}/${total}`);
   };
   try{
-    await Promise.all(imgs.map(i=>{
-      if(i.complete){onOne();return Promise.resolve();}
-      return new Promise(res=>{
-        i.onload=()=>{onOne();res();};
-        i.onerror=()=>{onOne();res();};
-      });
-    }));
+    // Throttle to ~6 parallel requests so the browser doesn't queue 50 fetches
+    // at once on slow connections (which is what triggers the broken-image
+    // race on production). Process in 6-image batches.
+    const BATCH=6;
+    for(let s=0;s<imgs.length;s+=BATCH){
+      const batch=imgs.slice(s,s+BATCH);
+      await Promise.all(batch.map(async i=>{
+        const ok = await _waitForImage(i, 3);
+        onOne(ok);
+      }));
+    }
   }catch(e){}
+  // If any images are STILL broken after retries, do one final desperate
+  // pass with cache-busters before giving up.
+  const stillBroken = imgs.filter(i=>i.naturalWidth===0);
+  if(stillBroken.length){
+    _rbSetPct(80, `Re-fetching ${stillBroken.length} stuck image${stillBroken.length>1?'s':''}…`);
+    await Promise.all(stillBroken.map(i=>_waitForImage(i, 2)));
+  }
   _rbSetPct(88,'Decoding images…');
   // force-decode so html2canvas doesn't pay the decode cost during PDF capture
   try{ await Promise.all(imgs.map(i=>i.decode?i.decode().catch(()=>{}):0)); }catch(e){}
@@ -1828,6 +2000,43 @@ function _wsCurrentConfig(){
   return {activity:activityKey,grade:gradeKey,category:categoryKey};
 }
 
+// Sync every SEO meta tag to the currently-displayed worksheet. Called from
+// (a) generate flow after a pushState, (b) initial page load when restoring
+// from a slug URL. The SSR Function fills these on first byte for scrapers;
+// this keeps them in sync after client-side regenerates so OS share-sheets
+// + WhatsApp re-grabs reflect the worksheet the user is actually looking at.
+// Idempotent: re-running with the same args is a no-op visually.
+function _wsSyncSeoMeta(absUrl, title, desc, isIndexable){
+  const setMeta=(sel,attr,val)=>{
+    const el=document.querySelector(sel);
+    if(el) el.setAttribute(attr,val);
+  };
+  setMeta('link[rel="canonical"]','href',absUrl);
+  setMeta('meta[property="og:url"]','content',absUrl);
+  setMeta('meta[property="og:title"]','content',title);
+  setMeta('meta[property="og:description"]','content',desc);
+  setMeta('meta[name="twitter:title"]','content',title);
+  setMeta('meta[name="twitter:description"]','content',desc);
+  setMeta('meta[name="description"]','content',desc);
+  // Robots: match what the Function would have rendered for this new URL.
+  // Without this, a user landing on a curated URL then regenerating would
+  // leave the page with stale `index, follow` from the original SSR, even
+  // though the new URL is noindex. Re-scrapes always see fresh SSR (correct).
+  setMeta('meta[name="robots"]','content',isIndexable ? 'index, follow' : 'noindex, follow');
+  // JSON-LD: refresh name + description + url. Safe no-op if the SSR Function
+  // didn't inject one (e.g. a fall-through URL the parser couldn't handle).
+  const ld=document.querySelector('script[type="application/ld+json"]');
+  if(ld){
+    try{
+      const data=JSON.parse(ld.textContent);
+      data.name=title;
+      data.description=desc;
+      data.url=absUrl;
+      ld.textContent=JSON.stringify(data);
+    }catch(e){/* malformed JSON-LD — leave as-is */}
+  }
+}
+
 async function _wsUpdateUrlAfterGenerate(seed){
   if(!window.WSeo){console.warn('[WSeo] window.WSeo missing — worksheet-seo.js failed to load');return;}
   const kw=await WSeo.loadKeywords();
@@ -1849,8 +2058,20 @@ async function _wsUpdateUrlAfterGenerate(seed){
   const newUrl='/worksheets/'+slug;
   try{ history.pushState({slug:slug,seed:seed},'',newUrl); console.log('[WSeo] URL updated →',newUrl);}
   catch(e){console.error('[WSeo] pushState failed:',e);}
-  try{ document.title=WSeo.renderTitle({activity:cfg.activity,grade:cfg.grade,category:cfg.category,id:id},kw);}
-  catch(e){console.error('[WSeo] title render failed:',e);}
+  // Update ALL meta to match the new slug. The Function SSR-injects these
+  // for the FIRST URL the user lands on; once the user regenerates, the page
+  // morphs and every meta tag must follow. Anything left at the SSR values
+  // would mis-describe the page to a user who hits Share / OS share-sheet
+  // after regenerating. (Pinterest/Google scrape without JS, so they only
+  // ever see the SSR meta — this client-side sync is for share-while-using.)
+  try{
+    const sCfg={activity:cfg.activity,grade:cfg.grade,category:cfg.category,id:id};
+    const t=WSeo.renderTitle(sCfg,kw);
+    const d=WSeo.renderDesc(sCfg,kw);
+    document.title=t;
+    const idx=Array.isArray(kw.indexable_presets) && kw.indexable_presets.includes(slug);
+    _wsSyncSeoMeta(location.origin+newUrl, t, d, idx);
+  }catch(e){console.error('[WSeo] meta sync failed:',e);}
   // Store metadata locally. We DON'T push to Supabase here — generate is just
   // a preview. Only when the user actually commits (prints / shares) do we
   // register the worksheet in the DB. Otherwise the DB fills up with abandoned
@@ -1903,7 +2124,7 @@ function _shareMsg(){
 }
 // Appended after the link → invites the receiver to make their own (growth loop).
 function _shareTail(){
-  const create = location.origin + '/sheets.html';
+  const create = location.origin + '/worksheet';
   return (curLang==='hi')
     ? '\n\n✨ खुद की वर्कशीट बनानी है? यहाँ फ्री बनाएं 👉 ' + create
     : '\n\n✨ Want to make your own? Create a free worksheet 👉 ' + create;
@@ -1969,10 +2190,23 @@ if(window.WSeo && WSeo.loadKeywords){ try{ WSeo.loadKeywords(); }catch(e){} }
     slug=params.get('w');
   }
   if(!slug) return;
+  // SSR Function should have already injected the right meta for this URL,
+  // but we re-sync defensively (covers /sheets?w=<slug> legacy URLs that bypass
+  // the Function, and pages served by Cloudflare's static asset cache during
+  // a deploy lag). After regenerate, the regenerate flow calls _wsSyncSeoMeta
+  // itself with the freshly-rendered title/desc.
   WSeo.loadKeywords().then(kw=>{
     if(!kw) return;
     const cfg=WSeo.parseSlugWith(slug,kw);
     if(!cfg) return;
+    try{
+      const absUrl = location.origin + '/worksheets/' + slug;
+      const t=WSeo.renderTitle(cfg,kw);
+      const d=WSeo.renderDesc(cfg,kw);
+      document.title=t;
+      const idx=Array.isArray(kw.indexable_presets) && kw.indexable_presets.includes(slug);
+      _wsSyncSeoMeta(absUrl,t,d,idx);
+    }catch(e){console.error('[WSeo] init meta sync failed:',e);}
     // Restore curLvl + curTopic state before generate()
     curLvl=cfg.grade;
     if(cfg.grade==='colouring') curTopic=cfg.category||'mixed';
@@ -2667,19 +2901,19 @@ const PROMOS=[
   // ── Other worksheet packs ── (all land on the main worksheet generator)
   {emoji:'🌀',name:'Maze Worksheets',tag:'Free · All Ages · Print Ready',
    desc:'Generate a fresh maze in seconds — shapes, sizes and difficulty levels. Print and solve, or download as PDF.',
-   path:'/sheets.html'},
+   path:'/worksheet'},
   {emoji:'🧩',name:'Sudoku for Kids',tag:'Free · 4×4 to 9×9 · Easy to Hard',
    desc:'Kid-friendly Sudoku puzzles with picture grids for beginners and number grids for pros. Free PDF download.',
-   path:'/sheets.html'},
+   path:'/worksheet'},
   {emoji:'🎨',name:'Colouring Pages',tag:'Free · Cute Outlines · Big Areas',
    desc:'Beautiful printable colouring pages for kids of all ages. Animals, vehicles, fantasy and more.',
-   path:'/sheets.html'},
+   path:'/worksheet'},
   {emoji:'✏️',name:'Tracing &amp; Writing',tag:'Free · Pre-KG to Class 5',
    desc:'Letter tracing, number tracing, word writing — generate new sheets endlessly. No two pages alike.',
-   path:'/sheets.html'},
+   path:'/worksheet'},
   {emoji:'📝',name:'Worksheet Pack',tag:'Free · Mixed Activities · Grade-Wise',
    desc:'Five-page worksheet bundles tailored to your grade — counting, matching, missing-letter, patterns, more.',
-   path:'/sheets.html'},
+   path:'/worksheet'},
 
   // ── ViLo Pulse (blog) ──
   {emoji:'📰',name:'ViLo Pulse',tag:'Data-Driven Reads · 10 Min',
