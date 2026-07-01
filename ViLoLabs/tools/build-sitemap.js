@@ -33,7 +33,7 @@ const PAGE_SIZE = 1000;  // Supabase REST default max per request
 // priority/changefreq tuned to signal hierarchy to Google.
 const STATIC = [
   { loc: '/',                         priority: '1.0',  changefreq: 'weekly'  },
-  { loc: '/about.html',               priority: '0.7',  changefreq: 'monthly' },
+  { loc: '/about',                      priority: '0.7',  changefreq: 'monthly' },
   // /worksheet is the primary ranking target — has visible content + HowTo +
   // FAQPage JSON-LD baked into sheets.html (which is rewritten under the
   // /worksheet URL via _redirects). Every /worksheets/<slug> URL serves the
@@ -42,19 +42,19 @@ const STATIC = [
   // /sheets URL 301-redirects to /worksheet for backward compatibility.
   { loc: '/worksheet',                priority: '1.0',  changefreq: 'weekly'  },
   { loc: '/worksheets/',              priority: '0.6',  changefreq: 'monthly' },
-  { loc: '/tools.html',               priority: '0.9',  changefreq: 'weekly'  },
-  { loc: '/app.html',                 priority: '0.7',  changefreq: 'monthly' },
-  { loc: '/pulse.html',               priority: '0.9',  changefreq: 'daily'   },
-  { loc: '/tools/image-to-pdf.html',  priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/merge-pdf.html',     priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/resize-image.html',  priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/compress-image.html',priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/compress-pdf.html',  priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/qr-generator.html',  priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/pdf-to-word.html',   priority: '0.85', changefreq: 'monthly' },
-  { loc: '/privacy.html',             priority: '0.3',  changefreq: 'yearly'  },
-  { loc: '/terms.html',               priority: '0.3',  changefreq: 'yearly'  },
-  { loc: '/cookies.html',             priority: '0.3',  changefreq: 'yearly'  },
+  { loc: '/tools',                      priority: '0.9',  changefreq: 'weekly'  },
+  { loc: '/app',                        priority: '0.7',  changefreq: 'monthly' },
+  { loc: '/pulse',                      priority: '0.9',  changefreq: 'daily'   },
+  { loc: '/tools/image-to-pdf',         priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/merge-pdf',            priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/resize-image',         priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/compress-image',       priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/compress-pdf',         priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/qr-generator',         priority: '0.85', changefreq: 'monthly' },
+  { loc: '/tools/pdf-to-word',          priority: '0.85', changefreq: 'monthly' },
+  { loc: '/privacy',                    priority: '0.3',  changefreq: 'yearly'  },
+  { loc: '/terms',                      priority: '0.3',  changefreq: 'yearly'  },
+  { loc: '/cookies',                    priority: '0.3',  changefreq: 'yearly'  },
 ];
 
 // ── Fetch paginated table from Supabase ─────────────────────────
