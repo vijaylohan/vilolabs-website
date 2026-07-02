@@ -40,7 +40,14 @@ const STATIC = [
   // same HTML but with robots:noindex,follow set by the Pages Function, so
   // /worksheet is the only indexable URL in the worksheets cluster. The old
   // /sheets URL 301-redirects to /worksheet for backward compatibility.
-  { loc: '/worksheet',                priority: '1.0',  changefreq: 'weekly'  },
+  { loc: '/worksheet',                priority: '1.0',  changefreq: 'weekly',
+    // Google Image Sitemap extension — one entry per real <img> on the page.
+    // caption doubles as the image's descriptive text for Google (separate
+    // from the on-page alt attribute, but should say the same thing).
+    images: [
+      { loc: '/assets/hero/worksheet-picker.webp',
+        caption: 'ViLo Worksheets generator — pick a level from Pre-KG to Class 5, plus Colouring, Sudoku, Maze, and Math Master. Unlimited free generations, 5 to 15 pages each.' },
+    ] },
   { loc: '/worksheets/',              priority: '0.6',  changefreq: 'monthly' },
   { loc: '/tools',                      priority: '0.9',  changefreq: 'weekly'  },
   { loc: '/app',                        priority: '0.7',  changefreq: 'monthly' },
@@ -95,11 +102,23 @@ function xml(s) {
     .replace(/'/g, '&apos;');
 }
 
-function urlEntry({ loc, lastmod, priority, changefreq }) {
+function urlEntry({ loc, lastmod, priority, changefreq, images }) {
   const parts = ['<url>', '<loc>' + xml(SITE_BASE + loc) + '</loc>'];
   if (lastmod)    parts.push('<lastmod>' + lastmod.slice(0, 10) + '</lastmod>');
   if (changefreq) parts.push('<changefreq>' + changefreq + '</changefreq>');
   if (priority)   parts.push('<priority>' + priority + '</priority>');
+  // Google Image Sitemap extension (image:image inside the page's <url>).
+  // https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps
+  // Requirement: the image MUST actually be referenced (as a real <img> or
+  // CSS background) on the page at `loc` — a sitemap entry alone is not
+  // enough for Google to index it.
+  if (Array.isArray(images)) {
+    images.forEach(img => {
+      parts.push('<image:image><image:loc>' + xml(SITE_BASE + img.loc) + '</image:loc>' +
+        (img.caption ? '<image:caption>' + xml(img.caption) + '</image:caption>' : '') +
+        '</image:image>');
+    });
+  }
   parts.push('</url>');
   return '  ' + parts.join('');
 }
@@ -181,7 +200,7 @@ function urlEntry({ loc, lastmod, priority, changefreq }) {
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<!-- ViLoLabs sitemap — generated ' + new Date().toISOString() + ' by tools/build-sitemap.js -->',
     '<!-- ' + STATIC.length + ' static · ' + worksheets.length + ' worksheets · ' + shares.length + ' tool shares -->',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
     allEntries.map(urlEntry).join('\n'),
     '</urlset>',
     '',

@@ -300,16 +300,45 @@ The engine in `sheets.html` only produces SINGLE-ACTIVITY worksheets for `colour
 To target high-volume single-activity queries like "letter tracing worksheet pdf" or "addition worksheet class 1", we'd need to ADD single-activity modes to sheets.html (call it a "letter-tracing-only at prekg" engine path). That's a 1-2 week build per mode — deferred Year-1 work, not Week-1.
 
 **🚨 STRUCTURED DATA SAFETY (hard-won — read before re-adding JSON-LD types):**
-Google's docs explicitly require `FAQPage` and `HowTo` JSON-LD to have **matching visible content on the page**. Emitting them invisibly is classified as "spammy structured data" and can trigger a manual action that demotes the entire domain. We tried this once (Move 2.2 → 2.3) and rolled it back. The Function now emits **only** `LearningResource` + `BreadcrumbList` — both are safe invisible because they describe the page itself, not specific UI elements. Add `HowTo`/`FAQPage` back **only** when matching visible HTML lives on the same page (e.g., a real "How to" ordered list, a real `<details>` FAQ block). No exceptions.
+Google's docs explicitly require `FAQPage` and `HowTo` JSON-LD to have **matching visible content on the page**. Emitting them invisibly is classified as "spammy structured data" and can trigger a manual action that demotes the entire domain. We tried this once (Move 2.2 → 2.3) and rolled it back. **Current architecture (as of 2026-07-02):** all JSON-LD (`LearningResource`, `HowTo`, `FAQPage`, `BreadcrumbList`) lives as static `<script>` tags directly in `sheets.html`'s `<head>`, matched by real visible content in the `.page-info` section below the generator. The Cloudflare Function at `functions/worksheets/[slug].js` (for `/worksheets/<slug>` share URLs) emits **zero JSON-LD of its own** — it only swaps `<title>`/`<meta description>`/`og:*`/`twitter:*` for the share-preview, and actively **strips** the `.page-info` section + all JSON-LD `<script>` tags from share URLs via `HTMLRewriter` (see the `#pageInfo` and `script[type="application/ld+json"]` removal handlers). This keeps every share URL's visible content genuinely unique per Pinterest pin (no shared "About" wrapper across pins) while keeping structured data 100% truthful (it only describes `/worksheet`, the one page it actually lives on).
 
-**RANKING-TARGET STRATEGY (decided 2026-06-28):**
-Concentrate ranking effort on **one** home/hub URL — `sheets.html` (served at `/sheets`, and also via the Function at every `/worksheets/<slug>` URL but those are `noindex,follow`). Reason: a single content-rich page is dramatically easier to rank than scattered curated slugs, link equity concentrates, and the user experience matches search intent ("free worksheets" → land on a page WITH the generator embedded, not a slug-specific result).
-- The visible keyword content + matching `HowTo` + `FAQPage` JSON-LD goes on **sheets.html directly**, below the generator UI (tool stays above-the-fold; content lives below for crawlers).
-- The 10-entry `indexable_presets` allowlist becomes optional — keep for now as backup/cohort but the home page is the primary ranking target.
-- `/worksheets/<slug>` URLs stay `noindex,follow` forever — they're the share primitive, never the ranking primitive.
-- All Pinterest pins point at `/sheets` (the canonical hub) or at a curated slug if the pin theme demands it.
+**RANKING-TARGET STRATEGY (decided 2026-06-28, URL renamed 2026-07-01):**
+Concentrate ranking effort on **one** home/hub URL — `/worksheet` (the pretty-URL for `sheets.html`; old `/sheets` and `/sheets.html` 301-redirect to it, see `_redirects`). Every `/worksheets/<slug>` URL is `noindex,follow` forever — share primitive only, never a ranking target. Reason: a single content-rich page is dramatically easier to rank than scattered curated slugs, link equity concentrates, and the user experience matches search intent ("free worksheets" → land on a page WITH the generator embedded, not a slug-specific result).
+- The visible keyword content + matching `HowTo` + `FAQPage` JSON-LD lives on `/worksheet` directly, below the generator UI (tool stays above-the-fold; content lives below for crawlers).
+- The 10-entry `indexable_presets` allowlist in `seo-keywords.json` is dormant — kept only as a possible Pinterest pin-targeting list, not read by the Function or sitemap builder anymore.
+- All Pinterest pins should point at `/worksheet` (the canonical hub) — never at a `/sheets` URL (dead redirect target for a fresh Pinterest pin, looks like link rot to their spam classifier).
 
 — END OF pSEO SECTION —
+
+## Image SEO (Google Images) — started 2026-07-02
+
+**Goal:** get worksheet preview pictures appearing in Google Images search, all funneling back to `/worksheet` (never a separate page — see "why not a separate gallery page" below).
+
+**Shipped so far:**
+- `tools/render-hero-screenshot.js` — one-time script, captures the `/worksheet` level-picker screen (all 11 activity cards + page-count slider) as a branded thumbnail. Injects a gold badge ("Unlimited free generations — every click makes a brand-new worksheet, 5 to 15 pages each") via a temporary DOM insert before capture, crops tight to badge+cards+slider, pads with a clean solid-color margin via `sharp` (NOT by expanding the capture rect — expanding the rect picks up stray neighboring text/buttons; padding after capture is the safe way). Outputs WebP.
+- **Real bug fixed** in `tools/render-worksheet-png.js` (the daily Pinterest pin renderer): `evalJson()` was missing `awaitPromise:true` on the CDP `Runtime.evaluate` call, so it was serializing the pending Promise (`JSON.stringify(pendingPromise)` → literal `"{}"`) instead of waiting for the async capture to resolve. This silently broke the html2canvas capture step. Fixed — now uses `awaitPromise:true` + `returnByValue:true`, no manual `JSON.stringify`/`JSON.parse` needed.
+- **`assets/hero/worksheet-picker.webp`** — the finished hero image, small (128px `.mini-card` thumbnail, ~50KB), lives in a `.mini-gallery` container inside `.page-info` on `/worksheet`, right after the "Worksheet types we support" chip list.
+- **Image sitemap support** added to `tools/build-sitemap.js` — `STATIC` entries can now carry an `images: [{loc, caption}]` array; `urlEntry()` emits Google's `<image:image>` extension nested inside the `/worksheet` `<url>` block. `xmlns:image` namespace added to the `<urlset>` tag.
+
+**The 50/500 gallery-cap architecture (documented in-code at `sheets.html`, search for "CAP handling" and "HARD CEILING" comments near `#wsGallery`):**
+- First 50 `.mini-card` tiles show immediately; a "See more worksheets" / "Show less" toggle button (`_wsToggleGallery()`) reveals/hides the rest via a CSS class (`mg-hidden`), never a fetch — Googlebot doesn't click buttons, so anything gated behind a click-triggered fetch would never get crawled. Every card that exists stays physically present in the real HTML at all times.
+- **Hard ceiling: 500 cards max, ever, all on `/worksheet`.** When automation adds a new card past 500, it must **retire the oldest one** first (remove from HTML + sitemap + Supabase) — never just hide it. 500 is inside Google's documented image-sitemap limit (1,000 images per `<url>` entry).
+- **Why not a separate `/worksheets/generated` gallery page:** would need its own `index,follow` status for its images to be trusted by Google Images, creating a second indexable URL competing with `/worksheet` — breaks the single-ranking-page strategy above. Also breaks "Google Images click lands directly on the tool" (would land on the gallery page instead, one extra hop away).
+
+**NOT yet built — the auto-capture pipeline (paused 2026-07-02, resume here):**
+Trigger: a real visitor clicks **Share or Print** (not every Generate click — that's the quality filter) on a **Colouring, Maze, or Sudoku** worksheet (single-focus activities only — matches the existing single-vs-mix HONESTY constraint above; Math Master inclusion undecided, ask before building). Capped at **5 new captures per day**.
+
+Planned architecture (not started):
+1. New Supabase table for captured-image metadata (image URL, alt text, source worksheet slug, activity type, captured timestamp) — **I only have the public anon key in this codebase, not admin/service-role access.** Creating the table requires the user to run one SQL script in the Supabase dashboard themselves.
+2. Image storage: **undecided** — Supabase Storage (already connected, zero new setup) vs Cloudflare R2 (zero egress, but needs new bucket + token setup first). Revisit next session.
+3. Capture step: reuse the `html2canvas` call `sheets.html` already runs for PDF export — trigger it at the moment of Share/Print click, upload the resulting image blob client-side.
+4. A new Cloudflare Pages Function receives the upload, re-validates activity type + daily cap + 500-total cap server-side (client-side checks alone aren't trustworthy), stores the image, retires the oldest card if at 500.
+5. `/worksheet`'s gallery section needs to become **dynamic** (Function-rendered per request, same `HTMLRewriter` pattern as `functions/worksheets/[slug].js`) instead of static HTML, so new captures appear without a manual `git push`.
+6. Sitemap also needs a dynamic or periodically-regenerated path to pick up new images automatically.
+
+Each gallery card should carry a small "Generate this worksheet" link underneath pointing at that image's real `/worksheets/<slug>` URL (opens in a new tab) — proposed by the user as clearer than making the whole thumbnail clickable.
+
+— END OF IMAGE SEO SECTION —
 
 ## Developer Notes
 - **Do NOT rewrite the full file** — always use targeted edits (Edit tool)

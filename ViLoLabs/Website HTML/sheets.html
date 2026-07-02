@@ -371,6 +371,24 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .page-info details p{margin:0.5rem 0 0;font-size:0.91rem;line-height:1.55;color:var(--brown)}
 .page-info .types{display:flex;flex-wrap:wrap;gap:0.35rem 0.5rem;font-size:0.87rem;line-height:1.6;margin:0 0 0.4rem}
 .page-info .types span{background:#FFF8EE;border:1px solid rgba(200,150,60,.22);border-radius:14px;padding:0.2rem 0.7rem;color:var(--dark)}
+/* Small-thumbnail gallery — hero screenshot + future auto-captured sample
+   worksheets all render as compact tiles in a wrapping row, so the section
+   stays short no matter how many cards accumulate over time. */
+.page-info .gallery-wrap{display:flex;flex-direction:column;align-items:center}
+.page-info .mini-gallery{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin:0.4rem 0 0.6rem}
+.page-info .mini-card{width:128px;border-radius:8px;overflow:hidden;box-shadow:0 3px 10px rgba(61,43,31,.13);border:1px solid rgba(200,150,60,.18);background:#fff;flex-shrink:0}
+.page-info .mini-card img{display:block;width:100%;height:auto}
+/* mg-hidden = visually hidden only. The element stays in the DOM (never
+   removed, never lazily fetched) so Google's crawler can still find and
+   index every accumulated image — see the long comment above #wsGallery. */
+.page-info .mini-card.mg-hidden{display:none}
+.page-info .see-more-btn{display:none;margin:0.7rem auto 0;background:none;border:1px solid rgba(200,150,60,.4);color:var(--gold);font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;padding:0.5rem 1.3rem;border-radius:20px;cursor:pointer;text-align:center}
+.page-info .see-more-btn:hover{background:#FFF3E0;border-color:var(--gold)}
+/* "Magnet" mode — while the gallery is expanded (up to 500 cards), the
+   collapse button follows the user down the page instead of sitting fixed
+   at the bottom of a very long scroll. Switched on/off by _wsToggleGallery(). */
+.page-info .see-more-btn.mg-floating{position:sticky;bottom:1.1rem;margin-top:0.7rem;background:var(--gold);color:var(--char);border-color:var(--gold);box-shadow:0 6px 20px rgba(61,43,31,.35);z-index:60}
+.page-info .see-more-btn.mg-floating:hover{background:var(--gold2);border-color:var(--gold2)}
 .page-info .made-in{font-size:0.82rem;color:var(--brown);opacity:0.78;text-align:center;margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(200,150,60,.15);font-style:italic}
 @media print{.page-info{display:none!important}}
 .pdfmode .page-info{display:none!important}
@@ -614,6 +632,98 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
     <span>Math Master</span>
     <span>Picture Math</span>
   </p>
+
+  <h2>See the worksheet builder</h2>
+  <p>Pre-KG through Class 5, plus Colouring, Sudoku, Maze, and Math Master — pick a level and generate as many fresh worksheets as you like.</p>
+  <!-- Small-thumbnail gallery, not a full-width hero. Keeps the page compact
+       as more sample cards get added over time (auto-captured colouring/
+       maze/sudoku worksheets, max 5/day) — new <div class="mini-card"> tiles
+       just wrap into the row instead of stacking as tall blocks.
+
+       CAP handling (see-more): every card added over time stays PRESENT in
+       this real HTML always — never removed, never fetched-on-demand. Cards
+       past the 50th just get a CSS class (mg-hidden) that hides them until
+       "See more" is clicked. This matters for Google Images: a sitemap entry
+       for an image is only trustworthy if the image is actually referenced
+       in the page's real HTML. CSS-hiding is fine (same pattern as FAQ
+       accordions); fetching extra images only after a button click would NOT
+       be — Googlebot never simulates clicks, so anything gated behind a
+       fetch-on-click never gets crawled. Keep every new <div class="mini-card">
+       inside #wsGallery, in the same flat list, oldest-first or newest-first
+       (doesn't matter which) — the script below re-applies the cap on load.
+
+       🚨 HARD CEILING (decided 2026-07-02): this gallery must NEVER hold more
+       than 500 cards total (visible + hidden-behind-See-more combined), and
+       ALL 500 must live on THIS page — deliberately NOT split off to a
+       separate page like /worksheets/generated. Reasons:
+       1. /worksheet is the ONE indexable ranking target for the whole site
+          (decided earlier this session). A second indexable page — even a
+          "just images" gallery page — would need its own index,follow status
+          to get its images trusted by Google Images, which means a second
+          URL competing for attention. That breaks the single-hub strategy.
+       2. Google Images click-through must land directly on /worksheet (the
+          actual tool), not on an intermediate gallery page.
+       3. 500 <image:image> entries in one sitemap <url> block is within
+          Google's own documented limit (up to 1,000 images per URL entry) —
+          not pushing any protocol boundary.
+       WHEN THE AUTO-CAPTURE AUTOMATION IS BUILT: before appending a new card,
+       check current card count. If it's already at 500, retire (fully
+       remove — from this HTML, from sitemap.xml, and from the Supabase row
+       that tracks it) the OLDEST card first, so the total never exceeds 500.
+       Do not just hide the 501st card — actually remove the oldest one, or
+       the "always referenced in real HTML" rule above gets violated by sheer
+       page weight over the following years. -->
+  <!-- gallery-wrap scopes the sticky "Show less" button to JUST this section
+       (see CSS: position:sticky on .mg-floating, not position:fixed). Sticky
+       only holds within its containing block's bounds, so the button floats
+       while scrolling through the gallery cards, then settles back into
+       normal flow once you scroll past the last row — it can never drift
+       over the footer, or over the generated-worksheet screen above (a
+       totally different scroll region), the way a page-wide position:fixed
+       button would. -->
+  <div class="gallery-wrap" id="galleryWrap">
+    <div class="mini-gallery" id="wsGallery">
+      <div class="mini-card">
+        <img src="/assets/hero/worksheet-picker.webp" width="976" height="612" loading="lazy" alt="ViLo Worksheets generator — pick a level from Pre-KG to Class 5, plus Colouring, Sudoku, Maze, and Math Master. Unlimited free generations, 5 to 15 pages each.">
+      </div>
+    </div>
+    <button class="see-more-btn" id="seeMoreBtn" type="button" onclick="_wsToggleGallery()" style="display:none">See more worksheets</button>
+  </div>
+  <script>
+  (function(){
+    var CAP = 50;
+    var gallery = document.getElementById('wsGallery');
+    var btn = document.getElementById('seeMoreBtn');
+    if(!gallery || !btn) return;
+    var cards = gallery.querySelectorAll('.mini-card');
+    if(cards.length > CAP){
+      for(var i = CAP; i < cards.length; i++) cards[i].classList.add('mg-hidden');
+      btn.style.display = 'inline-block';
+      btn.textContent = 'See more worksheets';
+      btn.dataset.expanded = '0';
+    }
+  })();
+  function _wsToggleGallery(){
+    var CAP = 50;
+    var btn = document.getElementById('seeMoreBtn');
+    var cards = document.querySelectorAll('#wsGallery .mini-card');
+    var expanding = btn.dataset.expanded !== '1';
+    for(var i = CAP; i < cards.length; i++){
+      cards[i].classList.toggle('mg-hidden', !expanding);
+    }
+    btn.textContent = expanding ? 'Show less' : 'See more worksheets';
+    btn.dataset.expanded = expanding ? '1' : '0';
+    // "Magnet" mode: while expanded, the button floats fixed at the bottom
+    // of the viewport so collapsing never requires scrolling all the way
+    // down past however many cards are currently showing (up to 500).
+    btn.classList.toggle('mg-floating', expanding);
+    if(!expanding){
+      // scroll back up to the gallery start so collapsing doesn't strand
+      // the user's view somewhere below the now-hidden cards
+      document.getElementById('wsGallery').scrollIntoView({block:'start'});
+    }
+  }
+  </script>
 
 </section>
 

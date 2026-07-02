@@ -242,10 +242,18 @@ function httpJson(url){
     http.get(url, r => { let d=''; r.on('data',c=>d+=c); r.on('end',()=>res(JSON.parse(d))); }).on('error', rej);
   });
 }
+// BUGFIX: the expr passed in is always an async IIFE call, i.e. it returns a
+// Promise. Without `awaitPromise:true`, CDP evaluates 'JSON.stringify(<pending
+// Promise>)' SYNCHRONOUSLY (before the promise settles) — Promise objects have
+// no enumerable own properties, so this always serializes to the literal
+// string "{}", discarding whatever the async function actually resolves to.
+// awaitPromise:true tells CDP to wait for the promise to settle FIRST, and
+// returnByValue:true then gives us the resolved value directly — no need to
+// manually JSON.stringify/parse at all.
 async function evalJson(send, expr){
-  const r = await send('Runtime.evaluate', { expression:'JSON.stringify('+expr+')', returnByValue:true });
+  const r = await send('Runtime.evaluate', { expression: expr, awaitPromise: true, returnByValue: true });
   if (r.exceptionDetails) throw new Error(r.exceptionDetails.text);
-  return JSON.parse(r.result.value);
+  return r.result.value;
 }
 async function waitFor(ws, send, expr, timeoutMs){
   const start = Date.now();
