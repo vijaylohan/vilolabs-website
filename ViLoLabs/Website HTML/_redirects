@@ -12,18 +12,22 @@
 #    worksheet data files (worksheet-seo.js, seo-keywords.json) therefore live
 #    in /assets/, NOT /worksheets/. Never put real assets under a splat path.
 
-# The worksheet hub URL.  Public URL is /worksheet (singular). The actual
-# file is still sheets.html — we rewrite /worksheet → /sheets so the URL
-# bar shows /worksheet but the content comes from sheets.html. Old /sheets
-# and /sheets.html URLs 301-redirect to /worksheet so existing bookmarks
-# and incoming links keep working.
-# ORDER MATTERS: the 301s must come BEFORE the 200 rewrite, otherwise a
-# direct visit to /sheets would hit the rewrite first and the URL bar
-# would stay at /sheets instead of cleanly redirecting to /worksheet.
+# The worksheet hub URL.  Public URL is /worksheet (singular). The file lives
+# at worksheet.html — /worksheet resolves to it naturally via Cloudflare Pages
+# Pretty URLs, no rewrite needed. Old /sheets and /sheets.html URLs still
+# 301-redirect to /worksheet so existing bookmarks and incoming links work.
+#
+# 🚨 DO NOT re-add a `/worksheet → /sheets 200` rewrite here. A previous
+# version of this file had exactly that plus the `/sheets → /worksheet 301`
+# below, forming a rewrite-then-redirect loop. External browsers didn't see
+# it (they only follow one hop) but env.ASSETS.fetch() inside the Pages
+# Function at functions/worksheets/[slug].js processed the loop and returned
+# 404. This broke every /worksheets/<slug> share URL in production while
+# passing all local wrangler tests. The fix was to rename sheets.html →
+# worksheet.html and delete the rewrite. Do not undo either.
 /sheets                   /worksheet      301
 /sheets/                  /worksheet      301
 /sheets.html              /worksheet      301
-/worksheet                /sheets         200
 
 # Pretty URLs for /worksheets/<slug>  →  handled by the Pages Function at
 # functions/worksheets/[slug].js, which fetches the worksheet hub via
