@@ -174,19 +174,28 @@ export async function onRequest(context) {
   // the note above loadKeywords for why the Request-as-init form can misbehave.
   const upstreamUrl = new URL('/worksheet', request.url).toString();
   const upstream = await env.ASSETS.fetch(upstreamUrl);
-  if (!upstream.ok) return upstream;
+  // DIAGNOSTIC: return a plain-text error page instead of the silent 404
+  // when upstream fetch fails, so we can actually see what env.ASSETS is
+  // doing in production (local wrangler behaves differently, so silent
+  // fallthroughs have been masking every previous fix attempt).
+  if (!upstream.ok) {
+    return new Response('DEBUG: upstream /worksheet fetch failed. status=' + upstream.status + ' url=' + upstreamUrl, {
+      status: 500, headers: { 'content-type': 'text/plain', 'x-debug': 'upstream-fail' }
+    });
+  }
 
   const kw = await loadKeywords(env, request);
-  if (!kw) return env.ASSETS.fetch(request);
+  if (!kw) {
+    return new Response('DEBUG: loadKeywords returned null. upstream was OK (status=' + upstream.status + ')', {
+      status: 500, headers: { 'content-type': 'text/plain', 'x-debug': 'keywords-null' }
+    });
+  }
 
   const parsed = parseSlug(slug, kw);
   if (!parsed) {
-    // Slug doesn't match the share-URL pattern (e.g., hub pages like
-    // /worksheets/coloring, /worksheets/maze, /worksheets/tracing). Hand off
-    // to the static asset pipeline, which serves the matching hub HTML file
-    // (worksheets/<slug>.html) via Pages Pretty URLs. Falls through to a 404
-    // if no matching file exists, which is also correct.
-    return env.ASSETS.fetch(request);
+    return new Response('DEBUG: parseSlug returned null. slug=' + slug, {
+      status: 500, headers: { 'content-type': 'text/plain', 'x-debug': 'parse-null' }
+    });
   }
 
   let title, desc, vars;
