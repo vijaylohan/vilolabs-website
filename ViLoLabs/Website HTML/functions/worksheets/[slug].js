@@ -161,6 +161,20 @@ function escapeAttr(s) {
 const SITE_ORIGIN = 'https://vilolabs.in';
 
 export async function onRequest(context) {
+  try {
+    return await handleRequest(context);
+  } catch (err) {
+    // TEMPORARY: surface any uncaught error to the client so we can diagnose
+    // it in production. Cloudflare Pages' default behaviour is to hide
+    // Function exceptions behind the site's static 404 page, which has been
+    // hiding the root cause of the share-URL breakage all afternoon.
+    return new Response('DEBUG: uncaught Function exception. name=' + err.name + ' message=' + err.message + '\nstack=' + err.stack, {
+      status: 500, headers: { 'content-type': 'text/plain', 'x-debug': 'uncaught-throw' }
+    });
+  }
+}
+
+async function handleRequest(context) {
   const { request, env, params } = context;
   const slug = params.slug;
 
