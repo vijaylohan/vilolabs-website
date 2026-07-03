@@ -35,10 +35,20 @@
 
 let _kw = null;
 
-async function loadKeywords(env) {
+// BUGFIX (2026-07-03): env.ASSETS.fetch() needs a Request built against the
+// REAL incoming request's origin — a fake placeholder host ('https://
+// placeholder/...') worked in local `wrangler pages dev` (which is lenient
+// about the ASSETS binding's origin) but silently failed on Cloudflare's
+// real edge runtime, making loadKeywords() always return null in production.
+// That cascaded into every /worksheets/<slug> URL 404ing (see the `if (!kw)
+// return env.ASSETS.fetch(request)` fallback below) — this was invisible
+// during local testing because local testing never hit the real bug path.
+// Mirror the same URL-construction pattern already used for the working
+// /worksheet fetch: build relative to request.url, not a placeholder.
+async function loadKeywords(env, request) {
   if (_kw) return _kw;
   try {
-    const res = await env.ASSETS.fetch(new Request('https://placeholder/assets/seo-keywords.json'));
+    const res = await env.ASSETS.fetch(new Request(new URL('/assets/seo-keywords.json', request.url), request));
     if (!res.ok) return null;
     _kw = await res.json();
     return _kw;
@@ -168,7 +178,7 @@ export async function onRequest(context) {
   const upstream = await env.ASSETS.fetch(sheetsReq);
   if (!upstream.ok) return upstream;
 
-  const kw = await loadKeywords(env);
+  const kw = await loadKeywords(env, request);
   if (!kw) return env.ASSETS.fetch(request);
 
   const parsed = parseSlug(slug, kw);
