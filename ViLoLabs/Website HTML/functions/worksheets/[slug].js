@@ -35,20 +35,16 @@
 
 let _kw = null;
 
-// BUGFIX (2026-07-03): env.ASSETS.fetch() needs a Request built against the
-// REAL incoming request's origin — a fake placeholder host ('https://
-// placeholder/...') worked in local `wrangler pages dev` (which is lenient
-// about the ASSETS binding's origin) but silently failed on Cloudflare's
-// real edge runtime, making loadKeywords() always return null in production.
-// That cascaded into every /worksheets/<slug> URL 404ing (see the `if (!kw)
-// return env.ASSETS.fetch(request)` fallback below) — this was invisible
-// during local testing because local testing never hit the real bug path.
-// Mirror the same URL-construction pattern already used for the working
-// /worksheet fetch: build relative to request.url, not a placeholder.
+// env.ASSETS.fetch() accepts a plain URL string (or URL object). Avoiding
+// the `new Request(url, request)` pattern removes a whole class of subtle
+// Runtime issues where request init options (headers, cf metadata) can
+// interfere with the ASSETS binding's handling — the docs actually
+// recommend the plain-URL form for internal asset fetches.
 async function loadKeywords(env, request) {
   if (_kw) return _kw;
   try {
-    const res = await env.ASSETS.fetch(new Request(new URL('/assets/seo-keywords.json', request.url), request));
+    const url = new URL('/assets/seo-keywords.json', request.url).toString();
+    const res = await env.ASSETS.fetch(url);
     if (!res.ok) return null;
     _kw = await res.json();
     return _kw;
@@ -174,8 +170,10 @@ export async function onRequest(context) {
   // serve sheets.html. Fetching /worksheet hits the rewrite (200) directly,
   // returning the HTML body. Fetching /sheets would hit the 301 and break the
   // Function (upstream.ok is false on 3xx so we'd serve the redirect, not HTML).
-  const sheetsReq = new Request(new URL('/worksheet', request.url), request);
-  const upstream = await env.ASSETS.fetch(sheetsReq);
+  // Uses plain-URL form of ASSETS.fetch (not new Request(url, request)) — see
+  // the note above loadKeywords for why the Request-as-init form can misbehave.
+  const upstreamUrl = new URL('/worksheet', request.url).toString();
+  const upstream = await env.ASSETS.fetch(upstreamUrl);
   if (!upstream.ok) return upstream;
 
   const kw = await loadKeywords(env, request);
