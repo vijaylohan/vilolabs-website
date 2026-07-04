@@ -40,6 +40,12 @@ const TARGETS = [
   { name: 'tools',                   url: 'https://vilolabs.in/tools' },
   { name: 'tool-qr-generator',       url: 'https://vilolabs.in/tools/qr-generator' },
   { name: 'tool-image-to-pdf',       url: 'https://vilolabs.in/tools/image-to-pdf' },
+  { name: 'tool-pdf-to-image',       url: 'https://vilolabs.in/tools/pdf-to-image' },
+  { name: 'tool-pdf-to-word',        url: 'https://vilolabs.in/tools/pdf-to-word' },
+  { name: 'tool-merge-pdf',          url: 'https://vilolabs.in/tools/merge-pdf' },
+  { name: 'tool-compress-pdf',       url: 'https://vilolabs.in/tools/compress-pdf' },
+  { name: 'tool-compress-image',     url: 'https://vilolabs.in/tools/compress-image' },
+  { name: 'tool-resize-image',       url: 'https://vilolabs.in/tools/resize-image' },
   { name: 'about',                   url: 'https://vilolabs.in/about' },
 ];
 
