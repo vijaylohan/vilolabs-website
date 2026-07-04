@@ -127,6 +127,13 @@ Preview is also wired up in Claude Code via `.claude/launch.json` — use the Pr
 - `_headers` — security headers + cache policy (note Pages' hard 4h cap on `.js`/`.css`, see cache-busting block above)
 - `_redirects` — pretty-URL rewrites for `/worksheets/<slug>` and `/tools/<tool>/<slug>` (read the in-file warnings before editing — every rule there was learned from a production bug)
 
+**🚨 Cloudflare Pages dashboard settings (verified working 2026-07-03 — DO NOT change without testing):**
+- **Root directory:** `ViLoLabs/Website HTML`
+- **Build output:** `.` (empty / dot)
+- **Build command:** (empty — no build step, static files served as-is)
+
+**Why this exact combination matters:** Cloudflare Pages discovers `functions/` at the ROOT DIRECTORY, not the build output. Setting root directory to empty (repo root) while functions live at `ViLoLabs/Website HTML/functions/` means Cloudflare never finds them — all Function URLs return the site's static 404 page silently. This wasted ~5 hours on 2026-07-03 debugging what looked like a Function CODE bug but was actually a dashboard SETTINGS bug (share URLs 404ed in production for weeks; every code fix appeared to work in local wrangler because local wrangler discovers functions/ relative to the dev command's cwd, not via the Pages settings). Symptoms of this being broken again: any `functions/foo.js` returns 404 at `/foo` instead of running. Fix: set Root directory to `ViLoLabs/Website HTML` and Build output to `.` in the Pages project settings, then trigger a fresh deploy.
+
 ## Domain
 - **Live on `vilolabs.in`** (TLD `.in`). Email: `hello@vilolabs.in` (not provisioned yet — alias still TBD).
 - Launched + domain-switched: commit `219be47` — every `vilolabs.netlify.app` → `vilolabs.in` across sitemap, JSON-LD, canonicals, og:url, og:image.
