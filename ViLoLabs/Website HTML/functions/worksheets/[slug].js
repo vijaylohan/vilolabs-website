@@ -161,55 +161,31 @@ function escapeAttr(s) {
 const SITE_ORIGIN = 'https://vilolabs.in';
 
 export async function onRequest(context) {
-  try {
-    return await handleRequest(context);
-  } catch (err) {
-    // TEMPORARY: surface any uncaught error to the client so we can diagnose
-    // it in production. Cloudflare Pages' default behaviour is to hide
-    // Function exceptions behind the site's static 404 page, which has been
-    // hiding the root cause of the share-URL breakage all afternoon.
-    return new Response('DEBUG: uncaught Function exception. name=' + err.name + ' message=' + err.message + '\nstack=' + err.stack, {
-      status: 500, headers: { 'content-type': 'text/plain', 'x-debug': 'uncaught-throw' }
-    });
-  }
-}
-
-async function handleRequest(context) {
   const { request, env, params } = context;
   const slug = params.slug;
 
-  // Stream the worksheet hub HTML from the asset bundle. We fetch /worksheet
-  // (NOT /sheets, NOT /sheets.html). Reason: the _redirects file 301-redirects
-  // /sheets → /worksheet, and /worksheet 200-rewrites to /sheets internally to
-  // serve sheets.html. Fetching /worksheet hits the rewrite (200) directly,
-  // returning the HTML body. Fetching /sheets would hit the 301 and break the
-  // Function (upstream.ok is false on 3xx so we'd serve the redirect, not HTML).
-  // Uses plain-URL form of ASSETS.fetch (not new Request(url, request)) — see
-  // the note above loadKeywords for why the Request-as-init form can misbehave.
+  // Stream the worksheet hub HTML from the asset bundle. Fetches /worksheet
+  // (pretty URL for worksheet.html — the file was renamed from sheets.html
+  // 2026-07-03 to eliminate a redirect chain env.ASSETS.fetch was following
+  // into a loop, silently returning 404 for every share URL). Cloudflare
+  // Pages Pretty URLs resolves /worksheet to worksheet.html directly, no
+  // rewrite needed. Do not restore any /worksheet → /sheets rewrite in
+  // _redirects — see the warning block there.
   const upstreamUrl = new URL('/worksheet', request.url).toString();
   const upstream = await env.ASSETS.fetch(upstreamUrl);
-  // DIAGNOSTIC: return a plain-text error page instead of the silent 404
-  // when upstream fetch fails, so we can actually see what env.ASSETS is
-  // doing in production (local wrangler behaves differently, so silent
-  // fallthroughs have been masking every previous fix attempt).
-  if (!upstream.ok) {
-    return new Response('DEBUG: upstream /worksheet fetch failed. status=' + upstream.status + ' url=' + upstreamUrl, {
-      status: 500, headers: { 'content-type': 'text/plain', 'x-debug': 'upstream-fail' }
-    });
-  }
+  if (!upstream.ok) return upstream;
 
   const kw = await loadKeywords(env, request);
-  if (!kw) {
-    return new Response('DEBUG: loadKeywords returned null. upstream was OK (status=' + upstream.status + ')', {
-      status: 500, headers: { 'content-type': 'text/plain', 'x-debug': 'keywords-null' }
-    });
-  }
+  if (!kw) return env.ASSETS.fetch(request);
 
   const parsed = parseSlug(slug, kw);
   if (!parsed) {
-    return new Response('DEBUG: parseSlug returned null. slug=' + slug, {
-      status: 500, headers: { 'content-type': 'text/plain', 'x-debug': 'parse-null' }
-    });
+    // Slug doesn't match the share-URL pattern (e.g., hub pages like
+    // /worksheets/coloring, /worksheets/maze, /worksheets/tracing). Hand off
+    // to the static asset pipeline, which serves the matching hub HTML file
+    // (worksheets/<slug>.html) via Pages Pretty URLs. Falls through to a 404
+    // if no matching file exists, which is also correct.
+    return env.ASSETS.fetch(request);
   }
 
   let title, desc, vars;
