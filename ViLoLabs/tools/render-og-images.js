@@ -36,6 +36,7 @@ const TARGETS = [
   { name: 'pulse',                   url: 'https://vilolabs.in/pulse' },
   { name: 'blog-gold-prices',        url: 'https://vilolabs.in/blog/gold-prices-india-2026' },
   { name: 'blog-petrol-india',       url: 'https://vilolabs.in/blog/petrol-prices-india-2025' },
+  { name: 'blog-petrol-india-2026',  url: 'https://vilolabs.in/blog/petrol-prices-india-2026' },
   { name: 'blog-petrol-neighbors',   url: 'https://vilolabs.in/blog/petrol-prices-neighboring-countries-2026' },
   { name: 'tools',                   url: 'https://vilolabs.in/tools' },
   { name: 'tool-qr-generator',       url: 'https://vilolabs.in/tools/qr-generator' },

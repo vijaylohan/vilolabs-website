@@ -32,37 +32,98 @@ const PAGE_SIZE = 1000;  // Supabase REST default max per request
 // ── Curated static pages (kept hardcoded — these don't live in any DB) ──
 // priority/changefreq tuned to signal hierarchy to Google.
 const STATIC = [
-  { loc: '/',                         priority: '1.0',  changefreq: 'weekly'  },
-  { loc: '/about',                      priority: '0.7',  changefreq: 'monthly' },
+  { loc: '/',                         priority: '1.0',  changefreq: 'weekly',
+    // Google Image Sitemap extension — each entry references a real image
+    // on this page. Caption describes the image, not the page (Google spec).
+    // Every OG snapshot is publicly reachable at the loc below (verified
+    // 200 OK in production 2026-07-03) and matches the <meta property="og:image">
+    // baked into the page's HTML. See tools/render-og-images.js for how each
+    // was captured. Removing an image URL from disk without removing it here
+    // creates a broken sitemap entry — always keep them in sync.
+    images: [{ loc: '/assets/og/og-home.webp',
+      caption: 'ViLoLabs — practical tools, sharp insights, made in India' }] },
+  { loc: '/about',                      priority: '0.7',  changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-about.webp',
+      caption: 'About ViLoLabs — solo developer building free tools and blog' }] },
   // /worksheet is the primary ranking target — has visible content + HowTo +
   // FAQPage JSON-LD baked into sheets.html (which is rewritten under the
   // /worksheet URL via _redirects). Every /worksheets/<slug> URL serves the
   // same HTML but with robots:noindex,follow set by the Pages Function, so
   // /worksheet is the only indexable URL in the worksheets cluster. The old
   // /sheets URL 301-redirects to /worksheet for backward compatibility.
+  //
+  // Two images on this page: the small in-page hero-picker thumbnail (real
+  // <img> tag inside the mini-gallery), and the OG snapshot (only referenced
+  // in <meta>). Google's image sitemap spec allows up to 1,000 images per
+  // URL entry; both listed here for maximum indexability.
   { loc: '/worksheet',                priority: '1.0',  changefreq: 'weekly',
-    // Google Image Sitemap extension — one entry per real <img> on the page.
-    // caption doubles as the image's descriptive text for Google (separate
-    // from the on-page alt attribute, but should say the same thing).
     images: [
       { loc: '/assets/hero/worksheet-picker.webp',
         caption: 'ViLo Worksheets generator — pick a level from Pre-KG to Class 5, plus Colouring, Sudoku, Maze, and Math Master. Unlimited free generations, 5 to 15 pages each.' },
+      { loc: '/assets/og/og-worksheet.webp',
+        caption: 'Free printable worksheets for kids — Pre-KG to Class 5, colouring, mazes, sudoku, math, tracing, all free' },
     ] },
   { loc: '/worksheets/',              priority: '0.6',  changefreq: 'monthly' },
-  { loc: '/tools',                      priority: '0.9',  changefreq: 'weekly'  },
+  { loc: '/tools',                      priority: '0.9',  changefreq: 'weekly',
+    images: [{ loc: '/assets/og/og-tools.webp',
+      caption: 'Free online tools by ViLoLabs — image, PDF, and QR utilities that run in your browser' }] },
   { loc: '/app',                        priority: '0.7',  changefreq: 'monthly' },
-  { loc: '/pulse',                      priority: '0.9',  changefreq: 'daily'   },
-  { loc: '/tools/image-to-pdf',         priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/merge-pdf',            priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/resize-image',         priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/compress-image',       priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/compress-pdf',         priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/qr-generator',         priority: '0.85', changefreq: 'monthly' },
-  { loc: '/tools/pdf-to-word',          priority: '0.85', changefreq: 'monthly' },
+  { loc: '/pulse',                      priority: '0.9',  changefreq: 'daily',
+    images: [{ loc: '/assets/og/og-pulse.webp',
+      caption: 'ViLoLabs Pulse — data-driven blog with interactive charts on Indian markets and prices' }] },
+  { loc: '/tools/image-to-pdf',         priority: '0.85', changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-tool-image-to-pdf.webp',
+      caption: 'Free image to PDF converter — drag and drop JPG or PNG, no upload, works in browser' }] },
+  { loc: '/tools/pdf-to-image',         priority: '0.85', changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-tool-pdf-to-image.webp',
+      caption: 'Free PDF to image converter — extract each PDF page as PNG or JPG, private, no upload' }] },
+  { loc: '/tools/merge-pdf',            priority: '0.85', changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-tool-merge-pdf.webp',
+      caption: 'Free PDF merge tool — combine multiple PDFs, drag to reorder, works entirely in browser' }] },
+  { loc: '/tools/resize-image',         priority: '0.85', changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-tool-resize-image.webp',
+      caption: 'Free image resizer — passport photos, social media, exam form uploads, all in browser' }] },
+  { loc: '/tools/compress-image',       priority: '0.85', changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-tool-compress-image.webp',
+      caption: 'Free image compressor — reduce PNG or JPG size for email or upload limits, browser-based' }] },
+  { loc: '/tools/compress-pdf',         priority: '0.85', changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-tool-compress-pdf.webp',
+      caption: 'Free PDF compressor — shrink file size for email or exam form upload limits' }] },
+  { loc: '/tools/qr-generator',         priority: '0.85', changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-tool-qr-generator.webp',
+      caption: 'Free QR code generator — UPI payments, URLs, text, business cards, made in India' }] },
+  { loc: '/tools/pdf-to-word',          priority: '0.85', changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-tool-pdf-to-word.webp',
+      caption: 'Free PDF to Word text extractor — clean .docx output for Microsoft Word or LibreOffice' }] },
   { loc: '/privacy',                    priority: '0.3',  changefreq: 'yearly'  },
   { loc: '/terms',                      priority: '0.3',  changefreq: 'yearly'  },
   { loc: '/cookies',                    priority: '0.3',  changefreq: 'yearly'  },
 ];
+
+// Slug → OG image lookup for blog posts. Because blog posts come from
+// Supabase (dynamic list), their sitemap entries can't hardcode images at
+// the STATIC level like the pages above. This map is checked in the
+// blogPosts.forEach loop below and attached when a match is found. To add
+// an image for a new blog post: (1) render its OG snapshot via
+// tools/render-og-images.js, (2) add its slug + image entry here.
+const BLOG_OG = {
+  'gold-prices-india-2026': {
+    loc:     '/assets/og/og-blog-gold-prices.webp',
+    caption: 'Gold price analysis 2026 across Indian cities — IBJA data, GST, jeweller billing structures',
+  },
+  'petrol-prices-india-2025': {
+    loc:     '/assets/og/og-blog-petrol-india.webp',
+    caption: 'Petrol price trends across Indian states in 2025 — PPAC data, state-by-state breakdown',
+  },
+  'petrol-prices-india-2026': {
+    loc:     '/assets/og/og-blog-petrol-india-2026.webp',
+    caption: 'Petrol price trends across Indian states in 2026 — updated PPAC data, city-by-city breakdown',
+  },
+  'petrol-prices-neighboring-countries-2026': {
+    loc:     '/assets/og/og-blog-petrol-neighbors.webp',
+    caption: 'Petrol prices 2026: India vs Pakistan, Sri Lanka, Nepal, Bangladesh — comparative analysis',
+  },
+};
 
 // ── Fetch paginated table from Supabase ─────────────────────────
 async function fetchAll(table, columns) {
@@ -181,13 +242,20 @@ function urlEntry({ loc, lastmod, priority, changefreq, images }) {
     changefreq: 'monthly',
   }));
 
-  // Blog posts — high priority, weekly changefreq (data posts get updated)
-  blogPosts.forEach(b => allEntries.push({
-    loc: '/blog/' + b.slug,
-    lastmod: b.published_at,
-    priority: '0.8',
-    changefreq: 'weekly',
-  }));
+  // Blog posts — high priority, weekly changefreq (data posts get updated).
+  // Image lookup from BLOG_OG (declared above) attaches per-post OG snapshot
+  // as an image sitemap entry if one exists for that slug. Slugs without a
+  // rendered OG snapshot get a plain <url> entry (no image).
+  blogPosts.forEach(b => {
+    const entry = {
+      loc: '/blog/' + b.slug,
+      lastmod: b.published_at,
+      priority: '0.8',
+      changefreq: 'weekly',
+    };
+    if (BLOG_OG[b.slug]) entry.images = [BLOG_OG[b.slug]];
+    allEntries.push(entry);
+  });
 
   const total = allEntries.length;
   console.log('\n> Writing sitemap.xml (' + total + ' URLs)');
