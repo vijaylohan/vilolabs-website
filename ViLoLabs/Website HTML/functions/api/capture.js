@@ -58,6 +58,7 @@ async function handle({ request, env }) {
   try { form = await request.formData(); } catch { return json(400, { error: 'bad form' }); }
   const slug     = String(form.get('slug') || '').trim();
   const activity = String(form.get('activity') || '').trim();
+  const subject  = String(form.get('subject') || '').trim();
   const image    = form.get('image');
 
   // 5. Activity honesty gate
@@ -109,7 +110,7 @@ async function handle({ request, env }) {
   if (!up.ok) return json(500, { error: 'storage upload failed' });
 
   const publicUrl = `${SITE}/captures/${storagePath}`;
-  const altText   = buildAlt(slug, activity);
+  const altText   = buildAlt(slug, activity, subject);
 
   // 11. Insert DB row. If it fails, compensate by deleting the just-uploaded blob.
   const ins = await sb('/rest/v1/captured_worksheets', {
@@ -158,14 +159,27 @@ function countFrom(res) {
   return m ? parseInt(m[1], 10) : 0;
 }
 
-// Human, theme-level alt text. Unique per theme; the duplicate-slug guard +
-// near-duplicate rejection (handoff open-q #5) keep visually-identical dups out.
-// Refine in session 2 with the full parsed slug params if needed.
-function buildAlt(slug, activity) {
+// Alt text. Prefer the actual page SUBJECT sent by the client (e.g. "Dog" from a
+// "Colour Dog" page) → matches what's IN the image + unique per capture. Falls
+// back to a slug-derived description for pages with no clear subject (maze/sudoku).
+function buildAlt(slug, activity, subject) {
   const label = { colouring: 'colouring', maze: 'maze', sudoku: 'sudoku' }[activity] || activity;
+  const clean = sanitizeSubject(subject);
+  if (clean) {
+    return `${clean} — a free printable ${label} worksheet (sample page) from ViLo Worksheets`;
+  }
   const words = slug.replace(/-[a-z0-9]{5,}$/i, '').replace(/-/g, ' ').trim();
   const human = words ? words.charAt(0).toUpperCase() + words.slice(1) : 'Printable';
   return `${human} — a free printable ${label} worksheet sample page from ViLo Worksheets`;
+}
+
+// Never trust client text in an alt attribute: strip anything HTML-ish/control,
+// collapse whitespace, cap length. HTMLRewriter escapes on inject too, but this
+// keeps the stored value clean and safe.
+function sanitizeSubject(s) {
+  if (!s) return '';
+  const cleaned = s.replace(/[<>&"'`\r\n\t]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 60);
+  return cleaned;
 }
 
 function json(status, obj) {

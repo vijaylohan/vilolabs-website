@@ -2236,6 +2236,21 @@ const _WS_CAP_ELIGIBLE = new Set(['colouring','maze','sudoku']);
 function _wsCaptureEligible(){
   return _WS_CAP_ELIGIBLE.has(curLvl) && !!(_wsCurrentMeta && _wsCurrentMeta.slug);
 }
+// Best-effort subject of a worksheet page (e.g. "Dog" from a "Colour Dog 🐶"
+// page) so the capture's alt text matches what's actually IN the image — unique
+// + accurate for Google Images. Returns null for pages with no clear subject
+// (maze/sudoku), where the Function falls back to a slug-derived description.
+function _wsPageSubject(el){
+  try{
+    const t=el && el.querySelector('.col-title-main');
+    if(!t) return null;
+    let s=t.textContent
+      .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/gu,'') // emoji/arrows
+      .replace(/colou?r(ing)?/ig,'')   // drop "Colour"/"Colouring" verb
+      .replace(/[!:.]/g,'').trim();
+    return s || null;
+  }catch(e){ return null; }
+}
 // Own-render path — Share + browser Print (no concurrent html2canvas running).
 async function _wsMaybeCapture(){
   try{
@@ -2244,17 +2259,17 @@ async function _wsMaybeCapture(){
     const el=document.querySelector('.ws-page.act');
     if(!el) return;
     const cv=await html2canvas(el,{scale:1.5,backgroundColor:'#ffffff',useCORS:true,logging:false});
-    await _wsUploadCapture(cv);
+    await _wsUploadCapture(cv, _wsPageSubject(el));
   }catch(e){/* silent — background enhancement only */}
 }
 // Reuse path — PDF button hands us the page-1 canvas it already rendered (no race).
-async function _wsMaybeCaptureFromCanvas(cv){
+async function _wsMaybeCaptureFromCanvas(cv, subject){
   try{
     if(_wsCaptureDone || !_wsCaptureEligible() || !cv) return;
-    await _wsUploadCapture(cv);
+    await _wsUploadCapture(cv, subject);
   }catch(e){/* silent */}
 }
-async function _wsUploadCapture(cv){
+async function _wsUploadCapture(cv, subject){
   // Downscale wide canvases to ~900px — keeps blobs well under the 500KB server
   // cap and gives a sensible Google-Images resolution without shipping a 1.5k px PDF page.
   let out=cv;
@@ -2275,6 +2290,7 @@ async function _wsUploadCapture(cv){
   const fd=new FormData();
   fd.append('slug',_wsCurrentMeta.slug);
   fd.append('activity',curLvl);
+  if(subject) fd.append('subject',subject);
   fd.append('image',blob,_wsCurrentMeta.slug+'.webp');
   const res=await fetch('/api/capture',{method:'POST',body:fd});
   if(res.ok){ _wsCaptureDone=true; localStorage.setItem(k,String(n+1)); }
@@ -4505,7 +4521,7 @@ async function generatePDF(){
       // scale:2 ≈ 190 DPI at A4 — crisp for clipart/line-art worksheets, ~2× faster
       // and a much smaller file than scale:3. imageTimeout caps a stuck image.
       const cv=await html2canvas(pages[i],{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false,imageTimeout:8000});
-      if(i===0) _wsMaybeCaptureFromCanvas(cv);   // reuse page-1 canvas for auto-capture (no race, no extra render)
+      if(i===0) _wsMaybeCaptureFromCanvas(cv, _wsPageSubject(pages[0]));   // reuse page-1 canvas for auto-capture (no race, no extra render)
       if(i>0)pdf.addPage();
       pdf.addImage(cv.toDataURL('image/jpeg',0.94),'JPEG',0,0,210,297);
       // yield to the browser between pages so the loader/UI stays responsive
