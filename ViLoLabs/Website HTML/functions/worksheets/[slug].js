@@ -204,8 +204,9 @@ export async function onRequest(context) {
   // every /worksheets/<slug> exists for sharing only and never competes for
   // search positions. "follow" still passes link-equity from any incoming
   // pin / backlink into /sheets via the in-page hub navigation.
+  // NOTE: description is REPLACED via HTMLRewriter below (worksheet.html now ships
+  // a static <meta name="description">), not appended here — avoids a duplicate tag.
   const headInjection = [
-    `<meta name="description" content="${escapeAttr(desc)}">`,
     `<meta name="robots" content="noindex, follow">`,
     `<meta property="og:type" content="article">`,
     `<meta property="og:title" content="${escapeAttr(title)}">`,
@@ -218,6 +219,7 @@ export async function onRequest(context) {
 
   return new HTMLRewriter()
     .on('title',                            { element(el) { el.setInnerContent(title); } })
+    .on('meta[name="description"]',         { element(el) { el.setAttribute('content', desc); } })
     .on('link[rel="canonical"]',            { element(el) { el.setAttribute('href', canonicalUrl); } })
     .on('meta[property="og:url"]',          { element(el) { el.setAttribute('content', canonicalUrl); } })
     .on('head',                             { element(el) { el.append('\n' + headInjection + '\n', { html: true }); } })
