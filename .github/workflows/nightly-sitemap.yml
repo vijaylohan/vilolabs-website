@@ -1,0 +1,52 @@
+# ──────────────────────────────────────────────────────────────────
+# Nightly sitemap rebuild — picks up new auto-captured worksheet images
+# (and any new tool-share / blog rows) from Supabase and regenerates
+# Website HTML/sitemap.xml, committing only if it actually changed.
+#
+# build-sitemap.js hardcodes the public SUPABASE_URL + ANON key (read-only
+# via RLS), so no secrets are needed. The only thing this workflow needs is
+# write permission to push the regenerated sitemap.
+#
+# Cost: ~1 GitHub Actions minute/day. A no-change night exits WITHOUT a
+# commit (the git-diff guard), so it won't trigger a needless Cloudflare
+# Pages build on quiet days.
+# ──────────────────────────────────────────────────────────────────
+name: Nightly sitemap rebuild
+
+on:
+  schedule:
+    # 20:37 UTC ≈ 02:07 IST. Offset minute avoids the :00 cron stampede.
+    - cron: '37 20 * * *'
+  workflow_dispatch:   # manual "Run workflow" button in the Actions UI
+
+permissions:
+  contents: write      # default GITHUB_TOKEN is read-only; push 403s without this
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Regenerate sitemap
+        run: node tools/build-sitemap.js
+        working-directory: ViLoLabs
+
+      - name: Commit if changed
+        run: |
+          set -e
+          cd "ViLoLabs/Website HTML"
+          if git diff --quiet sitemap.xml; then
+            echo "No sitemap changes — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "nightly-bot"
+          git config user.email "actions@vilolabs.in"
+          git add sitemap.xml
+          git commit -m "nightly: refresh sitemap with new captured images"
+          git push

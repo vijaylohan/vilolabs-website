@@ -378,6 +378,11 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .page-info .mini-gallery{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin:0.4rem 0 0.6rem}
 .page-info .mini-card{width:128px;border-radius:8px;overflow:hidden;box-shadow:0 3px 10px rgba(61,43,31,.13);border:1px solid rgba(200,150,60,.18);background:#fff;flex-shrink:0}
 .page-info .mini-card img{display:block;width:100%;height:auto}
+/* "Make this worksheet →" link under auto-captured cards (injected by
+   functions/worksheet.js). The hero card has no <a>, so this only affects
+   capture cards. */
+.page-info .mini-card a{display:block;font-size:.58rem;font-weight:800;text-align:center;padding:.32rem .2rem;color:var(--gold);text-decoration:none;border-top:1px solid rgba(200,150,60,.15);line-height:1.2}
+.page-info .mini-card a:hover{background:#FFF3E0}
 /* mg-hidden = visually hidden only. The element stays in the DOM (never
    removed, never lazily fetched) so Google's crawler can still find and
    index every accumulated image — see the long comment above #wsGallery. */

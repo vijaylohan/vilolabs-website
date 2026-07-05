@@ -216,11 +216,44 @@ function urlEntry({ loc, lastmod, priority, changefreq, images }) {
     console.error('  Sitemap will be built WITHOUT blog posts.');
   }
 
+  // Auto-captured worksheet snapshots (Google Images pipeline). These are NOT
+  // separate URLs — every capture is an <image:image> child of the single
+  // /worksheet <url> entry, because that's the one page they actually render on
+  // (in #wsGallery, injected by functions/worksheet.js). Ordered newest-first,
+  // capped at 500 (matches the HARD CEILING + Google's 1,000-images-per-URL limit).
+  // Uses captured_at (not created_at) so it can't reuse fetchAll's ordering.
+  console.log('\n> Fetching captured_worksheets from Supabase ...');
+  let captures = [];
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/captured_worksheets' +
+      '?select=public_url,alt_text&retired_at=is.null&order=captured_at.desc&limit=500',
+      { headers: { apikey: SUPABASE_ANON, Authorization: 'Bearer ' + SUPABASE_ANON } });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    captures = await res.json();
+    console.log('  ' + captures.length + ' captured images');
+  } catch (e) {
+    console.error('  FAILED: ' + e.message + ' — sitemap built WITHOUT captures.');
+  }
+
   // ── Build entries ──
   const allEntries = [];
 
   // Static pages (no lastmod — they're hand-curated, signals high authority)
   STATIC.forEach(s => allEntries.push(s));
+
+  // Attach captured images to the /worksheet entry (they live in its gallery).
+  // public_url is absolute (https://vilolabs.in/captures/...); urlEntry prefixes
+  // SITE_BASE to img.loc, so strip the origin back to a path to avoid doubling.
+  if (captures.length) {
+    const wk = allEntries.find(e => e.loc === '/worksheet');
+    if (wk) {
+      wk.images = (wk.images || []).concat(
+        captures
+          .filter(c => c && c.public_url)
+          .map(c => ({ loc: c.public_url.replace(/^https?:\/\/[^/]+/, ''), caption: c.alt_text || '' }))
+      );
+    }
+  }
 
   // Curated worksheets — small handful of hand-picked ranking targets, so
   // priority is high (0.85) and changefreq is weekly (we want recrawls).
@@ -267,7 +300,7 @@ function urlEntry({ loc, lastmod, priority, changefreq, images }) {
   const body = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<!-- ViLoLabs sitemap — generated ' + new Date().toISOString() + ' by tools/build-sitemap.js -->',
-    '<!-- ' + STATIC.length + ' static · ' + worksheets.length + ' worksheets · ' + shares.length + ' tool shares -->',
+    '<!-- ' + STATIC.length + ' static · ' + worksheets.length + ' worksheets · ' + shares.length + ' tool shares · ' + captures.length + ' captured images -->',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
     allEntries.map(urlEntry).join('\n'),
     '</urlset>',

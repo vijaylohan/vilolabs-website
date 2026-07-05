@@ -34,6 +34,9 @@ ViLoLabs/Website HTML/.wrangler/
 .env
 .env.local
 .env.*.local
+# Wrangler local Function env (may hold secrets — keep local only)
+.dev.vars
+**/.dev.vars
 
 # Claude Code session files
 .claude/projects/
