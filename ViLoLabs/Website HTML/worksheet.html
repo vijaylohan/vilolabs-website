@@ -2869,6 +2869,11 @@ function buildMazeAll(container,nav){
     const dot=document.createElement('button');dot.className='pg-dot';dot.innerHTML='🗝️';dot.onclick=()=>showPage(5);nav.appendChild(dot);
   }
 }
+// Shared kid-friendly line palette for mazes + Math Master shapes. Saturated,
+// medium-dark tones chosen so they stay legible even when printed on a B&W
+// printer (each reduces to a distinct grey). Makes worksheets look livelier on
+// screen + in the Google-Images gallery without hurting print clarity.
+const WS_LINE_COLORS=['#2B6CB0','#2E8B57','#7C3AED','#DD6B20','#D53F8C','#0E7C86','#C2410C','#4F46E5'];
 // build ONE maze → its data + an <svg> string. decoy only when allowed (1-up, age 12+)
 function buildOneMaze(sp,shape,allowDecoy){
   const size=sp.size,cols=size,rows=size;
@@ -2907,8 +2912,9 @@ function buildOneMaze(sp,shape,allowDecoy){
     ?`<polygon points="${eC*cs+cs*0.16},${(eR+0.5)*cs-aT} ${eC*cs+cs*0.16},${(eR+0.5)*cs+aT} ${eC*cs+cs*0.16+aL},${(eR+0.5)*cs}" fill="#2E9E62"/>`
     :`<polygon points="${(eC+0.5)*cs-aT},${eR*cs+cs*0.16} ${(eC+0.5)*cs+aT},${eR*cs+cs*0.16} ${(eC+0.5)*cs},${eR*cs+cs*0.16+aL}" fill="#2E9E62"/>`;
   const sw=Math.max(1.5,cs*0.18);
+  const wallCol=WS_LINE_COLORS[rnd(0,WS_LINE_COLORS.length-1)];   // each maze a different colour
   const svgEl=`<svg viewBox="${-pad} ${-pad} ${W+pad*2} ${H+pad*2}" class="mz-svg">
-    <path d="${mazeWallPath(mz,cs)}" stroke="#1A1108" stroke-width="${sw}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${mazeWallPath(mz,cs)}" stroke="${wallCol}" stroke-width="${sw}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     ${arrowEl}
     <text x="${sx}" y="${sy+fs*0.38}" text-anchor="middle" font-size="${fs}">${pair.s}</text>
     <text x="${ex}" y="${ey+fs*0.38}" text-anchor="middle" font-size="${fs}">${pair.e}</text>
@@ -3390,6 +3396,8 @@ function mmDeriveEq(anchorVal, slot, op, cfg){
 }
 
 function buildMMCrossword(idx,items,compact){
+  // Per-page accent so each page's boxes/circles get a different colour (was uniform gold).
+  const mmAccent=WS_LINE_COLORS[(idx+ (curLvl.length))%WS_LINE_COLORS.length];
   let cfg=({'mm-2':{ops:['+'],          opMax:5,facMax:5,maxV:18,target:8 ,R:4},
             'mm-3':{ops:['+','−'],      opMax:7,facMax:5,maxV:30,target:12,R:5},
             'mm-4':{ops:['+','−'],      opMax:9,facMax:5,maxV:50,target:16,R:6},
@@ -3530,7 +3538,7 @@ function buildMMCrossword(idx,items,compact){
   };
   function shapedCell(isBlank,text,isOp){
     const fill=isBlank?'#FFFFFF':(isOp?'#FFFDF6':'#FFF4D6');
-    const stroke='#C8963C';
+    const stroke=mmAccent;   // per-page accent (Class 2-5) — colourful box/circle outlines
     const textColor=isOp?'#9A6A12':'#5C3A00';
     const fontSize=isOp?44:50;
     const shapeEl=shape==='circle'
