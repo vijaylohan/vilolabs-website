@@ -2230,16 +2230,34 @@ function _wsPushIfCommitted(){
 }
 
 // ── Auto-capture (Google Images pipeline — see HANDOFF-auto-capture.md) ──────
-// On a genuine commit (Share / Print / PDF) of a single-focus worksheet, snapshot
-// page 1 and POST it to /api/capture. Fire-and-forget, fully silent on any error —
-// it must NEVER interfere with the user's Share/Print/PDF. Server re-validates
-// everything (activity, size, caps, dedupe); the client checks are just to avoid
-// pointless uploads. Eligibility is gated on curLvl DIRECTLY, not
-// _wsCurrentConfig().activity (which maps Math Master → 'mix'); Math Master is
-// deferred, so only colouring/maze/sudoku are eligible.
-const _WS_CAP_ELIGIBLE = new Set(['colouring','maze','sudoku']);
+// On a genuine commit (Share / Print / PDF), snapshot page 1 and POST it to
+// /api/capture. Fire-and-forget, fully silent on any error — it must NEVER
+// interfere with the user's Share/Print/PDF. Server re-validates everything
+// (activity, size, caps, dedupe); the client checks just avoid pointless uploads.
+// Gated on curLvl DIRECTLY (not _wsCurrentConfig().activity). Eligible:
+//   colouring / maze / sudoku  → single-focus, sent as-is
+//   prekg / kg / 1..5          → honest MIX worksheets, sent as 'worksheet'
+// Math Master (mm-*) is NOT eligible here — it has no honest slug identity yet
+// (its URL falls back to a grade-1 slug), so capturing it would mislabel the
+// image + break the "Make this worksheet" link. Added once it has a real slug.
+const _WS_CAP_SINGLE = new Set(['colouring','maze','sudoku']);
+const _WS_CAP_GRADES = new Set(['prekg','kg','1','2','3','4','5']);
+// Normalized capture type — also the DB `activity` value. null = not eligible.
+function _wsCaptureType(){
+  if(_WS_CAP_SINGLE.has(curLvl)) return curLvl;
+  if(_WS_CAP_GRADES.has(curLvl)) return 'worksheet';
+  return null;
+}
 function _wsCaptureEligible(){
-  return _WS_CAP_ELIGIBLE.has(curLvl) && !!(_wsCurrentMeta && _wsCurrentMeta.slug);
+  return _wsCaptureType()!==null && !!(_wsCurrentMeta && _wsCurrentMeta.slug);
+}
+// Alt-text lead. Colouring → the picture subject ("Apple"). Grade mixes have no
+// single subject, so use the level label ("Class 1") — honest for a mix page.
+// Maze/sudoku → null (the slug-derived description is clean enough).
+function _wsCaptureSubject(el){
+  if(curLvl==='colouring') return _wsPageSubject(el);
+  if(_WS_CAP_GRADES.has(curLvl)) return (typeof LEVEL_NAMES!=='undefined' && LEVEL_NAMES[curLvl]) || null;
+  return null;
 }
 // Best-effort subject of a worksheet page (e.g. "Dog" from a "Colour Dog 🐶"
 // page) so the capture's alt text matches what's actually IN the image — unique
@@ -2264,17 +2282,17 @@ async function _wsMaybeCapture(){
     const el=document.querySelector('.ws-page.act');
     if(!el) return;
     const cv=await html2canvas(el,{scale:1.5,backgroundColor:'#ffffff',useCORS:true,logging:false});
-    await _wsUploadCapture(cv, _wsPageSubject(el));
+    await _wsUploadCapture(cv, _wsCaptureSubject(el), _wsCaptureType());
   }catch(e){/* silent — background enhancement only */}
 }
 // Reuse path — PDF button hands us the page-1 canvas it already rendered (no race).
-async function _wsMaybeCaptureFromCanvas(cv, subject){
+async function _wsMaybeCaptureFromCanvas(cv, subject, type){
   try{
     if(_wsCaptureDone || !_wsCaptureEligible() || !cv) return;
-    await _wsUploadCapture(cv, subject);
+    await _wsUploadCapture(cv, subject, type);
   }catch(e){/* silent */}
 }
-async function _wsUploadCapture(cv, subject){
+async function _wsUploadCapture(cv, subject, type){
   // Downscale wide canvases to ~900px — keeps blobs well under the 500KB server
   // cap and gives a sensible Google-Images resolution without shipping a 1.5k px PDF page.
   let out=cv;
@@ -2294,7 +2312,7 @@ async function _wsUploadCapture(cv, subject){
   if(n>=5) return;
   const fd=new FormData();
   fd.append('slug',_wsCurrentMeta.slug);
-  fd.append('activity',curLvl);
+  fd.append('activity',type);
   if(subject) fd.append('subject',subject);
   fd.append('image',blob,_wsCurrentMeta.slug+'.webp');
   const res=await fetch('/api/capture',{method:'POST',body:fd});
@@ -4526,7 +4544,7 @@ async function generatePDF(){
       // scale:2 ≈ 190 DPI at A4 — crisp for clipart/line-art worksheets, ~2× faster
       // and a much smaller file than scale:3. imageTimeout caps a stuck image.
       const cv=await html2canvas(pages[i],{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false,imageTimeout:8000});
-      if(i===0) _wsMaybeCaptureFromCanvas(cv, _wsPageSubject(pages[0]));   // reuse page-1 canvas for auto-capture (no race, no extra render)
+      if(i===0) _wsMaybeCaptureFromCanvas(cv, _wsCaptureSubject(pages[0]), _wsCaptureType());   // reuse page-1 canvas for auto-capture (no race, no extra render)
       if(i>0)pdf.addPage();
       pdf.addImage(cv.toDataURL('image/jpeg',0.94),'JPEG',0,0,210,297);
       // yield to the browser between pages so the loader/UI stays responsive

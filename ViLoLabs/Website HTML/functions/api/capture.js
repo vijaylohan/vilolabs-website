@@ -20,7 +20,10 @@
 // touches git or the client. The anon key can only READ active rows (RLS).
 // ============================================================================
 
-const ALLOWED   = new Set(['colouring', 'maze', 'sudoku']); // Amendment 4
+// colouring/maze/sudoku = single-focus; worksheet = a class-wise mix sheet
+// (Pre-KG–Class 5); math = Math Master. The client normalizes curLvl to one of
+// these before sending. Must stay in sync with the DB CHECK constraint.
+const ALLOWED   = new Set(['colouring', 'maze', 'sudoku', 'worksheet', 'math']);
 const DAILY_CAP = 5;
 const TOTAL_CAP = 500;
 const MAX_BYTES = 500 * 1024;
@@ -163,14 +166,16 @@ function countFrom(res) {
 // "Colour Dog" page) → matches what's IN the image + unique per capture. Falls
 // back to a slug-derived description for pages with no clear subject (maze/sudoku).
 function buildAlt(slug, activity, subject) {
-  const label = { colouring: 'colouring', maze: 'maze', sudoku: 'sudoku' }[activity] || activity;
+  // '' → the word "worksheet" alone (grade mixes aren't a single activity).
+  const label = { colouring: 'colouring ', maze: 'maze ', sudoku: 'sudoku ', worksheet: '', math: 'math ' }[activity];
+  const lbl = label != null ? label : (activity + ' ');
   const clean = sanitizeSubject(subject);
   if (clean) {
-    return `${clean} — a free printable ${label} worksheet (sample page) from ViLo Worksheets`;
+    return `${clean} — a free printable ${lbl}worksheet (sample page) from ViLo Worksheets`;
   }
   const words = slug.replace(/-[a-z0-9]{5,}$/i, '').replace(/-/g, ' ').trim();
   const human = words ? words.charAt(0).toUpperCase() + words.slice(1) : 'Printable';
-  return `${human} — a free printable ${label} worksheet sample page from ViLo Worksheets`;
+  return `${human} — a free printable ${lbl}worksheet sample page from ViLo Worksheets`;
 }
 
 // Never trust client text in an alt attribute: strip anything HTML-ish/control,
