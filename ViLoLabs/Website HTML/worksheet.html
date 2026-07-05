@@ -2024,6 +2024,7 @@ window.addEventListener('load',()=>onPcChange(5));
 function doBrowserPrint(){
   if(!_wsReady){showToast('Almost there — the worksheet is still loading. Try again in a second.');return;}
   _wsPushIfCommitted();
+  _wsMaybeCapture();   // fire-and-forget snapshot (own render; safe — no PDF running)
   document.querySelectorAll('.ws-page').forEach(p=>p.style.display='block');
   setTimeout(()=>{
     window.print();
@@ -2195,6 +2196,7 @@ async function _wsUpdateUrlAfterGenerate(seed){
     category:cfg.category, seed, libVersion:LIB_VERSION
   };
   _wsPushed = false;
+  _wsCaptureDone = false;   // new worksheet → allow one fresh auto-capture
   _showGenNudge();   // surface the share nudge with the fresh worksheet URL
 }
 
@@ -2214,11 +2216,69 @@ function _showGenNudge(){
 // no matter how many times the user prints or shares. Resets on each regenerate.
 let _wsCurrentMeta = null;
 let _wsPushed = false;
+let _wsCaptureDone = false;   // one auto-capture per generation; reset on regenerate
 function _wsPushIfCommitted(){
   if(_wsPushed || !_wsCurrentMeta || !window.ViloDB) return;
   const m = _wsCurrentMeta;
   ViloDB.saveWorksheet(m.slug, m.activity, m.grade, m.category, m.seed, m.libVersion);
   _wsPushed = true;
+}
+
+// ── Auto-capture (Google Images pipeline — see HANDOFF-auto-capture.md) ──────
+// On a genuine commit (Share / Print / PDF) of a single-focus worksheet, snapshot
+// page 1 and POST it to /api/capture. Fire-and-forget, fully silent on any error —
+// it must NEVER interfere with the user's Share/Print/PDF. Server re-validates
+// everything (activity, size, caps, dedupe); the client checks are just to avoid
+// pointless uploads. Eligibility is gated on curLvl DIRECTLY, not
+// _wsCurrentConfig().activity (which maps Math Master → 'mix'); Math Master is
+// deferred, so only colouring/maze/sudoku are eligible.
+const _WS_CAP_ELIGIBLE = new Set(['colouring','maze','sudoku']);
+function _wsCaptureEligible(){
+  return _WS_CAP_ELIGIBLE.has(curLvl) && !!(_wsCurrentMeta && _wsCurrentMeta.slug);
+}
+// Own-render path — Share + browser Print (no concurrent html2canvas running).
+async function _wsMaybeCapture(){
+  try{
+    if(_wsCaptureDone || !_wsCaptureEligible() || !window.html2canvas) return;
+    if(_pdfBusy || document.body.classList.contains('pdfmode')) return; // don't race the PDF engine
+    const el=document.querySelector('.ws-page.act');
+    if(!el) return;
+    const cv=await html2canvas(el,{scale:1.5,backgroundColor:'#ffffff',useCORS:true,logging:false});
+    await _wsUploadCapture(cv);
+  }catch(e){/* silent — background enhancement only */}
+}
+// Reuse path — PDF button hands us the page-1 canvas it already rendered (no race).
+async function _wsMaybeCaptureFromCanvas(cv){
+  try{
+    if(_wsCaptureDone || !_wsCaptureEligible() || !cv) return;
+    await _wsUploadCapture(cv);
+  }catch(e){/* silent */}
+}
+async function _wsUploadCapture(cv){
+  // Downscale wide canvases to ~900px — keeps blobs well under the 500KB server
+  // cap and gives a sensible Google-Images resolution without shipping a 1.5k px PDF page.
+  let out=cv;
+  const TARGET=900;
+  if(cv.width>TARGET){
+    const s=TARGET/cv.width, t=document.createElement('canvas');
+    t.width=Math.round(cv.width*s); t.height=Math.round(cv.height*s);
+    t.getContext('2d').drawImage(cv,0,0,t.width,t.height);
+    out=t;
+  }
+  const blob=await new Promise(r=>out.toBlob(r,'image/webp',0.82));
+  if(!blob || blob.size>500*1024 || blob.size<200) return;
+  // Soft daily cap (UTC to match the server) — avoids pointless uploads past 5/day.
+  const today=new Date().toISOString().slice(0,10);
+  const k='_wsCapCount_'+today;
+  const n=parseInt(localStorage.getItem(k)||'0',10);
+  if(n>=5) return;
+  const fd=new FormData();
+  fd.append('slug',_wsCurrentMeta.slug);
+  fd.append('activity',curLvl);
+  fd.append('image',blob,_wsCurrentMeta.slug+'.webp');
+  const res=await fetch('/api/capture',{method:'POST',body:fd});
+  if(res.ok){ _wsCaptureDone=true; localStorage.setItem(k,String(n+1)); }
+  else if(res.status===409){ _wsCaptureDone=true; } // server already has this slug — stop retrying
 }
 
 // ── Share (shared component /assets/share.js) ───────────────────
@@ -2268,6 +2328,7 @@ function _mountShare(sel, hook, rowOnly){
 // Toolbar Share: on phones fire the native sheet directly (one tap → WhatsApp,
 // Copy & every app); on desktop open the popover with the explicit button row.
 function onToolbarShare(){
+  _wsMaybeCapture();   // fire-and-forget snapshot on Share intent (own render)
   if(window.ViloShare && ViloShare.canNative()){
     ViloShare.nativeShare({url:_currentSheetUrl(), title:document.title, text:_shareMsg(), tail:_shareTail(), before:_wsPushIfCommitted});
   } else {
@@ -4444,6 +4505,7 @@ async function generatePDF(){
       // scale:2 ≈ 190 DPI at A4 — crisp for clipart/line-art worksheets, ~2× faster
       // and a much smaller file than scale:3. imageTimeout caps a stuck image.
       const cv=await html2canvas(pages[i],{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false,imageTimeout:8000});
+      if(i===0) _wsMaybeCaptureFromCanvas(cv);   // reuse page-1 canvas for auto-capture (no race, no extra render)
       if(i>0)pdf.addPage();
       pdf.addImage(cv.toDataURL('image/jpeg',0.94),'JPEG',0,0,210,297);
       // yield to the browser between pages so the loader/UI stays responsive
