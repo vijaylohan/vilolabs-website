@@ -2075,7 +2075,16 @@ function regen(){
 // Picks an honest (activity,grade,category) triple from current state.
 // For mixed-content modes (Grade 1-5), category is forced to 'mix' so the URL
 // never claims a single theme that the worksheet doesn't actually have.
+// Math Master difficulty (mm-*) → school-grade key, so a Math Master worksheet
+// gets an HONEST slug: activity 'math' + a real grade (e.g. math-worksheets-grade-1).
+// Reverse map (_MM_GRADE_REV) restores the exact mm-* level from a shared URL.
+const _MM_GRADE   = {'mm-lkg':'prekg','mm-ukg':'kg','mm-1':'1','mm-2':'2','mm-3':'3','mm-4':'4','mm-5':'5'};
+const _MM_GRADE_REV = {'prekg':'mm-lkg','kg':'mm-ukg','1':'mm-1','2':'mm-2','3':'mm-3','4':'mm-4','5':'mm-5'};
 function _wsCurrentConfig(){
+  // Math Master → its own 'math' activity + mapped school grade, category always mix.
+  if(isMathMaster()){
+    return {activity:'math', grade:(_MM_GRADE[curLvl]||'1'), category:'mix'};
+  }
   // GRADE
   let gradeKey;
   if(curLvl==='colouring'||curLvl==='sudoku'||curLvl==='maze') gradeKey=curLvl;
@@ -2237,15 +2246,16 @@ function _wsPushIfCommitted(){
 // Gated on curLvl DIRECTLY (not _wsCurrentConfig().activity). Eligible:
 //   colouring / maze / sudoku  → single-focus, sent as-is
 //   prekg / kg / 1..5          → honest MIX worksheets, sent as 'worksheet'
-// Math Master (mm-*) is NOT eligible here — it has no honest slug identity yet
-// (its URL falls back to a grade-1 slug), so capturing it would mislabel the
-// image + break the "Make this worksheet" link. Added once it has a real slug.
+// Math Master (mm-*) → 'math'. It now has an honest slug identity (activity
+// 'math' + mapped school grade via _MM_GRADE), so the image is labelled truthfully
+// and the "Make this worksheet" link regenerates the same Math Master level.
 const _WS_CAP_SINGLE = new Set(['colouring','maze','sudoku']);
 const _WS_CAP_GRADES = new Set(['prekg','kg','1','2','3','4','5']);
 // Normalized capture type — also the DB `activity` value. null = not eligible.
 function _wsCaptureType(){
   if(_WS_CAP_SINGLE.has(curLvl)) return curLvl;
   if(_WS_CAP_GRADES.has(curLvl)) return 'worksheet';
+  if(isMathMaster()) return 'math';
   return null;
 }
 function _wsCaptureEligible(){
@@ -2257,6 +2267,8 @@ function _wsCaptureEligible(){
 function _wsCaptureSubject(el){
   if(curLvl==='colouring') return _wsPageSubject(el);
   if(_WS_CAP_GRADES.has(curLvl)) return (typeof LEVEL_NAMES!=='undefined' && LEVEL_NAMES[curLvl]) || null;
+  // Math Master: strip the "Math Master · " prefix → clean grade lead ("Class 1").
+  if(isMathMaster()) return ((typeof LEVEL_NAMES!=='undefined' && LEVEL_NAMES[curLvl])||'').replace('Math Master · ','') || null;
   return null;
 }
 // Best-effort subject of a worksheet page (e.g. "Dog" from a "Colour Dog 🐶"
@@ -2422,7 +2434,8 @@ if(window.WSeo && WSeo.loadKeywords){ try{ WSeo.loadKeywords(); }catch(e){} }
       _wsSyncSeoMeta(absUrl,t,d,idx);
     }catch(e){console.error('[WSeo] init meta sync failed:',e);}
     // Restore curLvl + curTopic state before generate()
-    curLvl=cfg.grade;
+    // Math Master slugs carry activity 'math' + a school grade → map back to mm-*.
+    curLvl = (cfg.activity==='math') ? (_MM_GRADE_REV[cfg.grade]||'mm-1') : cfg.grade;
     if(cfg.grade==='colouring') curTopic=cfg.category||'mixed';
     else curTopic='mixed';
     // Trigger generate with the seed from URL — produces identical worksheet

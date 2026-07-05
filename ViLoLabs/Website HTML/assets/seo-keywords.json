@@ -108,6 +108,7 @@
     "maze":            { "slug": "maze-worksheets",         "names": ["Maze", "Maze Puzzle"] },
     "sudoku":          { "slug": "sudoku",                  "names": ["Sudoku", "Picture Sudoku"] },
     "colouring":       { "slug": "coloring-pages",          "names": ["Coloring", "Coloring Page"] },
+    "math":            { "slug": "math-worksheets",         "names": ["Math", "Maths", "Math Practice"] },
     "trace-path":      { "slug": "tracing-worksheets",      "names": ["Path Tracing", "Tracing"] },
     "letter-trace":    { "slug": "letter-tracing",          "names": ["Letter Tracing", "Alphabet Tracing"] },
     "number-trace":    { "slug": "number-tracing",          "names": ["Number Tracing", "Number Writing"] },
