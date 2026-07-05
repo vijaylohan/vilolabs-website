@@ -63,12 +63,13 @@ const STATIC = [
       { loc: '/assets/og/og-worksheet.webp',
         caption: 'Free printable worksheets for kids — Pre-KG to Class 5, colouring, mazes, sudoku, math, tracing, all free' },
     ] },
-  { loc: '/worksheets/',              priority: '0.6',  changefreq: 'monthly' },
+  // NOTE: /worksheets/ (plural landing) is intentionally NOT in the sitemap — it's
+  // noindex,follow (single-hub strategy: /worksheet is the one ranking target).
   { loc: '/tools',                      priority: '0.9',  changefreq: 'weekly',
     images: [{ loc: '/assets/og/og-tools.webp',
       caption: 'Free online tools by ViLoLabs — image, PDF, and QR utilities that run in your browser' }] },
   { loc: '/app',                        priority: '0.7',  changefreq: 'monthly' },
-  { loc: '/pulse',                      priority: '0.9',  changefreq: 'daily',
+  { loc: '/pulse',                      priority: '0.9',  changefreq: 'weekly',
     images: [{ loc: '/assets/og/og-pulse.webp',
       caption: 'ViLoLabs Pulse — data-driven blog with interactive charts on Indian markets and prices' }] },
   { loc: '/tools/image-to-pdf',         priority: '0.85', changefreq: 'monthly',
