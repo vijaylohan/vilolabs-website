@@ -26,9 +26,14 @@ You can't steer without data. Everything later gets judged by GSC numbers.
 
 ---
 
-## STAGE 1 — Mechanical on-page fixes (one session, do immediately)
+## STAGE 1 — Mechanical on-page fixes ✅ DONE (2026-07-06, commits 46a0d0c + dba27a6)
 
-All confirmed bugs from the audit. Zero risk, pure win.
+All confirmed bugs from the audit. Zero risk, pure win. **All 7 items shipped:**
+1.1 blog 404 row deleted + sitemap rebuilt · 1.2 /worksheet outbound links ·
+1.3 all 8 tool pages cross-linked · 1.4 208 .html links → pretty URLs ·
+1.5 /worksheets/ noindex + canonical fixed + dropped from sitemap ·
+1.6 Blog + AboutPage JSON-LD · 1.7 pulse changefreq weekly.
+→ NEXT USER ACTION: re-request indexing in GSC (0.3) for /worksheet + changed pages.
 
 | # | Task | Who | Effort |
 |---|------|-----|--------|
