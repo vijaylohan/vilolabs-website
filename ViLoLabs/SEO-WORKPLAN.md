@@ -49,6 +49,16 @@ All confirmed bugs from the audit. Zero risk, pure win. **All 7 items shipped:**
 
 ---
 
+## STAGE 2 — Content depth on money pages ✅ MOSTLY DONE (2026-07-06, commit caae3de)
+
+2.1 ✅ /tools hub enriched (656→~1040 words): "Private by design" + "Made for real
+tasks" sections + 2 FAQ (with JSON-LD synced). 2.2 ✅ generic "Common uses" section
+added to all 8 tool pages (real use cases, no new capability claims). Copy kept
+GENERIC per user (no "for Indian" framing); pre-existing real-feature refs
+(govt-form size presets, UPI QR) left intact by user decision. 2.3 ⏳ DEFERRED —
+worksheet keyword pass waits for real GSC query data (few weeks out).
+
+--- original plan below ---
 ## STAGE 2 — Content depth on money pages (1-2 sessions)
 
 | # | Task | Who | Effort |
