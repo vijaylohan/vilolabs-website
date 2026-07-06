@@ -47,7 +47,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vilolabs.in/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://vilolabs.in/tools"},{"@type":"ListItem","position":3,"name":"PDF to Word","item":"https://vilolabs.in/tools/pdf-to-word"}]}
 </script>
-<style>.tested-with{display:block;margin:.7rem 0 .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:left;max-width:780px;}</style>
+<style>.tested-with{display:block;margin:.7rem auto .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:center;max-width:780px;}</style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why .doc and not .docx?","acceptedAnswer":{"@type":"Answer","text":"We export a small Word HTML file with a .doc extension — every modern Word, Google Docs and LibreOffice opens it perfectly, and the page stays tiny instead of bundling a heavy .docx library."}},{"@type":"Question","name":"Why are images and tables missing?","acceptedAnswer":{"@type":"Answer","text":"Pure-client-side PDF→Word can't reliably rebuild complex layouts. We focus on getting the text right. If your PDF is mostly text, the result will be clean."}},{"@type":"Question","name":"What about scanned PDFs?","acceptedAnswer":{"@type":"Answer","text":"Scanned PDFs are images of text, not real text. You'd need OCR for those — coming as a separate tool later."}},{"@type":"Question","name":"Are my files uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. pdf.js reads your file directly in your browser. Nothing leaves your device."}}]}
 </script>
