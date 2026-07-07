@@ -465,7 +465,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
     <p class="step-lbl" style="margin-top:1.4rem" data-i18n="step2Maze">② Customise your maze</p>
     <div class="mz-row">
       <div class="mz-lbl" data-i18n="mazeWho">👶 Who is it for?</div>
-      <input type="range" class="mz-slider" id="mzAge" min="3" max="12" step="1" value="7" oninput="updateMzAge(this.value)">
+      <input type="range" class="mz-slider" id="mzAge" min="4" max="12" step="1" value="7" oninput="updateMzAge(this.value)">
       <div class="mz-age-badge" id="mzAgeVal"><b>Age 7</b><span>⭐⭐⭐ Medium</span></div>
     </div>
     <div class="mz-row">
@@ -1052,7 +1052,10 @@ let ES = ESIZES['1'];
 const ACT_POOLS={
   prekg:['trace-path','colouring','counting-small','matching-pic','odd-one-out','pattern-ab','size-order','colour-id','shape-id','circle-match','body-part-use'],
   kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together','fruit-or-veg','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait'],
-  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','letter-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait'],
+  // Class 1 (age 6, NCERT): add 'simple-add' — single-digit addition is a
+  // core Class 1 outcome and was missing. Drop 'letter-trace' (pure KG level);
+  // keep 'word-trace' and 'number-trace' (early-Class-1 handwriting practice).
+  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','simple-add'],
   '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search','fruit-or-veg','taste-fruit','find-profession','body-part-use','use-for','animal-trait'],
   '3':  ['matching-word','things-together','odd-one-out','pattern-abc','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search','fruit-or-veg','taste-fruit','find-profession','use-for','animal-trait'],
   '4':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
@@ -3423,7 +3426,9 @@ function mmDeriveEq(anchorVal, slot, op, cfg){
 function buildMMCrossword(idx,items,compact){
   // Per-page accent so each page's boxes/circles get a different colour (was uniform gold).
   const mmAccent=WS_LINE_COLORS[(idx+ (curLvl.length))%WS_LINE_COLORS.length];
-  let cfg=({'mm-2':{ops:['+'],          opMax:5,facMax:5,maxV:18,target:8 ,R:4},
+  // Class 2 (NCERT) does both addition and 2-digit subtraction. Was '+' only,
+  // one class-level behind; now mirrors mm-3 for ops but keeps smaller ranges.
+  let cfg=({'mm-2':{ops:['+','−'],      opMax:5,facMax:5,maxV:18,target:8 ,R:4},
             'mm-3':{ops:['+','−'],      opMax:7,facMax:5,maxV:30,target:12,R:5},
             'mm-4':{ops:['+','−'],      opMax:9,facMax:5,maxV:50,target:16,R:6},
             'mm-5':{ops:['+','−','×'],  opMax:9,facMax:5,maxV:99,target:18,R:6}})[curLvl]
