@@ -113,16 +113,19 @@
     let rest = joined.slice(actMatch.slug.length).replace(/^-/, '');
 
     // 2. find grade slug match
+    // colouring/sudoku/maze all share the literal grade slug "for-kids", so a
+    // plain first-match loop always resolves to whichever key sorts first
+    // ('colouring') no matter which activity was actually matched — silently
+    // turning every maze/sudoku share URL into a colouring worksheet on restore.
+    // Fix: among tied candidates, prefer the grade whose KEY equals the already-
+    // matched activity's key (always correct by construction — those three
+    // modes set gradeKey===activityKey). Numeric grades (1-5, prekg, kg) have
+    // unique slugs, so this never changes their resolution.
     const gradeSlugs = Object.entries(kw.grades)
       .map(([key, v]) => ({ key, slug: v.slug }))
       .sort((a, b) => b.slug.length - a.slug.length);
-    let gradeMatch = null;
-    for (const g of gradeSlugs) {
-      if (rest.startsWith(g.slug + '-') || rest === g.slug) {
-        gradeMatch = g;
-        break;
-      }
-    }
+    const gradeCandidates = gradeSlugs.filter(g => rest.startsWith(g.slug + '-') || rest === g.slug);
+    const gradeMatch = gradeCandidates.find(g => g.key === actMatch.key) || gradeCandidates[0] || null;
     if (!gradeMatch) return null;
     rest = rest.slice(gradeMatch.slug.length).replace(/^-/, '');
 
@@ -142,6 +145,37 @@
     };
   }
 
+  /* ── validate: guards the slug-collision rule documented in seo-keywords.json
+   *   (see "_grades_comment"). The parseSlugWith tie-break assumes that whenever
+   *   two grade keys share a slug, at least one of them has key === some activity
+   *   key. If someone later adds e.g. grades.beginner = {slug:"for-kids"} without
+   *   matching an activity, share URLs would silently open the wrong worksheet.
+   *   This runs once per load and logs a loud console warning — cheap early
+   *   detection so the misconfig never reaches production silently. ── */
+  function validateKeywords(kw) {
+    if (!kw || !kw.grades || !kw.activities) return;
+    const actKeys = new Set(Object.keys(kw.activities).filter(k => !k.startsWith('_')));
+    // KNOWN-SAFE collisions (approved by the current design): each key here shares
+    // its grade slug with the other two AND has key === activity key, so the
+    // parseSlugWith tie-break can always resolve correctly. If you ADD a new grade
+    // to this slug, add its key here too — and make sure it matches an activity.
+    const ALLOWED_TIE = { 'for-kids': new Set(['colouring', 'sudoku', 'maze']) };
+    const bySlug = {};
+    for (const [k, v] of Object.entries(kw.grades)) {
+      if (k.startsWith('_') || !v || !v.slug) continue;
+      (bySlug[v.slug] = bySlug[v.slug] || []).push(k);
+    }
+    for (const [slug, keys] of Object.entries(bySlug)) {
+      if (keys.length < 2) continue;
+      const allowed = ALLOWED_TIE[slug];
+      const isApproved = allowed && keys.every(k => allowed.has(k));
+      const rescuable = keys.every(k => actKeys.has(k));
+      if (!isApproved || !rescuable) {
+        console.warn('[WSeo] slug-collision risk: grade slug "' + slug + '" is shared by keys [' + keys.join(', ') + ']. Share URLs using this slug can silently resolve to the wrong worksheet. Either give each grade a unique slug, or (if intentional) ensure every tied key has key === an activity key AND add it to ALLOWED_TIE in assets/worksheet-seo.js. See _grades_comment in seo-keywords.json.');
+      }
+    }
+  }
+
   /* ── keywords.json loader (cached) ── */
   let _kwCache = null;
   let _kwPromise = null;
@@ -153,7 +187,7 @@
     const url = '/assets/seo-keywords.json';
     _kwPromise = fetch(url + '?v=' + Date.now())
       .then(r => r.json())
-      .then(j => { _kwCache = j; return j; })
+      .then(j => { _kwCache = j; try { validateKeywords(j); } catch (e) {} return j; })
       .catch(() => null);
     return _kwPromise;
   }

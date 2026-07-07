@@ -100,15 +100,19 @@ function parseSlug(slug, kw) {
   if (!actMatch) return null;
   let rest = joined.slice(actMatch.slug.length).replace(/^-/, '');
 
+  // colouring/sudoku/maze all share the literal grade slug "for-kids", so a
+  // plain first-match loop always resolves to whichever key sorts first
+  // ('colouring') no matter which activity was actually matched — silently
+  // mislabeling every maze/sudoku share URL. Fix: among tied candidates, prefer
+  // the grade whose KEY equals the already-matched activity's key (always
+  // correct by construction). MUST stay identical to assets/worksheet-seo.js.
   const gradeSlugs = Object.entries(kw.grades)
     .filter(([k, v]) => !k.startsWith('_') && v && v.slug)
     .map(([key, v]) => ({ key, slug: v.slug }))
     .sort((a, b) => b.slug.length - a.slug.length);
 
-  let gradeMatch = null;
-  for (const g of gradeSlugs) {
-    if (rest.startsWith(g.slug + '-') || rest === g.slug) { gradeMatch = g; break; }
-  }
+  const gradeCandidates = gradeSlugs.filter(g => rest.startsWith(g.slug + '-') || rest === g.slug);
+  const gradeMatch = gradeCandidates.find(g => g.key === actMatch.key) || gradeCandidates[0] || null;
   if (!gradeMatch) return null;
   rest = rest.slice(gradeMatch.slug.length).replace(/^-/, '');
 

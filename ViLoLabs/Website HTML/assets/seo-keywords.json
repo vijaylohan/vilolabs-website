@@ -17,6 +17,7 @@
     "free-printable-worksheets-grade-2-food-0000010"
   ],
 
+  "_grades_comment": "🚨 SLUG COLLISION RULE (do not break, or share URLs will silently open the wrong worksheet): the single-activity modes 'colouring', 'sudoku', 'maze' all use the same grade slug 'for-kids' — that's intentional (reads naturally in every URL). The slug parser resolves the tie by preferring the grade whose KEY equals the matched activity key, which works ONLY because for these three modes grade-key === activity-key. RULES: (1) do NOT add another grade whose slug is 'for-kids' unless its key equals a matching activity key. (2) do NOT rename e.g. grades.maze's key without also renaming activities.maze's key. (3) all other grade slugs (grade-1..5, preschool, kindergarten) must stay unique — never let a numeric-grade slug collide. Enforced by a startup validator in assets/worksheet-seo.js (see validateKeywords()). Also fix functions/worksheets/[slug].js if you touch the shared parser.",
   "grades": {
     "prekg": {
       "slug": "preschool",

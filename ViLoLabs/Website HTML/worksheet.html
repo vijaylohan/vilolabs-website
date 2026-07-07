@@ -2271,6 +2271,19 @@ function _wsCaptureSubject(el){
   if(isMathMaster()) return ((typeof LEVEL_NAMES!=='undefined' && LEVEL_NAMES[curLvl])||'').replace('Math Master · ','') || null;
   return null;
 }
+// Category label for the downloaded PDF filename (e.g. "Sudoku", "Class-1",
+// "Colouring-Animals", "Math-Master-LKG"). Keeps the ViLoLabs-…-Worksheet_<stamp> shape.
+function _wsFileLabel(){
+  const clean=s=>String(s||'').replace(/[·]/g,' ').replace(/[^A-Za-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  if(curLvl==='colouring'){
+    const t=(curTopic&&curTopic!=='mixed')?'-'+clean(curTopic):'';
+    return 'Colouring'+t;
+  }
+  if(curLvl==='sudoku') return 'Sudoku';
+  if(curLvl==='maze') return 'Maze';
+  const nm=(typeof LEVEL_NAMES!=='undefined' && LEVEL_NAMES[curLvl]) ? LEVEL_NAMES[curLvl] : 'Worksheet';
+  return clean(nm) || 'Worksheet';
+}
 // Best-effort subject of a worksheet page (e.g. "Dog" from a "Colour Dog 🐶"
 // page) so the capture's alt text matches what's actually IN the image — unique
 // + accurate for Google Images. Returns null for pages with no clear subject
@@ -2634,12 +2647,17 @@ function buildSudokuPage(idx){
   svg+='<line x1="2" y1="202" x2="402" y2="202" stroke="#1A1108" stroke-width="3.5"/>';
   for(let r=0;r<4;r++)for(let c=0;c<4;c++){
     const i=r*4+c;if(blanks.has(i))continue;
-    svg+=`<image href="${pool[sol[r][c]]}" x="${2+c*100+14}" y="${2+r*100+14}" width="72" height="72"/>`;
+    // class="maze-ico" + data-ico-src → paintMazeIcons() swaps the href to a
+    // data-URI before PDF export. html2canvas can't render external hrefs inside
+    // inline SVG, so without this the grid cells come out EMPTY in the PDF.
+    svg+=`<image class="maze-ico" data-ico-src="${pool[sol[r][c]]}" href="${pool[sol[r][c]]}" x="${2+c*100+14}" y="${2+r*100+14}" width="72" height="72"/>`;
   }
   svg+='</svg>';
   // cut strip = exactly the pieces the blanks need (one per empty cell), shuffled
   const need=shuffle([...blanks].map(i=>sol[(i/4)|0][i%4]));
-  const cut=need.map(v=>`<div class="su-cut-box"><div class="su-sci">✂️</div><img src="${pool[v]}" alt=""></div>`).join('');
+  // class="wimg" → paintImages() bakes each piece into a trimmed square data-URL
+  // so it renders inside the box in the PDF too (html2canvas ignores object-fit).
+  const cut=need.map(v=>`<div class="su-cut-box"><div class="su-sci">✂️</div><img src="${pool[v]}" alt="" class="wimg"></div>`).join('');
   const title=cat.replace(/-/g,' ').toUpperCase();
   return`
     <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Sudoku</span><span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span></div>
@@ -3249,10 +3267,17 @@ function buildMMPicAdd(idx,items,compact){
     : (isLkg?5 : isUkg?8  : 13);
   const pngPool = LIB ? libPool('png') : [];
   const sourcePool = pngPool.length ? pngPool : (LIB?libPool('emoji'):[]);
-  const twoCols = compact ? false : Math.random()<0.5;
-  const allowed = twoCols
-    ? (isLkg ? ['count','add']     : isUkg ? ['count','add']     : ['add','count'])
-    : (isLkg ? ['add','add','sub'] : isUkg ? ['add','add','sub'] : ['add','sub','add','sub']);
+  // Single column only. A two-column page can't fit an "add" row (number + group +
+  // "+" + group + "=" + box = six columns) in half-page width — the image groups
+  // collapse to a few px wide and the pictures render as faint slivers. Full-width
+  // rows give every picture group room. (Re-introduce two columns only with a
+  // redesigned, count-only narrow row if ever needed.)
+  const twoCols = false;
+  // "count" is a single-image-group row (chip | group | box — 3 columns) so it's
+  // always safe at full width; restored here after being removed along with the
+  // two-column layout (it used to live ONLY in the twoCols branch). "add"/"sub"
+  // need TWO image groups side by side, which is what collapsed in two-column mode.
+  const allowed = (isLkg ? ['count','add','add','sub'] : isUkg ? ['count','add','add','sub'] : ['add','sub','add','sub','count']);
   const pattern = allowed[rnd(0,allowed.length-1)];
   const rowCount = compact ? 4 : (twoCols ? 10 : 8);
   const picks=shuffle(items.concat(sourcePool)).slice(0,rowCount);
@@ -4573,7 +4598,7 @@ async function generatePDF(){
     }
     const sd=new Date(),sp=n=>String(n).padStart(2,'0');
     const fnStamp=`${sd.getFullYear()}-${sp(sd.getMonth()+1)}-${sp(sd.getDate())}_${sp(sd.getHours())}${sp(sd.getMinutes())}${sp(sd.getSeconds())}`;
-    pdf.save(`ViLoLabs-Worksheet_${fnStamp}.pdf`);
+    pdf.save(`ViLoLabs-${_wsFileLabel()}-Worksheet_${fnStamp}.pdf`);
     showToast('PDF saved — check your downloads!');
   }catch(e){
     console.error(e);
