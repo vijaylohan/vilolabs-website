@@ -16,6 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css?v=60f1458f">
+<link rel="stylesheet" href="/assets/share.css?v=5ea038de">
+<script src="/assets/share.js?v=863dd2bd" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous"></script>
 <script type="application/ld+json">
@@ -141,6 +143,41 @@
   <p style="max-width:820px;color:rgba(245,240,232,.72);line-height:1.75">Turn a PDF back into pictures when a site only accepts JPG or PNG, when you want to share a single page in a chat, or to drop a page into a presentation or poster. Every page exports as its own high-quality image, one by one — no upload, no account.</p>
 </section>
 
+<section class="wrap section-pad" data-features>
+  <p class="sec-tag">What makes it different</p>
+  <h2 class="sec-h">Built for real <em>needs</em>.</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.6rem 2rem;margin-top:1rem;max-width:920px">
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">🎚️</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">Choose your DPI</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">From web-friendly to print-quality — you decide the resolution.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">🖼️</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">PNG or JPG per page</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Pick the format that fits your use — transparent PNG or compressed JPG.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">📄</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">Every page or just some</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Export the whole PDF or only the pages you need.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">🔒</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">100% in-browser</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Your PDF never leaves your device — extraction runs locally.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="wrap section-pad">
   <p class="sec-tag">Good to Know</p>
   <h2 class="sec-h">Common <em>questions</em>.</h2>
@@ -148,6 +185,14 @@
   <div class="faq-item"><h3>What resolution will I get?</h3><p>Pick between Standard (96 DPI), High (192 DPI) and Ultra (288 DPI). Higher DPI means larger files but sharper text and detail when printed or zoomed.</p></div>
   <div class="faq-item"><h3>Will my PDF be uploaded?</h3><p>No. pdf.js reads your file directly in your browser — nothing leaves your device.</p></div>
   <div class="faq-item"><h3>Can I download all images at once?</h3><p>Yes — click <em>Download All as ZIP</em> and we package every page into a single ZIP file. One click, one file, then extract on your device.</p></div>
+</section>
+
+<section class="wrap section-pad" data-tool-share>
+  <div style="max-width:640px;margin:0 auto;text-align:center">
+    <p class="sec-tag">Pass it on</p>
+    <h2 class="sec-h" style="margin-bottom:1.1rem">Know someone who <em>needs this</em>?</h2>
+    <div class="vshare" id="toolShare"></div>
+  </div>
 </section>
 
 <section class="wrap section-pad" data-rel-tools>
@@ -320,6 +365,16 @@ async function downloadAll(){
   setTimeout(()=>URL.revokeObjectURL(url),1500);
   const mb=(zipBlob.size/1024/1024).toFixed(2);
   statusEl.textContent=`✓ Downloaded ZIP with ${pages.length} ${fmt.toUpperCase()} pages (${mb} MB).`;
+}
+
+/* Tool-share bar (mounts once, always visible — safe to re-run) */
+if (window.ViloShare) {
+  ViloShare.mount('#toolShare', {
+    url: location.origin + '/tools/pdf-to-image',
+    title: document.title,
+    message: 'Turned each PDF page into a clean image at the DPI I chose — free and in-browser 👇',
+    hook: 'Handy? Send this tool to a friend 👇'
+  });
 }
 </script>
 </body>

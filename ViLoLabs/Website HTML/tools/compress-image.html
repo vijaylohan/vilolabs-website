@@ -16,6 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css?v=60f1458f">
+<link rel="stylesheet" href="/assets/share.css?v=5ea038de">
+<script src="/assets/share.js?v=863dd2bd" defer></script>
 <!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
 <script src="/tools/tool-seo.js?v=15e4ac1b"></script>
 <script src="/assets/db.js?v=fde68ebc"></script>
@@ -142,6 +144,41 @@
   <p style="max-width:820px;color:rgba(245,240,232,.72);line-height:1.75">Shrink a photo so it fits an email attachment limit, a chat send, or a form upload that rejects large files — while keeping the same dimensions. You choose the quality level, so you stay in control of the trade-off between file size and sharpness.</p>
 </section>
 
+<section class="wrap section-pad" data-features>
+  <p class="sec-tag">What makes it different</p>
+  <h2 class="sec-h">Built for real <em>needs</em>.</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.6rem 2rem;margin-top:1rem;max-width:920px">
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">👀</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">Live before/after preview</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">See the quality change as you slide — no surprises after the download.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">📊</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">Live "saved X KB" readout</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Know exactly how much you're saving, live, as you tune the quality.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">🎚️</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">You choose the quality trade-off</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Slide from high-quality to tiny-file — you decide the balance, not us.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">🔒</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">100% in-browser</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Your image never leaves your device — compression runs locally.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="wrap section-pad">
   <p class="sec-tag">Good to Know</p>
   <h2 class="sec-h">Common <em>questions</em>.</h2>
@@ -149,6 +186,14 @@
   <div class="faq-item"><h3>Why doesn't PNG get much smaller?</h3><p>PNG is a lossless format — the slider doesn't apply to it the way it does to JPG/WebP. To compress PNG more, switch the output format to JPG or WebP.</p></div>
   <div class="faq-item"><h3>What's WebP good for?</h3><p>WebP is a modern format that's typically 25–35% smaller than JPG at the same visual quality. Great for the web, supported in all current browsers.</p></div>
   <div class="faq-item"><h3>Need exact file size like 200 KB?</h3><p>Use <a href="/tools/resize-image" style="color:var(--gold2)">Resize Image</a> instead — it has a target-KB mode with a 200 KB preset for govt forms.</p></div>
+</section>
+
+<section class="wrap section-pad" data-tool-share>
+  <div style="max-width:640px;margin:0 auto;text-align:center">
+    <p class="sec-tag">Pass it on</p>
+    <h2 class="sec-h" style="margin-bottom:1.1rem">Know someone who <em>needs this</em>?</h2>
+    <div class="vshare" id="toolShare"></div>
+  </div>
 </section>
 
 <section class="wrap section-pad" data-rel-tools>
@@ -298,6 +343,16 @@ function _tsRestoreFromUrl(){
   const btn=document.querySelector('.preset[data-target="'+target+'"]');
   if(btn) btn.click();
   _tsApplyMeta(parsed.presetKey);
+}
+
+/* Tool-share bar (mounts once, always visible — safe to re-run) */
+if (window.ViloShare) {
+  ViloShare.mount('#toolShare', {
+    url: location.origin + '/tools/compress-image',
+    title: document.title,
+    message: 'Compressed a photo without it turning blurry — the preview updates live as you slide. Free, in-browser 👇',
+    hook: 'Handy? Send this tool to a friend 👇'
+  });
 }
 </script>
 </body>

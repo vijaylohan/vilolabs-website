@@ -16,6 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css?v=60f1458f">
+<link rel="stylesheet" href="/assets/share.css?v=5ea038de">
+<script src="/assets/share.js?v=863dd2bd" defer></script>
 <!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
 <script src="/tools/tool-seo.js?v=15e4ac1b"></script>
 <script src="/assets/db.js?v=fde68ebc"></script>
@@ -142,6 +144,41 @@
   <p style="max-width:820px;color:rgba(245,240,232,.72);line-height:1.75">Fit a document under an upload size cap for forms, applications and email. This tool re-encodes the images inside the PDF while keeping every character of text crisp and selectable, so your file stays readable instead of turning into a blurry scan.</p>
 </section>
 
+<section class="wrap section-pad" data-features>
+  <p class="sec-tag">What makes it different</p>
+  <h2 class="sec-h">Built for real <em>needs</em>.</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.6rem 2rem;margin-top:1rem;max-width:920px">
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">📝</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">Text stays selectable</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">We only re-encode the images inside your PDF. Every character of text stays crisp and copyable — most other tools flatten everything.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">📊</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">Live "saved X %" readout</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">See how much smaller your PDF got, in real time — before you download.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">📮</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">Fits form upload limits</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Great for exam forms, job applications and portals capped at 1–2 MB.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">🔒</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">100% in-browser</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Your document never leaves your device — nothing uploaded anywhere.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="wrap section-pad">
   <p class="sec-tag">Good to Know</p>
   <h2 class="sec-h">Common <em>questions</em>.</h2>
@@ -150,6 +187,14 @@
   <div class="faq-item"><h3>Why didn't my PDF shrink much (or at all)?</h3><p>Smart compression works on the embedded JPEG photos inside your PDF. If your PDF is mostly text and vector graphics, there are no photos to shrink — and your file is already efficient. We won't push a worse file back to you.</p></div>
   <div class="faq-item"><h3>What about PNG-style or scanned images?</h3><p>Currently the smart compressor handles JPEG images inside PDFs, which is the most common case. PNG-style image streams are detected and left untouched (they may be re-encoded in a future update).</p></div>
   <div class="faq-item"><h3>Is anything uploaded?</h3><p>No. Everything runs inside your browser using the open-source pdf-lib library. Your file never leaves your device.</p></div>
+</section>
+
+<section class="wrap section-pad" data-tool-share>
+  <div style="max-width:640px;margin:0 auto;text-align:center">
+    <p class="sec-tag">Pass it on</p>
+    <h2 class="sec-h" style="margin-bottom:1.1rem">Know someone who <em>needs this</em>?</h2>
+    <div class="vshare" id="toolShare"></div>
+  </div>
 </section>
 
 <section class="wrap section-pad" data-rel-tools>
@@ -386,6 +431,16 @@ function _tsRestoreFromUrl(){
     b.classList.toggle('on', +b.dataset.q===preset.match.q);
   });
   _tsApplyMeta(parsed.presetKey);
+}
+
+/* Tool-share bar (mounts once, always visible — safe to re-run) */
+if (window.ViloShare) {
+  ViloShare.mount('#toolShare', {
+    url: location.origin + '/tools/compress-pdf',
+    title: document.title,
+    message: 'Compressed a PDF and the text stayed selectable — most tools ruin that. Free and in-browser 👇',
+    hook: 'Handy? Send this tool to a friend 👇'
+  });
 }
 </script>
 </body>

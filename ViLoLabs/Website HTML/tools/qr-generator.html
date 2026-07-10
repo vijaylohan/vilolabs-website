@@ -16,6 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css?v=60f1458f">
+<link rel="stylesheet" href="/assets/share.css?v=5ea038de">
+<script src="/assets/share.js?v=863dd2bd" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous"></script>
 <!-- jsQR: served locally so no CDN/SRI dependency. Used to verify the QR we just drew actually scans. -->
 <script src="/assets/vendor/jsQR.min.js"></script>
@@ -198,6 +200,41 @@
   <p style="max-width:820px;color:rgba(245,240,232,.72);line-height:1.75">Create a payment QR so people can pay by scanning, a WiFi QR so guests connect without typing a password, a contact-card (vCard) QR, or a plain link or text QR for a menu, poster or form. Download it as a PNG and print or share it anywhere — no watermark.</p>
 </section>
 
+<section class="wrap section-pad" data-features>
+  <p class="sec-tag">What makes it different</p>
+  <h2 class="sec-h">Built for real <em>needs</em>.</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.6rem 2rem;margin-top:1rem;max-width:920px">
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">✅</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">Scan-tested before display</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Every QR is decoded back to text inside your browser before you see it. No risk of a broken code that won't scan.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">💳</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">UPI payment QRs</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Verified against PhonePe, GPay, Paytm and BHIM. Made for shopkeepers, sellers and freelancers.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">🎨</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">Custom colours and size</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">Match your poster, brand or product. Not just plain black-on-white.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.85rem;align-items:flex-start">
+      <div style="font-size:1.5rem;flex-shrink:0;line-height:1;padding-top:.15rem">🔒</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);font-weight:600;margin-bottom:.25rem;line-height:1.25">100% in-browser</div>
+        <div style="font-size:.93rem;color:rgba(245,240,232,.75);line-height:1.65">No uploads. What you type stays private.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="wrap section-pad">
   <p class="sec-tag">Good to Know</p>
   <h2 class="sec-h">Common <em>questions</em>.</h2>
@@ -205,6 +242,14 @@
   <div class="faq-item"><h3>What error correction should I pick?</h3><p>Medium is fine for most uses. Pick High if you plan to put a logo over the centre — High recovers up to 30% damage, so the QR still scans with the logo on top.</p></div>
   <div class="faq-item"><h3>Are the colors safe?</h3><p>Use dark dots on a light background. The bigger the contrast, the more reliable the scan. Inverted colors (light on dark) often fail on older phone cameras.</p></div>
   <div class="faq-item"><h3>Is any data sent to a server?</h3><p>No — the QR is generated entirely in your browser. Even your UPI ID stays on your device.</p></div>
+</section>
+
+<section class="wrap section-pad" data-tool-share>
+  <div style="max-width:640px;margin:0 auto;text-align:center">
+    <p class="sec-tag">Pass it on</p>
+    <h2 class="sec-h" style="margin-bottom:1.1rem">Know someone who <em>needs this</em>?</h2>
+    <div class="vshare" id="toolShare"></div>
+  </div>
 </section>
 
 <section class="wrap section-pad" data-rel-tools>
@@ -566,6 +611,16 @@ async function _tsRestoreFromUrl(){
 
 // initial
 render();
+
+/* Tool-share bar (mounts once, always visible — safe to re-run) */
+if (window.ViloShare) {
+  ViloShare.mount('#toolShare', {
+    url: location.origin + '/tools/qr-generator',
+    title: document.title,
+    message: 'Made a QR code with custom colours — this one actually scan-tests it in the browser first so nothing breaks 👇',
+    hook: 'Handy? Send this tool to a friend 👇'
+  });
+}
 </script>
 </body>
 </html>
