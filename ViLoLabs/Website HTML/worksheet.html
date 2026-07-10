@@ -2411,10 +2411,33 @@ function _shareLabels(){
        x:'X', mail:'Email', copy:'Copy', copyLink:'Copy link', copied:'Link copied! ✓'};
 }
 // Short, natural one-liner that travels WITH the link (not the SEO title).
+// Share message pool — soft, evergreen, India-realistic parent-to-parent lines.
+// One is picked at random per share so repeat shares (and multiple parents in
+// the same group chat) don't all send identical text. Deliberately season-free
+// (no monsoon/summer references — they'd read stale out of season). The link
+// that follows is ALWAYS the current worksheet's own /worksheets/<slug> (see
+// _currentSheetUrl), and _shareTail appends the "make your own → /worksheet" CTA.
+const _SHARE_MSGS={
+  en:[
+    'Sunday afternoon, and the little one’s already asking "ab kya karun?" 😄 These free printable worksheets are a nice rescue — new one every time you click 👇',
+    'Between school, tuition and homework, kids still finish everything and want more to do. Print a page of this — they sit with it quietly 👇',
+    'Workbooks from the shop get over in a week. This makes fresh worksheets anytime — free, no sign-up. Sharing for all the parents in the group 👇',
+    'When grandparents visit, "padhai time" with the kids is their favourite ❤️ These print out nicely for that — colouring, mazes, counting, all of it 👇',
+    'That half hour of evening chai in peace, while the little one is busy with a worksheet instead of a phone ☕ Sharing where they come from 👇',
+    'Someone in the school parents’ group shared this and honestly it’s a gem — free printable worksheets, Pre-KG to Class 5, new one on every click 👇'
+  ],
+  hi:[
+    'रविवार की दोपहर और बच्चा अभी से पूछ रहा है "अब क्या करूं?" 😄 ये फ्री वर्कशीट अच्छी राहत हैं — हर क्लिक पर नई 👇',
+    'स्कूल, ट्यूशन, होमवर्क — सब खत्म कर के भी बच्चों को कुछ और चाहिए। एक पेज प्रिंट करो — आराम से बैठ जाते हैं 👇',
+    'दुकान की वर्कबुक हफ्ते में खत्म हो जाती है। ये जब चाहो नई वर्कशीट बना देती है — फ्री, बिना साइन-अप। ग्रुप के सब पेरेंट्स के लिए 👇',
+    'दादा-दादी, नाना-नानी आते हैं तो बच्चों के साथ "पढ़ाई का टाइम" उनका फेवरेट होता है ❤️ इसके लिए ये वर्कशीट बढ़िया हैं — कलरिंग, भूलभुलैया, गिनती, सब 👇',
+    'शाम की चाय आराम से, और बच्चा फोन की जगह वर्कशीट में बिज़ी ☕ कहाँ से मिलती हैं, शेयर कर रही हूँ 👇',
+    'स्कूल के पेरेंट्स ग्रुप में किसी ने भेजी थी और सच में काम की चीज़ है — फ्री प्रिंटेबल वर्कशीट, प्री-KG से क्लास 5 तक, हर क्लिक पर नई 👇'
+  ]
+};
 function _shareMsg(){
-  return (curLang==='hi')
-    ? 'बच्चों को व्यस्त भी रखती है और सिखाती भी — एक बढ़िया चीज़ मिली: बच्चों के लिए फ्री प्रिंटेबल वर्कशीट, हर बार नई, बिना साइन-अप 👇'
-    : 'Keeps the little ones busy and learning — found a little gem: free printable worksheets for kids, fresh every time, no sign-up 👇';
+  const pool=_SHARE_MSGS[curLang==='hi'?'hi':'en'];
+  return pool[Math.floor(Math.random()*pool.length)];
 }
 // Appended after the link → invites the receiver to make their own (growth loop).
 function _shareTail(){
