@@ -794,6 +794,9 @@ en:{
   t_fruitVeg:'🍎 Fruit or Vegetable?',i_fruitVeg:'Circle every fruit you can find!',i_fruitVegSub:'⭕ Fruits only — leave the vegetables alone.',
   t_taste:'🍋 Sweet or Sour?',i_tasteSour:'Three of these are sweet. Circle the SOUR one!',i_tasteSub:'⭕ Find the sour fruit.',
   t_whoIs:'🧑‍⚕️ Who is the…?',i_whoIs:'Circle the {role}!',i_whoIsSub:'⭕ Look at the clothes — who is the {role}?',
+  t_firstLetter:'🔤 First Letter',i_firstLetter:'Circle the picture that starts with the letter {letter}.',i_firstLetterSub:'⭕ Which one begins with {letter}?',
+  t_moreLess:'🔢 More or Fewer?',i_more:'Circle the group that has MORE.',i_fewer:'Circle the group that has FEWER.',i_moreLessSub:'⭕ Count each group carefully.',
+  t_sameDiff:'👀 Same or Different?',i_sameDiff:'Are the two pictures the same? Tick SAME or DIFFERENT.',sameLbl:'Same',diffLbl:'Different',i_sameDiffSub:'☑ Look carefully at both pictures, then tick your answer.',
   step2Math:'② Pick class / age',mmLkgAge:'Age 3–4',mmUkgAge:'Age 4–5',mmCl1:'Class 1',mmCl1Age:'Age 6',mmCl2:'Class 2',mmCl2Age:'Age 7',mmCl3:'Class 3',mmCl3Age:'Age 8',mmCl4:'Class 4',mmCl4Age:'Age 9',mmCl5:'Class 5',mmCl5Age:'Age 10',
   mm_picAddT:'🧮 Picture Addition',mm_picAddI:'Count each group. Write the number. Add them up!',mm_picAddSub:'⭕ Fill every empty box.',
   mm_crosswordT:'🧩 Math Crossword',mm_crosswordI:'Fill in every empty box so every row and column equation is correct!',mm_crosswordSub:'⭕ Boxes shared by two equations must work for both.',
@@ -872,6 +875,9 @@ hi:{
   t_fruitVeg:'🍎 फल या सब्ज़ी?',i_fruitVeg:'हर फल पर सर्कल बनाओ!',i_fruitVegSub:'⭕ सिर्फ फल — सब्ज़ियों को छोड़ दो।',
   t_taste:'🍋 मीठा या खट्टा?',i_tasteSour:'इनमें से तीन मीठे हैं। खट्टे फल पर सर्कल बनाओ!',i_tasteSub:'⭕ खट्टा फल ढूंढो।',
   t_whoIs:'🧑‍⚕️ कौन है…?',i_whoIs:'{role} पर सर्कल बनाओ!',i_whoIsSub:'⭕ कपड़े देखो — {role} कौन है?',
+  t_firstLetter:'🔤 पहला अक्षर',i_firstLetter:'{letter} अक्षर से शुरू होने वाली तस्वीर पर सर्कल बनाओ।',i_firstLetterSub:'⭕ {letter} से कौन-सी शुरू होती है?',
+  t_moreLess:'🔢 ज़्यादा या कम?',i_more:'ज़्यादा वाले समूह पर सर्कल बनाओ।',i_fewer:'कम वाले समूह पर सर्कल बनाओ।',i_moreLessSub:'⭕ हर समूह को ध्यान से गिनो।',
+  t_sameDiff:'👀 एक जैसा या अलग?',i_sameDiff:'दोनों तस्वीरें एक जैसी हैं? "एक जैसा" या "अलग" पर टिक करो।',sameLbl:'एक जैसा',diffLbl:'अलग',i_sameDiffSub:'☑ दोनों तस्वीरों को ध्यान से देखो, फिर टिक करो।',
   step2Math:'② क्लास / उम्र चुनो',mmLkgAge:'उम्र 3–4',mmUkgAge:'उम्र 4–5',mmCl1:'क्लास 1',mmCl1Age:'उम्र 6',mmCl2:'क्लास 2',mmCl2Age:'उम्र 7',mmCl3:'क्लास 3',mmCl3Age:'उम्र 8',mmCl4:'क्लास 4',mmCl4Age:'उम्र 9',mmCl5:'क्लास 5',mmCl5Age:'उम्र 10',
   mm_picAddT:'🧮 तस्वीरों से जोड़',mm_picAddI:'हर ग्रुप गिनो। नंबर लिखो। फिर जोड़ो!',mm_picAddSub:'⭕ हर खाली बॉक्स भरो।',
   mm_crosswordT:'🧩 मैथ क्रॉसवर्ड',mm_crosswordI:'हर खाली बॉक्स भरो — हर लाइन और कॉलम का गणित सही होना चाहिए!',mm_crosswordSub:'⭕ जो बॉक्स दोनों में हैं वो दोनों के लिए सही होने चाहिए।',
@@ -1050,12 +1056,19 @@ const ESIZES={prekg:{m:'7rem',g:'6.5rem',s:'4.2rem',cnt:'3rem',box:90},
 let ES = ESIZES['1'];
 
 const ACT_POOLS={
-  prekg:['trace-path','colouring','counting-small','matching-pic','odd-one-out','pattern-ab','size-order','colour-id','shape-id','circle-match','body-part-use'],
-  kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together','fruit-or-veg','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait'],
+  // Pre-KG (age 2–4): add pre-K starters 'more-less' (visual quantity — new skill,
+  // no existing Pre-KG activity covers "which has more") and 'same-different'
+  // (simpler binary variant of spot-diff, which is too hard for toddlers).
+  prekg:['trace-path','colouring','counting-small','matching-pic','odd-one-out','pattern-ab','size-order','colour-id','shape-id','circle-match','body-part-use','more-less','same-different'],
+  // KG (age 4–5): all three new. 'first-letter' introduces phonics (the pool had
+  // ZERO phonics activities before); 'more-less' and 'same-different' round out
+  // pre-reading skills.
+  kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together','fruit-or-veg','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','first-letter','more-less','same-different'],
   // Class 1 (age 6, NCERT): add 'simple-add' — single-digit addition is a
   // core Class 1 outcome and was missing. Drop 'letter-trace' (pure KG level);
   // keep 'word-trace' and 'number-trace' (early-Class-1 handwriting practice).
-  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','simple-add'],
+  // Also add 'first-letter' as phonics review at early-reader level.
+  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','simple-add','first-letter'],
   '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search','fruit-or-veg','taste-fruit','find-profession','body-part-use','use-for','animal-trait'],
   '3':  ['matching-word','things-together','odd-one-out','pattern-abc','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search','fruit-or-veg','taste-fruit','find-profession','use-for','animal-trait'],
   '4':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
@@ -3039,7 +3052,7 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
   // Per-activity buildAct() may not actually use the items we hand it (e.g. math
   // activities ignore them), so the signature is only stamped when the activity
   // is image-driven; non-image activities are fine to repeat verbatim.
-  const _IMG_ACTS=new Set(['matching-pic','matching-word','odd-one-out','shadow-match','spot-diff','sort','sequence','things-together','circle-match','size-order','pattern-ab','pattern-abc','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait']);
+  const _IMG_ACTS=new Set(['matching-pic','matching-word','odd-one-out','shadow-match','spot-diff','sort','sequence','things-together','circle-match','size-order','pattern-ab','pattern-abc','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','first-letter','more-less','same-different']);
   const _sliceSig=(act,slice)=>act+'|'+slice.map(x=>(x&&x.id)||(x&&x.png)||(x&&x.emoji)||'').sort().join('~');
   // Math Master Answer Key — enable cache so Class 4 & 5 can render a final
   // page with miniature solutions for all activity pages.
@@ -4214,6 +4227,88 @@ function buildAct(type,items,all){
         ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
       </div>
       <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${T('i_fruitVegSub')}</div>
+    </div>`;}
+
+  // ── Batch A (app→worksheet): three "circle-the-answer" activities. ─────────
+  //   first-letter    · phonics — circle the picture starting with letter X
+  //   more-less       · quantity — circle the group with MORE / FEWER
+  //   same-different  · recognition — circle SAME or DIFFERENT
+  // All three follow the existing "circle" pattern (same act-hdr/body, same
+  // bordered-tile grid, same T()/Tf() for i18n) so they render identically on
+  // web and PDF and don't need any new CSS.
+
+  case 'first-letter':{
+    // Phonics starter: kid circles the picture whose name starts with target letter.
+    // The target is the first letter of the theme item (i0.l is already the
+    // uppercase first letter, precomputed by libItem). Distractors are picked from
+    // items whose first letter is DIFFERENT so the answer is unambiguous.
+    const target = i0 && i0.l;
+    if(!target) return buildAct('odd-one-out',items,all);
+    const distractPool = (all||[]).filter(x=>x && x.l && x.l !== target && (x.e !== i0.e));
+    const distractors = pickDistinct(distractPool,3);
+    if(distractors.length<3) return buildAct('odd-one-out',items,all);
+    const grid = shuffle([i0,...distractors]);
+    const d = Math.round(bx*1.2);
+    return`<div class="act-hdr"><div class="act-type">${T('t_firstLetter')}</div><div class="act-instr">${Tf('i_firstLetter','letter',target)}</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap">
+        ${grid.map(x=>`<div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${x.e}</span></div>`).join('')}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${Tf('i_firstLetterSub','letter',target)}</div>
+    </div>`;}
+
+  case 'more-less':{
+    // Visual quantity comparison: two clusters of the SAME picture at different
+    // counts, side-by-side. Kid circles the group with MORE (or FEWER — randomised
+    // per instance for variety). Counts capped at 6 per side (pre-K friendly).
+    const askMore = Math.random()<0.5;
+    const n1 = rnd(2,6);
+    let n2 = rnd(1,6);
+    while(n2===n1) n2=rnd(1,6);
+    // Randomise which side has the larger cluster so the answer isn't always left/right.
+    const leftN  = Math.random()<0.5 ? n1 : n2;
+    const rightN = (leftN===n1) ? n2 : n1;
+    const frameSize = Math.round(bx*1.55);
+    function cluster(n){
+      const perRow = n<=2 ? n : n<=4 ? 2 : 3;
+      const rows   = Math.ceil(n/perRow);
+      // Fit each image comfortably inside the frame — the largest of rows/perRow
+      // decides the cell edge, minus padding. Uses inline font-size so .wimg
+      // (which is 1em×1em) scales to fill the cell in PNG mode too.
+      const cellPx = Math.max(12, Math.floor((frameSize-20)/Math.max(perRow,rows)));
+      return`<div style="width:${frameSize}px;height:${frameSize}px;border:2.5px dashed var(--border);border-radius:12px;background:#fff;display:grid;grid-template-columns:repeat(${perRow},1fr);grid-template-rows:repeat(${rows},1fr);gap:2px;padding:.32rem;box-sizing:border-box;place-items:center">
+        ${Array(n).fill(i0.e).map(e=>`<span style="font-size:${cellPx}px;line-height:1;display:inline-block">${e}</span>`).join('')}
+      </div>`;
+    }
+    return`<div class="act-hdr"><div class="act-type">${T('t_moreLess')}</div><div class="act-instr">${askMore?T('i_more'):T('i_fewer')}</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:1.1rem;justify-content:center;align-items:center">${cluster(leftN)}${cluster(rightN)}</div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${T('i_moreLessSub')}</div>
+    </div>`;}
+
+  case 'same-different':{
+    // Recognition warm-up: two pictures side by side, circle SAME or DIFFERENT.
+    // 50/50 chance each. On the "different" branch we pick another item — guard
+    // against the rare case where two items happen to share the same rendered
+    // token by falling back to i2.
+    const isSame = Math.random()<0.5;
+    const left  = i0;
+    const right = isSame ? i0 : (i1 && i1.e && i1.e !== i0.e ? i1 : i2);
+    if(!right || !right.e) return buildAct('matching-pic',items,all);
+    const d = Math.round(bx*1.35);
+    // Binary yes/no answer → tick BOXES (small squares), not circles. Different
+    // affordance from all the other "circle the answer" activities on the sheet.
+    const optTick = (label)=>`<div style="display:flex;align-items:center;gap:.4rem"><div style="width:22px;height:22px;border-radius:5px;border:2.5px solid var(--dark);background:#fff"></div><span style="font-size:.85rem;font-weight:900;color:var(--dark);letter-spacing:.03em">${label}</span></div>`;
+    return`<div class="act-hdr"><div class="act-type">${T('t_sameDiff')}</div><div class="act-instr">${T('i_sameDiff')}</div></div>
+    <div class="act-body">
+      <div style="display:flex;gap:1.1rem;justify-content:center;align-items:center">
+        <div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${left.e}</span></div>
+        <div style="width:${d}px;height:${d}px;border:2.5px solid var(--border);border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff"><span style="font-size:${g}">${right.e}</span></div>
+      </div>
+      <div style="display:flex;gap:1.6rem;justify-content:center;margin-top:.55rem">
+        ${optTick(T('sameLbl'))}${optTick(T('diffLbl'))}
+      </div>
+      <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.3rem">${T('i_sameDiffSub')}</div>
     </div>`;}
 
   case 'taste-fruit':{
