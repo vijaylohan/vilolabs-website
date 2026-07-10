@@ -490,6 +490,14 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
       </label>
     </div>
   </div>
+  <div id="suOptsSec" style="display:none">
+    <p class="step-lbl" style="margin-top:1.4rem" data-i18n="step2Sudoku">② Choose difficulty</p>
+    <div class="math-diff-grid" id="suSizeGrid">
+      <button class="math-diff-btn" data-size="2" onclick="selSuSize(this)">⭐ <span data-i18n="suEasy">Easy</span><br><small data-i18n="suEasyAge">2×2 · Age 4–5</small></button>
+      <button class="math-diff-btn sel" data-size="4" onclick="selSuSize(this)">⭐⭐ <span data-i18n="suMed">Medium</span><br><small data-i18n="suMedAge">4×4 · Age 6–9</small></button>
+      <button class="math-diff-btn" data-size="6" onclick="selSuSize(this)">⭐⭐⭐ <span data-i18n="suHard">Hard</span><br><small data-i18n="suHardAge">6×6 · Age 10+</small></button>
+    </div>
+  </div>
   <div id="mathOptsSec" style="display:none">
     <p class="step-lbl" style="margin-top:1.4rem" data-i18n="step2Math">② Pick class / age</p>
     <div class="math-diff-grid">
@@ -760,6 +768,12 @@ en:{
   mazeInstrMulti:'Help every animal find the way out! Draw a line through the open passages.',
   mazeKeyTitle:'🗝️ Answer Key',mazeKeyNote:"Don't peek until you've tried! Solution paths shown in gold.",mazeKeyCell:'Maze {n}',
   sudokuInstr:'Every row, every column and every bold box must have all 4 pictures.',
+  sudokuInstr2:'Every row and every column must have both pictures.',
+  sudokuInstr6:'Every row, every column and every bold box must have all 6 pictures.',
+  step2Sudoku:'② Choose difficulty',
+  suEasy:'Easy',suEasyAge:'2×2 · Age 4–5',
+  suMed:'Medium',suMedAge:'4×4 · Age 6–9',
+  suHard:'Hard',suHardAge:'6×6 · Age 10+',
   sudokuCut:'✂️ Cut out the pictures and paste them in the empty squares',
   colourTitle:'🎨 Colour {name}!',colourGuide:'Use the small picture in the corner as your colour guide →',
   colourGuide2:'Use the small picture as your colour guide →',colourGuideLabel:'Colour Guide',suggestedColours:'🖍️ Suggested colours:',
@@ -797,6 +811,9 @@ en:{
   t_firstLetter:'🔤 First Letter',i_firstLetter:'Circle the picture that starts with the letter {letter}.',i_firstLetterSub:'⭕ Which one begins with {letter}?',
   t_moreLess:'🔢 More or Fewer?',i_more:'Circle the group that has MORE.',i_fewer:'Circle the group that has FEWER.',i_moreLessSub:'⭕ Count each group carefully.',
   t_sameDiff:'👀 Same or Different?',i_sameDiff:'Are the two pictures the same? Tick SAME or DIFFERENT.',sameLbl:'Same',diffLbl:'Different',i_sameDiffSub:'☑ Look carefully at both pictures, then tick your answer.',
+  t_habitat:'🏠 Where Does It Live?',i_habitat:'Draw a line from each animal to the place it lives.',i_habitatSub:'✏️ Water 💧, Land 🌳, or Sky ☁️?',boxWater:'Water',boxLand:'Land',boxSky:'Sky',
+  t_healthy:'🍏 Healthy or Treat?',i_healthy:'Draw a line from each food to the right box.',i_healthySub:'✏️ Everyday foods vs sometimes-treats.',boxHealthy:'Healthy',boxTreat:'Treat',
+  t_category:'📦 What Category?',i_category:'Draw a line from each picture to its group.',i_categorySub:'✏️ Match every picture to the right box.',
   step2Math:'② Pick class / age',mmLkgAge:'Age 3–4',mmUkgAge:'Age 4–5',mmCl1:'Class 1',mmCl1Age:'Age 6',mmCl2:'Class 2',mmCl2Age:'Age 7',mmCl3:'Class 3',mmCl3Age:'Age 8',mmCl4:'Class 4',mmCl4Age:'Age 9',mmCl5:'Class 5',mmCl5Age:'Age 10',
   mm_picAddT:'🧮 Picture Addition',mm_picAddI:'Count each group. Write the number. Add them up!',mm_picAddSub:'⭕ Fill every empty box.',
   mm_crosswordT:'🧩 Math Crossword',mm_crosswordI:'Fill in every empty box so every row and column equation is correct!',mm_crosswordSub:'⭕ Boxes shared by two equations must work for both.',
@@ -841,6 +858,12 @@ hi:{
   mazeInstrMulti:'सभी जानवरों को रास्ता निकालने में मदद करो! खुले रास्तों से लाइन खींचो।',
   mazeKeyTitle:'🗝️ आंसर की',mazeKeyNote:'पहले खुद कोशिश करो! सॉल्यूशन पाथ गोल्ड में दिखाए गए हैं।',mazeKeyCell:'मेज़ {n}',
   sudokuInstr:'हर लाइन, हर कॉलम और हर बोल्ड बॉक्स में सभी 4 तस्वीरें होनी चाहिए।',
+  sudokuInstr2:'हर लाइन और हर कॉलम में दोनों तस्वीरें होनी चाहिए।',
+  sudokuInstr6:'हर लाइन, हर कॉलम और हर बोल्ड बॉक्स में सभी 6 तस्वीरें होनी चाहिए।',
+  step2Sudoku:'② कठिनाई चुनो',
+  suEasy:'आसान',suEasyAge:'2×2 · उम्र 4–5',
+  suMed:'सामान्य',suMedAge:'4×4 · उम्र 6–9',
+  suHard:'कठिन',suHardAge:'6×6 · उम्र 10+',
   sudokuCut:'✂️ तस्वीरें काटो और खाली जगह पर चिपकाओ',
   colourTitle:'🎨 {name} को कलर करो!',colourGuide:'छोटी तस्वीर देखकर कलर करो →',
   colourGuide2:'छोटी तस्वीर देखकर कलर करो →',colourGuideLabel:'कलर गाइड',suggestedColours:'🖍️ सजेस्टेड कलर:',
@@ -878,6 +901,9 @@ hi:{
   t_firstLetter:'🔤 पहला अक्षर',i_firstLetter:'{letter} अक्षर से शुरू होने वाली तस्वीर पर सर्कल बनाओ।',i_firstLetterSub:'⭕ {letter} से कौन-सी शुरू होती है?',
   t_moreLess:'🔢 ज़्यादा या कम?',i_more:'ज़्यादा वाले समूह पर सर्कल बनाओ।',i_fewer:'कम वाले समूह पर सर्कल बनाओ।',i_moreLessSub:'⭕ हर समूह को ध्यान से गिनो।',
   t_sameDiff:'👀 एक जैसा या अलग?',i_sameDiff:'दोनों तस्वीरें एक जैसी हैं? "एक जैसा" या "अलग" पर टिक करो।',sameLbl:'एक जैसा',diffLbl:'अलग',i_sameDiffSub:'☑ दोनों तस्वीरों को ध्यान से देखो, फिर टिक करो।',
+  t_habitat:'🏠 कहाँ रहता है?',i_habitat:'हर जानवर को उसके घर से लाइन से जोड़ो।',i_habitatSub:'✏️ पानी 💧, ज़मीन 🌳, या आसमान ☁️?',boxWater:'पानी',boxLand:'ज़मीन',boxSky:'आसमान',
+  t_healthy:'🍏 सेहतमंद या मीठाई?',i_healthy:'हर खाने को सही डिब्बे से लाइन से जोड़ो।',i_healthySub:'✏️ रोज़ का खाना और कभी-कभी की मिठाई।',boxHealthy:'सेहतमंद',boxTreat:'मीठाई',
+  t_category:'📦 कौन-सा समूह?',i_category:'हर तस्वीर को उसके समूह से लाइन से जोड़ो।',i_categorySub:'✏️ हर तस्वीर को सही डिब्बे से मिलाओ।',
   step2Math:'② क्लास / उम्र चुनो',mmLkgAge:'उम्र 3–4',mmUkgAge:'उम्र 4–5',mmCl1:'क्लास 1',mmCl1Age:'उम्र 6',mmCl2:'क्लास 2',mmCl2Age:'उम्र 7',mmCl3:'क्लास 3',mmCl3Age:'उम्र 8',mmCl4:'क्लास 4',mmCl4Age:'उम्र 9',mmCl5:'क्लास 5',mmCl5Age:'उम्र 10',
   mm_picAddT:'🧮 तस्वीरों से जोड़',mm_picAddI:'हर ग्रुप गिनो। नंबर लिखो। फिर जोड़ो!',mm_picAddSub:'⭕ हर खाली बॉक्स भरो।',
   mm_crosswordT:'🧩 मैथ क्रॉसवर्ड',mm_crosswordI:'हर खाली बॉक्स भरो — हर लाइन और कॉलम का गणित सही होना चाहिए!',mm_crosswordSub:'⭕ जो बॉक्स दोनों में हैं वो दोनों के लिए सही होने चाहिए।',
@@ -1060,16 +1086,18 @@ const ACT_POOLS={
   // no existing Pre-KG activity covers "which has more") and 'same-different'
   // (simpler binary variant of spot-diff, which is too hard for toddlers).
   prekg:['trace-path','colouring','counting-small','matching-pic','odd-one-out','pattern-ab','size-order','colour-id','shape-id','circle-match','body-part-use','more-less','same-different'],
-  // KG (age 4–5): all three new. 'first-letter' introduces phonics (the pool had
-  // ZERO phonics activities before); 'more-less' and 'same-different' round out
-  // pre-reading skills.
-  kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together','fruit-or-veg','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','first-letter','more-less','same-different'],
+  // KG (age 4–5): Batch A additions ('first-letter','more-less','same-different')
+  // plus Batch B additions ('where-does-it-live','healthy-or-treat','what-category').
+  // Batch B activities need reading the box labels, so they start at KG (not Pre-KG).
+  kg:   ['trace-path','colouring','counting-small','matching-word','odd-one-out','pattern-ab','size-order','shadow-match','spot-diff','letter-trace','number-trace','colour-id','shape-id','alphabet-id','missing-number','circle-match','things-together','fruit-or-veg','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','first-letter','more-less','same-different','where-does-it-live','healthy-or-treat','what-category'],
   // Class 1 (age 6, NCERT): add 'simple-add' — single-digit addition is a
   // core Class 1 outcome and was missing. Drop 'letter-trace' (pure KG level);
   // keep 'word-trace' and 'number-trace' (early-Class-1 handwriting practice).
-  // Also add 'first-letter' as phonics review at early-reader level.
-  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','simple-add','first-letter'],
-  '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search','fruit-or-veg','taste-fruit','find-profession','body-part-use','use-for','animal-trait'],
+  // Also add 'first-letter' (phonics review) + all three Batch B classifiers.
+  '1':  ['counting-medium','matching-word','odd-one-out','pattern-abc','size-order','shadow-match','spot-diff','word-trace','number-trace','sequence','maze','sort','alphabet-id','missing-alphabet','missing-number','circle-match','things-together','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','simple-add','first-letter','where-does-it-live','healthy-or-treat','what-category'],
+  // Class 2: keep the harder classifiers ('where-does-it-live','what-category');
+  // 'healthy-or-treat' is more KG/Class-1 age and would feel too easy here.
+  '2':  ['counting-medium','matching-word','odd-one-out','pattern-abc','shadow-match','spot-diff','word-trace','sequence','maze','sort','missing-letter','simple-add','positions','circle-match','things-together','missing-number','skip-count','add-column','word-search','fruit-or-veg','taste-fruit','find-profession','body-part-use','use-for','animal-trait','where-does-it-live','what-category'],
   '3':  ['matching-word','things-together','odd-one-out','pattern-abc','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search','fruit-or-veg','taste-fruit','find-profession','use-for','animal-trait'],
   '4':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','dot-to-dot','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
   '5':  ['matching-word','things-together','odd-one-out','spot-diff','word-trace','sequence','maze','missing-letter','missing-alphabet','complete-word','pattern-abc','add-column','subtract-column','multiply','skip-count','compare-numbers','word-search'],
@@ -1514,6 +1542,10 @@ const COL_CATS={
 // ══════════════════════════
 let curLvl=null,curTopic=null,curPage=0,curPageCount=5;
 let mzAge=7,mzShape='square',mzAK=false;
+// Sudoku difficulty (grid size). 2=Easy warm-up (2×2, no sub-boxes), 4=Medium
+// (4×4 with 2×2 sub-boxes, the classic), 6=Hard (6×6 with 3×2 sub-boxes). Default
+// stays 4 so anyone who just picks Sudoku + Generate gets the original behaviour.
+let suSize=4;
 // s=start char, e=real goal, d=decoy goal — a real, tempting treat (NOT the goal) for the trap opening
 const MZ_PAIRS=[
   {s:'🐭',e:'🧀',d:'🍰'},{s:'🐰',e:'🥕',d:'🥬'},{s:'🐝',e:'🌸',d:'🌻'},{s:'🦊',e:'🍇',d:'🍓'},
@@ -1539,6 +1571,7 @@ function updateMzAge(v){
   if(mzAge>=9){document.getElementById('mzAK').checked=true;mzAK=true;}
 }
 function selMzShape(b){document.querySelectorAll('.mz-shape-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');mzShape=b.dataset.shape;}
+function selSuSize(b){document.querySelectorAll('#suSizeGrid .math-diff-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');suSize=parseInt(b.dataset.size,10)||4;}
 function updateMzAK(){mzAK=document.getElementById('mzAK').checked;}
 // ── Seeded RNG wrapper ────────────────────────────────────────────
 // When wsSetSeed(n) is called BEFORE generate(), every shuffle/rnd/
@@ -1850,6 +1883,7 @@ function selLvl(btn){
 
   document.getElementById('mazeOptsSec').style.display='none';
   document.getElementById('mathOptsSec').style.display='none';
+  document.getElementById('suOptsSec').style.display='none';
   if(curLvl==='colouring'){
     curTopic='mixed';
     topicSec.style.display='none';
@@ -1861,6 +1895,12 @@ function selLvl(btn){
     document.getElementById('mazeOptsSec').style.display='block';
     document.getElementById('genBtn').disabled=false;
     document.getElementById('genBtnTxt').textContent='🌀 Generate Maze!';
+  } else if(curLvl==='sudoku'){
+    curTopic='mixed';
+    topicSec.style.display='none';
+    document.getElementById('suOptsSec').style.display='block';
+    document.getElementById('genBtn').disabled=false;
+    document.getElementById('genBtnTxt').textContent='🧩 Generate Sudoku!';
   } else if(curLvl==='mathmaster'){
     curTopic='mixed';
     topicSec.style.display='none';
@@ -2597,18 +2637,66 @@ function buildColouringPage(idx,subj,lvlName,topicName){
 }
 
 // ── SUDOKU (4x4 picture sudoku)
-function makeSudoku(){
-  let g=[[0,1,2,3],[2,3,0,1],[1,0,3,2],[3,2,1,0]];
-  const perm=shuffle([0,1,2,3]);
-  g=g.map(row=>row.map(v=>perm[v]));
-  if(wsRand()<.5){const t=g[0];g[0]=g[1];g[1]=t;}
-  if(wsRand()<.5){const t=g[2];g[2]=g[3];g[3]=t;}
-  if(wsRand()<.5){let t=g[0];g[0]=g[2];g[2]=t;t=g[1];g[1]=g[3];g[3]=t;}
-  const sc=(a,b)=>g.forEach(r=>{const t=r[a];r[a]=r[b];r[b]=t;});
-  if(wsRand()<.5)sc(0,1);
-  if(wsRand()<.5)sc(2,3);
-  if(wsRand()<.5){sc(0,2);sc(1,3);}
-  if(wsRand()<.5){const t=[[],[],[],[]];for(let r=0;r<4;r++)for(let c=0;c<4;c++)t[c][r]=g[r][c];g=t;}
+// Generate a valid N×N sudoku solution (values 0..N-1). Supported sizes:
+//   N=2 → trivial 2×2 Latin square, no sub-boxes (Easy warm-up)
+//   N=4 → 4×4 with 2×2 sub-boxes (Medium — original algorithm)
+//   N=6 → 6×6 with 3×2 sub-boxes (Hard variant)
+// Starts from a known-good base grid for the size, then applies size-safe
+// permutations (value shuffle, row swaps within a band, column swaps within a
+// stack, band/stack swaps, plus transpose for 4×4). Never breaks the sudoku rule.
+function makeSudoku(N){
+  N = N || 4;
+  let g;
+  if(N===2){
+    g = [[0,1],[1,0]];
+  } else if(N===4){
+    g = [[0,1,2,3],[2,3,0,1],[1,0,3,2],[3,2,1,0]];
+  } else {
+    // 6×6 with 3-wide × 2-tall sub-boxes. Verified: rows/cols/boxes each hold 0..5.
+    g = [[0,1,2,3,4,5],[3,4,5,0,1,2],[1,2,0,4,5,3],[4,5,3,1,2,0],[2,0,1,5,3,4],[5,3,4,2,0,1]];
+  }
+  // Value permutation is always safe for any N (just relabels the pictures).
+  const perm = shuffle([...Array(N).keys()]);
+  g = g.map(row => row.map(v => perm[v]));
+  const swapRows=(a,b)=>{const t=g[a];g[a]=g[b];g[b]=t;};
+  const swapCols=(a,b)=>g.forEach(r=>{const t=r[a];r[a]=r[b];r[b]=t;});
+  if(N===2){
+    if(wsRand()<.5) swapRows(0,1);
+    if(wsRand()<.5) swapCols(0,1);
+  } else if(N===4){
+    // Row swaps within a band (rows 0-1 form band 0, rows 2-3 form band 1).
+    if(wsRand()<.5) swapRows(0,1);
+    if(wsRand()<.5) swapRows(2,3);
+    // Band swap — swap both rows of band 0 with band 1.
+    if(wsRand()<.5){let t=g[0];g[0]=g[2];g[2]=t;t=g[1];g[1]=g[3];g[3]=t;}
+    // Column swaps within a stack (cols 0-1 form stack 0, cols 2-3 form stack 1).
+    if(wsRand()<.5) swapCols(0,1);
+    if(wsRand()<.5) swapCols(2,3);
+    // Stack swap.
+    if(wsRand()<.5){swapCols(0,2);swapCols(1,3);}
+    // Transpose is only safe when sub-boxes are square (they are for 4×4).
+    if(wsRand()<.5){const t=[[],[],[],[]];for(let r=0;r<4;r++)for(let c=0;c<4;c++)t[c][r]=g[r][c];g=t;}
+  } else {
+    // 6×6: bands are (0,1) (2,3) (4,5); stacks (of 3 cols each) are (0,1,2) (3,4,5).
+    if(wsRand()<.5) swapRows(0,1);
+    if(wsRand()<.5) swapRows(2,3);
+    if(wsRand()<.5) swapRows(4,5);
+    // Band swap — move both rows of a band together.
+    const bandSwap=(a,b)=>{const ta=g[a*2],tb=g[a*2+1];g[a*2]=g[b*2];g[a*2+1]=g[b*2+1];g[b*2]=ta;g[b*2+1]=tb;};
+    if(wsRand()<.5) bandSwap(0,1);
+    if(wsRand()<.5) bandSwap(1,2);
+    // Column shuffles WITHIN each stack of 3 (never across stacks — that would break the sub-box rule).
+    function shuffleStack(start){
+      const p=shuffle([0,1,2]);
+      const snap=g.map(r=>[...r]);
+      for(let i=0;i<3;i++)for(let r=0;r<6;r++) g[r][start+i]=snap[r][start+p[i]];
+    }
+    shuffleStack(0);
+    shuffleStack(3);
+    // Stack swap.
+    if(wsRand()<.5){for(let r=0;r<6;r++){const a=g[r].slice(0,3),b=g[r].slice(3,6);g[r]=[...b,...a];}}
+    // No transpose for 6×6 (3×2 sub-boxes aren't symmetric).
+  }
   return g;
 }
 function buildSudokuAll(container,nav){
@@ -2625,60 +2713,99 @@ function buildSudokuAll(container,nav){
 }
 function buildSudokuPage(idx){
   const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-  // pick a themed set of 4 pictures from one library category
+  const N = suSize || 4;
+  // Sub-box dimensions: (bw × bh). N=2 → no sub-boxes; N=4 → 2×2; N=6 → 3×2.
+  const bw = N===4?2 : N===6?3 : 0;
+  const bh = N===4?2 : N===6?2 : 0;
+  // pick a themed set of N pictures from one library category
   let cat='Pictures',pool=null;
   if(LIB&&LIB.length){
     for(const c of shuffle([...new Set(LIB.map(i=>i.category))])){
       const png=LIB.filter(i=>i.category===c&&i.png);
       const emo=LIB.filter(i=>i.category===c&&i.emoji);
-      if(png.length>=4){cat=c;pool=pick(png,4).map(i=>i.png);break;}
-      if(emo.length>=4){cat=c;pool=pick(emo,4).map(i=>i.emoji);break;}
+      if(png.length>=N){cat=c;pool=pick(png,N).map(i=>i.png);break;}
+      if(emo.length>=N){cat=c;pool=pick(emo,N).map(i=>i.emoji);break;}
     }
   }
-  if(!pool) pool=['','','',''];
-  const sol=makeSudoku();
-  // blank a random 4–8 cells; the cut-out strip is built from these so it always fits exactly
+  if(!pool) pool=Array(N).fill('');
+  const sol=makeSudoku(N);
+  const total = N*N;
+  // Blank ~25–50% of cells. Guarantee one blank per picture type so every
+  // picture appears in the cut strip (kids won't miss any).
   const blanks=new Set();
-  // at least one blank per picture type so all 4 pictures appear in the cut strip
-  for(let v=0;v<4;v++){
+  for(let v=0;v<N;v++){
     const cells=[];
-    for(let r=0;r<4;r++)for(let c=0;c<4;c++)if(sol[r][c]===v)cells.push(r*4+c);
-    blanks.add(cells[rnd(0,cells.length-1)]);
+    for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(sol[r][c]===v)cells.push(r*N+c);
+    if(cells.length) blanks.add(cells[rnd(0,cells.length-1)]);
   }
-  const target=rnd(4,8);
-  for(const i of shuffle([...Array(16).keys()])){if(blanks.size>=target)break;blanks.add(i);}
-  // never leave a whole row empty
-  for(let r=0;r<4;r++){
-    if([0,1,2,3].every(c=>blanks.has(r*4+c))){
-      blanks.delete(r*4+rnd(0,3));
-      const open=[...Array(16).keys()].filter(i=>!blanks.has(i));
+  const minB = Math.max(N, Math.floor(total*0.25));
+  const maxB = Math.max(minB, Math.floor(total*0.5));
+  const target = rnd(minB, maxB);
+  for(const i of shuffle([...Array(total).keys()])){if(blanks.size>=target)break;blanks.add(i);}
+  // never leave a whole row empty (must have at least one clue per row)
+  for(let r=0;r<N;r++){
+    const rowIdx=[...Array(N).keys()].map(c=>r*N+c);
+    if(rowIdx.every(i=>blanks.has(i))){
+      blanks.delete(rowIdx[rnd(0,N-1)]);
+      const open=[...Array(total).keys()].filter(i=>!blanks.has(i));
       if(open.length)blanks.add(open[rnd(0,open.length-1)]);
     }
   }
-  let svg='<svg viewBox="0 0 404 404" style="width:100%;height:auto;display:block">';
-  svg+='<rect x="2" y="2" width="400" height="400" fill="#fff" stroke="#1A1108" stroke-width="3.5"/>';
-  [102,302].forEach(x=>{svg+=`<line x1="${x}" y1="2" x2="${x}" y2="402" stroke="#1A1108" stroke-width="1.6"/>`;});
-  [102,302].forEach(y=>{svg+=`<line x1="2" y1="${y}" x2="402" y2="${y}" stroke="#1A1108" stroke-width="1.6"/>`;});
-  svg+='<line x1="202" y1="2" x2="202" y2="402" stroke="#1A1108" stroke-width="3.5"/>';
-  svg+='<line x1="2" y1="202" x2="402" y2="202" stroke="#1A1108" stroke-width="3.5"/>';
-  for(let r=0;r<4;r++)for(let c=0;c<4;c++){
-    const i=r*4+c;if(blanks.has(i))continue;
+  // Grid geometry: fixed 400×400 board, cell edge scales with N so 2×2 has
+  // huge cells, 6×6 has small cells. Picture uses ~72% of the cell — same look.
+  const CELL = 400/N;
+  const PAD = 2;
+  const cellPic = CELL * 0.72;
+  const picOff = (CELL - cellPic) / 2;
+  const boardEnd = PAD + 400;
+  let svg=`<svg viewBox="0 0 404 404" style="width:100%;height:auto;display:block">`;
+  svg+=`<rect x="${PAD}" y="${PAD}" width="400" height="400" fill="#fff" stroke="#1A1108" stroke-width="3.5"/>`;
+  // Thin grid lines between every cell
+  for(let i=1;i<N;i++){
+    const p = PAD + i*CELL;
+    svg+=`<line x1="${p}" y1="${PAD}" x2="${p}" y2="${boardEnd}" stroke="#1A1108" stroke-width="1.6"/>`;
+    svg+=`<line x1="${PAD}" y1="${p}" x2="${boardEnd}" y2="${p}" stroke="#1A1108" stroke-width="1.6"/>`;
+  }
+  // Bold sub-box lines (only when sub-boxes exist).
+  if(bw>0 && bh>0){
+    for(let i=bw;i<N;i+=bw){
+      const p = PAD + i*CELL;
+      svg+=`<line x1="${p}" y1="${PAD}" x2="${p}" y2="${boardEnd}" stroke="#1A1108" stroke-width="3.5"/>`;
+    }
+    for(let i=bh;i<N;i+=bh){
+      const p = PAD + i*CELL;
+      svg+=`<line x1="${PAD}" y1="${p}" x2="${boardEnd}" y2="${p}" stroke="#1A1108" stroke-width="3.5"/>`;
+    }
+  }
+  // Pictures (only in non-blank cells)
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    const i=r*N+c;if(blanks.has(i))continue;
+    const x = PAD + c*CELL + picOff;
+    const y = PAD + r*CELL + picOff;
     // class="maze-ico" + data-ico-src → paintMazeIcons() swaps the href to a
     // data-URI before PDF export. html2canvas can't render external hrefs inside
     // inline SVG, so without this the grid cells come out EMPTY in the PDF.
-    svg+=`<image class="maze-ico" data-ico-src="${pool[sol[r][c]]}" href="${pool[sol[r][c]]}" x="${2+c*100+14}" y="${2+r*100+14}" width="72" height="72"/>`;
+    svg+=`<image class="maze-ico" data-ico-src="${pool[sol[r][c]]}" href="${pool[sol[r][c]]}" x="${x}" y="${y}" width="${cellPic}" height="${cellPic}"/>`;
   }
   svg+='</svg>';
-  // cut strip = exactly the pieces the blanks need (one per empty cell), shuffled
-  const need=shuffle([...blanks].map(i=>sol[(i/4)|0][i%4]));
+  // Cut strip = one piece per blank, shuffled. Piece size adapts to grid:
+  //   N=2 → few large pieces (~30% wide each)
+  //   N=4 → 25% wide (default CSS)
+  //   N=6 → smaller (~16.6%) to fit up to 18 pieces without runaway height
+  const need=shuffle([...blanks].map(i=>sol[(i/N)|0][i%N]));
+  const boxBasis = N===2 ? 'flex:0 0 140px;max-width:140px;' :
+                   N===6 ? 'flex:1 1 calc(16.66% - .55rem);max-width:calc(16.66% - .55rem);' : '';
+  const imgCap   = N===2 ? 'max-height:120px' : N===6 ? 'max-height:64px' : '';
   // class="wimg" → paintImages() bakes each piece into a trimmed square data-URL
   // so it renders inside the box in the PDF too (html2canvas ignores object-fit).
-  const cut=need.map(v=>`<div class="su-cut-box"><div class="su-sci">✂️</div><img src="${pool[v]}" alt="" class="wimg"></div>`).join('');
+  const cut=need.map(v=>`<div class="su-cut-box" style="${boxBasis}"><div class="su-sci">✂️</div><img src="${pool[v]}" alt="" class="wimg" style="${imgCap}"></div>`).join('');
   const title=cat.replace(/-/g,' ').toUpperCase();
+  // Size-aware instruction: 2×2 has no sub-boxes, 4×4 & 6×6 do (with different counts).
+  const instrKey = N===2 ? 'sudokuInstr2' : N===6 ? 'sudokuInstr6' : 'sudokuInstr';
   return`
-    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Sudoku</span><span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span></div>
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Sudoku</span><span class="pg-num">${T('page')} ${idx+1} / ${curPageCount} · ${N}×${N}</span></div>
     <div class="su-title">🧩 ${title}</div>
-    <div class="su-instr">${T('sudokuInstr')}</div>
+    <div class="su-instr">${T(instrKey)}</div>
     <div class="su-wrap">
       <div class="su-grid">${svg}</div>
       <div style="font-size:.72rem;font-weight:800;color:#A07860;text-align:center">${T('sudokuCut')}</div>
@@ -3052,7 +3179,7 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
   // Per-activity buildAct() may not actually use the items we hand it (e.g. math
   // activities ignore them), so the signature is only stamped when the activity
   // is image-driven; non-image activities are fine to repeat verbatim.
-  const _IMG_ACTS=new Set(['matching-pic','matching-word','odd-one-out','shadow-match','spot-diff','sort','sequence','things-together','circle-match','size-order','pattern-ab','pattern-abc','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','first-letter','more-less','same-different']);
+  const _IMG_ACTS=new Set(['matching-pic','matching-word','odd-one-out','shadow-match','spot-diff','sort','sequence','things-together','circle-match','size-order','pattern-ab','pattern-abc','fruit-or-veg','taste-fruit','find-profession','hungry-thirsty','body-part-use','use-for','animal-trait','first-letter','more-less','same-different','where-does-it-live','healthy-or-treat','what-category']);
   const _sliceSig=(act,slice)=>act+'|'+slice.map(x=>(x&&x.id)||(x&&x.png)||(x&&x.emoji)||'').sort().join('~');
   // Math Master Answer Key — enable cache so Class 4 & 5 can render a final
   // page with miniature solutions for all activity pages.
@@ -4284,6 +4411,103 @@ function buildAct(type,items,all){
     <div class="act-body">
       <div style="display:flex;gap:1.1rem;justify-content:center;align-items:center">${cluster(leftN)}${cluster(rightN)}</div>
       <div style="font-size:.62rem;color:#A07860;font-weight:700;margin-top:.45rem">${T('i_moreLessSub')}</div>
+    </div>`;}
+
+  // ── Batch B (app→worksheet): three "draw a line to the correct box" activities.
+  //   where-does-it-live · classify animals by habitat (Water / Land / Sky)
+  //   healthy-or-treat   · classify foods (Healthy / Treat — kinder framing)
+  //   what-category      · classify by grade-adaptive category bins
+  // All three share the same left-items-to-right-boxes layout using the existing
+  // .match-wrap / .match-col / .match-dot CSS (same as things-together), so no
+  // new CSS is needed. Labeled boxes use inline gentle tints — light enough to
+  // print cleanly on B&W (readable as light grey), pleasant on colour printers.
+
+  case 'where-does-it-live':{
+    if(!LIB) return buildAct('things-together',items,all);
+    // Clean 3-way habitat split by library category — no ambiguity, no hand-picking.
+    const water = shuffle(libWhere(it=>it.category==='sea-creatures')).slice(0,2);
+    const land  = shuffle(libWhere(it=>it.category==='animals')).slice(0,2);
+    const sky   = shuffle(libWhere(it=>it.category==='birds')).slice(0,2);
+    if(water.length<2||land.length<2||sky.length<2) return buildAct('things-together',items,all);
+    const picks = shuffle([...water,...land,...sky]);
+    const box = (emoji,label,border,bg)=>`<div class="match-item" style="min-height:${s}"><div class="match-dot"></div><div style="border:2px solid ${border};background:${bg};border-radius:8px;padding:.32rem .55rem;font-weight:900;font-size:.7rem;color:#1A1108;display:flex;align-items:center;gap:.3rem;white-space:nowrap"><span style="font-size:1.05rem;line-height:1">${emoji}</span><span>${label}</span></div></div>`;
+    return`<div class="act-hdr"><div class="act-type">${T('t_habitat')}</div><div class="act-instr">${T('i_habitat')}</div></div>
+    <div class="act-body" style="width:100%">
+      <div class="match-wrap" style="align-items:stretch">
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">
+          ${picks.map(x=>`<div class="match-item" style="min-height:${s}"><span style="font-size:${s}">${x.e}</span><div class="match-dot"></div></div>`).join('')}
+        </div>
+        <div style="flex:1;min-width:30px"></div>
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">
+          ${box('💧',T('boxWater'),'#2B6CB0','#E3F2FA')}
+          ${box('🌳',T('boxLand'), '#2E8B57','#EAF6E8')}
+          ${box('☁️',T('boxSky'),  '#7C3AED','#F3EEFC')}
+        </div>
+      </div>
+      <div style="font-size:.6rem;color:#A07860;font-weight:700;margin-top:.35rem;text-align:center">${T('i_habitatSub')}</div>
+    </div>`;}
+
+  case 'healthy-or-treat':{
+    if(!LIB) return buildAct('fruit-or-veg',items,all);
+    // Healthy = fruits + vegetables + a small whitelist of wholesome basics.
+    // Treat = a whitelist of sweets / fried snacks. "Treat" not "junk" — kinder framing.
+    const HEALTHY_FOODS = new Set(['milk','honey','egg','cheese','nuts','bread','jam-jar']);
+    const TREAT_FOODS   = new Set(['ice-cream','cake','cupcake','macarons','pancakes','cookies','biscuits','hamburger','hot-dog','french-fries','chips','popcorn','cotton-candy','waffle','muffin']);
+    const healthyPool = shuffle([
+      ...libWhere(it=>it.category==='fruits'),
+      ...libWhere(it=>it.category==='vegetables'),
+      ...libWhere(it=>it.category==='food' && HEALTHY_FOODS.has(it.name))
+    ]);
+    const treatPool = shuffle(libWhere(it=>it.category==='food' && TREAT_FOODS.has(it.name)));
+    if(healthyPool.length<3||treatPool.length<3) return buildAct('fruit-or-veg',items,all);
+    const picks = shuffle([...healthyPool.slice(0,3),...treatPool.slice(0,3)]);
+    const box = (emoji,label,border,bg)=>`<div class="match-item" style="min-height:${s}"><div class="match-dot"></div><div style="border:2px solid ${border};background:${bg};border-radius:8px;padding:.35rem .6rem;font-weight:900;font-size:.72rem;color:#1A1108;display:flex;align-items:center;gap:.3rem;white-space:nowrap"><span style="font-size:1.05rem;line-height:1">${emoji}</span><span>${label}</span></div></div>`;
+    return`<div class="act-hdr"><div class="act-type">${T('t_healthy')}</div><div class="act-instr">${T('i_healthy')}</div></div>
+    <div class="act-body" style="width:100%">
+      <div class="match-wrap" style="align-items:stretch">
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">
+          ${picks.map(x=>`<div class="match-item" style="min-height:${s}"><span style="font-size:${s}">${x.e}</span><div class="match-dot"></div></div>`).join('')}
+        </div>
+        <div style="flex:1;min-width:30px"></div>
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">
+          ${box('🍏',T('boxHealthy'),'#2E8B57','#EAF6E8')}
+          ${box('🍰',T('boxTreat'),  '#E07A22','#FFF3E0')}
+        </div>
+      </div>
+      <div style="font-size:.6rem;color:#A07860;font-weight:700;margin-top:.35rem;text-align:center">${T('i_healthySub')}</div>
+    </div>`;}
+
+  case 'what-category':{
+    if(!LIB) return buildAct('sort',items,all);
+    // Grade-adaptive: pick 2 or 3 category bins per instance. Bins are drawn from
+    // a whitelist of concrete, kid-recognisable categories (uses TOPIC_META for
+    // the icon + label so it stays in sync with the rest of the UI).
+    const CAT_WHITELIST = ['animals','fruits','vegetables','vehicles','toys','birds','insects','instruments','clothing','sea-creatures','household','sports'];
+    // Pool of categories that ACTUALLY have ≥2 items in the library right now.
+    const catsAvail = CAT_WHITELIST.filter(c=>libWhere(it=>it.category===c).length>=2);
+    if(catsAvail.length<2) return buildAct('sort',items,all);
+    const nBins = (catsAvail.length>=3 && Math.random()<0.5) ? 3 : 2;
+    const chosenCats = shuffle(catsAvail).slice(0,nBins);
+    const perCat = nBins===3 ? 2 : 3;   // 3 bins × 2 items = 6, or 2 bins × 3 items = 6
+    let picks = [];
+    for(const c of chosenCats){ picks = picks.concat(shuffle(libWhere(it=>it.category===c)).slice(0,perCat)); }
+    picks = shuffle(picks);
+    const box = (cat)=>{
+      const meta = (typeof TOPIC_META!=='undefined' && TOPIC_META[cat]) || {e:'📦',l:cat};
+      return`<div class="match-item" style="min-height:${s}"><div class="match-dot"></div><div style="border:2px solid #7a510c;background:#FFF6DD;border-radius:8px;padding:.35rem .6rem;font-weight:900;font-size:.72rem;color:#1A1108;display:flex;align-items:center;gap:.3rem;white-space:nowrap"><span style="font-size:1.05rem;line-height:1">${meta.e}</span><span>${meta.l}</span></div></div>`;
+    };
+    return`<div class="act-hdr"><div class="act-type">${T('t_category')}</div><div class="act-instr">${T('i_category')}</div></div>
+    <div class="act-body" style="width:100%">
+      <div class="match-wrap" style="align-items:stretch">
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">
+          ${picks.map(x=>`<div class="match-item" style="min-height:${s}"><span style="font-size:${s}">${x.e}</span><div class="match-dot"></div></div>`).join('')}
+        </div>
+        <div style="flex:1;min-width:30px"></div>
+        <div class="match-col" style="justify-content:space-around;align-self:stretch">
+          ${chosenCats.map(c=>box(c)).join('')}
+        </div>
+      </div>
+      <div style="font-size:.6rem;color:#A07860;font-weight:700;margin-top:.35rem;text-align:center">${T('i_categorySub')}</div>
     </div>`;}
 
   case 'same-different':{
