@@ -1,0 +1,490 @@
+{
+  "_readme": "Landing-page keyword targets. Real terms verified against both Keyword Planner CSVs (2026-07-12, India). 'constructed' = base word + modifier patterns proven elsewhere in the data. Primary = page title/H1 material; secondary = weave into body copy naturally.",
+  "sudoku_page": {
+    "primary": [
+      {
+        "keyword": "sudoku printable",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "printable sudoku puzzles",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "sudoku for beginners",
+        "avgSearches": "5000",
+        "competition": "Medium"
+      },
+      {
+        "keyword": "easy sudoku puzzles to print",
+        "avgSearches": "500",
+        "competition": "Low"
+      }
+    ],
+    "exact_product_match": [
+      {
+        "keyword": "sudoku 4x4",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "sudoku 6x6",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "2x2 sudoku",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "mini sudoku 6x6",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "sudoku 4x4 easy",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "sudoku 6x6 easy with answers",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "very easy sudoku 4x4",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "beginner 4x4 sudoku printable",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "beginner sudoku 6x6 printable",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "4x4 sudoku printable",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "6x6 sudoku easy",
+        "avgSearches": "500",
+        "competition": "Medium"
+      }
+    ],
+    "secondary": [
+      {
+        "keyword": "print off sudoku",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "printable sudoku game",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "sudoku game print",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "sudoku paper",
+        "avgSearches": "50000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "easy printable sudoku",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "simple sudoku printable",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "printable sudoku sheets",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "picture sudoku printable",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "kindergarten sudoku printable",
+        "avgSearches": "50",
+        "competition": "Unknown"
+      },
+      {
+        "keyword": "junior sudoku printable",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "sudoku for beginners with answers",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "easy sudoku with answers",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "free printable sudoku for kindergarten",
+        "avgSearches": "0",
+        "competition": "Unknown"
+      },
+      {
+        "keyword": "sudoku worksheets for beginners",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "printable sudoku worksheets",
+        "avgSearches": "50",
+        "competition": "Low"
+      }
+    ],
+    "constructed_longtail": [
+      "sudoku for kids",
+      "sudoku for kids printable",
+      "easy sudoku for kids",
+      "4x4 sudoku for kids",
+      "sudoku puzzles for kids with answers",
+      "kids sudoku 2x2",
+      "free printable sudoku for kids pdf"
+    ]
+  },
+  "maze_page": {
+    "primary": [
+      {
+        "keyword": "maze puzzle",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "printable mazes",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "easy maze",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "maze print out",
+        "avgSearches": "500",
+        "competition": "Low"
+      }
+    ],
+    "secondary": [
+      {
+        "keyword": "maze print",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "maze simple",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "fun maze",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "hard maze",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "math maze",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "number maze",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "easy maze printable",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "hard maze printable",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "simple mazes printable",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "preschool mazes",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "printable mazes for 4 year olds",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "printable mazes for 5 year olds",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "animal maze",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "alphabet maze",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "dinosaur maze printable",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "maze puzzle printable",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "paper maze",
+        "avgSearches": "50",
+        "competition": "Low"
+      },
+      {
+        "keyword": "maze coloring pages",
+        "avgSearches": "50",
+        "competition": "Low"
+      }
+    ],
+    "constructed_longtail": [
+      "maze for kids",
+      "printable maze for kids",
+      "easy maze for kids",
+      "maze worksheets for kids",
+      "free printable mazes for kids pdf",
+      "maze puzzles for children",
+      "fun mazes to print"
+    ]
+  },
+  "colouring_page": {
+    "primary": [
+      {
+        "keyword": "coloring worksheets",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "coloring worksheets for preschool",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "coloring worksheets for kindergarten",
+        "avgSearches": "500",
+        "competition": "Low"
+      }
+    ],
+    "secondary": [
+      {
+        "keyword": "coloring worksheets for kindergarten pdf",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "preschool coloring worksheets pdf",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "colouring worksheet for lkg",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "coloring worksheets for lkg",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "coloring worksheets for nursery",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "colouring sheets for nursery",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "colouring worksheet for nursery",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "coloring worksheets for playgroup",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "colouring worksheets for ukg",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "color worksheet pdf",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "printable color worksheets",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "lkg colouring worksheets",
+        "avgSearches": "500",
+        "competition": "Low"
+      }
+    ],
+    "constructed_longtail": [
+      "coloring pages for kids",
+      "free printable coloring pages for kids",
+      "animal coloring pages for kids",
+      "colouring pages for kids pdf",
+      "easy coloring pages for preschoolers"
+    ]
+  },
+  "tracing_page": {
+    "primary": [
+      {
+        "keyword": "tracing worksheets",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "letter tracing worksheets",
+        "avgSearches": "5000",
+        "competition": "Medium"
+      },
+      {
+        "keyword": "alphabet tracing worksheets",
+        "avgSearches": "5000",
+        "competition": "Medium"
+      },
+      {
+        "keyword": "handwriting practice sheets pdf",
+        "avgSearches": "5000",
+        "competition": "Low"
+      }
+    ],
+    "secondary": [
+      {
+        "keyword": "preschool tracing worksheets",
+        "avgSearches": "5000",
+        "competition": "Medium"
+      },
+      {
+        "keyword": "handwriting practice worksheets",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "handwriting practice worksheets pdf",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "tracing lines worksheets",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "alphabet tracing worksheets az",
+        "avgSearches": "5000",
+        "competition": "Medium"
+      },
+      {
+        "keyword": "tracing pages for preschool",
+        "avgSearches": "5000",
+        "competition": "Medium"
+      },
+      {
+        "keyword": "preschool tracing sheets",
+        "avgSearches": "5000",
+        "competition": "Medium"
+      },
+      {
+        "keyword": "letter tracing worksheets pdf free download",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "alphabet tracing worksheets pdf",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "number tracing worksheets",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "letter tracing worksheets pdf",
+        "avgSearches": "500",
+        "competition": "Low"
+      },
+      {
+        "keyword": "trace alphabet letters",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "tracing alphabet",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "traceable alphabet",
+        "avgSearches": "5000",
+        "competition": "Low"
+      },
+      {
+        "keyword": "number tracing sheets",
+        "avgSearches": "500",
+        "competition": "Low"
+      }
+    ],
+    "constructed_longtail": [
+      "tracing worksheets for kids",
+      "abc tracing worksheets for nursery",
+      "a to z tracing worksheets pdf",
+      "number tracing 1 to 10 worksheet"
+    ]
+  }
+}

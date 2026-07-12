@@ -63,8 +63,23 @@ const STATIC = [
       { loc: '/assets/og/og-worksheet.webp',
         caption: 'Free printable worksheets for kids — Pre-KG to Class 5, colouring, mazes, sudoku, math, tracing, all free' },
     ] },
-  // NOTE: /worksheets/ (plural landing) is intentionally NOT in the sitemap — it's
-  // noindex,follow (single-hub strategy: /worksheet is the one ranking target).
+  // Dedicated activity landing pages (index,follow) — each targets one keyword
+  // cluster and links back to /worksheet, funnelling ranking equity to the hub.
+  // These are STATIC files at worksheets/<name>.html; the [slug] Function falls
+  // through to them because the name isn't a parseable share slug. Distinct from
+  // the noindex,follow /worksheets/<share-slug> URLs, which stay out of the sitemap.
+  { loc: '/worksheets/sudoku',          priority: '0.9',  changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-worksheet.webp',
+      caption: 'Free printable picture sudoku for kids — easy 2x2, 4x4 and 6x6 puzzles' }] },
+  { loc: '/worksheets/maze',            priority: '0.9',  changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-worksheet.webp',
+      caption: 'Free printable mazes for kids in seven fun shapes, easy to hard, with answer key' }] },
+  { loc: '/worksheets/math',            priority: '0.9',  changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-worksheet.webp',
+      caption: 'Free printable maths worksheets for kids — LKG to Class 5 addition and subtraction' }] },
+  { loc: '/worksheets/activity-worksheets', priority: '0.9', changefreq: 'monthly',
+    images: [{ loc: '/assets/og/og-worksheet.webp',
+      caption: 'Free printable activity worksheets for kids — 20+ activities per pack, nursery to Class 5' }] },
   { loc: '/tools',                      priority: '0.9',  changefreq: 'weekly',
     images: [{ loc: '/assets/og/og-tools.webp',
       caption: 'Free online tools by ViLoLabs — image, PDF, and QR utilities that run in your browser' }] },

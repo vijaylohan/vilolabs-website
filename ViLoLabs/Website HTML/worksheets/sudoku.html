@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Printable Sudoku for Kids — Easy 2×2, 4×4 &amp; 6×6 Picture Puzzles | ViLoLabs</title>
+<meta name="description" content="Free printable picture sudoku for kids — pick 2×2, 4×4 or 6×6 and print a fresh puzzle in seconds. Beginner-friendly, uses pictures instead of numbers, no sign-up. Made for ages 4 and up.">
+<meta name="keywords" content="sudoku for kids, printable sudoku, picture sudoku, sudoku for beginners, 4x4 sudoku, 6x6 sudoku, 2x2 sudoku, easy sudoku to print, kids sudoku puzzles">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Free Printable Sudoku for Kids — 2×2, 4×4 &amp; 6×6 Picture Puzzles">
+<meta property="og:description" content="Beginner-friendly picture sudoku for children. Pick a grid size, print a fresh puzzle in seconds. Free, no sign-up.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vilolabs.in/worksheets/sudoku">
+<meta property="og:site_name" content="ViLoLabs">
+<meta property="og:image" content="https://vilolabs.in/assets/og/og-worksheet.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Printable Sudoku for Kids — Picture Puzzles">
+<meta name="twitter:description" content="Beginner-friendly picture sudoku for children. Pick 2×2, 4×4 or 6×6 and print in seconds. Free.">
+<meta name="twitter:image" content="https://vilolabs.in/assets/og/og-worksheet.webp">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tools/shared.css?v=60f1458f">
+<link rel="canonical" href="https://vilolabs.in/worksheets/sudoku">
+<style>
+.quick-links{margin-top:1.3rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;font-size:.8rem;}
+.quick-links a{color:var(--gold2);text-decoration:none;padding:.32rem .8rem;border:1px solid rgba(200,150,60,.28);border-radius:20px;transition:border-color .15s,background .15s;}
+.quick-links a:hover{border-color:var(--gold);background:rgba(200,150,60,.08);}
+.pg-pick{display:flex;align-items:center;justify-content:center;gap:.9rem;flex-wrap:wrap;margin:1.4rem 0 .2rem;}
+.pg-pick .lbl{font-size:.8rem;letter-spacing:.06em;color:var(--brown3);text-transform:uppercase;}
+.pg-slider{-webkit-appearance:none;appearance:none;width:180px;height:6px;border-radius:3px;background:rgba(200,150,60,.25);outline:none;}
+.pg-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--char);}
+.pg-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--char);}
+.pg-val{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:30px;padding:0 .5rem;background:var(--gold);color:var(--char);border-radius:6px;font-weight:700;font-size:.85rem;}
+.su-diff{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0 .6rem;}
+.su-card .gen{display:inline-block;text-decoration:none;padding:.65rem 1.3rem;border:none;background:var(--gold);color:var(--char);border-radius:6px;cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:background .15s;}
+.su-card .gen:hover{background:var(--cream);}
+.morelinks{max-width:760px;margin:2.6rem auto 0;text-align:center;}
+.morelinks h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.5rem;color:var(--cream);margin-bottom:.9rem;}
+.morelinks a{display:inline-block;margin:.3rem .4rem;padding:.5rem 1rem;border:1px solid rgba(200,150,60,.25);border-radius:20px;color:var(--gold2);text-decoration:none;font-size:.85rem;transition:border-color .15s,background .15s;}
+.morelinks a:hover{border-color:var(--gold);background:rgba(200,150,60,.08);}
+@media(max-width:640px){.su-diff{grid-template-columns:1fr;}}
+.su-card{border:1px solid rgba(200,150,60,.22);background:rgba(200,150,60,.04);border-radius:14px;padding:1.4rem 1.2rem;text-align:center;display:flex;flex-direction:column;align-items:center;}
+.su-card .su-thumb{width:96px;height:96px;margin-bottom:.7rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.28));}
+.su-card h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:1.5rem;color:var(--cream);margin:.1rem 0 .1rem;}
+.su-card h3 em{font-style:italic;color:var(--gold);}
+.su-card .age{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brown3);margin-bottom:.8rem;}
+.su-card p{font-size:.86rem;color:rgba(245,240,232,.6);font-weight:300;margin-bottom:1.1rem;flex:1;}
+.su-card button{padding:.65rem 1.3rem;border:none;background:var(--gold);color:var(--char);border-radius:6px;cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:background .15s;}
+.su-card button:hover{background:var(--cream);}
+.prose{max-width:760px;margin:2.4rem auto 0;}
+.prose h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.6rem,3vw,2.2rem);color:var(--cream);margin:2rem 0 .8rem;letter-spacing:-.01em;}
+.prose h2 em{font-style:italic;color:var(--gold);}
+.prose p{color:rgba(245,240,232,.62);font-weight:300;font-size:1rem;line-height:1.75;margin-bottom:1.1rem;}
+.prose strong{color:var(--cream);font-weight:500;}
+.faq{max-width:760px;margin:1rem auto 0;}
+.faq details{border-bottom:1px solid rgba(200,150,60,.14);padding:1rem 0;}
+.faq summary{cursor:pointer;font-size:1.02rem;color:var(--cream);font-weight:500;list-style:none;}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::before{content:'+';color:var(--gold);margin-right:.7rem;font-weight:600;}
+.faq details[open] summary::before{content:'–';}
+.faq p{color:rgba(245,240,232,.6);font-weight:300;font-size:.94rem;line-height:1.7;margin:.7rem 0 0;padding-left:1.4rem;}
+.hub-cta{max-width:760px;margin:2.6rem auto 0;text-align:center;border:1px solid rgba(200,150,60,.22);border-radius:14px;padding:2rem 1.5rem;background:rgba(200,150,60,.04);}
+.hub-cta h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.8rem;color:var(--cream);margin-bottom:.6rem;}
+.hub-cta p{color:rgba(245,240,232,.6);font-weight:300;margin-bottom:1.2rem;}
+.hub-cta a{display:inline-block;padding:.75rem 1.6rem;background:var(--gold);color:var(--char);border-radius:6px;text-decoration:none;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;}
+.hub-cta a:hover{background:var(--cream);}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is this number sudoku or picture sudoku?","acceptedAnswer":{"@type":"Answer","text":"It's picture sudoku. Instead of numbers, each puzzle uses small pictures, so children who can't read numbers yet can still play. The rule is the same as classic sudoku — every row, column and box must contain each picture once."}},
+{"@type":"Question","name":"What sizes of sudoku can I print?","acceptedAnswer":{"@type":"Answer","text":"Three sizes of printable sudoku: a 2×2 for the youngest beginners (around ages 4–5), a 4×4 sudoku as the classic middle step (ages 6–9), and a 6×6 sudoku for children ready for a harder challenge (ages 10 and up). Each one is easy to print — pick a level and it opens ready to go."}},
+{"@type":"Question","name":"Is it really free to print?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every puzzle is free to generate, print or save as a PDF, with no sign-up and no watermark. Each time you click, you get a brand-new puzzle, so you can print as many sheets as you like."}},
+{"@type":"Question","name":"Do the puzzles come with an answer key?","acceptedAnswer":{"@type":"Answer","text":"Picture sudoku puzzles are made to be solved by placing each cut-out picture in the right square, and every generated puzzle has exactly one valid solution. An answer key is not printed with the sheet, so an adult may want to check the finished grid together with the child."}}
+]}
+</script>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="logo">ViLo<em>Labs</em></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/tools">Tools</a></li>
+    <li><a href="/app">Apps</a></li>
+    <li><a href="/worksheet">Worksheets</a></li>
+  </ul>
+</nav>
+
+<div class="wrap"><p class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/worksheet">Worksheets</a><span class="sep">/</span>Sudoku for Kids</p></div>
+
+<header class="hero">
+  <p class="eyebrow">Free Printable · Picture Sudoku</p>
+  <h1>Sudoku <em>for Kids.</em></h1>
+  <p class="lead">Simple, beginner-friendly printable sudoku you can make in seconds. Pick a level below and a fresh puzzle opens ready to print — picture-based, so there are no numbers to read. Free, no sign-up.</p>
+  <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>Picture-Based</span><span>Fresh Puzzle Every Time</span></div>
+  <div class="quick-links"><a href="/worksheets/maze">🌀 Mazes</a><a href="/worksheets/math">🔢 Maths</a><a href="/worksheets/activity-worksheets">✏️ Activity packs</a><a href="/worksheet">🎨 Full maker</a></div>
+</header>
+
+<section class="wrap">
+  <div class="app-sec">
+    <div class="use-tip"><span><strong>A quick note for grown-ups</strong> — these are picture puzzles, so little ones cut out the pictures and place them in the empty squares. It helps to sit with a young child the first time so they get the idea.</span></div>
+
+    <div class="pg-pick">
+      <span class="lbl">How many pages?</span>
+      <input type="range" class="pg-slider" min="5" max="15" step="1" value="5" oninput="setPages(this.value)" aria-label="Number of pages">
+      <span class="pg-val" id="pgVal">5</span>
+    </div>
+
+    <div class="su-diff">
+      <div class="su-card">
+        <svg class="su-thumb" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Easy picture sudoku preview">
+          <rect x="3" y="3" width="114" height="114" rx="12" fill="#F7F1E7" stroke="#E4D5BE" stroke-width="1.5"/>
+          <g stroke="#C8963C" stroke-width="2.6" fill="none">
+            <rect x="18" y="18" width="84" height="84" rx="3"/>
+            <line x1="60" y1="18" x2="60" y2="102"/><line x1="18" y1="60" x2="102" y2="60"/>
+          </g>
+          <g font-size="26" text-anchor="middle" dominant-baseline="central">
+            <text x="39" y="39">🍎</text><text x="81" y="81">🐶</text>
+          </g>
+        </svg>
+        <h3><em>Easy</em></h3>
+        <div class="age">Ages 4–5 · First Sudoku</div>
+        <p>The gentlest puzzles we make — a perfect first taste for a child meeting sudoku for the very first time.</p>
+        <a class="gen" href="/worksheet?w=sudoku-for-kids-easy21&size=2" onclick="return goSudoku(event,2)">Generate →</a>
+      </div>
+      <div class="su-card">
+        <svg class="su-thumb" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Medium picture sudoku preview">
+          <rect x="3" y="3" width="114" height="114" rx="12" fill="#F7F1E7" stroke="#E4D5BE" stroke-width="1.5"/>
+          <g stroke="#DFCFAE" stroke-width="1" fill="none">
+            <line x1="39" y1="18" x2="39" y2="102"/><line x1="81" y1="18" x2="81" y2="102"/>
+            <line x1="18" y1="39" x2="102" y2="39"/><line x1="18" y1="81" x2="102" y2="81"/>
+          </g>
+          <g stroke="#C8963C" stroke-width="2.6" fill="none">
+            <rect x="18" y="18" width="84" height="84" rx="3"/>
+            <line x1="60" y1="18" x2="60" y2="102"/><line x1="18" y1="60" x2="102" y2="60"/>
+          </g>
+          <g font-size="15" text-anchor="middle" dominant-baseline="central">
+            <text x="28.5" y="28.5">🍎</text><text x="70.5" y="28.5">⭐</text><text x="49.5" y="49.5">🐶</text>
+            <text x="91.5" y="70.5">🍎</text><text x="28.5" y="91.5">⭐</text><text x="70.5" y="91.5">🐶</text>
+          </g>
+        </svg>
+        <h3><em>Medium</em></h3>
+        <div class="age">Ages 6–9 · The Classic</div>
+        <p>The level most children settle into once the idea clicks — a comfortable, everyday kind of challenge.</p>
+        <a class="gen" href="/worksheet?w=sudoku-for-kids-mid44x&size=4" onclick="return goSudoku(event,4)">Generate →</a>
+      </div>
+      <div class="su-card">
+        <svg class="su-thumb" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hard picture sudoku preview">
+          <rect x="3" y="3" width="114" height="114" rx="12" fill="#F7F1E7" stroke="#E4D5BE" stroke-width="1.5"/>
+          <g stroke="#DFCFAE" stroke-width="0.8" fill="none">
+            <line x1="32" y1="18" x2="32" y2="102"/><line x1="46" y1="18" x2="46" y2="102"/><line x1="74" y1="18" x2="74" y2="102"/><line x1="88" y1="18" x2="88" y2="102"/>
+            <line x1="18" y1="32" x2="102" y2="32"/><line x1="18" y1="60" x2="102" y2="60"/><line x1="18" y1="88" x2="102" y2="88"/>
+          </g>
+          <g stroke="#C8963C" stroke-width="2.4" fill="none">
+            <rect x="18" y="18" width="84" height="84" rx="3"/>
+            <line x1="60" y1="18" x2="60" y2="102"/><line x1="18" y1="46" x2="102" y2="46"/><line x1="18" y1="74" x2="102" y2="74"/>
+          </g>
+          <g font-size="10" text-anchor="middle" dominant-baseline="central">
+            <text x="25" y="25">🍎</text><text x="53" y="25">⭐</text><text x="81" y="25">🐶</text>
+            <text x="39" y="39">🐶</text><text x="95" y="39">🍎</text><text x="67" y="53">⭐</text>
+            <text x="25" y="67">🐶</text><text x="81" y="67">🍎</text><text x="53" y="81">🍎</text><text x="95" y="95">⭐</text>
+          </g>
+        </svg>
+        <h3><em>Hard</em></h3>
+        <div class="age">Ages 10+ · A Real Challenge</div>
+        <p>Bigger and trickier, for children who have outgrown the easy puzzles and want something that really makes them think.</p>
+        <a class="gen" href="/worksheet?w=sudoku-for-kids-hard66&size=6" onclick="return goSudoku(event,6)">Generate →</a>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.8rem;color:var(--brown3);margin-top:.4rem;">Each button opens the worksheet maker and builds a brand-new puzzle for you. Don't like the one you get? Just press <em>New</em> for another.</p>
+
+    <div class="hub-cta">
+      <h2>Need more than sudoku?</h2>
+      <p>Colouring pages, mazes, tracing practice and grade-by-grade maths — all in one free worksheet maker.</p>
+      <a href="/worksheet">Open the full worksheet maker →</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="prose">
+    <h2>What makes these <em>picture</em> sudoku</h2>
+    <p>Most sudoku you find online is built for adults — nine-by-nine grids full of numbers, the kind you'd see in a newspaper. That's a lot to ask of a five-year-old. These puzzles work the same way, but they swap the numbers for small friendly pictures, so a child who can't yet read numbers can still solve a real sudoku. The rule never changes: every row, every column, and every marked box has to hold each picture exactly once.</p>
+    <p>Because the puzzles are picture-based, kids solve them by <strong>cutting out the little pictures and placing them in the empty squares</strong>. It turns a quiet logic puzzle into something hands-on, which tends to hold a young child's attention far longer than a worksheet they only look at.</p>
+
+    <h2>Pick the size that fits your child</h2>
+    <p>Starting too hard is the quickest way to put a child off, so the three sizes are meant to be climbed like steps. The <strong>2×2</strong> is really just a first taste — there are no inner boxes, so it's all about "each picture once per row and column." The <strong>4×4 sudoku</strong> is the classic that most people picture when they hear the word, and it's where the real thinking begins. The <strong>6×6 sudoku</strong> is there for the child who's cracked the 4×4 too easily and is asking for something tougher.</p>
+    <p>There's no fixed set of puzzles to run out of. Every time you print off a sudoku the maker builds a fresh one, so the same child can work through a new printable sudoku every day without ever seeing a repeat.</p>
+
+    <h2>Why sudoku is worth the time</h2>
+    <p>Sudoku is a rare kind of quiet game that's genuinely good for a growing brain, right from kindergarten age upward. Working out where each picture goes builds pattern-spotting, logical reasoning and a bit of patience — all without a screen. It's a calm thing to hand a child on a long afternoon, in the car, or at a restaurant while you wait for food. And because each sheet prints on plain paper, a whole stack of printable sudoku costs nothing beyond the ink.</p>
+  </div>
+
+  <div class="faq">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.6rem,3vw,2.2rem);color:var(--cream);margin:2.4rem 0 .4rem;text-align:center;">Common questions</h2>
+    <details><summary>Is this number sudoku or picture sudoku?</summary>
+      <p>It's picture sudoku. Instead of numbers, each puzzle uses small pictures, so children who can't read numbers yet can still play. The rule is the same as classic sudoku — every row, column and box must contain each picture once.</p></details>
+    <details><summary>What sizes of sudoku can I print?</summary>
+      <p>Three sizes of printable sudoku: a 2×2 for the youngest beginners (around ages 4–5), a 4×4 sudoku as the classic middle step (ages 6–9), and a 6×6 sudoku for children ready for a harder challenge (ages 10 and up). Each one is easy to print — pick a level and it opens ready to go.</p></details>
+    <details><summary>Is it really free to print?</summary>
+      <p>Yes. Every puzzle is free to generate, print or save as a PDF, with no sign-up and no watermark. Each time you click, you get a brand-new puzzle, so you can print as many sheets as you like.</p></details>
+    <details><summary>Do the puzzles come with an answer key?</summary>
+      <p>Picture sudoku puzzles are made to be solved by placing each cut-out picture in the right square, and every generated puzzle has exactly one valid solution. An answer key is not printed with the sheet, so an adult may want to check the finished grid together with the child.</p></details>
+  </div>
+
+  <div class="morelinks">
+    <h2>More free worksheets</h2>
+    <a href="/worksheets/maze">🧩 Mazes for Kids</a>
+    <a href="/worksheets/math">🔢 Maths Worksheets</a>
+    <a href="/worksheets/activity-worksheets">✏️ Activity Packs</a>
+    <a href="/worksheet">🎨 Full Worksheet Maker</a>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="fl"><a href="/">Home</a><a href="/tools">Tools</a><a href="/app">Apps</a><a href="/worksheet">Worksheets</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+  <p class="cp">© <span id="yr"></span> ViLoLabs · Free printable worksheets, built in India for the world.</p>
+  <p class="disclaimer">Worksheets are generated automatically and can occasionally contain a mistake. Please glance over each page before printing.</p>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+// Page-count slider (5–15) — shared by every Generate link below.
+var _pages=5;
+function setPages(v){_pages=Math.max(5,Math.min(15,parseInt(v,10)||5));var el=document.getElementById('pgVal');if(el)el.textContent=_pages;}
+// Generate links are real crawlable <a href> anchors (fixed example seed) so
+// search engines follow them into /worksheet, which canonicalises to /worksheet
+// and concentrates ranking there. On a real click we swap in a fresh random id +
+// the chosen page count so each visitor gets a unique sheet.
+function goSudoku(e,size){
+  var id=Math.random().toString(36).slice(2,8);
+  if(id.length<5) id=(id+'x4k9z').slice(0,5);
+  var url='/worksheet?w=sudoku-for-kids-'+id+'&size='+size+'&pages='+_pages;
+  if(e&&e.preventDefault) e.preventDefault();
+  location.href=url; return false;
+}
+</script>
+</body>
+</html>

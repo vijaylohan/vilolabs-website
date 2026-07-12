@@ -110,7 +110,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .pg-brand em{font-style:normal;color:var(--gold)}
 .pg-num{font-size:.6rem;font-weight:700;color:rgba(245,240,232,.4);letter-spacing:.1em}
 .pg-meta{padding:.38rem 1rem;font-size:.58rem;color:#7a5a30;font-weight:700;display:flex;gap:.5rem;flex-wrap:wrap;border-bottom:1px solid #EDE4D6;background:#FDFAF5}
-.pg-nameline{display:flex;gap:1rem;padding:.55rem 1rem .6rem;border-bottom:1.5px solid #EDE4D6;font-size:.66rem;font-weight:700;color:#4a3520;align-items:flex-end}
+.pg-nameline{display:flex;gap:1.4rem;padding:.6rem 1rem .65rem;border-bottom:1.5px solid #EDE4D6;font-size:.82rem;font-weight:800;color:#3a2a12;align-items:flex-end}
 .nl{display:flex;align-items:flex-end;gap:.4rem}
 .nl-name{flex:2.4}.nl-date{flex:1.5}.nl-score{flex:1}
 .nl-line{flex:1;border-bottom:1.5px solid var(--border);height:1.15em}
@@ -642,6 +642,14 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
     <span>Word search</span>
     <span>Math Master</span>
     <span>Picture Math</span>
+  </p>
+
+  <h2>Popular worksheet pages</h2>
+  <p>Looking for one kind of worksheet? These pages let you jump straight to it:
+    <a href="/worksheets/sudoku">Sudoku for kids</a> ·
+    <a href="/worksheets/maze">Mazes for kids</a> ·
+    <a href="/worksheets/math">Maths worksheets (LKG–Class 5)</a> ·
+    <a href="/worksheets/activity-worksheets">Mixed activity packs</a>.
   </p>
 
   <h2>Browse free printable worksheets</h2>
@@ -2530,6 +2538,35 @@ if(window.WSeo && WSeo.loadKeywords){ try{ WSeo.loadKeywords(); }catch(e){} }
     curLvl = (cfg.activity==='math') ? (_MM_GRADE_REV[cfg.grade]||'mm-1') : cfg.grade;
     if(cfg.grade==='colouring') curTopic=cfg.category||'mixed';
     else curTopic='mixed';
+    // Sudoku landing pages (/worksheets/sudoku) deep-link a specific grid size
+    // via &size=2|4|6 so the "6×6 Hard" card actually lands on a 6×6 sheet.
+    // Only meaningful for sudoku; ignored everywhere else. Does NOT touch
+    // _wsCurrentConfig (SEO-critical) — just pre-sets the global suSize + button.
+    if(curLvl==='sudoku'){
+      const sz=parseInt(new URLSearchParams(location.search).get('size'),10);
+      if(sz===2||sz===4||sz===6){
+        const b=document.querySelector('#suSizeGrid .math-diff-btn[data-size="'+sz+'"]');
+        if(b) selSuSize(b); else suSize=sz;
+      }
+    }
+    // Maze landing page (/worksheets/maze) deep-links a shape via &shape=<name>
+    // and an optional difficulty via &age=4..12, so a "Star maze" card really
+    // lands on a star-shaped maze. Same pattern as sudoku above; ignored elsewhere.
+    if(curLvl==='maze'){
+      const q=new URLSearchParams(location.search);
+      const shp=q.get('shape');
+      if(shp){ const b=document.querySelector('.mz-shape-btn[data-shape="'+shp+'"]'); if(b) selMzShape(b); }
+      const ag=parseInt(q.get('age'),10);
+      if(ag>=4&&ag<=12){ const s=document.getElementById('mzAge'); if(s){ s.value=ag; updateMzAge(ag); } }
+    }
+    // Landing pages can request a page count via &pages=5..15 (applies to any
+    // activity). Pre-sets the range + curPageCount before generate so the sheet
+    // opens with the number of pages the visitor picked on the landing page.
+    const pg=parseInt(new URLSearchParams(location.search).get('pages'),10);
+    if(pg>=5&&pg<=15){
+      const r=document.getElementById('pcRange');
+      if(r){ r.value=pg; onPcChange(pg); } else { curPageCount=pg; }
+    }
     // Trigger generate with the seed from URL — produces identical worksheet
     setTimeout(()=>generate({seed:cfg.seed}),50);
   });
@@ -2608,6 +2645,10 @@ function buildColouringPagePng(idx,page,lvlName,topicName){
       <span class="pg-brand">ViLo<em>Labs</em> Colouring</span>
       <span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span>
     </div>
+    <div class="pg-nameline">
+      <div class="nl nl-name"><span>${T('name')}</span><div class="nl-line"></div></div>
+      <div class="nl nl-date"><span>${T('date')}</span><div class="nl-line"></div></div>
+    </div>
     <div class="col-title-row">
       <div>
         <div class="col-title-main">${Tf('colourTitle','name',subjectLabel)}</div>
@@ -2616,10 +2657,6 @@ function buildColouringPagePng(idx,page,lvlName,topicName){
     </div>
     <div class="col-main-wrap col-png-wrap">
       <img src="/${page.file}" alt="${subjectLabel}" class="col-png">
-    </div>
-    <div class="pg-nameline" style="border-top:1px solid #EDE4D6">
-      <div class="nl"><span>${T('name')}</span><div class="nl-line"></div></div>
-      <div class="nl"><span>${T('date')}</span><div class="nl-line" style="max-width:80px"></div></div>
     </div>
     <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600">
       ${T('footerCol')}${date}
@@ -2636,6 +2673,10 @@ function buildColouringPage(idx,subj,lvlName,topicName){
       <span class="pg-brand">ViLo<em>Labs</em> Colouring</span>
       <span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span>
     </div>
+    <div class="pg-nameline">
+      <div class="nl nl-name"><span>${T('name')}</span><div class="nl-line"></div></div>
+      <div class="nl nl-date"><span>${T('date')}</span><div class="nl-line"></div></div>
+    </div>
     <div class="col-title-row">
       <div>
         <div class="col-title-main">${Tf('colourTitle','name',subj.name+' '+subj.emoji)}</div>
@@ -2649,10 +2690,6 @@ function buildColouringPage(idx,subj,lvlName,topicName){
     <div class="col-main-wrap">${bigSVG}</div>
     <div class="col-crayon-row">
       <span class="col-crayon-lbl">${T('suggestedColours')}</span>${palRow}
-    </div>
-    <div class="pg-nameline" style="border-top:1px solid #EDE4D6">
-      <div class="nl"><span>${T('name')}</span><div class="nl-line"></div></div>
-      <div class="nl"><span>${T('date')}</span><div class="nl-line" style="max-width:80px"></div></div>
     </div>
     <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600">
       ${T('footerCol')}${date}
@@ -2827,16 +2864,16 @@ function buildSudokuPage(idx){
   const instrKey = N===2 ? 'sudokuInstr2' : N===6 ? 'sudokuInstr6' : 'sudokuInstr';
   return`
     <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Sudoku</span><span class="pg-num">${T('page')} ${idx+1} / ${curPageCount} · ${N}×${N}</span></div>
+    <div class="pg-nameline">
+      <div class="nl nl-name"><span>${T('name')}</span><div class="nl-line"></div></div>
+      <div class="nl nl-date"><span>${T('date')}</span><div class="nl-line"></div></div>
+    </div>
     <div class="su-title">🧩 ${title}</div>
     <div class="su-instr">${T(instrKey)}</div>
     <div class="su-wrap">
       <div class="su-grid">${svg}</div>
       <div style="font-size:.72rem;font-weight:800;color:#A07860;text-align:center">${T('sudokuCut')}</div>
       <div class="su-cut">${cut}</div>
-    </div>
-    <div class="pg-nameline">
-      <div class="nl"><span>${T('name')}</span><div class="nl-line"></div></div>
-      <div class="nl"><span>${T('date')}</span><div class="nl-line" style="max-width:80px"></div></div>
     </div>
     <div style="padding:.4rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">${T('footerSud')}${date}</div>`;
 }
@@ -3121,10 +3158,10 @@ function buildMazePage(idx,sp,shape,per){
     :`<div class="mz-grid mz-grid-${per}">${built.map(o=>`<div class="mz-cell">${o.svgEl}</div>`).join('')}</div>`;
   const html=`
     <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> Maze</span><span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span></div>
+    <div class="pg-nameline"><div class="nl nl-name"><span>${T('name')}</span><div class="nl-line"></div></div><div class="nl nl-date"><span>${T('date')}</span><div class="nl-line"></div></div></div>
     <div class="mz-page-title">🌀 ${T('shLbl_'+shape)||T('shLbl_square')} &nbsp;<span style="font-size:.85rem;font-weight:700">${ageTxt} · ${diff}</span></div>
     <div class="mz-page-instr">${instr}</div>
     ${body}
-    <div class="pg-nameline"><div class="nl"><span>${T('name')}</span><div class="nl-line"></div></div><div class="nl"><span>${T('date')}</span><div class="nl-line" style="max-width:80px"></div></div></div>
     <div style="padding:.35rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">${T('footerMaze')}${date}</div>`;
   return{mazes,html};
 }
