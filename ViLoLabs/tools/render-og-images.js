@@ -38,6 +38,8 @@ const TARGETS = [
   { name: 'blog-petrol-india',       url: 'https://vilolabs.in/blog/petrol-prices-india-2025' },
   { name: 'blog-petrol-india-2026',  url: 'https://vilolabs.in/blog/petrol-prices-india-2026' },
   { name: 'blog-petrol-neighbors',   url: 'https://vilolabs.in/blog/petrol-prices-neighboring-countries-2026' },
+  { name: 'blog-lpg-price',          url: 'https://vilolabs.in/blog/lpg-cylinder-price-2026' },
+  { name: 'blog-electricity-tariff', url: 'https://vilolabs.in/blog/electricity-tariff-state-wise-2026' },
   { name: 'tools',                   url: 'https://vilolabs.in/tools' },
   { name: 'tool-qr-generator',       url: 'https://vilolabs.in/tools/qr-generator' },
   { name: 'tool-image-to-pdf',       url: 'https://vilolabs.in/tools/image-to-pdf' },

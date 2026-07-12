@@ -124,6 +124,14 @@ const BLOG_OG = {
     loc:     '/assets/og/og-blog-petrol-neighbors.webp',
     caption: 'Petrol prices 2026: India vs Pakistan, Sri Lanka, Nepal, Bangladesh — comparative analysis',
   },
+  'lpg-cylinder-price-2026': {
+    loc:     '/assets/og/og-blog-lpg-price.webp',
+    caption: 'LPG cylinder price 2026 — domestic and commercial rates across Indian cities',
+  },
+  'electricity-tariff-state-wise-2026': {
+    loc:     '/assets/og/og-blog-electricity-tariff.webp',
+    caption: 'Electricity rate per unit in India 2026 — state-wise tariff comparison',
+  },
 };
 
 // ── Fetch paginated table from Supabase ─────────────────────────
