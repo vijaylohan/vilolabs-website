@@ -124,7 +124,7 @@
       <div class="progress" id="progress"><div class="bar" id="bar"></div></div>
 
       <div class="actions">
-        <button class="go-btn" id="go">Compress &amp; Download</button>
+        <button class="go-btn" id="go">Download Compressed PDF</button>
         <button class="clear-btn" id="clr">Choose another</button>
         <span class="status" id="status"></span>
       </div>
@@ -236,8 +236,12 @@ drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f&&(f.type==
 
 document.querySelectorAll('.preset').forEach(p=>p.addEventListener('click',()=>{
   document.querySelectorAll('.preset').forEach(x=>x.classList.remove('on'));p.classList.add('on');
+  // Auto-preview: recompute savings estimate the moment the user picks a
+  // quality level, so they see before/after BEFORE deciding to download —
+  // instead of only finding out after the file already saved.
+  if(pdfFile && analysis) computeCompressed();
 }));
-document.getElementById('go').addEventListener('click',doCompress);
+document.getElementById('go').addEventListener('click',downloadCompressed);
 document.getElementById('clr').addEventListener('click',()=>{pdfFile=null;analysis=null;fileInput.value='';document.getElementById('panel').style.display='none';document.getElementById('result').style.display='none';document.getElementById('analysis').classList.remove('show');});
 
 function fmtSize(bytes){
@@ -294,6 +298,10 @@ async function load(f){
     document.getElementById('analysis').classList.add('show');
     statusEl.classList.remove('err');
     statusEl.textContent=`${f.name} · ${fmtSize(f.size)} — pick a quality and Compress.`;
+    // Auto-preview at the default (Medium) preset right away, so the user
+    // sees an estimate the moment the PDF is analyzed — not only after
+    // they've already clicked Download.
+    if(jpegRefs.length>0) computeCompressed();
   }catch(err){
     console.error(err);statusEl.classList.add('err');statusEl.textContent='Couldn\'t read PDF: '+(err.message||'unknown')+' — it may be encrypted.';
   }
@@ -329,8 +337,15 @@ function recompressJpeg(bytes,quality,maxDim){
   });
 }
 
-async function doCompress(){
-  if(!pdfFile||!analysis)return;
+// Cache of the last computed result, so re-clicking Download after a
+// successful preview doesn't re-run the (potentially slow) re-encode loop.
+let _computedBytes=null, _computedQ=null;
+
+// Does the actual work — analyze, re-encode embedded JPEGs, rebuild the PDF —
+// and shows the before/after/saved panel. Does NOT download anything, so the
+// user can compare Light/Medium/Strong and see real numbers before committing.
+async function computeCompressed(){
+  if(!pdfFile||!analysis)return null;
   const sel=document.querySelector('.preset.on');
   const q=+sel.dataset.q;
   const maxDim=+sel.dataset.max||0;   // 0 means "keep original dimensions"
@@ -375,23 +390,46 @@ async function doCompress(){
       pill.style.background='rgba(232,134,122,.16)';pill.style.color='#e8867a';pill.style.borderColor='rgba(232,134,122,.3)';
       statusEl.classList.add('err');
       statusEl.textContent=`This PDF didn't shrink at this level. Try a Strong setting, or your PDF may already be fully optimised.`;
+      _computedBytes=null;_computedQ=null;
     } else {
       document.getElementById('b-save').textContent=fmtSize(saved);
       pill.textContent=`▼ ${pct}% smaller`;
       pill.style.background='';pill.style.color='';pill.style.borderColor='';
-      const blob=new Blob([outBytes],{type:'application/pdf'});
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-Compressed_${stamp()}.pdf`;
-      document.body.appendChild(a);a.click();a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url),2000);
-      statusEl.textContent=`✓ Compressed PDF downloaded · ${recompressed} image${recompressed!==1?'s':''} re-encoded · text preserved.`;
-      // ── pSEO: canonical preset URL by quality
-      _tsAfterAction({q});
+      statusEl.textContent=`Preview ready — ${pct}% smaller. Click Download to save it.`;
+      _computedBytes=outBytes;_computedQ=q;
     }
+    return {outBytes,q,recompressed};
   }catch(err){
     console.error(err);statusEl.classList.add('err');statusEl.textContent='Compress failed: '+(err.message||'unknown');
+    _computedBytes=null;_computedQ=null;
+    return null;
+  }finally{
+    progEl.classList.remove('show');go.disabled=false;
   }
-  progEl.classList.remove('show');go.disabled=false;
+}
+
+// The Download button. Fast path: if we already computed a result for the
+// currently-selected preset, just save it — no re-encoding. Otherwise (first
+// click, or the automatic preview didn't fire for some reason) it computes
+// first, then downloads — so the button always works end-to-end on its own.
+async function downloadCompressed(){
+  if(!pdfFile||!analysis)return;
+  const sel=document.querySelector('.preset.on');
+  const q=+sel.dataset.q;
+  let outBytes=_computedBytes;
+  if(outBytes===null || _computedQ!==q){
+    const r=await computeCompressed();
+    if(!r) return;               // computeCompressed already showed the error
+    outBytes=_computedBytes;
+    if(outBytes===null) return;  // "output bigger" case — nothing to download
+  }
+  const blob=new Blob([outBytes],{type:'application/pdf'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-Compressed_${stamp()}.pdf`;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+  statusEl.textContent=`✓ Compressed PDF downloaded · text preserved.`;
+  _tsAfterAction({q});
 }
 
 // ──────────────────────────────────────────────────────────────────
