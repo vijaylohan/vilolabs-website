@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Generator — URL, WiFi, UPI, vCard, Free, No Watermark | ViLoLabs</title>
-<meta name="description" content="Free QR code generator. Create QR codes for URLs, plain text, WiFi networks, UPI payments and vCards. Pick colors, download as PNG — no sign up, no watermark, fully private.">
-<meta name="keywords" content="qr code generator, free qr generator, qr code maker, upi qr code, wifi qr code, vcard qr, custom qr colors, no watermark, online qr">
+<title>QR Code Generator — URL, WiFi, UPI, vCard &amp; Bulk, Free, No Watermark | ViLoLabs</title>
+<meta name="description" content="Free QR code generator with bulk mode. Create QR codes for URLs, plain text, WiFi networks, UPI payments and vCards — or generate many QR codes at once and download them as a ZIP. No sign up, no watermark, fully private.">
+<meta name="keywords" content="qr code generator, bulk qr code generator, free qr generator, qr code maker, upi qr code, wifi qr code, vcard qr, generate multiple qr codes, custom qr colors, no watermark, online qr">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="QR Code Generator — URL, WiFi, UPI, vCard | ViLoLabs">
 <meta property="og:description" content="Free QR code maker with UPI preset for Indian payments. Custom colors. Private.">
@@ -19,6 +19,8 @@
 <link rel="stylesheet" href="/assets/share.css?v=5ea038de">
 <script src="/assets/share.js?v=863dd2bd" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous"></script>
+<!-- JSZip: used only for Bulk mode to package many QR PNGs into a single download. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous" defer></script>
 <!-- jsQR: served locally so no CDN/SRI dependency. Used to verify the QR we just drew actually scans. -->
 <script src="/assets/vendor/jsQR.min.js"></script>
 <!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
@@ -70,7 +72,7 @@
 </script>
 <style>.tested-with{display:block;margin:.7rem auto .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:center;max-width:780px;}</style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does UPI QR work?","acceptedAnswer":{"@type":"Answer","text":"You enter your UPI ID (like name@okhdfcbank) and an optional amount and note. Any UPI app (Google Pay, PhonePe, Paytm, BHIM) can scan the QR and pay you directly. You can leave the amount blank to let the payer choose."}},{"@type":"Question","name":"What error correction should I pick?","acceptedAnswer":{"@type":"Answer","text":"Medium is fine for most uses. Pick High if you plan to put a logo over the centre — High recovers up to 30% damage, so the QR still scans with the logo on top."}},{"@type":"Question","name":"Are the colors safe?","acceptedAnswer":{"@type":"Answer","text":"Use dark dots on a light background. The bigger the contrast, the more reliable the scan. Inverted colors (light on dark) often fail on older phone cameras."}},{"@type":"Question","name":"Is any data sent to a server?","acceptedAnswer":{"@type":"Answer","text":"No — the QR is generated entirely in your browser. Even your UPI ID stays on your device."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does UPI QR work?","acceptedAnswer":{"@type":"Answer","text":"You enter your UPI ID (like name@okhdfcbank) and an optional amount and note. Any UPI app (Google Pay, PhonePe, Paytm, BHIM) can scan the QR and pay you directly. You can leave the amount blank to let the payer choose."}},{"@type":"Question","name":"What error correction should I pick?","acceptedAnswer":{"@type":"Answer","text":"Medium is fine for most uses. Pick High if you plan to put a logo over the centre — High recovers up to 30% damage, so the QR still scans with the logo on top."}},{"@type":"Question","name":"Are the colors safe?","acceptedAnswer":{"@type":"Answer","text":"Use dark dots on a light background. The bigger the contrast, the more reliable the scan. Inverted colors (light on dark) often fail on older phone cameras."}},{"@type":"Question","name":"Can I generate many QR codes at once?","acceptedAnswer":{"@type":"Answer","text":"Yes — pick the Bulk tab, paste one URL or line of text per row (up to 100), and click Download all as ZIP. Every QR uses your chosen colors, error correction and margin. Each PNG in the ZIP is numbered and named after its source, so 100 lines still make sense in a folder."}},{"@type":"Question","name":"Is any data sent to a server?","acceptedAnswer":{"@type":"Answer","text":"No — the QR is generated entirely in your browser. Even your UPI ID stays on your device."}}]}
 </script>
 </head>
 <body>
@@ -91,7 +93,7 @@
 <header class="hero">
   <p class="eyebrow">Free Online Tool · QR</p>
   <h1>QR Code <em>Generator.</em></h1>
-  <p class="lead">Make QR codes for URLs, text, WiFi, UPI payments and vCards. Pick your colors, download as PNG or SVG. Free, watermark-free, fully private.</p>
+  <p class="lead">Make QR codes for URLs, text, WiFi, UPI payments and vCards — or use <strong>Bulk mode</strong> to generate many QR codes at once and download them all as a single ZIP. Pick your colors, download as PNG or SVG. Free, watermark-free, fully private.</p>
   <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>UPI Preset</span></div>
   <p class="tested-with">Verified — Every QR is scan-tested in-browser before display. UPI verified against PhonePe, GPay, Paytm and BHIM.</p>
 </header>
@@ -106,6 +108,7 @@
           <button class="t-tab" data-t="wifi">WiFi</button>
           <button class="t-tab" data-t="upi">UPI Payment</button>
           <button class="t-tab" data-t="vcard">vCard</button>
+          <button class="t-tab" data-t="bulk">Bulk</button>
         </div>
 
         <!-- URL / Text -->
@@ -154,6 +157,15 @@
           </div>
         </div>
 
+        <!-- Bulk: one URL/text per line, generates a ZIP of PNGs -->
+        <div class="pane" id="p-bulk" style="display:none">
+          <div class="field">
+            <label>URLs or text <span style="color:var(--brown3);font-weight:400;text-transform:none;letter-spacing:0;">(one per line, up to 100)</span></label>
+            <textarea id="i-bulk" rows="8" placeholder="https://vilolabs.in&#10;https://vilolabs.in/tools&#10;https://vilolabs.in/worksheet&#10;https://vilolabs.in/pulse" style="min-height:180px;font-family:'Outfit',sans-serif;"></textarea>
+            <div class="hint" id="bulk-count" style="margin-top:.35rem;">Paste one line per QR — colors, error correction and margin from the panel below apply to every QR.</div>
+          </div>
+        </div>
+
         <div class="opts" style="margin-top:1.3rem">
           <div class="opt">
             <label>Error correction</label>
@@ -182,11 +194,16 @@
         <div class="qr-canvas-wrap"><canvas id="qr-canvas" width="260" height="260"></canvas></div>
         <div class="qr-meta" id="qr-meta">—</div>
         <div class="qr-data" id="qr-data"></div>
-        <div class="qr-actions">
+        <div class="qr-actions" id="qr-actions-single">
           <button class="gold" id="dl-png">Download PNG</button>
           <button id="dl-svg">SVG</button>
           <button id="copy-data">Copy data</button>
           <button id="share-qr" title="Save & copy a shareable link">↗ Share</button>
+        </div>
+        <!-- Bulk-mode actions (shown only when Bulk tab is active). Preview above is
+             the first line's QR so users see how their settings apply before ZIP-ing. -->
+        <div class="qr-actions" id="qr-actions-bulk" style="display:none">
+          <button class="gold" id="dl-bulk">Download all as ZIP</button>
         </div>
         <span class="status" id="status" style="margin-top:.6rem"></span>
       </div>
@@ -241,6 +258,7 @@
   <div class="faq-item"><h3>How does UPI QR work?</h3><p>You enter your UPI ID (like <em>name@okhdfcbank</em>) and an optional amount and note. Any UPI app (Google Pay, PhonePe, Paytm, BHIM) can scan the QR and pay you directly. You can leave the amount blank to let the payer choose.</p></div>
   <div class="faq-item"><h3>What error correction should I pick?</h3><p>Medium is fine for most uses. Pick High if you plan to put a logo over the centre — High recovers up to 30% damage, so the QR still scans with the logo on top.</p></div>
   <div class="faq-item"><h3>Are the colors safe?</h3><p>Use dark dots on a light background. The bigger the contrast, the more reliable the scan. Inverted colors (light on dark) often fail on older phone cameras.</p></div>
+  <div class="faq-item"><h3>Can I generate many QR codes at once?</h3><p>Yes — pick the <em>Bulk</em> tab, paste one URL or line of text per row (up to 100), and click <em>Download all as ZIP</em>. Every QR uses your chosen colors, error correction and margin. Each PNG in the ZIP is numbered and named after its source, so 100 lines still make sense in a folder.</p></div>
   <div class="faq-item"><h3>Is any data sent to a server?</h3><p>No — the QR is generated entirely in your browser. Even your UPI ID stays on your device.</p></div>
 </section>
 
@@ -306,7 +324,14 @@ function lockColorsForUPI(){
 document.querySelectorAll('.t-tab').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.t-tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   curType=b.dataset.t;
-  ['url','wifi','upi','vcard'].forEach(t=>document.getElementById('p-'+t).style.display=t===curType?'block':'none');
+  ['url','wifi','upi','vcard','bulk'].forEach(t=>document.getElementById('p-'+t).style.display=t===curType?'block':'none');
+  // Bulk mode swaps the action row: no PNG/SVG/Copy/Share; instead one "Download ZIP"
+  // button that runs a loop. Preview canvas still shows the FIRST line so users
+  // can eyeball colors/error-correction before committing.
+  const bulk=curType==='bulk';
+  document.getElementById('qr-actions-single').style.display=bulk?'none':'';
+  document.getElementById('qr-actions-bulk').style.display=bulk?'':'none';
+  updateBulkCount();
   lockColorsForUPI();
   render();
 }));
@@ -318,6 +343,9 @@ lockColorsForUPI();   // initial state — default tab is URL, but harmless to c
 
 function escWifi(s){return (s||'').replace(/([\\;,:"])/g,'\\$1');}
 function buildData(){
+  // Bulk shows the FIRST line as a live preview so the user can eyeball
+  // colors/error-correction before generating the whole batch.
+  if(curType==='bulk'){const lines=getBulkLines();return lines[0]||'';}
   if(curType==='url') return document.getElementById('i-url').value.trim();
   if(curType==='wifi'){
     const ssid=escWifi(document.getElementById('w-ssid').value);
@@ -354,6 +382,31 @@ function buildData(){
   return '';
 }
 
+// ── Bulk mode helpers ─────────────────────────────────────────────
+// Split textarea into a de-duplicated, capped list of non-empty lines.
+function getBulkLines(){
+  const raw=(document.getElementById('i-bulk')||{}).value||'';
+  const seen=new Set();
+  const out=[];
+  for(const line of raw.split(/\r?\n/)){
+    const t=line.trim();
+    if(!t||seen.has(t)) continue;
+    seen.add(t);
+    out.push(t);
+    if(out.length>=100) break;   // hard cap — keeps browser responsive
+  }
+  return out;
+}
+function updateBulkCount(){
+  const el=document.getElementById('bulk-count');
+  if(!el) return;
+  if(curType!=='bulk'){el.textContent='Paste one line per QR — colors, error correction and margin from the panel below apply to every QR.';return;}
+  const n=getBulkLines().length;
+  el.textContent = n===0
+    ? 'Add one URL or text per line — up to 100 in one ZIP.'
+    : `${n} unique QR${n>1?'s':''} ready · settings below apply to every QR.`;
+}
+
 // ── QR safety checks: scan-contrast + UPI sanity ──
 function _lum(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');const r=parseInt(hex.slice(0,2),16)/255,g=parseInt(hex.slice(2,4),16)/255,b=parseInt(hex.slice(4,6),16)/255;const f=c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4);return .2126*f(r)+.7152*f(g)+.0722*f(b);}
 function _contrast(a,b){const l1=_lum(a),l2=_lum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+.05)/(lo+.05);}
@@ -377,6 +430,7 @@ function qrWarnings(){
 }
 
 function render(){
+  updateBulkCount();
   const data=buildData();
   curData=data;
   // Hide the raw payload preview for UPI / vCard — it's developer-style text
@@ -493,6 +547,79 @@ document.getElementById('dl-svg').addEventListener('click',()=>{
 document.getElementById('copy-data').addEventListener('click',()=>{
   if(!curData)return;
   navigator.clipboard&&navigator.clipboard.writeText(curData).then(()=>{statusEl.textContent='✓ Data copied.';},()=>{statusEl.textContent='Copy failed.';});
+});
+
+// ── Bulk generation: build a QR PNG for every line, package as ZIP ───
+// Reuses the exact same qrcode() + canvas drawing as render() so what the
+// preview shows (first line, current colors/error correction/margin) is
+// EXACTLY what each ZIP entry contains — no surprises.
+async function _bulkRenderOne(data, ec, margin, fg, bg, px){
+  const qr=qrcode(0,ec);qr.addData(data);qr.make();
+  const n=qr.getModuleCount();
+  const totalUnits=n+margin*2;
+  const cnv=document.createElement('canvas');cnv.width=px;cnv.height=px;
+  const cell=px/totalUnits;
+  const ctx=cnv.getContext('2d');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,px,px);
+  ctx.fillStyle=fg;
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++){
+    if(qr.isDark(r,c)){const x=(c+margin)*cell,y=(r+margin)*cell;ctx.fillRect(Math.floor(x),Math.floor(y),Math.ceil(cell)+1,Math.ceil(cell)+1);}
+  }
+  return new Promise(res=>cnv.toBlob(res,'image/png'));
+}
+// Make a filesystem-safe filename from an arbitrary line of input.
+// Keeps letters/digits/dash/underscore; collapses everything else to underscore.
+function _bulkFilename(line, idx){
+  let s=String(line||'').trim();
+  // Strip URL scheme so google.com/thing stays readable.
+  s=s.replace(/^https?:\/\//i,'').replace(/^www\./i,'');
+  // Substitute path separators before the general regex so the URL structure survives.
+  s=s.replace(/[\/?#&=]+/g,'_');
+  // Only safe chars.
+  s=s.replace(/[^A-Za-z0-9._-]/g,'_').replace(/_+/g,'_').replace(/^[._-]+|[._-]+$/g,'');
+  if(!s) s='qr';
+  if(s.length>50) s=s.slice(0,50);
+  return String(idx+1).padStart(3,'0')+'_'+s+'.png';
+}
+document.getElementById('dl-bulk').addEventListener('click', async ()=>{
+  const lines=getBulkLines();
+  if(!lines.length){statusEl.classList.add('err');statusEl.textContent='Add at least one URL or line of text first.';return;}
+  if(typeof JSZip==='undefined'){statusEl.classList.add('err');statusEl.textContent='ZIP library is still loading — please try again in a moment.';return;}
+  statusEl.classList.remove('err');
+  const btn=document.getElementById('dl-bulk');btn.disabled=true;
+  try{
+    const ec=document.getElementById('o-ec').value;
+    const margin=+document.getElementById('o-margin').value;
+    const fg=document.getElementById('o-fg').value||'#000000';
+    const bg=document.getElementById('o-bg').value||'#ffffff';
+    const zip=new JSZip();
+    const folder=zip.folder('ViLoLabs_QRs');
+    let ok=0, skip=0;
+    for(let i=0;i<lines.length;i++){
+      statusEl.textContent=`Rendering ${i+1} / ${lines.length}…`;
+      try{
+        const blob=await _bulkRenderOne(lines[i], ec, margin, fg, bg, 560);
+        if(!blob){skip++;continue;}
+        folder.file(_bulkFilename(lines[i], i), blob);
+        ok++;
+      }catch(err){skip++;}
+      await new Promise(r=>setTimeout(r,0));    // yield so UI updates
+    }
+    if(!ok){statusEl.classList.add('err');statusEl.textContent='Nothing was generated — inputs may be too long for a QR.';btn.disabled=false;return;}
+    statusEl.textContent=`Packaging ${ok} QRs into a ZIP…`;
+    const zipBlob=await zip.generateAsync({type:'blob', compression:'STORE'});
+    const url=URL.createObjectURL(zipBlob);
+    const a=document.createElement('a');
+    a.href=url;a.download=`ViLoLabs_QRs_${ok}_${stamp()}.zip`;
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+    const mb=(zipBlob.size/1024/1024).toFixed(2);
+    statusEl.textContent=`✓ Downloaded ZIP with ${ok} QR${ok>1?'s':''}${skip?' ('+skip+' skipped)':''} · ${mb} MB.`;
+  }catch(err){
+    console.error(err);
+    statusEl.classList.add('err');statusEl.textContent='Bulk failed: '+(err.message||'unknown');
+  }
+  btn.disabled=false;
 });
 
 // ──────────────────────────────────────────────────────────────────
