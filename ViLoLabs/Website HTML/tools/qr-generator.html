@@ -72,7 +72,7 @@
 </script>
 <style>.tested-with{display:block;margin:.7rem auto .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:center;max-width:780px;}</style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does UPI QR work?","acceptedAnswer":{"@type":"Answer","text":"You enter your UPI ID (like name@okhdfcbank) and an optional amount and note. Any UPI app (Google Pay, PhonePe, Paytm, BHIM) can scan the QR and pay you directly. You can leave the amount blank to let the payer choose."}},{"@type":"Question","name":"What error correction should I pick?","acceptedAnswer":{"@type":"Answer","text":"Medium is fine for most uses. Pick High if you plan to put a logo over the centre — High recovers up to 30% damage, so the QR still scans with the logo on top."}},{"@type":"Question","name":"Are the colors safe?","acceptedAnswer":{"@type":"Answer","text":"Use dark dots on a light background. The bigger the contrast, the more reliable the scan. Inverted colors (light on dark) often fail on older phone cameras."}},{"@type":"Question","name":"Can I generate many QR codes at once?","acceptedAnswer":{"@type":"Answer","text":"Yes — pick the Bulk tab, paste one URL or line of text per row (up to 100), and click Download all as ZIP. Every QR uses your chosen colors, error correction and margin. Each PNG in the ZIP is numbered and named after its source, so 100 lines still make sense in a folder."}},{"@type":"Question","name":"Is any data sent to a server?","acceptedAnswer":{"@type":"Answer","text":"No — the QR is generated entirely in your browser. Even your UPI ID stays on your device."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does UPI QR work?","acceptedAnswer":{"@type":"Answer","text":"You enter your UPI ID (like name@okhdfcbank) and an optional amount and note. Any UPI app (Google Pay, PhonePe, Paytm, BHIM) can scan the QR and pay you directly. You can leave the amount blank to let the payer choose."}},{"@type":"Question","name":"What error correction should I pick?","acceptedAnswer":{"@type":"Answer","text":"Medium is fine for most uses. Pick High if you plan to put a logo over the centre — High recovers up to 30% damage, so the QR still scans with the logo on top."}},{"@type":"Question","name":"Are the colors safe?","acceptedAnswer":{"@type":"Answer","text":"Use dark dots on a light background. The bigger the contrast, the more reliable the scan. Inverted colors (light on dark) often fail on older phone cameras."}},{"@type":"Question","name":"What if the QR doesn't scan?","acceptedAnswer":{"@type":"Answer","text":"Tick Print text below QR and the actual URL, UPI ID or WiFi network name gets printed right under the code — baked into the PNG/SVG you download, not just shown on screen. If a scan ever fails, whoever's holding it can just read and type the value in by hand. For WiFi, only the network name is printed — never the password, so it isn't left in plain sight next to the QR."}},{"@type":"Question","name":"Can I generate many QR codes at once?","acceptedAnswer":{"@type":"Answer","text":"Yes — pick the Bulk tab, paste one URL or line of text per row (up to 100), and click Download all as ZIP. Every QR uses your chosen colors, error correction and margin. Each PNG in the ZIP is numbered and named after its source, so 100 lines still make sense in a folder."}},{"@type":"Question","name":"Is any data sent to a server?","acceptedAnswer":{"@type":"Answer","text":"No — the QR is generated entirely in your browser. Even your UPI ID stays on your device."}}]}
 </script>
 </head>
 <body>
@@ -187,6 +187,12 @@
               <span class="color-pick"><input type="color" id="o-bg" value="#ffffff"> Bg</span>
             </div>
           </div>
+          <div class="opt" id="opt-printtext-wrap" style="flex:1 1 100%;">
+            <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.82rem;color:rgba(245,240,232,.8);text-transform:none;letter-spacing:normal;font-weight:500;">
+              <input type="checkbox" id="o-printtext" checked style="width:auto;accent-color:var(--gold);">
+              Print text below QR (in case scan fails)
+            </label>
+          </div>
         </div>
       </div>
 
@@ -258,6 +264,7 @@
   <div class="faq-item"><h3>How does UPI QR work?</h3><p>You enter your UPI ID (like <em>name@okhdfcbank</em>) and an optional amount and note. Any UPI app (Google Pay, PhonePe, Paytm, BHIM) can scan the QR and pay you directly. You can leave the amount blank to let the payer choose.</p></div>
   <div class="faq-item"><h3>What error correction should I pick?</h3><p>Medium is fine for most uses. Pick High if you plan to put a logo over the centre — High recovers up to 30% damage, so the QR still scans with the logo on top.</p></div>
   <div class="faq-item"><h3>Are the colors safe?</h3><p>Use dark dots on a light background. The bigger the contrast, the more reliable the scan. Inverted colors (light on dark) often fail on older phone cameras.</p></div>
+  <div class="faq-item"><h3>What if the QR doesn't scan?</h3><p>Tick <em>Print text below QR</em> and the actual URL, UPI ID or WiFi network name gets printed right under the code — baked into the PNG/SVG you download, not just shown on screen. If a scan ever fails, whoever's holding it can just read and type the value in by hand. For WiFi, only the network name is printed — never the password, so it isn't left in plain sight next to the QR.</p></div>
   <div class="faq-item"><h3>Can I generate many QR codes at once?</h3><p>Yes — pick the <em>Bulk</em> tab, paste one URL or line of text per row (up to 100), and click <em>Download all as ZIP</em>. Every QR uses your chosen colors, error correction and margin. Each PNG in the ZIP is numbered and named after its source, so 100 lines still make sense in a folder.</p></div>
   <div class="faq-item"><h3>Is any data sent to a server?</h3><p>No — the QR is generated entirely in your browser. Even your UPI ID stays on your device.</p></div>
 </section>
@@ -331,6 +338,10 @@ document.querySelectorAll('.t-tab').forEach(b=>b.addEventListener('click',()=>{
   const bulk=curType==='bulk';
   document.getElementById('qr-actions-single').style.display=bulk?'none':'';
   document.getElementById('qr-actions-bulk').style.display=bulk?'':'none';
+  // Fallback print-text only makes sense for url/wifi/upi — vCard already
+  // shows its own info on the card design, and bulk is a different fast-batch
+  // flow (kept simple, no per-line strip).
+  document.getElementById('opt-printtext-wrap').style.display=(curType==='vcard'||bulk)?'none':'';
   updateBulkCount();
   lockColorsForUPI();
   render();
@@ -429,6 +440,34 @@ function qrWarnings(){
   return out;
 }
 
+// ── Manual fallback text — printed below the QR itself (baked into the
+// downloaded PNG/SVG, not just an on-screen preview) so if a scan fails,
+// someone can read and type the value in by hand. Off entirely for vCard
+// (info already shown elsewhere on a business card) and bulk (separate
+// fast-batch flow). WiFi deliberately prints the network name ONLY, never
+// the password — the QR already encodes the password, but printing it in
+// plain sight next to the QR would let anyone read it without scanning.
+function _printTextForType(){
+  const cb=document.getElementById('o-printtext');
+  if(!cb || !cb.checked) return '';
+  if(curType==='url'){
+    const t=document.getElementById('i-url').value.trim();
+    if(!t) return '';
+    return t.length>70 ? t.slice(0,70)+'…' : t;
+  }
+  if(curType==='wifi'){
+    const ssid=document.getElementById('w-ssid').value.trim();
+    return ssid ? ('WiFi: '+ssid) : '';
+  }
+  if(curType==='upi'){
+    const id=document.getElementById('u-id').value.trim();
+    if(!id) return '';
+    const amt=document.getElementById('u-amt').value.trim();
+    return amt ? (id+' · ₹'+amt) : id;
+  }
+  return '';
+}
+
 function render(){
   updateBulkCount();
   const data=buildData();
@@ -456,7 +495,11 @@ function render(){
     const _fg=upiLocked?'#000000':document.getElementById('o-fg').value;
     // For UPI, render a merchant-poster style card: QR on top + "Pay to: NAME" below.
     const payeeName=upiLocked?document.getElementById('u-name').value.trim():'';
-    const stripH=upiLocked?(payeeName?120:0):0;
+    const payeeStripH=upiLocked?(payeeName?120:0):0;
+    // Manual-fallback text strip — stacks BELOW the payee strip when both apply.
+    const printText=_printTextForType();
+    const textStripH=printText?54:0;
+    const stripH=payeeStripH+textStripH;
     canvas.width=px;canvas.height=px+stripH;
     const cell=px/totalUnits;
     const ctx=canvas.getContext('2d');
@@ -467,7 +510,7 @@ function render(){
     }
     // Payee strip (UPI only, when name is filled)
     if(upiLocked && payeeName){
-      const cy=px+stripH/2;
+      const cy=px+payeeStripH/2;
       ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;
       ctx.beginPath();ctx.moveTo(60,px+8);ctx.lineTo(px-60,px+8);ctx.stroke();
       ctx.fillStyle='#666';ctx.font='600 18px Outfit,system-ui,sans-serif';
@@ -478,6 +521,19 @@ function render(){
       while(ctx.measureText(payeeName).width>px-40 && fs>16){fs-=2;ctx.font='700 '+fs+'px Outfit,system-ui,sans-serif';}
       ctx.fillStyle='#1a1a1a';
       ctx.fillText(payeeName, px/2, cy+24);
+    }
+    // Manual-fallback text strip — plain, muted, single line. Sits below the
+    // payee strip (if any) or directly below the QR otherwise.
+    if(printText){
+      const stripTop=px+payeeStripH;
+      const cy=stripTop+textStripH/2;
+      ctx.strokeStyle='rgba(0,0,0,.10)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(50,stripTop+7);ctx.lineTo(px-50,stripTop+7);ctx.stroke();
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      let fs=16; ctx.font='500 '+fs+'px Outfit,system-ui,sans-serif';
+      while(ctx.measureText(printText).width>px-40 && fs>10){fs-=1;ctx.font='500 '+fs+'px Outfit,system-ui,sans-serif';}
+      ctx.fillStyle='#555';
+      ctx.fillText(printText, px/2, cy+8);
     }
     document.getElementById('qr-meta').textContent=`${n}×${n} modules · ${ec} correction · ${data.length} chars`;
     const _w=qrWarnings(),_we=_warnEl();_we.innerHTML=_w.join('<br>');_we.style.display=_w.length?'block':'none';
@@ -529,16 +585,24 @@ document.getElementById('dl-svg').addEventListener('click',()=>{
     for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(qr.isDark(r,c))rects+=`<rect x="${c+margin}" y="${r+margin}" width="1" height="1"/>`;
     // For UPI with a payee name, add a "PAY TO / NAME" strip below the QR
     const upiName=curType==='upi'?document.getElementById('u-name').value.trim():'';
-    const stripUnits=upiName?Math.round(total*0.22):0;
-    const vbH=total+stripUnits;
+    const payeeStripUnits=upiName?Math.round(total*0.22):0;
+    // Manual-fallback text strip — stacks below the payee strip when both apply.
+    const printText=_printTextForType();
+    const textStripUnits=printText?Math.round(total*0.14):0;
+    const vbH=total+payeeStripUnits+textStripUnits;
     const esc=(s)=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     const strip=upiName
       ?`<g font-family="Outfit,system-ui,sans-serif" text-anchor="middle">
-          <line x1="${total*0.18}" y1="${total+stripUnits*0.08}" x2="${total*0.82}" y2="${total+stripUnits*0.08}" stroke="#000" stroke-opacity="0.12" stroke-width="0.15"/>
-          <text x="${total/2}" y="${total+stripUnits*0.40}" font-size="${stripUnits*0.18}" font-weight="600" fill="#666" letter-spacing="0.3">PAY  TO</text>
-          <text x="${total/2}" y="${total+stripUnits*0.78}" font-size="${stripUnits*0.34}" font-weight="700" fill="#1a1a1a">${esc(upiName)}</text>
+          <line x1="${total*0.18}" y1="${total+payeeStripUnits*0.08}" x2="${total*0.82}" y2="${total+payeeStripUnits*0.08}" stroke="#000" stroke-opacity="0.12" stroke-width="0.15"/>
+          <text x="${total/2}" y="${total+payeeStripUnits*0.40}" font-size="${payeeStripUnits*0.18}" font-weight="600" fill="#666" letter-spacing="0.3">PAY  TO</text>
+          <text x="${total/2}" y="${total+payeeStripUnits*0.78}" font-size="${payeeStripUnits*0.34}" font-weight="700" fill="#1a1a1a">${esc(upiName)}</text>
         </g>`:'';
-    const svg=`<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${vbH}" shape-rendering="crispEdges"><rect width="${total}" height="${vbH}" fill="${bg}"/><g fill="${fg}">${rects}</g>${strip}</svg>`;
+    const textStrip=printText
+      ?`<g font-family="Outfit,system-ui,sans-serif" text-anchor="middle">
+          <line x1="${total*0.14}" y1="${total+payeeStripUnits+textStripUnits*0.12}" x2="${total*0.86}" y2="${total+payeeStripUnits+textStripUnits*0.12}" stroke="#000" stroke-opacity="0.10" stroke-width="0.12"/>
+          <text x="${total/2}" y="${total+payeeStripUnits+textStripUnits*0.68}" font-size="${textStripUnits*0.28}" font-weight="500" fill="#555">${esc(printText)}</text>
+        </g>`:'';
+    const svg=`<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${vbH}" shape-rendering="crispEdges"><rect width="${total}" height="${vbH}" fill="${bg}"/><g fill="${fg}">${rects}</g>${strip}${textStrip}</svg>`;
     const blob=new Blob([svg],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
     const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-QR_${stamp()}.svg`;document.body.appendChild(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),1500);
