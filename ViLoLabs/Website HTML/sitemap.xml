@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ViLoLabs sitemap — generated 2026-07-12T21:27:46.862Z by tools/build-sitemap.js -->
-<!-- 21 static · 0 worksheets · 3 tool shares · 5 captured images -->
+<!-- ViLoLabs sitemap — generated 2026-07-13T21:31:28.714Z by tools/build-sitemap.js -->
+<!-- 21 static · 0 worksheets · 4 tool shares · 5 captured images -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url><loc>https://vilolabs.in/</loc><changefreq>weekly</changefreq><priority>1.0</priority><image:image><image:loc>https://vilolabs.in/assets/og/og-home.webp</image:loc><image:caption>ViLoLabs — practical tools, sharp insights, made in India</image:caption></image:image></url>
   <url><loc>https://vilolabs.in/about</loc><changefreq>monthly</changefreq><priority>0.7</priority><image:image><image:loc>https://vilolabs.in/assets/og/og-about.webp</image:loc><image:caption>About ViLoLabs — solo developer building free tools and blog</image:caption></image:image></url>
@@ -26,6 +26,7 @@
   <url><loc>https://vilolabs.in/tools/qr-generator/url-qr-code-fsbvuw</loc><lastmod>2026-05-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://vilolabs.in/tools/image-to-pdf/jpg-to-pdf-a4-portrait</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://vilolabs.in/tools/image-to-pdf/jpg-to-pdf-a4-landscape</loc><lastmod>2026-07-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://vilolabs.in/tools/compress-pdf/compress-pdf-strong</loc><lastmod>2026-07-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://vilolabs.in/blog/petrol-prices-neighboring-countries-2026</loc><lastmod>2026-05-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>https://vilolabs.in/assets/og/og-blog-petrol-neighbors.webp</image:loc><image:caption>Petrol prices 2026: India vs Pakistan, Sri Lanka, Nepal, Bangladesh — comparative analysis</image:caption></image:image></url>
   <url><loc>https://vilolabs.in/blog/gold-prices-india-2026</loc><lastmod>2026-05-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>https://vilolabs.in/assets/og/og-blog-gold-prices.webp</image:loc><image:caption>Gold price analysis 2026 across Indian cities — IBJA data, GST, jeweller billing structures</image:caption></image:image></url>
   <url><loc>https://vilolabs.in/blog/petrol-prices-india-2025</loc><lastmod>2026-06-03</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>https://vilolabs.in/assets/og/og-blog-petrol-india.webp</image:loc><image:caption>Petrol price trends across Indian states in 2025 — PPAC data, state-by-state breakdown</image:caption></image:image></url>
