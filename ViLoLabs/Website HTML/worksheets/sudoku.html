@@ -25,6 +25,16 @@
 <link rel="stylesheet" href="/tools/shared.css?v=60f1458f">
 <link rel="canonical" href="https://vilolabs.in/worksheets/sudoku">
 <style>
+.scroll-hint{display:inline-flex;align-items:center;gap:.55rem;margin-top:1.3rem;padding:.55rem 1.3rem;border:1px solid rgba(200,150,60,.35);border-radius:22px;color:var(--gold);text-decoration:none;font-size:.82rem;letter-spacing:.04em;font-weight:500;background:rgba(200,150,60,.06);cursor:pointer;transition:opacity .35s,transform .35s,background .2s,border-color .2s;animation:sh-float 2.4s ease-in-out infinite;}
+.scroll-hint:hover{background:rgba(200,150,60,.14);border-color:var(--gold);}
+.scroll-hint .chev{display:inline-block;animation:sh-chev 1.6s ease-in-out infinite;}
+@keyframes sh-float{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
+@keyframes sh-chev{0%,100%{transform:translateY(0);opacity:.85;}50%{transform:translateY(3px);opacity:1;}}
+body.scrolled .scroll-hint{opacity:0;pointer-events:none;transform:translateY(-8px);}
+.floating-scroll{position:fixed;bottom:1.3rem;left:50%;transform:translateX(-50%);z-index:100;display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.25rem;border:1px solid rgba(200,150,60,.4);border-radius:22px;color:var(--gold);text-decoration:none;font-size:.78rem;letter-spacing:.05em;font-weight:600;background:rgba(26,17,8,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 4px 20px rgba(0,0,0,.45);transition:opacity .35s,transform .35s,background .2s,border-color .2s;animation:sh-float 2.4s ease-in-out infinite;}
+.floating-scroll:hover{background:rgba(26,17,8,.95);border-color:var(--gold);}
+.floating-scroll .fs-chev{display:inline-block;animation:sh-chev 1.6s ease-in-out infinite;}
+body.scrolled-past .floating-scroll{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(24px);}
 .quick-links{margin-top:1.3rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;font-size:.8rem;}
 .quick-links a{color:var(--gold2);text-decoration:none;padding:.32rem .8rem;border:1px solid rgba(200,150,60,.28);border-radius:20px;transition:border-color .15s,background .15s;}
 .quick-links a:hover{border-color:var(--gold);background:rgba(200,150,60,.08);}
@@ -79,6 +89,7 @@
 </head>
 <body>
 <div id="cursor"></div><div id="cursor-ring"></div>
+<a href="#picker" class="floating-scroll" aria-label="Scroll to worksheet options"><span>Scroll for more</span><span class="fs-chev">↓</span></a>
 
 <nav class="site-nav">
   <a href="/" class="logo">ViLo<em>Labs</em></a>
@@ -98,9 +109,10 @@
   <p class="lead">Simple, beginner-friendly printable sudoku you can make in seconds. Pick a level below and a fresh puzzle opens ready to print — picture-based, so there are no numbers to read. Free, no sign-up.</p>
   <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>Picture-Based</span><span>Fresh Puzzle Every Time</span></div>
   <div class="quick-links"><a href="/worksheets/maze">🌀 Mazes</a><a href="/worksheets/math">🔢 Maths</a><a href="/worksheets/activity-worksheets">✏️ Activity packs</a><a href="/worksheet">🎨 Full maker</a></div>
+  <a href="#picker" class="scroll-hint"><span class="txt">Choose a difficulty</span><span class="chev">↓</span></a>
 </header>
 
-<section class="wrap">
+<section class="wrap" id="picker">
   <div class="app-sec">
     <div class="use-tip"><span><strong>A quick note for grown-ups</strong> — these are picture puzzles, so little ones cut out the pictures and place them in the empty squares. It helps to sit with a young child the first time so they get the idea.</span></div>
 
@@ -224,6 +236,8 @@
 
 <script>
 document.getElementById('yr').textContent=new Date().getFullYear();
+addEventListener('scroll',()=>{const y=window.scrollY;document.body.classList.toggle('scrolled',y>60);document.body.classList.toggle('scrolled-past',y>300);},{passive:true});
+addEventListener('load',()=>{const p=document.getElementById('picker');if(p){const r=p.getBoundingClientRect();if(r.top<window.innerHeight*0.9)document.body.classList.add('scrolled-past');}});
 (function(){const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');if(window.matchMedia('(hover:none),(pointer:coarse)').matches){cur.style.display='none';ring.style.display='none';document.documentElement.style.cursor='auto';return;}let rx=0,ry=0,cx=0,cy=0;document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});(function loop(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();})();
 // Page-count slider (5–15) — shared by every Generate link below.
 var _pages=5;
