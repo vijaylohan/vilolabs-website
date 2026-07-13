@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resize Image Online — to Pixels, Percent or Target KB (200 KB, 100 KB) | ViLoLabs</title>
-<meta name="description" content="Free online image resizer. Resize JPG, PNG, WebP to exact pixels, percentage, or a target file size like 200 KB (for govt forms, UPSC, SSC, exam applications). No watermark, no sign up, fully private.">
-<meta name="keywords" content="resize image, resize image online, image resizer, resize to 200 kb, resize image to 100 kb, govt form photo size, upsc photo size, ssc photo size, free image resizer, no watermark">
+<title>Resize Image Online — Pixels, CM/Inches, Percent or Target KB | ViLoLabs</title>
+<meta name="description" content="Free online image resizer. Resize JPG, PNG, WebP to exact pixels, centimeters, inches, a percentage, or a target file size like 200 KB (for govt forms, UPSC, SSC, exam applications). No watermark, no sign up, fully private.">
+<meta name="keywords" content="resize image, resize image online, resize image in cm, resize photo in inches, image resizer, resize to 200 kb, resize image to 100 kb, govt form photo size, upsc photo size, ssc photo size, free image resizer, no watermark">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Resize Image — Pixels, Percent or Target KB (200 KB Preset) | ViLoLabs">
 <meta property="og:description" content="Free image resizer with a 200 KB target preset for Indian govt forms. Private, in-browser.">
@@ -56,7 +56,7 @@
 </script>
 <style>.tested-with{display:block;margin:.7rem auto .2rem;font-size:.72rem;font-style:italic;color:var(--brown3);text-align:center;max-width:780px;}</style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What are standard passport photo dimensions?","acceptedAnswer":{"@type":"Answer","text":"Indian passport photos on the online portal are 350 × 350 pixels between 20–300 KB; the physical print is 3.5 × 4.5 cm (roughly 413 × 531 px at 300 DPI). Each government portal has its own measurement — UPSC and SSC differ from IBPS — so instead of converting cm to pixels yourself, pick the preset for the exam or form and it locks the exact standard size for you."}},{"@type":"Question","name":"Why a 200 KB preset?","acceptedAnswer":{"@type":"Answer","text":"Many Indian government forms (UPSC, SSC, IBPS, state boards, exam portals) require a passport photo or signature image under 200 KB. The preset hits that target automatically."}},{"@type":"Question","name":"How does target KB mode work?","acceptedAnswer":{"@type":"Answer","text":"We keep your original dimensions and reduce JPG quality step by step until the file fits. If it still can't fit at low quality, we gently downscale dimensions until it does."}},{"@type":"Question","name":"Does this keep transparency?","acceptedAnswer":{"@type":"Answer","text":"PNG keeps transparency. JPG does not — we fill transparent areas with white. Choose your format in the Format dropdown."}},{"@type":"Question","name":"Are my images uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Everything happens in your browser — your image never leaves your device."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I resize in centimeters or inches?","acceptedAnswer":{"@type":"Answer","text":"Yes — pick Centimeters or Inches from the Unit dropdown in Pixel mode. The resize itself still happens in pixels internally, converted at 300 DPI (standard print quality), so a 3.5 × 4.5 cm target becomes exactly 413 × 531 pixels behind the scenes."}},{"@type":"Question","name":"What are standard passport photo dimensions?","acceptedAnswer":{"@type":"Answer","text":"Indian passport photos on the online portal are 350 × 350 pixels between 20–300 KB; the physical print is 3.5 × 4.5 cm (roughly 413 × 531 px at 300 DPI). Each government portal has its own measurement — UPSC and SSC differ from IBPS — so instead of converting cm to pixels yourself, pick the preset for the exam or form and it locks the exact standard size for you."}},{"@type":"Question","name":"Why a 200 KB preset?","acceptedAnswer":{"@type":"Answer","text":"Many Indian government forms (UPSC, SSC, IBPS, state boards, exam portals) require a passport photo or signature image under 200 KB. The preset hits that target automatically."}},{"@type":"Question","name":"How does target KB mode work?","acceptedAnswer":{"@type":"Answer","text":"We keep your original dimensions and reduce JPG quality step by step until the file fits. If it still can't fit at low quality, we gently downscale dimensions until it does."}},{"@type":"Question","name":"Does this keep transparency?","acceptedAnswer":{"@type":"Answer","text":"PNG keeps transparency. JPG does not — we fill transparent areas with white. Choose your format in the Format dropdown."}},{"@type":"Question","name":"Are my images uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Everything happens in your browser — your image never leaves your device."}}]}
 </script>
 </head>
 <body>
@@ -77,7 +77,7 @@
 <header class="hero">
   <p class="eyebrow">Free Online Tool · Image</p>
   <h1>Resize Image to <em>any size.</em></h1>
-  <p class="lead"><strong>Passport photo maker</strong> and picture size reducer in one — resize a passport photo, signature or any image to <strong>exact pixel dimensions</strong>, a percentage, or a target KB size. One-click <strong>Govt Form presets</strong> for UPSC, SSC CGL, IBPS PO, Passport, Aadhaar and PAN signatures — locks the pixel spec, fits the KB range. Free, watermark-free, runs in your browser.</p>
+  <p class="lead"><strong>Passport photo maker</strong> and picture size reducer in one — resize a passport photo, signature or any image to <strong>exact pixel, centimeter or inch dimensions</strong>, a percentage, or a target KB size. One-click <strong>Govt Form presets</strong> for UPSC, SSC CGL, IBPS PO, Passport, Aadhaar and PAN signatures — locks the pixel spec, fits the KB range. Free, watermark-free, runs in your browser.</p>
   <div class="trust"><span>100% Free</span><span>No Sign Up</span><span>No Watermark</span><span>Private</span></div>
   <p class="tested-with">Verified — Govt-form presets cross-checked against the latest UPSC, SSC CGL, IBPS PO and Aadhaar notices.</p>
 </header>
@@ -102,10 +102,14 @@
 
       <!-- pixel mode -->
       <div class="opts" id="opts-px">
-        <div class="opt"><label>Width (px)</label><input type="number" id="w" min="1" step="1"></div>
-        <div class="opt"><label>Height (px)</label><input type="number" id="h" min="1" step="1"></div>
+        <div class="opt"><label>Unit</label><select id="unit"><option value="px" selected>Pixels</option><option value="cm">Centimeters</option><option value="in">Inches</option></select></div>
+        <div class="opt" id="wrap-w-px"><label>Width (px)</label><input type="number" id="w" min="1" step="1"></div>
+        <div class="opt" id="wrap-h-px"><label>Height (px)</label><input type="number" id="h" min="1" step="1"></div>
+        <div class="opt" id="wrap-w-unit" style="display:none"><label>Width</label><input type="number" id="w-unit" min="0.01" step="0.01"></div>
+        <div class="opt" id="wrap-h-unit" style="display:none"><label>Height</label><input type="number" id="h-unit" min="0.01" step="0.01"></div>
         <label class="lock-wrap"><input type="checkbox" id="lock" checked>Lock aspect ratio</label>
         <div class="opt"><label>Format</label><select id="fmt-px"><option value="keep">Keep original</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div>
+        <div class="hint" id="unit-hint" style="display:none;width:100%;">Converted at 300 DPI (standard print quality) — the resize itself still happens in pixels.</div>
       </div>
 
       <!-- percent mode -->
@@ -223,6 +227,7 @@
 <section class="wrap section-pad">
   <p class="sec-tag">Good to Know</p>
   <h2 class="sec-h">Common <em>questions</em>.</h2>
+  <div class="faq-item"><h3>Can I resize in centimeters or inches?</h3><p>Yes — pick <em>Centimeters</em> or <em>Inches</em> from the Unit dropdown in Pixel mode. The resize itself still happens in pixels internally, converted at 300 DPI (standard print quality), so a 3.5 × 4.5 cm target becomes exactly 413 × 531 pixels behind the scenes.</p></div>
   <div class="faq-item"><h3>What are standard passport photo dimensions?</h3><p>Indian passport photos on the online portal are 350 × 350 pixels between 20–300 KB; the physical print is 3.5 × 4.5 cm (roughly 413 × 531 px at 300 DPI). Each government portal has its own measurement — UPSC and SSC differ from IBPS — so instead of converting cm to pixels yourself, pick the preset for the exam or form and it locks the exact standard size for you.</p></div>
   <div class="faq-item"><h3>Why a 200 KB preset?</h3><p>Many Indian government forms (UPSC, SSC, IBPS, state boards, exam portals) require a passport photo or signature image under 200 KB. The preset hits that target automatically.</p></div>
   <div class="faq-item"><h3>How does target KB mode work?</h3><p>We keep your original dimensions and reduce JPG quality step by step until the file fits. If it still can't fit at low quality, we gently downscale dimensions until it does.</p></div>
@@ -285,6 +290,11 @@ function loadImg(f){
       document.getElementById('panel').style.display='block';
       document.getElementById('w').value=orig.w;
       document.getElementById('h').value=orig.h;
+      // Keep the cm/in display fields in sync if a non-pixel unit is active.
+      if(document.getElementById('unit').value!=='px'){
+        document.getElementById('w-unit').value=_unitPxToDisplay(orig.w);
+        document.getElementById('h-unit').value=_unitPxToDisplay(orig.h);
+      }
       document.getElementById('out-img').removeAttribute('src');
       document.getElementById('out-meta').textContent='—';
       statusEl.textContent='Pick a mode and hit Resize.';
@@ -330,6 +340,49 @@ if(_govSel) _govSel.addEventListener('change',()=>{document.getElementById('gov-
 const wEl=document.getElementById('w'),hEl=document.getElementById('h');
 wEl.addEventListener('input',()=>{if(document.getElementById('lock').checked&&orig){hEl.value=Math.max(1,Math.round((+wEl.value||0)*orig.h/orig.w));}});
 hEl.addEventListener('input',()=>{if(document.getElementById('lock').checked&&orig){wEl.value=Math.max(1,Math.round((+hEl.value||0)*orig.w/orig.h));}});
+
+// ── Unit conversion (cm / inch) — a display layer over the px inputs ──
+// doResize() and the URL-restore code both read wEl.value/hEl.value as pixels
+// and are untouched. The cm/in inputs just translate to/from those px fields,
+// then dispatch a real 'input' event so the existing lock-aspect-ratio
+// listeners above run exactly as they would for a direct pixel edit.
+// 300 DPI matches the assumption already used in the passport-photo FAQ.
+const RESIZE_DPI=300, CM_PER_INCH=2.54;
+const pxFromCm=cm=>Math.round((+cm||0)*RESIZE_DPI/CM_PER_INCH);
+const cmFromPx=px=>Math.round(((+px||0)*CM_PER_INCH/RESIZE_DPI)*100)/100;
+const pxFromIn=inch=>Math.round((+inch||0)*RESIZE_DPI);
+const inFromPx=px=>Math.round(((+px||0)/RESIZE_DPI)*100)/100;
+
+const unitSel=document.getElementById('unit');
+const wUnitEl=document.getElementById('w-unit'), hUnitEl=document.getElementById('h-unit');
+
+function _unitPxToDisplay(px){ return unitSel.value==='cm'?cmFromPx(px):unitSel.value==='in'?inFromPx(px):px; }
+function _unitDisplayToPx(v){ return unitSel.value==='cm'?pxFromCm(v):unitSel.value==='in'?pxFromIn(v):Math.round(+v||0); }
+
+unitSel.addEventListener('change',()=>{
+  const isPx=unitSel.value==='px';
+  document.getElementById('wrap-w-px').style.display=isPx?'':'none';
+  document.getElementById('wrap-h-px').style.display=isPx?'':'none';
+  document.getElementById('wrap-w-unit').style.display=isPx?'none':'';
+  document.getElementById('wrap-h-unit').style.display=isPx?'none':'';
+  document.getElementById('unit-hint').style.display=isPx?'none':'';
+  if(!isPx){
+    document.querySelector('#wrap-w-unit label').textContent='Width ('+unitSel.value+')';
+    document.querySelector('#wrap-h-unit label').textContent='Height ('+unitSel.value+')';
+    wUnitEl.value=_unitPxToDisplay(wEl.value);
+    hUnitEl.value=_unitPxToDisplay(hEl.value);
+  }
+});
+wUnitEl.addEventListener('input',()=>{
+  wEl.value=Math.max(1,_unitDisplayToPx(wUnitEl.value));
+  wEl.dispatchEvent(new Event('input'));           // re-run lock-aspect-ratio logic
+  hUnitEl.value=_unitPxToDisplay(hEl.value);        // reflect the locked height back
+});
+hUnitEl.addEventListener('input',()=>{
+  hEl.value=Math.max(1,_unitDisplayToPx(hUnitEl.value));
+  hEl.dispatchEvent(new Event('input'));
+  wUnitEl.value=_unitPxToDisplay(wEl.value);
+});
 
 // percent slider
 const pct=document.getElementById('pct');
