@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared.css?v=60f1458f">
+<link rel="stylesheet" href="shared.css?v=9ea38616">
 <link rel="stylesheet" href="/assets/share.css?v=5ea038de">
 <script src="/assets/share.js?v=863dd2bd" defer></script>
 <!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
@@ -136,6 +136,7 @@
 
       <div class="actions">
         <button class="go-btn" id="go">Compress &amp; Download</button>
+        <button class="sec-btn" id="preview-btn">Preview</button>
         <button class="clear-btn" id="clr">Choose another</button>
         <span class="status" id="status"></span>
       </div>
@@ -235,6 +236,9 @@ fileInput.addEventListener('change',e=>e.target.files[0]&&loadImg(e.target.files
 drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))loadImg(f);});
 document.getElementById('go').addEventListener('click',doCompress);
 document.getElementById('clr').addEventListener('click',()=>{orig=null;fileInput.value='';document.getElementById('panel').style.display='none';});
+// Manual fallback: live preview already auto-updates on every quality/format/
+// width change, but this button lets the user force a refresh on demand.
+document.getElementById('preview-btn').addEventListener('click',()=>{if(orig)previewCompress();});
 const qEl=document.getElementById('q');
 qEl.addEventListener('input',()=>{document.getElementById('q-val').textContent=qEl.value;if(orig)previewCompress();});
 document.getElementById('fmt').addEventListener('change',()=>{if(orig)previewCompress();});

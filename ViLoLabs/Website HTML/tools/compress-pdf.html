@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared.css?v=60f1458f">
+<link rel="stylesheet" href="shared.css?v=9ea38616">
 <link rel="stylesheet" href="/assets/share.css?v=5ea038de">
 <script src="/assets/share.js?v=863dd2bd" defer></script>
 <!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
@@ -125,6 +125,7 @@
 
       <div class="actions">
         <button class="go-btn" id="go">Download Compressed PDF</button>
+        <button class="sec-btn" id="preview-btn">Preview</button>
         <button class="clear-btn" id="clr">Choose another</button>
         <span class="status" id="status"></span>
       </div>
@@ -243,6 +244,10 @@ document.querySelectorAll('.preset').forEach(p=>p.addEventListener('click',()=>{
 }));
 document.getElementById('go').addEventListener('click',downloadCompressed);
 document.getElementById('clr').addEventListener('click',()=>{pdfFile=null;analysis=null;fileInput.value='';document.getElementById('panel').style.display='none';document.getElementById('result').style.display='none';document.getElementById('analysis').classList.remove('show');});
+// Manual fallback: live preview already auto-computes on upload and on every
+// preset click, but this button lets the user force a refresh on demand —
+// without triggering a download.
+document.getElementById('preview-btn').addEventListener('click',()=>{if(pdfFile&&analysis)computeCompressed();});
 
 function fmtSize(bytes){
   if(bytes>=1024*1024) return (bytes/1024/1024).toFixed(2)+' MB';

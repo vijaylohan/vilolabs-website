@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared.css?v=60f1458f">
+<link rel="stylesheet" href="shared.css?v=9ea38616">
 <link rel="stylesheet" href="/assets/share.css?v=5ea038de">
 <script src="/assets/share.js?v=863dd2bd" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous"></script>
@@ -58,6 +58,7 @@
 .qr-actions button:hover{background:#C8963C;color:#1A1108;}
 .qr-actions button.gold{background:#C8963C;color:#1A1108;}
 .qr-actions button.gold:hover{background:#1A1108;color:#F5F0E8;}
+.qr-actions button:disabled,.qr-actions button:disabled:hover{opacity:.35;cursor:not-allowed;background:#1A1108;color:#F5F0E8;}
 </style>
 <link rel="canonical" href="https://vilolabs.in/tools/qr-generator">
 <meta property="og:url" content="https://vilolabs.in/tools/qr-generator">
@@ -422,6 +423,12 @@ function updateBulkCount(){
 function _lum(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');const r=parseInt(hex.slice(0,2),16)/255,g=parseInt(hex.slice(2,4),16)/255,b=parseInt(hex.slice(4,6),16)/255;const f=c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4);return .2126*f(r)+.7152*f(g)+.0722*f(b);}
 function _contrast(a,b){const l1=_lum(a),l2=_lum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+.05)/(lo+.05);}
 function _warnEl(){let e=document.getElementById('qr-warn');if(!e){e=document.createElement('p');e.id='qr-warn';e.style.cssText='display:none;margin-top:.7rem;font-size:.72rem;line-height:1.55;color:#e8a13c;text-align:left;';const m=document.getElementById('qr-meta');m.parentNode.insertBefore(e,m.nextSibling);}return e;}
+// Single source of truth for "does this look like a real VPA" — used both
+// by the soft warning below AND the hard block in render() that refuses to
+// generate/download a UPI QR with an invalid ID (see render() for why).
+function _isValidVpa(id){
+  return /^[a-zA-Z0-9._-]{2,}@[a-zA-Z][a-zA-Z0-9.]{1,}$/.test(id);
+}
 function qrWarnings(){
   const out=[];
   // Contrast checks only apply when the user can actually pick colours.
@@ -434,7 +441,7 @@ function qrWarnings(){
   }
   if(curType==='upi'){
     const id=document.getElementById('u-id').value.trim();
-    if(id && !/^[a-zA-Z0-9._-]{2,}@[a-zA-Z][a-zA-Z0-9.]{1,}$/.test(id))
+    if(id && !_isValidVpa(id))
       out.push('⚠ That UPI ID doesn’t look valid (expected like name@bank). Double-check it before sharing — a wrong UPI ID sends money to the wrong place.');
   }
   return out;
@@ -453,7 +460,10 @@ function _printTextForType(){
   if(curType==='url'){
     const t=document.getElementById('i-url').value.trim();
     if(!t) return '';
-    return t.length>70 ? t.slice(0,70)+'…' : t;
+    // Kept short so it still fits on one line at the larger, print-legible
+    // font size below (a 70-char cutoff worked at the old tiny 16px font,
+    // but would overflow the QR's width now that the text is ~3x bigger).
+    return t.length>40 ? t.slice(0,40)+'…' : t;
   }
   if(curType==='wifi'){
     const ssid=document.getElementById('w-ssid').value.trim();
@@ -468,6 +478,15 @@ function _printTextForType(){
   return '';
 }
 
+// Hides any leftover "✓ Scan-tested" message from a previous successful
+// render — without this, an early return (no data, or a hard-blocked
+// invalid UPI ID) would leave a stale "decodes correctly" message on screen
+// right next to a brand-new error, which is actively misleading.
+function _clearVerify(){
+  const e=document.getElementById('qr-verify');
+  if(e) e.style.display='none';
+}
+
 function render(){
   updateBulkCount();
   const data=buildData();
@@ -478,9 +497,42 @@ function render(){
   const dataEl=document.getElementById('qr-data');
   if(curType==='upi'||curType==='vcard'){dataEl.style.display='none';}
   else{dataEl.style.display='';dataEl.textContent=data?(data.length>180?data.slice(0,180)+'…':data):'(enter data on the left)';}
+
+  // Default: downloads enabled; only the invalid-VPA branch below disables them.
+  document.getElementById('dl-png').disabled=false;
+  document.getElementById('dl-svg').disabled=false;
+
+  // Hard block: NEVER generate or allow downloading a UPI QR with an invalid
+  // VPA. Real failure mode: a user pastes/types both the ID and the shop
+  // name into the UPI ID field (e.g. "shop@bank Sharma Store") — that whole
+  // string then gets baked into pa=, which real UPI apps correctly reject as
+  // an invalid payee ID at scan time. A soft warning wasn't enough — it was
+  // easy to miss, and by then the broken QR was already generated, printed
+  // or shared. Refuse to draw anything scannable until the ID is a clean
+  // VPA, and disable both download buttons so nothing broken leaves the tool.
+  if(curType==='upi'){
+    const rawId=document.getElementById('u-id').value.trim();
+    if(rawId && !_isValidVpa(rawId)){
+      const ctx=canvas.getContext('2d');
+      canvas.width=560;canvas.height=560;
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillStyle='#c0392b';ctx.font='600 24px Outfit,system-ui,sans-serif';
+      ctx.fillText('⚠ Invalid UPI ID', canvas.width/2, canvas.height/2-20);
+      ctx.fillStyle='#555';ctx.font='400 16px Outfit,system-ui,sans-serif';
+      ctx.fillText('Expected format: name@bank — no spaces', canvas.width/2, canvas.height/2+16);
+      document.getElementById('qr-meta').textContent='Fix the UPI ID above to generate a scannable QR';
+      _warnEl().style.display='none';
+      _clearVerify();
+      curData=null;
+      document.getElementById('dl-png').disabled=true;
+      document.getElementById('dl-svg').disabled=true;
+      return;
+    }
+  }
   if(!data){
     const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
-    document.getElementById('qr-meta').textContent='—';_warnEl().style.display='none';return;
+    document.getElementById('qr-meta').textContent='—';_warnEl().style.display='none';_clearVerify();return;
   }
   try{
     const ec=document.getElementById('o-ec').value;
@@ -497,8 +549,12 @@ function render(){
     const payeeName=upiLocked?document.getElementById('u-name').value.trim():'';
     const payeeStripH=upiLocked?(payeeName?120:0):0;
     // Manual-fallback text strip — stacks BELOW the payee strip when both apply.
+    // Sized to stay legible even when printed as small as 30×30mm: the QR
+    // square is 560px wide here, so 560px == 30mm at that print size
+    // (18.7px/mm). A ~52px font renders at ~2.8mm cap-height — comfortably
+    // readable up close, which is the realistic use case for a QR this small.
     const printText=_printTextForType();
-    const textStripH=printText?54:0;
+    const textStripH=printText?96:0;
     const stripH=payeeStripH+textStripH;
     canvas.width=px;canvas.height=px+stripH;
     const cell=px/totalUnits;
@@ -527,13 +583,13 @@ function render(){
     if(printText){
       const stripTop=px+payeeStripH;
       const cy=stripTop+textStripH/2;
-      ctx.strokeStyle='rgba(0,0,0,.10)';ctx.lineWidth=1;
-      ctx.beginPath();ctx.moveTo(50,stripTop+7);ctx.lineTo(px-50,stripTop+7);ctx.stroke();
+      ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(50,stripTop+12);ctx.lineTo(px-50,stripTop+12);ctx.stroke();
       ctx.textAlign='center';ctx.textBaseline='middle';
-      let fs=16; ctx.font='500 '+fs+'px Outfit,system-ui,sans-serif';
-      while(ctx.measureText(printText).width>px-40 && fs>10){fs-=1;ctx.font='500 '+fs+'px Outfit,system-ui,sans-serif';}
-      ctx.fillStyle='#555';
-      ctx.fillText(printText, px/2, cy+8);
+      let fs=52; ctx.font='600 '+fs+'px Outfit,system-ui,sans-serif';
+      while(ctx.measureText(printText).width>px-60 && fs>30){fs-=2;ctx.font='600 '+fs+'px Outfit,system-ui,sans-serif';}
+      ctx.fillStyle='#333';
+      ctx.fillText(printText, px/2, cy+6);
     }
     document.getElementById('qr-meta').textContent=`${n}×${n} modules · ${ec} correction · ${data.length} chars`;
     const _w=qrWarnings(),_we=_warnEl();_we.innerHTML=_w.join('<br>');_we.style.display=_w.length?'block':'none';
@@ -587,8 +643,12 @@ document.getElementById('dl-svg').addEventListener('click',()=>{
     const upiName=curType==='upi'?document.getElementById('u-name').value.trim():'';
     const payeeStripUnits=upiName?Math.round(total*0.22):0;
     // Manual-fallback text strip — stacks below the payee strip when both apply.
+    // Sized to match the canvas/PNG version's print-legibility target: a
+    // ~52px font on a 560px-wide QR (≈9.3% of width) stays readable even
+    // printed as small as 30×30mm — so scale the SVG font the same way,
+    // as a fraction of the QR's own module width (total units).
     const printText=_printTextForType();
-    const textStripUnits=printText?Math.round(total*0.14):0;
+    const textStripUnits=printText?Math.round(total*0.17):0;
     const vbH=total+payeeStripUnits+textStripUnits;
     const esc=(s)=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     const strip=upiName
@@ -599,8 +659,8 @@ document.getElementById('dl-svg').addEventListener('click',()=>{
         </g>`:'';
     const textStrip=printText
       ?`<g font-family="Outfit,system-ui,sans-serif" text-anchor="middle">
-          <line x1="${total*0.14}" y1="${total+payeeStripUnits+textStripUnits*0.12}" x2="${total*0.86}" y2="${total+payeeStripUnits+textStripUnits*0.12}" stroke="#000" stroke-opacity="0.10" stroke-width="0.12"/>
-          <text x="${total/2}" y="${total+payeeStripUnits+textStripUnits*0.68}" font-size="${textStripUnits*0.28}" font-weight="500" fill="#555">${esc(printText)}</text>
+          <line x1="${total*0.12}" y1="${total+payeeStripUnits+textStripUnits*0.10}" x2="${total*0.88}" y2="${total+payeeStripUnits+textStripUnits*0.10}" stroke="#000" stroke-opacity="0.12" stroke-width="0.12"/>
+          <text x="${total/2}" y="${total+payeeStripUnits+textStripUnits*0.65}" font-size="${(total*0.093).toFixed(2)}" font-weight="600" fill="#333">${esc(printText)}</text>
         </g>`:'';
     const svg=`<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${vbH}" shape-rendering="crispEdges"><rect width="${total}" height="${vbH}" fill="${bg}"/><g fill="${fg}">${rects}</g>${strip}${textStrip}</svg>`;
     const blob=new Blob([svg],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);

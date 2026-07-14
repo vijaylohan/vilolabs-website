@@ -98,6 +98,12 @@ nav.site-nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;j
 .opt select,.opt input{background:var(--char2);color:var(--cream);border:1px solid rgba(200,150,60,.25);border-radius:6px;
   padding:.5rem .8rem;font-family:inherit;font-size:.88rem;cursor:pointer;min-width:130px;}
 .opt input[type=number]{cursor:text;}
+/* Native number-input spin buttons render in the OS/browser's light theme by
+   default — a white up/down widget stuck on a dark input looks broken. Hide
+   them; the field is still fully usable by typing or the keyboard arrow keys. */
+.opt input[type=number]::-webkit-inner-spin-button,
+.opt input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+.opt input[type=number]{-moz-appearance:textfield;}
 .opt .hint{font-size:.66rem;color:var(--brown3);margin-top:.3rem;}
 
 /* RANGE */

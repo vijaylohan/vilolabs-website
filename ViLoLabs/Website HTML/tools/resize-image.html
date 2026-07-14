@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared.css?v=60f1458f">
+<link rel="stylesheet" href="shared.css?v=9ea38616">
 <link rel="stylesheet" href="/assets/share.css?v=5ea038de">
 <script src="/assets/share.js?v=863dd2bd" defer></script>
 <!-- Tool-share pSEO: TSeo (slug+title helpers) + ViloDB (Supabase persist) -->
@@ -176,6 +176,7 @@
 
       <div class="actions">
         <button class="go-btn" id="go">Resize &amp; Download</button>
+        <button class="sec-btn" id="preview-btn">Preview</button>
         <button class="clear-btn" id="clr">Choose another</button>
         <span class="status" id="status"></span>
       </div>
@@ -299,6 +300,11 @@ function loadImg(f){
       document.getElementById('out-meta').textContent='—';
       statusEl.textContent='Pick a mode and hit Resize.';
       statusEl.classList.remove('err');
+      // Auto-preview right away so the "Resized" panel never sits blank —
+      // matches the current mode's defaults (Pixel mode starts at the
+      // original size, so this doubles as a format-preview until the user
+      // changes width/height/percent/etc).
+      computePreview();
     };
     img.src=reader.result;
   };
@@ -332,18 +338,25 @@ document.querySelectorAll('.mode-tab').forEach(b=>b.addEventListener('click',()=
   document.getElementById('notice-kb').style.display=mode==='kb'?'block':'none';
   document.getElementById('notice-gov').style.display=mode==='gov'?'block':'none';
   if(mode==='gov') document.getElementById('gov-spec').innerHTML=_govSpecText();
+  // Switching modes changes what would actually be produced — refresh the
+  // live preview immediately so it never shows a stale result from the
+  // previous mode.
+  if(orig) computePreview();
 }));
 const _govSel=document.getElementById('gov-preset');
-if(_govSel) _govSel.addEventListener('change',()=>{document.getElementById('gov-spec').innerHTML=_govSpecText();});
+if(_govSel) _govSel.addEventListener('change',()=>{document.getElementById('gov-spec').innerHTML=_govSpecText();if(orig)computePreview();});
 
 // pixel inputs — lock aspect ratio
 const wEl=document.getElementById('w'),hEl=document.getElementById('h');
-wEl.addEventListener('input',()=>{if(document.getElementById('lock').checked&&orig){hEl.value=Math.max(1,Math.round((+wEl.value||0)*orig.h/orig.w));}});
-hEl.addEventListener('input',()=>{if(document.getElementById('lock').checked&&orig){wEl.value=Math.max(1,Math.round((+hEl.value||0)*orig.w/orig.h));}});
+wEl.addEventListener('input',()=>{if(document.getElementById('lock').checked&&orig){hEl.value=Math.max(1,Math.round((+wEl.value||0)*orig.h/orig.w));}_schedulePreview();});
+hEl.addEventListener('input',()=>{if(document.getElementById('lock').checked&&orig){wEl.value=Math.max(1,Math.round((+hEl.value||0)*orig.w/orig.h));}_schedulePreview();});
+document.getElementById('lock').addEventListener('change',_schedulePreview);
+document.getElementById('fmt-px').addEventListener('change',()=>{if(orig)computePreview();});
 
 // ── Unit conversion (cm / inch) — a display layer over the px inputs ──
-// doResize() and the URL-restore code both read wEl.value/hEl.value as pixels
-// and are untouched. The cm/in inputs just translate to/from those px fields,
+// computePreview()/downloadResized() and the URL-restore code all read
+// wEl.value/hEl.value as pixels and are untouched. The cm/in inputs just
+// translate to/from those px fields,
 // then dispatch a real 'input' event so the existing lock-aspect-ratio
 // listeners above run exactly as they would for a direct pixel edit.
 // 300 DPI matches the assumption already used in the passport-photo FAQ.
@@ -386,17 +399,25 @@ hUnitEl.addEventListener('input',()=>{
 
 // percent slider
 const pct=document.getElementById('pct');
-pct.addEventListener('input',()=>document.getElementById('pct-val').textContent=pct.value);
+pct.addEventListener('input',()=>{document.getElementById('pct-val').textContent=pct.value;_schedulePreview();});
+document.getElementById('fmt-pct').addEventListener('change',()=>{if(orig)computePreview();});
 
-// KB presets
+// KB target field + presets
+document.getElementById('kb').addEventListener('input',_schedulePreview);
 document.querySelectorAll('.preset').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.preset').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');
   document.getElementById('kb').value=b.dataset.kb;
+  if(orig) computePreview();
 }));
 
-document.getElementById('clr').addEventListener('click',()=>{orig=null;outBlob=null;fileInput.value='';document.getElementById('panel').style.display='none';});
-document.getElementById('go').addEventListener('click',doResize);
+document.getElementById('clr').addEventListener('click',()=>{orig=null;outBlob=null;_computedSig=null;fileInput.value='';document.getElementById('panel').style.display='none';});
+document.getElementById('go').addEventListener('click',downloadResized);
+// Manual fallback: live preview already auto-updates on every relevant
+// change, but this button lets the user force a refresh on demand — in case
+// a change somehow didn't trigger it, or they just want to double-check
+// before downloading.
+document.getElementById('preview-btn').addEventListener('click',()=>{if(orig)computePreview();});
 
 function pickFormat(selId){
   const v=document.getElementById(selId).value;
@@ -404,8 +425,24 @@ function pickFormat(selId){
   return v;
 }
 
-async function doResize(){
-  if(!orig)return;
+// Signature of the settings that actually affect the resize output. Used to
+// decide whether a click on Download can reuse the already-computed blob
+// (fast path) or needs to recompute first (settings changed since).
+function _resizeSignature(){
+  if(mode==='px') return 'px:'+wEl.value+'x'+hEl.value+':'+document.getElementById('fmt-px').value;
+  if(mode==='pct') return 'pct:'+pct.value+':'+document.getElementById('fmt-pct').value;
+  if(mode==='kb') return 'kb:'+document.getElementById('kb').value;
+  if(mode==='gov') return 'gov:'+document.getElementById('gov-preset').value;
+  return '';
+}
+let _computedSig=null;
+
+// Does the actual resize/compress work and updates the live Original/Resized
+// preview + size readout. Does NOT download anything — so the preview stays
+// in sync with every width/height/percent/KB/preset change, and the user can
+// see the real output (and its size) before deciding to download.
+async function computePreview(){
+  if(!orig)return null;
   const go=document.getElementById('go');go.disabled=true;
   statusEl.classList.remove('err');statusEl.textContent='Resizing…';
   outBlob=null;
@@ -426,7 +463,7 @@ async function doResize(){
       const target=Math.max(5,+document.getElementById('kb').value||200);
       outMime='image/jpeg';
       const r=await compressToTargetKB(orig.img,target);
-      if(!r){statusEl.classList.add('err');statusEl.textContent='Could not hit target — try a slightly bigger KB.';go.disabled=false;return;}
+      if(!r){statusEl.classList.add('err');statusEl.textContent='Could not hit target — try a slightly bigger KB.';go.disabled=false;return null;}
       blob=r.blob;outW=r.w;outH=r.h;
     } else if (mode==='gov') { // gov — exact pixel dims + KB range
       const presetKey=document.getElementById('gov-preset').value;
@@ -436,11 +473,11 @@ async function doResize(){
       if(!r){
         statusEl.classList.add('err');
         statusEl.textContent=`Couldn't fit the ${spec.kbMin}–${spec.kbMax} KB range at ${spec.w}×${spec.h}. Try a sharper source image (less detail = smaller file).`;
-        go.disabled=false;return;
+        go.disabled=false;return null;
       }
       blob=r.blob;
       // Verification line stashed in a separate panel so it isn't clobbered
-      // by the generic '✓ Downloaded.' status that fires later in the flow.
+      // by the generic status text.
       const kb=Math.round(blob.size/1024);
       const inRange=(kb>=spec.kbMin && kb<=spec.kbMax);
       const verifyMsg=inRange
@@ -460,14 +497,48 @@ async function doResize(){
     const url=URL.createObjectURL(blob);
     document.getElementById('out-img').src=url;
     document.getElementById('out-meta').textContent=`${outW}×${outH} px · ${(blob.size/1024).toFixed(0)} KB · ${outMime.replace('image/','').toUpperCase()}`;
-    // trigger download
-    const ext=outMime==='image/png'?'png':(outMime==='image/webp'?'webp':'jpg');
-    const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-Resized_${stamp()}.${ext}`;document.body.appendChild(a);a.click();a.remove();
-    statusEl.textContent='✓ Downloaded.';
-    // ── pSEO: emit a canonical preset URL when the config matches a known preset
-    _tsAfterAction({mode, w:outW, h:outH, kb: mode==='kb'?(+document.getElementById('kb').value||200):undefined});
-  }catch(err){console.error(err);statusEl.classList.add('err');statusEl.textContent='Resize failed: '+(err.message||'unknown');}
-  go.disabled=false;
+    statusEl.textContent='Preview updated · adjust settings or hit Download.';
+    _computedSig=_resizeSignature();
+    return {outW,outH,outMime};
+  }catch(err){
+    console.error(err);statusEl.classList.add('err');statusEl.textContent='Resize failed: '+(err.message||'unknown');
+    _computedSig=null;
+    return null;
+  }finally{
+    go.disabled=false;
+  }
+}
+
+// Download button. Fast path: if the already-computed preview matches the
+// current settings, just save it — no recompute. Otherwise (first click, or
+// the automatic preview didn't fire for some reason) it computes first, then
+// downloads — so the button always works end-to-end on its own.
+async function downloadResized(){
+  if(!orig)return;
+  if(!outBlob || _computedSig!==_resizeSignature()){
+    const r=await computePreview();
+    if(!r || !outBlob) return;   // computePreview already showed the error
+  }
+  const outMime=outBlob.type;
+  const url=URL.createObjectURL(outBlob);
+  const ext=outMime==='image/png'?'png':(outMime==='image/webp'?'webp':'jpg');
+  const a=document.createElement('a');a.href=url;a.download=`ViLoLabs-Resized_${stamp()}.${ext}`;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  statusEl.textContent='✓ Downloaded.';
+  // ── pSEO: emit a canonical preset URL when the config matches a known preset
+  const outW=+(document.getElementById('out-meta').textContent.match(/^(\d+)×(\d+)/)||[])[1]||orig.w;
+  const outH=+(document.getElementById('out-meta').textContent.match(/^(\d+)×(\d+)/)||[])[2]||orig.h;
+  _tsAfterAction({mode, w:outW, h:outH, kb: mode==='kb'?(+document.getElementById('kb').value||200):undefined});
+}
+
+// Debounced auto-preview for continuous-input controls (typing in a number
+// field, dragging the percent slider) — avoids recomputing on every single
+// keystroke/pixel of drag, while still feeling live.
+let _previewDebounce=null;
+function _schedulePreview(){
+  if(!orig)return;
+  clearTimeout(_previewDebounce);
+  _previewDebounce=setTimeout(()=>computePreview(),300);
 }
 
 // ──────────────────────────────────────────────────────────────────
