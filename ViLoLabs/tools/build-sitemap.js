@@ -187,6 +187,20 @@ function xml(s) {
     .replace(/'/g, '&apos;');
 }
 
+// Distinct caption per grade sheet: fold the theme from the slug into the
+// generic stored alt. 🚨 Keep in sync with galleryAlt() in
+// Website HTML/functions/worksheet.js — caption must match the on-page alt.
+function galleryAlt(row) {
+  const alt = row.alt_text || '';
+  const m = alt.match(/^(.+?) — a free printable (math )?worksheet \(sample page\) from ViLo Worksheets$/);
+  if (!m) return alt;
+  const theme = (row.slug || '').match(/^free-printable-worksheets-(?:preschool|kindergarten|grade-\d)-(.+)-[a-z0-9]{5,}$/);
+  const words = [m[1]];
+  if (theme) words.push(theme[1].replace(/-/g, ' '));
+  if (m[2]) words.push('math');
+  return words.join(' ') + ' worksheet — a free printable sample page from ViLo Worksheets';
+}
+
 function urlEntry({ loc, lastmod, priority, changefreq, images }) {
   const parts = ['<url>', '<loc>' + xml(SITE_BASE + loc) + '</loc>'];
   if (lastmod)    parts.push('<lastmod>' + lastmod.slice(0, 10) + '</lastmod>');
@@ -250,7 +264,7 @@ function urlEntry({ loc, lastmod, priority, changefreq, images }) {
   let captures = [];
   try {
     const res = await fetch(SUPABASE_URL + '/rest/v1/captured_worksheets' +
-      '?select=public_url,alt_text&retired_at=is.null&order=captured_at.desc&limit=500',
+      '?select=slug,public_url,alt_text,captured_at&retired_at=is.null&order=captured_at.desc&limit=500',
       { headers: { apikey: SUPABASE_ANON, Authorization: 'Bearer ' + SUPABASE_ANON } });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     captures = await res.json();
@@ -274,8 +288,12 @@ function urlEntry({ loc, lastmod, priority, changefreq, images }) {
       wk.images = (wk.images || []).concat(
         captures
           .filter(c => c && c.public_url)
-          .map(c => ({ loc: c.public_url.replace(/^https?:\/\/[^/]+/, ''), caption: c.alt_text || '' }))
+          .map(c => ({ loc: c.public_url.replace(/^https?:\/\/[^/]+/, ''), caption: galleryAlt(c) }))
       );
+      // The gallery genuinely changes with every new capture, so give /worksheet
+      // an honest lastmod = newest capture date (list is captured_at desc). It only
+      // moves when a capture lands, so the nightly no-change guard still holds.
+      if (captures[0] && captures[0].captured_at) wk.lastmod = captures[0].captured_at;
     }
   }
 

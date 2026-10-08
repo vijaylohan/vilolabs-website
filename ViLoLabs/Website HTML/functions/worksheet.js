@@ -65,9 +65,27 @@ async function getCaptures(context) {
   return rows;
 }
 
+// Stored alt for grade sheets is just the grade ("Kindergarten — a free printable
+// worksheet (sample page)…"), so 40+ images shared one identical alt and Google
+// Images couldn't tell them apart. The theme IS in the slug
+// (free-printable-worksheets-kindergarten-insects-x7k4m), so fold it in at read
+// time — covers every existing row without a DB backfill. Anything that doesn't
+// match the old pattern (colouring "Robot — …", maze, sudoku) passes through.
+// 🚨 Keep in sync with galleryAlt() in tools/build-sitemap.js (sitemap captions).
+function galleryAlt(row) {
+  const alt = row.alt_text || '';
+  const m = alt.match(/^(.+?) — a free printable (math )?worksheet \(sample page\) from ViLo Worksheets$/);
+  if (!m) return alt;
+  const theme = (row.slug || '').match(/^free-printable-worksheets-(?:preschool|kindergarten|grade-\d)-(.+)-[a-z0-9]{5,}$/);
+  const words = [m[1]];
+  if (theme) words.push(theme[1].replace(/-/g, ' '));
+  if (m[2]) words.push('math');
+  return words.join(' ') + ' worksheet — a free printable sample page from ViLo Worksheets';
+}
+
 function cardHtml(row) {
   if (!row || !row.public_url || !row.slug) return '';
-  const alt = escapeAttr(row.alt_text || 'Free printable worksheet from ViLo Worksheets');
+  const alt = escapeAttr(galleryAlt(row) || 'Free printable worksheet from ViLo Worksheets');
   const url = escapeAttr(row.public_url);
   const gen = escapeAttr('/worksheets/' + row.slug);
   return (
