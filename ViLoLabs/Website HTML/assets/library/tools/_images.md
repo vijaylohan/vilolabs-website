@@ -1,11 +1,11 @@
-# Tools & Hardware — Image List (13)
+# Tools & Hardware — Image List (18)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 13 done · 0 to create.
+Status: 18 done · 0 to create.
 
 ============================================================
-DONE (13)
+DONE (18)
 ============================================================
 
 ## hammer.png   ✅ DONE
@@ -71,4 +71,29 @@ TAGS: class:tool | alive:non-living | state:solid
 ## fire-hose.png   ✅ DONE
 Coiled red fire hose with nozzle.
 PROMPT: flat cartoon clipart, cute coiled red fire hose, brass nozzle at end, looped neatly, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:tool | alive:non-living | state:solid
+
+## screwdriver.png   ✅ DONE
+Screwdriver with a red handle.
+PROMPT: flat cartoon clipart, cute screwdriver with a red handle, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:tool | alive:non-living | state:solid
+
+## saw.png   ✅ DONE
+Hand saw with a wooden handle.
+PROMPT: flat cartoon clipart, cute hand saw with a wooden handle, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:tool | alive:non-living | state:solid
+
+## wrench.png   ✅ DONE
+Silver wrench.
+PROMPT: flat cartoon clipart, cute silver wrench, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:tool | alive:non-living | state:solid
+
+## shovel.png   ✅ DONE
+Garden shovel with a wooden handle.
+PROMPT: flat cartoon clipart, cute garden shovel with a wooden handle, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:tool | alive:non-living | state:solid
+
+## ladder.png   ✅ DONE
+Wooden ladder.
+PROMPT: flat cartoon clipart, cute wooden ladder, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:tool | alive:non-living | state:solid

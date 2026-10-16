@@ -74,6 +74,12 @@ function writePNG(file, img) {
   fs.writeFileSync(file, PNG.sync.write(out));
 }
 
+// Hand-cleaned images this broad near-white/light-grey flood-fill must NOT touch —
+// e.g. a light-grey subject with an open outline (tornado) that the generic rule
+// would eat. List "category/name.png" in tools/transparent-skip.json.
+const SKIP_FILE = path.join(__dirname, 'transparent-skip.json');
+const SKIP = new Set(fs.existsSync(SKIP_FILE) ? JSON.parse(fs.readFileSync(SKIP_FILE, 'utf8')).files : []);
+
 // ---- main ----
 function run() {
   if (!fs.existsSync(LIB)) { console.error('Library folder not found:', LIB); process.exit(1); }
@@ -90,6 +96,7 @@ function run() {
       const src  = path.join(catDir, fname);
       const base = path.basename(fname, ext);
       const dest = path.join(catDir, base + '.png');
+      if (SKIP.has(cat + '/' + fname)) { console.log(`  ${cat}/${fname}  — hand-cleaned, skipped`); continue; }
 
       // back up the original once
       const bDir = path.join(BACKUP, cat);

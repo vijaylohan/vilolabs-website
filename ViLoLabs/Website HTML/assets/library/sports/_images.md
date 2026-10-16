@@ -1,8 +1,8 @@
-# Sports Equipment — Image List (8)
+# Sports Equipment — Image List (14)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 8 done · 0 to create.
+Status: 8 done · 6 to create.
 
 ============================================================
 DONE (8)
@@ -46,4 +46,38 @@ TAGS: class:sport-equipment | alive:non-living
 ## surfboard.png   ✅ DONE
 Striped surfboard standing upright.
 PROMPT: flat cartoon clipart, cute striped surfboard standing upright, pointed nose, colorful stripes, fin at bottom, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sport-equipment | alive:non-living
+
+============================================================
+TO CREATE (6)
+============================================================
+
+## tennis-racket.png
+Tennis racket with a yellow tennis ball.
+PROMPT: flat cartoon clipart, cute tennis racket with a yellow tennis ball, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sport-equipment | alive:non-living
+
+## hockey-stick.png
+Hockey stick with a small ball.
+PROMPT: flat cartoon clipart, cute hockey stick with a small ball, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sport-equipment | alive:non-living
+
+## skateboard.png
+Colourful skateboard with four wheels.
+PROMPT: flat cartoon clipart, cute colourful skateboard with four wheels, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sport-equipment | alive:non-living
+
+## bowling-pin.png
+White bowling pin with red stripes and a bowling ball.
+PROMPT: flat cartoon clipart, cute white bowling pin with red stripes and a bowling ball, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sport-equipment | alive:non-living
+
+## trophy.png
+Shiny golden trophy cup with two handles.
+PROMPT: flat cartoon clipart, cute shiny golden trophy cup with two handles, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sport-equipment | alive:non-living
+
+## medal.png
+Gold medal with a ribbon.
+PROMPT: flat cartoon clipart, cute gold medal with a ribbon, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:sport-equipment | alive:non-living

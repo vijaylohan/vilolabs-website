@@ -1,11 +1,11 @@
-# Vegetables — Image List (15)
+# Vegetables — Image List (23)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 15 done · 0 to create.
+Status: 23 done · 0 to create.
 
 ============================================================
-DONE (15)
+DONE (23)
 ============================================================
 
 ## corn.png   ✅ DONE
@@ -81,4 +81,44 @@ TAGS: class:vegetable | alive:non-living | state:solid
 ## asparagus.png   ✅ DONE
 Bundle of green asparagus spears.
 PROMPT: flat cartoon clipart, cute bundle of green asparagus spears, slender stalks with pointed budded tips, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vegetable | alive:non-living | state:solid
+
+## cucumber.png   ✅ DONE
+Green cucumber with small bumps and a few round slices.
+PROMPT: flat cartoon clipart, cute green cucumber with small bumps and a few round slices, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vegetable | alive:non-living | state:solid
+
+## bell-pepper.png   ✅ DONE
+Shiny red bell pepper with a short green stem.
+PROMPT: flat cartoon clipart, cute shiny red bell pepper with a short green stem, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vegetable | alive:non-living | state:solid
+
+## garlic.png   ✅ DONE
+White garlic bulb with a few cloves beside it.
+PROMPT: flat cartoon clipart, cute white garlic bulb with a few cloves beside it, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vegetable | alive:non-living | state:solid
+
+## ginger.png   ✅ DONE
+Knobbly light brown ginger root.
+PROMPT: flat cartoon clipart, cute knobbly light brown ginger root, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vegetable | alive:non-living | state:solid
+
+## radish.png   ✅ DONE
+Round red radish with green leafy top.
+PROMPT: flat cartoon clipart, cute round red radish with green leafy top, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vegetable | alive:non-living | state:solid
+
+## spinach.png   ✅ DONE
+Bunch of dark green spinach leaves tied together.
+PROMPT: flat cartoon clipart, cute bunch of dark green spinach leaves tied together, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vegetable | alive:non-living | state:solid
+
+## lettuce.png   ✅ DONE
+Round green head of lettuce with ruffled leaves.
+PROMPT: flat cartoon clipart, cute round green head of lettuce with ruffled leaves, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vegetable | alive:non-living | state:solid
+
+## sweet-potato.png   ✅ DONE
+Purple-skinned sweet potato with orange inside showing at one cut end.
+PROMPT: flat cartoon clipart, cute purple-skinned sweet potato with orange inside showing at one cut end, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:vegetable | alive:non-living | state:solid

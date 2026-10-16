@@ -38,6 +38,15 @@ E:\Website\
 - Add new images into the right `ViLoLabs/Website HTML/assets/library/<cat>/` folder
 - Then run ONE command:  `cd ViLoLabs && node tools/build-all.js`
   (cleans backgrounds, matches emoji, updates lists, rebuilds library.json)
+- **Emoji set is FROZEN (2026-10-09)** — `tools/emoji-allowlist.json` lists the only items
+  allowed a Fluent emoji (= what was live). New items reach worksheets ONLY via a real PNG;
+  never as an auto-matched emoji placeholder (auto-matches were often wrong: beer mug, champagne).
+- AI-generated clipart often has a **fake checkerboard baked in** instead of transparency —
+  check every new PNG on a coloured background; enclosed gaps (between legs) need a manual clean.
+  ⚠️ ALWAYS look at an enclosed patch before clearing it — white things with grey details
+  (a nappy with dashed stitching) fool automatic checkerboard detection (2026-10-11: a baby's
+  nappy was wrongly cleared, restored from backup). Subjects touching the frame edge must be
+  sealed in-image, because `make-transparent.js` re-processes EVERY image on every build.
 
 ## ⚠️ Cache-busting shared JS/CSS (REQUIRED after editing them)
 Cloudflare Pages hard-caps `.js`/`.css` at `max-age=14400` (4h) and `_headers`

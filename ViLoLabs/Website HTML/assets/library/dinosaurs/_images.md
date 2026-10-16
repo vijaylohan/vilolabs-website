@@ -1,8 +1,8 @@
-# Dinosaurs & Prehistoric — Image List (9)
+# Dinosaurs & Prehistoric — Image List (12)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 9 done · 0 to create.
+Status: 9 done · 3 to create.
 
 ============================================================
 DONE (9)
@@ -51,4 +51,23 @@ TAGS: class:dinosaur | alive:living | habitat:wild
 ## dinosaur-fossil.png   ✅ DONE
 Dinosaur skeleton fossil display.
 PROMPT: flat cartoon clipart, cute dinosaur skeleton fossil, white bones, large skull, curved ribcage, long tail bones, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:dinosaur | alive:living | habitat:wild
+
+============================================================
+TO CREATE (3)
+============================================================
+
+## ankylosaurus.png
+Ankylosaurus with armoured back and club tail.
+PROMPT: flat cartoon clipart, cute ankylosaurus with armoured back and club tail, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:dinosaur | alive:living | habitat:wild
+
+## velociraptor.png
+Small velociraptor standing on two legs.
+PROMPT: flat cartoon clipart, cute small velociraptor standing on two legs, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:dinosaur | alive:living | habitat:wild
+
+## spinosaurus.png
+Spinosaurus with a big sail on its back.
+PROMPT: flat cartoon clipart, cute spinosaurus with a big sail on its back, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:dinosaur | alive:living | habitat:wild

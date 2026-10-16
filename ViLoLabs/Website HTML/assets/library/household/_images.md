@@ -1,11 +1,11 @@
-# Household Objects & Furniture — Image List (41)
+# Household Objects & Furniture — Image List (47)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 37 done · 4 to create.
+Status: 46 done · 1 to create.
 
 ============================================================
-DONE (37)
+DONE (46)
 ============================================================
 
 ## table.png   ✅ DONE
@@ -193,30 +193,56 @@ Cooking pot with lid.
 PROMPT: flat cartoon clipart, cute cooking pot with round lid, two side handles, deep body, shiny metal, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:object | alive:non-living | state:solid
 
+## telescope.png   ✅ DONE
+Telescope on a tripod.
+PROMPT: flat cartoon clipart, cute telescope on a tripod stand tilted up toward the sky, brass tube and blue trim, three legs, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## bed.png   ✅ DONE
+Single bed with pillow and blanket.
+PROMPT: flat cartoon clipart, cute single bed with a fluffy white pillow and a folded blue blanket, wooden frame and headboard, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## lantern.png   ✅ DONE
+Glowing lantern with flame.
+PROMPT: flat cartoon clipart, cute lantern with a warm glowing yellow flame inside clear glass panes, metal frame and a handle on top, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## bucket.png   ✅ DONE
+Blue bucket with a handle.
+PROMPT: flat cartoon clipart, cute blue bucket with a handle, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## broom.png   ✅ DONE
+Broom with a wooden handle and straw bristles.
+PROMPT: flat cartoon clipart, cute broom with a wooden handle and straw bristles, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## soap.png   ✅ DONE
+Pink bar of soap with bubbles.
+PROMPT: flat cartoon clipart, cute pink bar of soap with bubbles, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## tap.png   ✅ DONE
+Shiny silver water tap with a drop of water.
+PROMPT: flat cartoon clipart, cute shiny silver water tap with a drop of water, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## plate.png   ✅ DONE
+Round white dinner plate.
+PROMPT: flat cartoon clipart, cute round white dinner plate, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## wall-clock.png   ✅ DONE
+Round wall clock with numbers shown as dots, two hands.
+PROMPT: flat cartoon clipart, cute round wall clock with numbers shown as dots, two hands, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
 ============================================================
 TO CREATE (1)
 ============================================================
 
 ## knife.png
 Table knife.
-PROMPT: flat cartoon clipart, cute table knife, smooth blade, slim handle, shiny silver, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
-TAGS: class:object | alive:non-living | state:solid
-
-============================================================
-TO CREATE (3) — for Day/Night Science Sort (night side)
-============================================================
-
-## telescope.png
-Telescope on a tripod.
-PROMPT: flat cartoon clipart, cute telescope on a tripod stand tilted up toward the sky, brass tube and blue trim, three legs, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
-TAGS: class:object | alive:non-living | state:solid
-
-## bed.png
-Single bed with pillow and blanket.
-PROMPT: flat cartoon clipart, cute single bed with a fluffy white pillow and a folded blue blanket, wooden frame and headboard, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
-TAGS: class:object | alive:non-living | state:solid
-
-## lantern.png
-Glowing lantern with flame.
-PROMPT: flat cartoon clipart, cute lantern with a warm glowing yellow flame inside clear glass panes, metal frame and a handle on top, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+PROMPT: flat cartoon clipart, cute table knife, smooth blade, slim handle, shiny silver, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:object | alive:non-living | state:solid

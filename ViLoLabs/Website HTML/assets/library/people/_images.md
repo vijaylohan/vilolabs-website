@@ -1,11 +1,11 @@
-# People & Professions — Image List (21)
+# People & Professions — Image List (28)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 21 done · 0 to create.
+Status: 28 done · 0 to create.
 
 ============================================================
-DONE (21)
+DONE (28)
 ============================================================
 
 ## girl.png   ✅ DONE
@@ -111,4 +111,39 @@ TAGS: class:person | alive:living | habitat:n-a
 ## mermaid.png   ✅ DONE
 Mermaid with colorful fish tail.
 PROMPT: flat cartoon clipart, cute mermaid, long flowing hair, shell top, shimmering green fish tail, friendly smile, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:person | alive:living | habitat:n-a
+
+## baby.png   ✅ DONE
+Happy baby sitting in a nappy, holding a rattle.
+PROMPT: flat cartoon clipart, cute happy baby sitting in a nappy, holding a rattle, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:person | alive:living | habitat:n-a
+
+## mother.png   ✅ DONE
+Smiling mother in casual clothes.
+PROMPT: flat cartoon clipart, cute smiling mother in casual clothes, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:person | alive:living | habitat:n-a
+
+## father.png   ✅ DONE
+Smiling father in a shirt and trousers.
+PROMPT: flat cartoon clipart, cute smiling father in a shirt and trousers, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:person | alive:living | habitat:n-a
+
+## grandmother.png   ✅ DONE
+Smiling grandmother with grey hair and glasses.
+PROMPT: flat cartoon clipart, cute smiling grandmother with grey hair and glasses, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:person | alive:living | habitat:n-a
+
+## grandfather.png   ✅ DONE
+Smiling grandfather with grey hair, glasses and a walking stick.
+PROMPT: flat cartoon clipart, cute smiling grandfather with grey hair, glasses and a walking stick, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:person | alive:living | habitat:n-a
+
+## teacher.png   ✅ DONE
+Friendly teacher holding a book and pointing.
+PROMPT: flat cartoon clipart, cute friendly teacher holding a book and pointing, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:person | alive:living | habitat:n-a
+
+## pilot.png   ✅ DONE
+Pilot in uniform with a cap and wings badge.
+PROMPT: flat cartoon clipart, cute pilot in uniform with a cap and wings badge, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:person | alive:living | habitat:n-a

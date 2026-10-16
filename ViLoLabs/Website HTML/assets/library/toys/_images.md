@@ -1,11 +1,11 @@
-# Toys & Games — Image List (14)
+# Toys & Games — Image List (20)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 14 done · 0 to create.
+Status: 20 done · 0 to create.
 
 ============================================================
-DONE (14)
+DONE (20)
 ============================================================
 
 ## rubber-duck.png   ✅ DONE
@@ -77,3 +77,33 @@ TAGS: class:toy | alive:non-living
 Striped beach ball.
 PROMPT: flat cartoon clipart, cute beach ball, round shape, bright colorful stripe panels, shiny highlight, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:toy | alive:non-living | buoyancy:floats | can:bounce
+
+## doll.png   ✅ DONE
+Cute doll with pigtails and a dress.
+PROMPT: flat cartoon clipart, cute cute doll with pigtails and a dress, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:toy | alive:non-living
+
+## toy-train.png   ✅ DONE
+Wooden toy train with an engine and two carriages.
+PROMPT: flat cartoon clipart, cute wooden toy train with an engine and two carriages, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:toy | alive:non-living | can:has-wheels
+
+## building-blocks.png   ✅ DONE
+Stack of colourful building blocks.
+PROMPT: flat cartoon clipart, cute stack of colourful building blocks, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:toy | alive:non-living
+
+## marbles.png   ✅ DONE
+Handful of colourful glass marbles.
+PROMPT: flat cartoon clipart, cute handful of colourful glass marbles, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:toy | alive:non-living
+
+## toy-car.png   ✅ DONE
+Small red toy car.
+PROMPT: flat cartoon clipart, cute small red toy car, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:toy | alive:non-living | can:has-wheels
+
+## skipping-rope.png   ✅ DONE
+Skipping rope with two wooden handles.
+PROMPT: flat cartoon clipart, cute skipping rope with two wooden handles, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:toy | alive:non-living

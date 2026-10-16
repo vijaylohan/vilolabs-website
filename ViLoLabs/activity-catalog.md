@@ -153,6 +153,72 @@ Both always titled "Trace the Path."
 
 ---
 
+## 8. SHAPES (planned 2026-10-10 — BUILT locally 2026-10-16, ships with the Saturday release)
+
+Goal: once built, these join `ACT_POOLS` (worksheet.html ~line 1092) so MIX sheets
+pick them at random, age-matched — no new mode, no UI change. Every string ships in
+English AND Hindi (see Hindi table below). Shape set = the 8 library PNGs
+(`assets/library/shapes/`, all done 2026-10-10) + the existing SVG shapes.
+
+**Rendering rule:** draw shapes as generated SVG polygons (like the current `shape-id`),
+not the PNGs, wherever the answer depends on geometry (corners/sides) — SVG corners are
+mathematically exact at any size and print crisp in both png- and emoji-mode sheets.
+PNGs are fine for "find"/"match" visuals on png-mode sheets.
+
+| # | Activity (key) | What the child does | Pre-KG | KG | Cl 1 | Cl 2 | Cl 3 |
+|---|---|---|---|---|---|---|---|
+| 8a | **Find the shape** (`shape-id`, EXISTS — extend) | Circle every triangle in a grid of 6–9 mixed shapes | ✅ circle/square/triangle | ✅ + rectangle, oval | – | – | – |
+| 8b | **Count the corners** (`shape-corners`) | One shape shown → circle the right number of corners (3 choices) | – | ✅ triangle, square only | ✅ + rectangle, pentagon, hexagon | ✅ + octagon | – |
+| 8c | **Which shape has N corners?** (`shape-which-corners`) | "Which shape has 4 corners?" → circle it among 4 shapes | – | – | ✅ N ∈ 3,4 | ✅ N ∈ 3–8 | ✅ |
+| 8d | **Match same shape** (`shape-match`) | Draw a line between identical shapes (different colours/sizes) | ✅ 3 pairs | ✅ 4 pairs | – | – | – |
+| 8e | **Match shape to name** (`shape-match-name`) | Line from shape to its word (needs reading) | – | – | ✅ 4 pairs | ✅ 5 pairs | – |
+| 8f | **Shape in real life** (`shape-real-world`) | Match an object to its shape: wheel→circle, window→square, door→rectangle, egg→oval, stop sign→octagon, honeycomb→hexagon, pizza slice→triangle | – | – | ✅ | ✅ | – |
+| 8g | **Count the sides** (`shape-sides`) | Like 8b but "sides" (same numbers) — introduces the word | – | – | – | ✅ | ✅ |
+
+**Correctness rules (a correct child must never be marked wrong):**
+1. Corner/side questions use ONLY: triangle 3, square 4, rectangle 4, pentagon 5,
+   hexagon 6, octagon 8. Circle & oval = 0 corners — allowed ONLY as a distractor in 8c,
+   never as the asked shape in 8b ("0 corners" confuses Pre-KG/KG).
+2. NEVER use star, heart, crescent, diamond in corner/side questions — star has 10
+   corners (5 pointy + 5 inner), heart/crescent are ambiguous, "diamond" is called
+   rhombus in maths. They stay in 8a/8d only.
+3. 8c answer must be unique: never show two shapes with the same corner count
+   (square + rectangle both have 4 → never together in one 8c question).
+4. 8f objects must have ONE obvious shape and an existing library PNG (check before
+   adding a pair; e.g. stop-sign exists in symbols; pizza/wall-clock are planned only).
+   Octagon stop sign = international convention ✓.
+5. Distractor numbers in 8b: distinct, within 2–8, include the right one.
+
+**Hindi strings** (style: memory `hindi_i18n_style.md` — Hindi verbs, transliterated
+shape names, English digits). Shape names: सर्कल, स्क्वेयर, ट्राइएंगल, रेक्टेंगल, ओवल,
+पेंटागन, हेक्सागन, ऑक्टागन (school-book names त्रिभुज/वर्ग/आयत etc. may be shown in
+brackets on Class 2+ if teachers ask).
+
+| Key | English | Hindi |
+|---|---|---|
+| t_shapeCorners | Count the Corners | कोने गिनो |
+| i_shapeCorners | How many corners does this shape have? Circle the right number. | इस शेप के कितने कोने हैं? सही नंबर पर सर्कल बनाओ। |
+| t_shapeWhich | Which Shape? | कौन-सी शेप? |
+| i_shapeWhich | Which shape has {n} corners? Circle it. | किस शेप के {n} कोने हैं? उस पर सर्कल बनाओ। |
+| t_shapeMatch | Match the Shapes | शेप मिलाओ |
+| i_shapeMatch | Draw a line to join the same shapes. | एक जैसी शेप को लाइन से मिलाओ। |
+| t_shapeName | Shape Names | शेप के नाम |
+| i_shapeName | Match each shape to its name. | हर शेप को उसके नाम से मैच करो। |
+| t_shapeReal | Shapes Around Us | हमारे आस-पास की शेप |
+| i_shapeReal | Match each thing to its shape. | हर चीज़ को उसकी शेप से मैच करो। |
+| t_shapeSides | Count the Sides | भुजाएँ गिनो |
+| i_shapeSides | How many sides does this shape have? | इस शेप की कितनी भुजाएँ हैं? |
+
+**Fix while building (existing `shape-id` bug):** the hint line "⭕ Find all the
+{shape}s!" is hard-coded English, and `Tf('i_shapeHunt','name',tgt)` inserts the
+ENGLISH shape name into the Hindi instruction. Route both through `T()` with the
+Hindi shape names above.
+
+**Effort:** ~1 session (6 small builders + `ACT_POOLS` wiring + EN/HI strings +
+preview test at every level, both languages, png & emoji mode).
+
+---
+
 ## CROSS-CUTTING SAFETY RULES (apply to the generator)
 
 1. CATEGORY-PRESENCE GUARD — never emit an instruction with an empty answer

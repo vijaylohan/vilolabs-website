@@ -1,11 +1,11 @@
-# Musical Instruments — Image List (14)
+# Musical Instruments — Image List (20)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 14 done · 0 to create.
+Status: 20 done · 0 to create.
 
 ============================================================
-DONE (14)
+DONE (20)
 ============================================================
 
 ## drum.png   ✅ DONE
@@ -76,4 +76,34 @@ TAGS: class:instrument | alive:non-living | state:solid
 ## music-notes.png   ✅ DONE
 Cluster of black music notes.
 PROMPT: flat cartoon clipart, cute cluster of black music notes, quarter notes and eighth notes joined by a beam, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:instrument | alive:non-living | state:solid
+
+## flute.png   ✅ DONE
+Silver flute with keys.
+PROMPT: flat cartoon clipart, cute silver flute with keys, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:instrument | alive:non-living | state:solid
+
+## piano.png   ✅ DONE
+Small black grand piano with white and black keys.
+PROMPT: flat cartoon clipart, cute small black grand piano with white and black keys, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:instrument | alive:non-living | state:solid
+
+## harp.png   ✅ DONE
+Golden harp with strings.
+PROMPT: flat cartoon clipart, cute golden harp with strings, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:instrument | alive:non-living | state:solid
+
+## tambourine.png   ✅ DONE
+Round tambourine with small metal jingles.
+PROMPT: flat cartoon clipart, cute round tambourine with small metal jingles, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:instrument | alive:non-living | state:solid
+
+## cymbals.png   ✅ DONE
+Pair of golden cymbals.
+PROMPT: flat cartoon clipart, cute pair of golden cymbals, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:instrument | alive:non-living | state:solid
+
+## harmonica.png   ✅ DONE
+Silver harmonica.
+PROMPT: flat cartoon clipart, cute silver harmonica, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:instrument | alive:non-living | state:solid

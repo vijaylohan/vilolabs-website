@@ -1,11 +1,11 @@
-# Food, Drinks & Treats — Image List (31)
+# Food, Drinks & Treats — Image List (39)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 30 done · 1 to create.
+Status: 38 done · 1 to create.
 
 ============================================================
-DONE (30)
+DONE (38)
 ============================================================
 
 ## ice-cream.png   ✅ DONE
@@ -158,11 +158,51 @@ Blueberry muffin in a wrapper.
 PROMPT: flat cartoon clipart, cute blueberry muffin, domed golden top with blueberries, paper wrapper, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:food | alive:non-living | state:solid | temp:neutral | moisture:neutral
 
+## pizza.png   ✅ DONE
+Round pizza with cheese, tomato and olive toppings, one slice pulled out.
+PROMPT: flat cartoon clipart, cute round pizza with cheese, tomato and olive toppings, one slice pulled out, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:food | alive:non-living | state:solid | temp:hot
+
+## sandwich.png   ✅ DONE
+Triangle sandwich with cheese, tomato and lettuce layers.
+PROMPT: flat cartoon clipart, cute triangle sandwich with cheese, tomato and lettuce layers, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:food | alive:non-living | state:solid | temp:neutral
+
+## rice.png   ✅ DONE
+Bowl of fluffy white rice.
+PROMPT: flat cartoon clipart, cute bowl of fluffy white rice, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:food | alive:non-living | state:solid | temp:hot
+
+## noodles.png   ✅ DONE
+Bowl of noodles with a fork lifting some up.
+PROMPT: flat cartoon clipart, cute bowl of noodles with a fork lifting some up, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:food | alive:non-living | state:solid | temp:hot
+
+## soup.png   ✅ DONE
+Bowl of warm tomato soup with a spoon and steam.
+PROMPT: flat cartoon clipart, cute bowl of warm tomato soup with a spoon and steam, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:food | alive:non-living | state:liquid | temp:hot
+
+## salad.png   ✅ DONE
+Bowl of green salad with tomato and cucumber.
+PROMPT: flat cartoon clipart, cute bowl of green salad with tomato and cucumber, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:food | alive:non-living | state:solid | temp:cold
+
+## donut.png   ✅ DONE
+Round donut with pink icing and sprinkles.
+PROMPT: flat cartoon clipart, cute round donut with pink icing and sprinkles, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:food | alive:non-living | state:solid | temp:neutral
+
+## lollipop.png   ✅ DONE
+Big round swirly rainbow lollipop on a stick.
+PROMPT: flat cartoon clipart, cute big round swirly rainbow lollipop on a stick, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:food | alive:non-living | state:solid | temp:neutral
+
 ============================================================
 TO CREATE (1)
 ============================================================
 
 ## acorn.png
 Brown acorn with a cap.
-PROMPT: flat cartoon clipart, cute brown acorn, smooth oval nut, textured cap, tiny stem, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+PROMPT: flat cartoon clipart, cute brown acorn, smooth oval nut, textured cap, tiny stem, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:food | alive:non-living | state:solid | temp:neutral | moisture:dry | pairWith:animals/squirrel.png

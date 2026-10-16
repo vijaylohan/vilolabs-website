@@ -2,10 +2,10 @@
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 8 done · 8 to create.
+Status: 16 done · 0 to create.
 
 ============================================================
-DONE (8)
+DONE (16)
 ============================================================
 
 ## heart-shape.png   ✅ DONE
@@ -48,46 +48,42 @@ TAGS: class:shape | alive:non-living | shape:3d-cylinder
 PROMPT: flat cartoon clipart, simple 3D shaded orange cone standing point-up on its circular base, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:shape | alive:non-living | shape:3d-cone
 
-============================================================
-TO CREATE (8)
-============================================================
-
-## circle.png
+## circle.png   ✅ DONE
 Solid orange filled circle.
 PROMPT: flat cartoon clipart, simple solid orange filled perfect circle, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:shape | alive:non-living | shape:circle
 
-## square.png
+## square.png   ✅ DONE
 Solid green filled square.
 PROMPT: flat cartoon clipart, simple solid green filled perfect square, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:shape | alive:non-living | shape:square
 
-## triangle.png
+## triangle.png   ✅ DONE
 Solid blue filled equilateral triangle pointing up.
 PROMPT: flat cartoon clipart, simple solid blue filled equilateral triangle pointing up, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:shape | alive:non-living | shape:triangle
 
-## rectangle.png
+## rectangle.png   ✅ DONE
 Solid purple filled horizontal rectangle.
 PROMPT: flat cartoon clipart, simple solid purple filled horizontal rectangle longer than tall, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:shape | alive:non-living | shape:rectangle
 
-## oval.png
+## oval.png   ✅ DONE
 Solid pink filled horizontal oval (ellipse).
 PROMPT: flat cartoon clipart, simple solid pink filled horizontal oval ellipse, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:shape | alive:non-living | shape:oval
 
-## pentagon.png
+## pentagon.png   ✅ DONE
 Solid red filled regular pentagon (five-sided), pointing up.
 PROMPT: flat cartoon clipart, simple solid red filled regular pentagon five-sided polygon pointing up, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:shape | alive:non-living | shape:pentagon
 
-## hexagon.png
+## hexagon.png   ✅ DONE
 Solid teal filled regular hexagon (six-sided).
 PROMPT: flat cartoon clipart, simple solid teal filled regular hexagon six-sided polygon flat sides top and bottom, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:shape | alive:non-living | shape:hexagon
 
-## octagon.png
+## octagon.png   ✅ DONE
 Solid red filled regular octagon (eight-sided, like a stop sign).
 PROMPT: flat cartoon clipart, simple solid red filled regular octagon eight-sided polygon like a stop sign shape, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:shape | alive:non-living | shape:octagon

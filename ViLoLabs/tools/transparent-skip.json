@@ -1,0 +1,7 @@
+{
+ "note": "Images cleaned by hand that make-transparent.js must not re-process (its broad light-grey rule would erase their subject). Add 'category/file.png'. Originals are in Resources/library-originals-backup/.",
+ "files": [
+  "weather/tornado.png",
+  "instruments/tambourine.png"
+ ]
+}

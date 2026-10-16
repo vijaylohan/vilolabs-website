@@ -1,11 +1,11 @@
-# Birds — Image List (21)
+# Birds — Image List (27)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 21 done · 0 to create.
+Status: 27 done · 0 to create.
 
 ============================================================
-DONE (21)
+DONE (27)
 ============================================================
 
 ## duckling.png   ✅ DONE
@@ -115,3 +115,33 @@ TAGS: class:bird | alive:living | habitat:sky | can:no-fly
 White goose standing.
 PROMPT: flat cartoon clipart, cute white goose standing, long neck, orange beak and webbed feet, folded wings, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, simple flat color fill, minimal flat shading, no gradients, no realistic feather texture, chunky uniform sticker cartoon style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:bird | alive:living | habitat:farm | can:swim
+
+## crow.png   ✅ DONE
+Black crow standing, grey neck, shiny dark feathers, sharp beak.
+PROMPT: flat cartoon clipart, cute black crow standing, grey neck, shiny dark feathers, sharp beak, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:bird | alive:living | habitat:sky | can:fly
+
+## pigeon.png   ✅ DONE
+Grey pigeon standing, green and purple shimmer on neck, orange eyes.
+PROMPT: flat cartoon clipart, cute grey pigeon standing, green and purple shimmer on neck, orange eyes, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:bird | alive:living | habitat:sky | can:fly
+
+## eagle.png   ✅ DONE
+Brown eagle with white head and yellow hooked beak, wings spread.
+PROMPT: flat cartoon clipart, cute brown eagle with white head and yellow hooked beak, wings spread, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:bird | alive:living | habitat:sky | can:fly
+
+## woodpecker.png   ✅ DONE
+Woodpecker with red cap, black and white wings, long pointed beak.
+PROMPT: flat cartoon clipart, cute woodpecker with red cap, black and white wings, long pointed beak, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:bird | alive:living | habitat:sky | can:fly
+
+## kingfisher.png   ✅ DONE
+Kingfisher with bright blue back, orange chest, long straight beak.
+PROMPT: flat cartoon clipart, cute kingfisher with bright blue back, orange chest, long straight beak, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:bird | alive:living | habitat:sky | can:fly
+
+## robin.png   ✅ DONE
+Small brown robin with a round orange-red chest.
+PROMPT: flat cartoon clipart, cute small brown robin with a round orange-red chest, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:bird | alive:living | habitat:sky | can:fly

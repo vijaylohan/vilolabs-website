@@ -5,6 +5,228 @@ Add to this file as ideas come up. Strike through when shipped.
 
 ---
 
+## 🗓️ SATURDAY RELEASE — 2026-10-17 (one push, everything together)
+
+Everything below is ready or planned locally; nothing is live until this push.
+**Schedule:** image library work continues until Wednesday; **BUILDING starts Wednesday
+2026-10-14** (code changes below); Saturday = final test + push.
+
+- [ ] **Image library** — already QC'd + built locally (`library.json`): +116 new pictures,
+      9 upgraded (emoji → drawing), knife replaced; colouring pages 25 → 64 (status 2026-10-15).
+      Emoji set frozen (`tools/emoji-allowlist.json`) — no new emoji go live.
+- [x] **Shape questions** — build activities 8a–8g from `activity-catalog.md` §8
+      (find shape, count corners, which shape has N corners, match, names, shapes
+      around us, count sides), age-matched via `ACT_POOLS`, English + Hindi.
+      Also fix the existing `shape-id` Hindi bug (English hint line + English shape name).
+      DONE locally 2026-10-16 (keys: shape-corners, shape-sides, shape-which, shape-match,
+      shape-name, shape-real; shape-id now level-matched + translated). Pools: Pre-KG
+      +match · KG +corners, match · Cl1 +corners, which, names, real · Cl2 +sides, which,
+      names, real (sides replaces corners at Cl2) · Cl3 +sides, which. 3,600 test builds,
+      0 wrong answers. Shapes-around-us pictures hand-checked (REAL_SHAPE in worksheet.html).
+- [x] **Fruit tastes** — ✅ DONE locally 2026-10-15 (guava, papaya, pomegranate, blueberry, lychee = sweet; kiwi/plum/coconut deliberately untagged) — add the 8 new fruits (guava, papaya, pomegranate, coconut,
+      kiwi-fruit, blueberry, lychee, plum) to `FRUIT_TASTE` in `worksheet.html`
+      so the "sweet or sour?" activity can use them.
+- [ ] **Contact details** — (Vijay: do this one LAST) — update the website's contact details.
+      ⚠️ Need the actual details from Vijay first (email? phone? which ones to show?).
+      Places to update: index.html contact section + footer "@" link (currently
+      "coming soon" `.na`), privacy/terms/cookies contact lines, and the homepage
+      Organization JSON-LD if an email is added. If the CONTACT FORM goes live too,
+      the Tier 1 checklist in CLAUDE.md applies (Turnstile, consent checkbox,
+      privacy.html paragraph) — that's a bigger job, decide separately.
+- [x] ✅ DONE locally 2026-10-15 (+ TRAIT_AMBIGUOUS guard: frog/crocodile/beaver/hippo/polar-bear never shown as wrong answers) — **Teach existing questions the new pictures** (data-only, quick — `worksheet.html`):
+      - healthy-or-treat: HEALTHY += salad, soup, rice · TREAT += donut, lollipop, pizza
+        (leave sandwich & noodles out — ambiguous)
+      - hungry-thirsty: HUNGRY_FOOD += pizza, sandwich, rice, noodles, soup, salad, donut
+      - animal-trait: TRAIT_FLY += bat, crow, pigeon, eagle, woodpecker, kingfisher, robin ·
+        TRAIT_WATER += frog, crocodile, beaver · TRAIT_NOLEGS += snake
+      - use-for (USE_FOR_GROUP ~line 1826): new groups clean (broom, soap, bucket) · light
+        (lantern) · sleep (bed) · time (wall-clock) · look-far (telescope). Code touch-points:
+        add the group names to `groups=[…]` in `case 'use-for'` (~line 4675), and labels
+        `uf_clean/uf_light/uf_sleep/uf_time/uf_lookfar` in BOTH string tables (EN ~line 833:
+        CLEAN / SEE IN THE DARK / SLEEP / TELL THE TIME / SEE FAR AWAY · HI ~line 923:
+        साफ़ करना / अंधेरे में देखना / सोना / टाइम देखना / दूर तक देखना).
+        Distractor pool there = animals/food/fruits/vegetables only → household distractors
+        never collide with the new household answers ✓.
+      - Lists to edit (all in worksheet.html): FRUIT_TASTE ~1817 · HUNGRY_FOOD ~1823 ·
+        TRAIT_FLY/WATER/NOLEGS ~1827–1829 · HEALTHY_FOODS/TREAT_FOODS ~4514 (inside
+        `case 'healthy-or-treat'`).
+      - FRUIT_TASTE += 8 new fruits (item above)
+      ("what-category" and "where-does-it-live" pick up new pictures automatically.)
+- [x] ✅ DONE locally 2026-10-15 (A+B: page slice de-dup + library top-up; odd from different family; ODD_LOOKALIKE + ODD_GROUP_OK) — **BUG FIX — "Odd one out" shows 4 identical pictures** (reported 2026-10-12, Pre-KG
+      toys theme, 4 spinning tops). Cause: themed pools may be as small as 12–15 pictures
+      (`themed.length>=12`, worksheet.html ~line 3228). Page slice is built at ~line 3254:
+      `allItems.slice(start,start+16).concat(allItems.slice(0, 16-(POOL_TARGET-start)))` —
+      when the pool has < 16 pictures the concat re-adds the first ones → DUPLICATES inside
+      one page's 16 items. `case 'odd-one-out'` (~line 4034) then uses i0 ×3 + i1, and
+      if i0 and i1 are the same picture all 4 match.
+      Context: parents NEVER pick a theme — Pre-KG/KG are always given a RANDOM theme, Class
+      1–5 a random theme 65% of the time (`_wsThemesViable`, ~line 2170, threshold ≥12).
+      **DECIDED FIX = A + B (2026-10-12):**
+      **A. Top up the theme pool:** use all of the theme's pictures first, then fill from the
+      whole library (same png/emoji mode) so every page always has 16 DIFFERENT pictures —
+      never re-add pictures already in the slice. Compare by image path (5 names exist in 2
+      sections with different pictures: kite, lantern, maracas, puddle, telescope). Sheet
+      still feels themed; duplicates become impossible for every activity.
+      **B. Odd one out from outside the theme:** the odd picture always comes from a
+      clearly DIFFERENT category (never toy-car among vehicles, fruit among food), same
+      png/emoji mode. Pre-KG: 3 identical theme pictures + 1 other-category picture.
+      KG+: 3 DIFFERENT pictures of the theme + 1 other-category picture ("which is not a
+      toy?") — teaches grouping. Keep a final guard: odd image ≠ others, else re-pick.
+- [x] ✅ DONE locally 2026-10-15 — **BUG FIX — Pattern "what comes next?" reference line is tiny and stacked top-to-
+      bottom** (reported 2026-10-12, seen in PDF; same on screen). Cause: `case 'pattern-ab'`
+      (~line 4053) prints a hint line `${a} ${b} ${a} ${b} ${a} → ___?` at font-size .62rem,
+      where a/b are `<img class="wimg">`; `.wimg` is `display:block` (CSS line 150) → each
+      picture becomes its own line, ~10px tall. Fix: show the reference LEFT-TO-RIGHT and
+      readable — e.g. wrap the hint pictures in a flex row with `display:inline-block` and a
+      real size (~24–28px), or drop the hint line (the big row above already shows the
+      pattern). Check pattern-abc and any other line that puts `.e` pictures inside text.
+- [ ] **FRESHNESS UPGRADE — every Generate click in one visit must feel new** (agreed
+      2026-10-12; generator logic only, no page/UI change). Problem measured: library has
+      588 pictures / 28 sections, but a themed sheet draws from ~25 pictures (10 pages ≈ 160
+      slots → heavy repeats), and LEVEL_TOPICS (~line 1034) never offers many sections
+      (Pre-KG: only 7 themes — never vehicles, birds, vegetables, food, sea creatures…).
+      1. **1–3 themes per sheet.** Mix of sheet types, e.g. ~⅓ single theme, ~⅓ 2–3
+         themes, ~⅓ fully mixed. Multi-theme sheets ALTERNATE pages between their themes
+         (each page stays focused; name stays honest — every named theme really appears,
+         roughly equal share). Use a HAND-PICKED list of sensible combos (animals+birds,
+         fruits+vegetables, toys+clothing, vehicles+buildings, sea-creatures+weather,
+         animals+fruits+vehicles…), never odd ones (dinosaurs+stationery).
+      2. **Names:** "Kindergarten · Animals, Fruits & Vehicles"; slug
+         `free-printable-worksheets-{grade}-animals-fruits-and-vehicles-{seed}`. Teach
+         `worksheet-seo.js` + `functions/worksheets/[slug].js` the multi-theme format; old
+         single-theme / mix slugs MUST keep parsing (existing share links). Gallery alt text
+         (`galleryAlt`) already turns the theme part into words automatically — re-check.
+      3. **Theme families (bigger pools, names still true):** animals = animals + birds +
+         sea creatures + insects · food = food + fruits + vegetables · transport = vehicles ·
+         school = stationery · home = household + toys (names `transport`/`school` already
+         exist in seo-keywords.json).
+      4. **More themes per level (B):** add the newly complete sections to LEVEL_TOPICS
+         where age-appropriate. Weather + shapes (+ any other new theme) need a
+         seo-keywords.json category entry first, or names/previews fall back to "mix".
+      5. **Visit memory (C) — the key to freshness:** remember (localStorage, per browser)
+         the pictures, themes and question types used in the last few generated sheets;
+         prefer unused ones on the next Generate. Never block — fall back gracefully when
+         a pool is small. Share-link restore must ignore this memory (same seed → same sheet).
+      6. **Top-up (D, see odd-one-out fix A):** if a page runs short, fill from the same
+         family first, then a related one.
+      Note: very old share links may show slightly different pictures after this (already
+      true whenever the library grows) — acceptable; their names/URLs keep working.
+      7. **EXISTING BUG to fix here (found 2026-10-15, live too):** URL slug theme, page
+         header and actual pictures can disagree — e.g. URL `…preschool-fruits…`, header
+         "Pre-KG · Fun Mix", pictures = animals (also seen: KG "fruits" URL with sea animals).
+         The slug's category (`_wsCurrentConfig`, ~line 2179) and the theme used to pick
+         pictures/header appear to be chosen separately. One single theme decision must drive
+         slug + header + share preview + pictures.
+- [ ] **SHRINK LIBRARY PICTURES — TEST FIRST, THEN DECIDE** (agreed 2026-10-12; needed
+      with the freshness upgrade, which makes sheets use 100+ distinct pictures).
+      Facts: 590 library PNGs, avg ~800 KB (457 MB) at 1024 px. Largest on-sheet size =
+      Pre-KG `m` 7rem = 112 CSS px (~3 cm); PDF export renders at html2canvas scale:2 →
+      max ~224 px per picture in any PDF; sharpest phones ~336 px. Plan: resize to **512 px**
+      (fit inside, keep transparency) + PNG palette compression (sharp: palette:true,
+      quality ~90, effort 10) → ~70–90 KB each, SAME file names/format (no code change).
+      Quick test 2026-10-12 at 400 px: tiger 756→47 KB, pizza 1373→51 KB, jupiter 1223→34 KB,
+      visually identical. Colouring pages + emoji SVGs NOT touched.
+      **Step 1 (Wednesday): proof test** — generate the SAME worksheet locally twice (current
+      vs 512 px pictures), export both PDFs, show Vijay side by side zoomed in. Only if he
+      sees no difference → step 2. **Step 2:** add a shrink step to build-all.js after
+      make-transparent (new pictures shrink automatically); originals stay in
+      Resources/library-originals-backup/ (never uploaded).
+      ✅ DONE 2026-10-12: dashed sticker-ring remnants removed from 18 pictures (tent,
+      school, space-helmet, constellation [real dotted lines kept], galaxy, telescope,
+      meteor, satellite, mercury, venus, saturn, comet, jupiter, mars, apron, jeans, gloves,
+      pajamas) — small loose MID-GREY bits only; verified unchanged after build.
+- [x] **FIXED locally 2026-10-16:** emoji nuts pair skipped in `libPairs`; picture sheets
+      now use PNG pairs (real nuts); pairs/pictures not yet used on the sheet come first, so
+      "Goes together" no longer repeats on long sheets (80 test sheets: 0 repeats, 0 bolts).
+      + 25 new pairs (`EXTRA_PAIRS` in worksheet.html, all pictures checked by eye):
+      picture sheets 10 → 34 pairs, emoji sheets 6 → 18. Pairs whose emoji is wrong are
+      picture-only (rain, bamboo, doctor, bowl, screw, fire-truck emojis are wrong matches).
+- [x] **BUG — squirrel paired with MECHANICAL nuts** (reported 2026-10-15). In the
+      "things that go together" pairing, squirrel ↔ nuts; in EMOJI mode `food/nuts` uses
+      the nut-and-bolt hardware emoji (known wrong emoji — see library findings memory), so
+      a child sees squirrel + a metal nut. Remove THIS match (or make it picture-mode only,
+      where nuts = real peanuts/nuts) while making sure already-built / shared sheets still
+      restore (same seed → same sheet; don't reorder or remove items in pools other code
+      indexes by position). Check where the pair lives (pairWith tags in library.json /
+      _images.md and any THINGS_TOGETHER-style map in worksheet.html).
+- [ ] **INVESTIGATE — Supabase usage tables never update** (reported 2026-10-15). The
+      "tools used" (`tool_usage`) and "tools shared" (`tool_shares`) data always show the
+      same old rows from long ago. Check: is `trackUsage()` / `saveToolShare()` (assets/db.js)
+      actually called by the tool pages; do inserts fail silently (RLS/anon policy, CSP
+      connect-src, wrong table name); where is the data viewed. Fix so new usage records.
+      (db.js is a shared file → run stamp-assets.js after editing.)
+- [ ] **INVESTIGATE — colouring generator's script-drawn pictures** (reported 2026-10-15).
+      Colouring sheets mix real PNG pages (66) with legacy SVG subjects drawn by code
+      (`COL_LIB`, worksheet.html ~line 1150, `buildColouringAll` ~2600) — and each generated
+      colouring sheet ends up including at least one of these code-drawn pictures, which look
+      weaker than the real pages. Options to evaluate: drop SVG subjects now that 66 real
+      pages exist; or only use them when the real pool is too small; or improve the SVG
+      drawings. Keep share-link restore working for existing colouring slugs.
+- [x] **New question types W7–W11** (below) — at least W7 Land/Water/Air and W5 Day/Night — W7 + W5 DONE locally 2026-10-15
+      (W8–W11 follow in a later update.)
+- [x] **Fair picture mixing** (2026-10-15, local) — `shuffle()` was a biased sort; now seeded Fisher-Yates so new pictures (end of library.json) get picked. Old share links regenerate with different pictures (same level/type) — user accepted.
+- [ ] **"What's new" banner + popup** (requested 2026-10-16; approved front-end change).
+      Slim gold banner at the TOP of the worksheet generator page (not on printed sheets /
+      PDF, not on `/worksheets/<slug>` share-restore views? → decide). Click → small, clean
+      popup listing the upgrades in plain words, in the language picked at the top (EN/HI).
+      Close button + click-outside + Esc; remember "seen" in localStorage (try/catch) so the
+      banner shrinks/hides after the visitor has read it; banner retired after ~30 days.
+      Must meet the professional UI bar. Draft wording:
+      - Banner EN: "✨ New: smarter worksheets — fresh pictures and new questions every time. See what's new →"
+      - Banner HI: "✨ नया: और भी स्मार्ट वर्कशीट — हर बार नई तस्वीरें और नए सवाल। देखें क्या नया है →"
+      - Popup title EN: "What's new in ViLo Worksheets" · HI: "ViLo वर्कशीट में क्या नया है"
+      - Popup subtitle EN: "We've rebuilt the engine behind every worksheet."
+        HI: "हमने हर वर्कशीट के पीछे का इंजन नए सिरे से बनाया है।"
+      - Popup points EN (v3 — headline-only, all bold, no explanation lines):
+        • **Smarter picture engine for fresher, more varied worksheets**
+        • **Intelligent question builder, tuned to every class level**
+        • **New thinking skills: sorting, grouping and real-world reasoning**
+        • **Sharper visual puzzles that build true observation skills**
+        • **Find the Word: age-adaptive word-search puzzles** (only if it ships)
+        • **Same promise: always free, private and sign-up free**
+      - Popup points HI:
+        • **ताज़ा और विविध वर्कशीट के लिए स्मार्ट पिक्चर इंजन**
+        • **हर कक्षा के हिसाब से समझदार सवाल-निर्माता**
+        • **सोचने की नई कुशलताएँ: छाँटना, समूह बनाना और रोज़मर्रा की समझ**
+        • **और तेज़ दृश्य पहेलियाँ, जो सच्ची परख सिखाती हैं**
+        • **शब्द खोज: उम्र के हिसाब से बदलने वाली पहेलियाँ** (अगर तैयार हो)
+        • **वही वादा: हमेशा मुफ़्त, निजी और बिना साइन-अप**
+- [ ] **"Share the love" nudge during generation** (requested 2026-10-16; approved front-end
+      change). While the progress bar runs, a small card slides in at the side/bottom — never
+      covering the worksheet, never blocking, auto-fades, closable, NOT in print/PDF. Don't
+      show it on every generate (e.g. 1 in 3, or once per visit) so it stays warm, not naggy.
+      Three small branded buttons of the `/worksheet` link: **WhatsApp** (wa.me link),
+      **Facebook** (sharer link), **Instagram** (Instagram has NO web share link → on phones
+      open the native share sheet, on desktop copy the link + "Link copied — paste it in your
+      Instagram story or bio" toast). Use the official brand icons/colours, small and tidy.
+      Wording v2 (2026-10-16): must be readable in ≤5 seconds — generation takes only a few
+      seconds. ONE short line + the 3 logo buttons (the logos say WhatsApp/Instagram/Facebook,
+      so the text doesn't repeat them). TIMING (decided 2026-10-16): card stays 10 s total
+      (keeps showing after the sheet is ready), ✕ to close early, timer pauses while the
+      mouse is over it / it's being touched, ONCE per visit. Progress bar is NOT slowed down
+      — it runs at natural speed (no fake waiting). Rotate one line per show:
+      - EN: "💛 Free for every child. Share it with a parent friend."
+      - EN: "💛 Know a parent who'd love this? Share it."
+      - EN: "💛 One share helps one more child learn."
+      - HI: "💛 हर बच्चे के लिए मुफ़्त। किसी दोस्त से शेयर करें।"
+      - HI: "💛 किसी माता-पिता को ये पसंद आएगा? शेयर करें।"
+      - HI: "💛 आपका एक शेयर, एक और बच्चे की पढ़ाई।"
+- [ ] **Find the Word (word search) mode** — build W6 below: new mode card + age slider
+      (6 → 12), forward-only words, picture clues ages 6–7, answer page with circles +
+      promo, EN + HI instructions, no-repeat memory. Includes the **word library**
+      (`assets/word-search-words.json`, ~300–500 words per age band) — Vijay skims the
+      list once before it goes live. ⚠️ Largest item (~1–2 sessions) — do it LAST so the
+      rest can still ship if it isn't finished; then it goes in the next push.
+- [ ] **Test locally** — every class level, English + Hindi, picture + emoji sheets,
+      word search at every age, print/PDF; then commit + push; then check the live site.
+
+**Order of work on Saturday:** 1) fruit tastes + teach existing questions the new
+pictures (quick) → 2) contact details (needs Vijay's details) → 3) shape questions →
+4) W7 Land/Water/Air + W5 Day/Night (if time) → 5) word search + word library →
+6) test → push.
+
+---
+
 ## Worksheet Activities (New)
 
 These are new activity types to add to the worksheet generator (`sheets.html`).
@@ -164,6 +386,148 @@ page focuses on one property with exactly two opposing categories.
 - Pre-KG: excluded — cannot read category labels or write names
 - KG: Circle variant only — two picture labels (not words) or teacher reads the question aloud; child circles each image under the correct column header
 - Grade 1–3: Sort & Write variant — child writes the object name in the correct column
+
+---
+
+### W6. Find the Word (Word Search) — NEW MODE (agreed 2026-10-10 → in SATURDAY 2026-10-17 release list)
+
+**What it is:** A standalone mode card next to Maze and Sudoku (same pattern: age slider,
+page-count, fresh puzzle on every Generate, optional answer page). Each page = a letter
+grid with hidden words + the list of words to find above it.
+
+**Difficulty by age** (slider starts at age 6 — NO age 5; age 6 = the simplest level):
+| Age | Grid | Words to find | Word length | Directions |
+|---|---|---|---|---|
+| 6 | 6×6 | 5 | 3 letters | → ↓ |
+| 7 | 7×7 | 6 | 3–4 | → ↓ |
+| 8 | 8×8 | 8 | 3–5 | → ↓ ↘ |
+| 9 | 10×10 | 10 | 4–5 | → ↓ ↘ |
+| 10 | 11×11 | 12 | 4–6 | → ↓ ↘ ↗ |
+| 11–12 | 12×12–14×14 | 12–15 | 5–7 | → ↓ ↘ ↗ |
+
+**NO backward words (decided 2026-10-10):** every word reads forwards — never ← ↑ ↖ ↙
+(reversed letters). ↗ is allowed from age 10 because it still reads left-to-right.
+Difficulty grows through grid size, word count and word length instead.
+
+**Words:** MIXED (no themed puzzles — decided). Minimum 3 letters (2-letter words occur
+by accident in random filler → several "answers", key looks wrong).
+
+**Pictures only up to age 7** (decided 2026-10-10): ages 6–7 show the clipart picture
+beside each word (uses the 184 spelling-ready library words). **Age 8+ = words only.**
+
+**Word library (needed — the sample repeated words because its lists were tiny: 13
+picture words / ~90 words):** build `assets/word-search-words.json` — a curated list of
+everyday + classroom vocabulary, grouped by age and length, aiming ~300–500 words per age
+band so repeats are rare. Sources to draw from (vocabulary common to state, national and
+international boards): high-frequency/sight-word lists (Dolch, Fry), Cambridge Young
+Learners wordlists (Starters/Movers/Flyers), and everyday topics taught in primary
+classes everywhere (home, school, body, food, animals, weather, transport, jobs, places,
+time, feelings, nature, science basics). Rules for the list:
+- Nouns/verbs/adjectives a child of that age actually knows; no proper nouns, no slang.
+- Avoid words with British/American spelling differences (colour/color, centre/center,
+  favourite) — a child may know the other spelling and "not find" it.
+- No words that could read as rude or scary; reviewed once by Vijay (skim, not author).
+- Built by us from these references (word lists are vocabulary, not copied text).
+
+**No repeats:** a word never appears twice in one generated set (across all its pages),
+and the generator avoids the words used in the last few generations in that browser
+(localStorage memory, like a "recently used" list) so clicking Generate again feels fresh.
+
+**Generator rules (correctness):**
+- Every listed word appears EXACTLY ONCE in the grid (scan all 8 directions after fill —
+  even though words are only PLACED forwards, a filler accident can spell one backwards).
+- Filler letters must never spell a rude/unsafe word in any direction — scan against a
+  blocklist, re-roll filler on a hit.
+- Young bands: no overlapping words; older bands may share letters at crossings.
+- Grid cell size sized for print legibility (A4; ~11 mm cells at 14×14).
+
+**Last page:** answer key — same grid(s), each word circled with a rounded outline
+(optional toggle, like Maze's answer-key switch) + the classic promo block for other tools.
+
+**Hindi:** UI/instructions in Hindi ("छिपे हुए शब्द ढूँढो और उन पर सर्कल बनाओ"), words stay
+ENGLISH in v1 — Devanagari matras/conjuncts don't split cleanly into grid cells; a Hindi
+word search needs its own design later.
+
+**SEO:** single-activity mode → clean slug shape `word-search-for-kids-{seed}` (fits the
+HONESTY constraint like maze/sudoku). Not in keyword research yet — check volume first.
+
+**Existing:** the tiny 5×5 `word-search` inside Class 2–5 mix sheets stays as is.
+**Effort:** ~1–2 sessions (reuse Maze mode slider/page plumbing).
+
+---
+
+### W7–W11. Question types unlocked by the new pictures (added 2026-10-11)
+
+All are MIX-sheet activities (join `ACT_POOLS`, picked at random, age-matched), English +
+Hindi, png- and emoji-mode aware (fall back to another activity if too few pictures exist
+in the current mode — same guard pattern as `use-for` / `hungry-thirsty`).
+
+| # | Question | How it works | Pictures | Ages |
+|---|---|---|---|---|
+| **W7** | **Land, water or air?** | Sort 6 vehicles into 3 columns by where they travel | land: bus, train, truck, van, tram, car, taxi, tractor… · water: boat, ship, submarine · air: airplane, helicopter, hot-air-balloon, rocket | KG – Class 1 |
+| **W8** | **Wild, farm or pet animal?** | Sort / circle by habitat tag (`habitat:wild/farm/home`) | animals section (tags already set) | KG – Class 2 |
+| **W9** | **Which one is a reptile?** (or bird / mammal / amphibian) | Circle the one(s) of the asked group among 4–6 | reptile: snake, tortoise, crocodile, sea-turtle · amphibian: frog · birds · mammals | Class 2 – 3 |
+| **W10** | **Things that keep us clean** | Circle the hygiene items among mixed household things | soap, tap, towel, toothbrush, toothpaste, comb, bucket | KG – Class 1 |
+| **W11** | **Hot or cold food?** | Sort food & drinks by `temp` tag | hot: soup, rice, noodles, tea, pizza · cold: salad, ice-cream, juice, ice-cube | KG – Class 1 |
+
+**W5 Day or Night** (Science Sort above) is now UNBLOCKED — bat, lantern, telescope, bed
+were made 2026-10-09/11 (night: bat, owl, moon, star, lantern, telescope, bed, sleeping-child ·
+day: sun, sunny, butterfly, kite, sunflower…). Firefly/moth still missing — not required.
+
+**Correctness rules:** every picture belongs to exactly ONE answer group (no ambiguous items:
+e.g. duck = land AND water → excluded from W7-style sorts; frog = amphibian, never "reptile");
+never show a group with 0 correct pictures; W9 uses scientific groups only from Class 2.
+
+**Hindi labels (draft, WhatsApp-teacher style):** ज़मीन / पानी / हवा · जंगली / फार्म /
+पालतू जानवर · रेंगने वाले जानवर (रेप्टाइल) · हमें साफ़ रखने वाली चीज़ें · गरम या ठंडा खाना.
+
+---
+
+### W12. Chart Master — printable picture charts (agreed 2026-10-12; after Saturday)
+
+**What:** A4 printable charts built from the picture library. Samples (look approved):
+`Resources/trials/fruits-chart-sample.png`, `chart-sample-az.png`, `chart-sample-veg.png`,
+`chart-sample-ani.png`; renderer prototype logic = pastel rounded cards, bold name, Hindi
+name below (font: Nirmala UI renders Devanagari correctly), ViLo footer + URL.
+
+**Name:** "Chart Master" in-product (matches Math Master). Page title for SEO:
+"Free Printable Picture Charts for Kids — Fruits, Animals, A to Z (English & Hindi)".
+**Where:** own page `/charts` (separate search intent: "fruits name chart", "alphabet chart";
+must not compete with /worksheet) + a card linking to it from /worksheet. Check keyword
+volume first. NOTE: this is a NEW page/UI — approved front-end work, not a generator-only fix.
+
+**Selection flow:**
+1. What chart? Picture chart · A to Z · Numbers 1–20
+2. Topic (picture chart only): one card per COMPLETE section (≥12 pictures) with counts
+3. Language: English · English + हिंदी
+4. Size: Big cards (12/page) · Standard (20/page) · Everything (all pictures, extra pages)
+→ Make my chart → preview → Download PDF · Print · Share (same pipeline as worksheets).
+
+**UI QUALITY BAR (Vijay, 2026-10-12): the selection UI must look neat, clean and professional —
+"made by a high-grade professional".** Concretely: same design language as the existing
+/worksheet picker (cards, spacing, fonts, colours) so it feels like one product; generous
+whitespace; one clear step at a time with a visible progress line (1 · 2 · 3 · 4); real
+picture thumbnails on topic cards (not emoji); consistent card sizes and alignment; clear
+selected state; smooth but subtle transitions; one obvious primary button; fully responsive
+(phone first — most parents are on mobile); no clutter, no jargon, no walls of text. Review
+on phone + desktop screenshots with Vijay before launch.
+
+**Rules:**
+- Fresh on every click: shuffled order + card colours (like worksheets).
+- English-only uses INTERNATIONAL names (Eggplant, Bell pepper); English + Hindi uses Indian
+  English (Brinjal, Capsicum, Chilli) + Hindi below. Needs a per-picture name table
+  (en-intl, en-in, hi) — Hindi names reviewed once by Vijay before launch.
+- A to Z: pictures were too small in the 1-page sample → picture beside the letter, or 2 pages
+  (A–M, N–Z), or landscape. Choose a word per letter that has a good picture (Q=Queen,
+  X=Xylophone, Y=Yo-yo, U=Umbrella, I=Igloo…).
+- Numbers 1–20: number + word (+ Hindi) + that many pictures to count.
+- Same footer/branding + user-awareness tip ("check the names before printing") as other tools.
+- **Web address must be clearly visible, never faded (Vijay, 2026-10-12):** footer URL in
+  BOLD dark brown `#3D2B1F` (~13:1 contrast on cream — readable in colour AND black-and-white
+  prints), ~46px at 192dpi, with a small gold globe mark (leave a little space before the
+  text); gold `#C8963C` only for the rule line/mark, never for the URL text (2.6:1 — too faint).
+  On chart pages the URL should be the page's own address (vilolabs.in/charts).
+  Sample with the new footer: `Resources/trials/chart-sample-veg.png`.
 
 ---
 

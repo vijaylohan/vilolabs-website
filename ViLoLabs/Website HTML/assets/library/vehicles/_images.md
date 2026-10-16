@@ -1,11 +1,11 @@
-# Vehicles & Transport — Image List (19)
+# Vehicles & Transport — Image List (25)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 19 done · 0 to create.
+Status: 25 done · 0 to create.
 
 ============================================================
-DONE (19)
+DONE (25)
 ============================================================
 
 ## car.png   ✅ DONE
@@ -101,4 +101,34 @@ TAGS: class:vehicle | alive:non-living | can:fly
 ## school-bus.png   ✅ DONE
 Yellow school bus.
 PROMPT: flat cartoon clipart, cute yellow school bus, long body, row of windows, big black wheels, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vehicle | alive:non-living | can:has-wheels
+
+## train.png   ✅ DONE
+Passenger train engine with two coaches.
+PROMPT: flat cartoon clipart, cute passenger train engine with two coaches, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vehicle | alive:non-living | can:has-wheels
+
+## truck.png   ✅ DONE
+Big delivery truck with a cargo box.
+PROMPT: flat cartoon clipart, cute big delivery truck with a cargo box, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vehicle | alive:non-living | can:has-wheels
+
+## motorbike.png   ✅ DONE
+Red motorbike side view.
+PROMPT: flat cartoon clipart, cute red motorbike side view, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vehicle | alive:non-living | can:has-wheels
+
+## bus.png   ✅ DONE
+City bus side view with windows and a door.
+PROMPT: flat cartoon clipart, cute city bus side view with windows and a door, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vehicle | alive:non-living | can:has-wheels
+
+## van.png   ✅ DONE
+Small family van side view.
+PROMPT: flat cartoon clipart, cute small family van side view, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:vehicle | alive:non-living | can:has-wheels
+
+## tram.png   ✅ DONE
+City tram on rails with an overhead pole.
+PROMPT: flat cartoon clipart, cute city tram on rails with an overhead pole, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:vehicle | alive:non-living | can:has-wheels

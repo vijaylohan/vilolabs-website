@@ -1,11 +1,11 @@
-# Fruits — Image List (13)
+# Fruits — Image List (21)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 13 done · 0 to create.
+Status: 21 done · 0 to create.
 
 ============================================================
-DONE (13)
+DONE (21)
 ============================================================
 
 ## apple.png   ✅ DONE
@@ -71,4 +71,44 @@ TAGS: class:fruit | alive:non-living | state:solid
 ## cherry.png   ✅ DONE
 Pair of red cherries.
 PROMPT: flat cartoon clipart, cute pair of round red cherries joined by stems, small green leaf, glossy highlights, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:fruit | alive:non-living | state:solid
+
+## guava.png   ✅ DONE
+Green guava with a small crown end, one slice showing pink inside with seeds.
+PROMPT: flat cartoon clipart, cute green guava with a small crown end, one slice showing pink inside with seeds, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:fruit | alive:non-living | state:solid
+
+## papaya.png   ✅ DONE
+Orange papaya cut in half showing black seeds in the middle.
+PROMPT: flat cartoon clipart, cute orange papaya cut in half showing black seeds in the middle, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:fruit | alive:non-living | state:solid
+
+## pomegranate.png   ✅ DONE
+Red pomegranate with crown top, one piece open showing ruby seeds.
+PROMPT: flat cartoon clipart, cute red pomegranate with crown top, one piece open showing ruby seeds, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:fruit | alive:non-living | state:solid
+
+## coconut.png   ✅ DONE
+Brown hairy coconut with one half cracked open showing white inside.
+PROMPT: flat cartoon clipart, cute brown hairy coconut with one half cracked open showing white inside, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:fruit | alive:non-living | state:solid
+
+## kiwi-fruit.png   ✅ DONE
+Brown fuzzy kiwi fruit with one half cut showing green inside and black seeds.
+PROMPT: flat cartoon clipart, cute brown fuzzy kiwi fruit with one half cut showing green inside and black seeds, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:fruit | alive:non-living | state:solid
+
+## blueberry.png   ✅ DONE
+Small bunch of round blueberries with a leaf.
+PROMPT: flat cartoon clipart, cute small bunch of round blueberries with a leaf, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:fruit | alive:non-living | state:solid
+
+## lychee.png   ✅ DONE
+Three red bumpy lychees, one peeled showing white fruit.
+PROMPT: flat cartoon clipart, cute three red bumpy lychees, one peeled showing white fruit, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:fruit | alive:non-living | state:solid
+
+## plum.png   ✅ DONE
+Purple plum with a small leaf on the stem.
+PROMPT: flat cartoon clipart, cute purple plum with a small leaf on the stem, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:fruit | alive:non-living | state:solid

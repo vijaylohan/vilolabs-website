@@ -1,11 +1,11 @@
-# Animals — Image List (34)
+# Animals — Image List (44)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 33 done · 1 to create.
+Status: 44 done · 0 to create.
 
 ============================================================
-DONE (33)
+DONE (44)
 ============================================================
 
 ## alpaca.png   ✅ DONE
@@ -173,11 +173,57 @@ Spotted leopard sitting.
 PROMPT: flat cartoon clipart, cute leopard sitting, golden fur with rosette spots, long tail, big eyes, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:mammal | alive:living | habitat:wild
 
-============================================================
-TO CREATE (1) — for Day/Night Science Sort (night side)
-============================================================
-
-## bat.png
+## bat.png   ✅ DONE
 Friendly cartoon bat with spread wings.
 PROMPT: flat cartoon clipart, cute friendly bat with wings spread open, big round eyes, tiny fangs, dark purple body, small ears, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:mammal | alive:living | habitat:sky | can:fly
+
+## camel.png   ✅ DONE
+Brown camel standing with one big hump, long neck, friendly face.
+PROMPT: flat cartoon clipart, cute brown camel standing with one big hump, long neck, friendly face, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:mammal | habitat:desert
+
+## kangaroo.png   ✅ DONE
+Brown kangaroo standing on big feet with a baby peeking from its pouch.
+PROMPT: flat cartoon clipart, cute brown kangaroo standing on big feet with a baby peeking from its pouch, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:mammal | habitat:wild
+
+## rhino.png   ✅ DONE
+Grey rhinoceros with one big horn, thick folded skin, small ears.
+PROMPT: flat cartoon clipart, cute grey rhinoceros with one big horn, thick folded skin, small ears, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:mammal | habitat:wild
+
+## gorilla.png   ✅ DONE
+Black gorilla sitting, big arms, kind face, grey chest.
+PROMPT: flat cartoon clipart, cute black gorilla sitting, big arms, kind face, grey chest, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:mammal | habitat:wild
+
+## polar-bear.png   ✅ DONE
+White polar bear standing on four legs, small round ears, black nose.
+PROMPT: flat cartoon clipart, cute white polar bear standing on four legs, small round ears, black nose, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:mammal | habitat:wild
+
+## beaver.png   ✅ DONE
+Brown beaver with big front teeth and a flat paddle tail.
+PROMPT: flat cartoon clipart, cute brown beaver with big front teeth and a flat paddle tail, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:mammal | habitat:wild | can:swim
+
+## snake.png   ✅ DONE
+Friendly green snake coiled up, round head, tongue out, yellow belly stripes.
+PROMPT: flat cartoon clipart, cute friendly green snake coiled up, round head, tongue out, yellow belly stripes, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:reptile | habitat:wild
+
+## frog.png   ✅ DONE
+Green frog sitting, big round eyes on top of head, wide smile, folded legs.
+PROMPT: flat cartoon clipart, cute green frog sitting, big round eyes on top of head, wide smile, folded legs, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:amphibian | habitat:wild | can:swim
+
+## tortoise.png   ✅ DONE
+Brown tortoise walking, dome shell with big hexagon pattern, small head out.
+PROMPT: flat cartoon clipart, cute brown tortoise walking, dome shell with big hexagon pattern, small head out, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:reptile | habitat:wild
+
+## crocodile.png   ✅ DONE
+Green crocodile side view, long snout, small friendly teeth, ridged tail.
+PROMPT: flat cartoon clipart, cute green crocodile side view, long snout, small friendly teeth, ridged tail, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:reptile | habitat:wild | can:swim

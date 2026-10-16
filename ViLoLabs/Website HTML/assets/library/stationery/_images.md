@@ -1,8 +1,8 @@
-# School & Stationery Supplies — Image List (19)
+# School & Stationery Supplies — Image List (24)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 19 done · 0 to create.
+Status: 19 done · 5 to create.
 
 ============================================================
 DONE (19)
@@ -101,4 +101,33 @@ TAGS: class:object | alive:non-living | state:solid
 ## gift-box.png   ✅ DONE
 Wrapped gift box with ribbon bow.
 PROMPT: flat cartoon clipart, cute wrapped gift box, blue paper, big red ribbon and bow on top, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+============================================================
+TO CREATE (5)
+============================================================
+
+## pencil-box.png
+Open pencil box with pencils, eraser and sharpener inside.
+PROMPT: flat cartoon clipart, cute open pencil box with pencils, eraser and sharpener inside, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## stapler.png
+Small stapler.
+PROMPT: flat cartoon clipart, cute small stapler, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## chalk.png
+Three sticks of white and coloured chalk.
+PROMPT: flat cartoon clipart, cute three sticks of white and coloured chalk, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## calculator.png
+Simple calculator with big buttons.
+PROMPT: flat cartoon clipart, cute simple calculator with big buttons, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:solid
+
+## tape.png
+Roll of clear sticky tape in a dispenser.
+PROMPT: flat cartoon clipart, cute roll of clear sticky tape in a dispenser, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:object | alive:non-living | state:solid

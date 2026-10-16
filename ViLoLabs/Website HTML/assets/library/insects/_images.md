@@ -1,8 +1,8 @@
-# Insects — Image List (14)
+# Insects — Image List (16)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 12 done · 2 to create.
+Status: 12 done · 4 to create.
 
 ============================================================
 DONE (12)
@@ -69,15 +69,25 @@ PROMPT: flat cartoon clipart, cute shiny green beetle standing, rounded hard she
 TAGS: class:insect | alive:living | habitat:garden | can:fly
 
 ============================================================
-TO CREATE (2) — for Day/Night Science Sort (night side)
+TO CREATE (4)
 ============================================================
 
 ## firefly.png
 Glowing firefly insect.
-PROMPT: flat cartoon clipart, cute firefly insect with a softly glowing yellow-green tail tip, small round body, tiny clear wings, two short antennae, smiling face, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+PROMPT: flat cartoon clipart, cute firefly insect with a softly glowing yellow-green tail tip, small round body, tiny clear wings, two short antennae, smiling face, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:insect | alive:living | habitat:sky | can:fly
 
 ## moth.png
 Patterned moth with wide wings.
-PROMPT: flat cartoon clipart, cute moth with wide patterned wings, fuzzy rounded body, feathery antennae, soft brown and cream colors, big friendly eyes, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+PROMPT: flat cartoon clipart, cute moth with wide patterned wings, fuzzy rounded body, feathery antennae, soft brown and cream colors, big friendly eyes, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:insect | alive:living | habitat:sky | can:fly
+
+## mosquito.png
+Mosquito with thin legs, clear wings and a long needle nose.
+PROMPT: flat cartoon clipart, cute mosquito with thin legs, clear wings and a long needle nose, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:insect | alive:living | habitat:sky | can:fly
+
+## praying-mantis.png
+Green praying mantis with folded front legs.
+PROMPT: flat cartoon clipart, cute green praying mantis with folded front legs, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:insect | alive:living | habitat:garden | can:fly

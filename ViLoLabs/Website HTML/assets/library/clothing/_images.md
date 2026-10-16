@@ -1,11 +1,11 @@
-# Clothing & Accessories — Image List (23)
+# Clothing & Accessories — Image List (29)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 23 done · 0 to create.
+Status: 29 done · 0 to create.
 
 ============================================================
-DONE (23)
+DONE (29)
 ============================================================
 
 ## scarf.png   ✅ DONE
@@ -121,4 +121,34 @@ TAGS: class:clothing | alive:non-living
 ## backpack.png   ✅ DONE
 School backpack.
 PROMPT: flat cartoon clipart, cute school backpack, rounded body, front pocket, two shoulder straps, blue color, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:clothing | alive:non-living
+
+## pajamas.png   ✅ DONE
+Striped pajama top and bottom set.
+PROMPT: flat cartoon clipart, cute striped pajama top and bottom set, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:clothing | alive:non-living
+
+## gloves.png   ✅ DONE
+Pair of blue woolly gloves with five fingers.
+PROMPT: flat cartoon clipart, cute pair of blue woolly gloves with five fingers, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:clothing | alive:non-living | season:winter-wear
+
+## tie.png   ✅ DONE
+Blue striped necktie.
+PROMPT: flat cartoon clipart, cute blue striped necktie, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:clothing | alive:non-living
+
+## jeans.png   ✅ DONE
+Pair of blue jeans.
+PROMPT: flat cartoon clipart, cute pair of blue jeans, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:clothing | alive:non-living
+
+## hoodie.png   ✅ DONE
+Red hooded sweatshirt with a front pocket.
+PROMPT: flat cartoon clipart, cute red hooded sweatshirt with a front pocket, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:clothing | alive:non-living | season:winter-wear
+
+## apron.png   ✅ DONE
+Kitchen apron with a front pocket and ties.
+PROMPT: flat cartoon clipart, cute kitchen apron with a front pocket and ties, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:clothing | alive:non-living

@@ -1,11 +1,11 @@
-# Sea Creatures — Image List (19)
+# Sea Creatures — Image List (23)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 19 done · 0 to create.
+Status: 23 done · 0 to create.
 
 ============================================================
-DONE (19)
+DONE (23)
 ============================================================
 
 ## jellyfish.png   ✅ DONE
@@ -101,4 +101,24 @@ TAGS: class:sea-creature | alive:living | habitat:sea | can:swim
 ## seahorse.png   ✅ DONE
 Yellow seahorse with curled tail.
 PROMPT: flat cartoon clipart, cute yellow seahorse, curved body, long snout, curled tail, small fin on back, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sea-creature | alive:living | habitat:sea | can:swim
+
+## squid.png   ✅ DONE
+Pink squid with a pointed head and ten wavy arms.
+PROMPT: flat cartoon clipart, cute pink squid with a pointed head and ten wavy arms, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sea-creature | alive:living | habitat:sea | can:swim
+
+## lobster.png   ✅ DONE
+Red lobster with two big claws.
+PROMPT: flat cartoon clipart, cute red lobster with two big claws, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sea-creature | alive:living | habitat:sea | can:swim
+
+## stingray.png   ✅ DONE
+Flat stingray with wide wings and a long thin tail.
+PROMPT: flat cartoon clipart, cute flat stingray with wide wings and a long thin tail, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:sea-creature | alive:living | habitat:sea | can:swim
+
+## walrus.png   ✅ DONE
+Brown walrus with two long white tusks and whiskers.
+PROMPT: flat cartoon clipart, cute brown walrus with two long white tusks and whiskers, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:sea-creature | alive:living | habitat:sea | can:swim

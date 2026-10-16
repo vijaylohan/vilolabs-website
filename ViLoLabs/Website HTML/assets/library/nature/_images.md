@@ -1,11 +1,11 @@
-# Nature & Weather Elements — Image List (21)
+# Nature & Weather Elements — Image List (25)
 
 SPEC: PNG, transparent background, 1024×1024 px, flat cartoon clipart.
 See `../_LIBRARY-GUIDE.md` for full rules.
-Status: 19 done · 2 to create.
+Status: 24 done · 1 to create.
 
 ============================================================
-DONE (19)
+DONE (24)
 ============================================================
 
 ## sun.png   ✅ DONE
@@ -103,16 +103,36 @@ Grey rock boulder.
 PROMPT: flat cartoon clipart, cute grey rock boulder, smooth rounded lumps, light and dark shading, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:object | alive:non-living | state:solid | moisture:dry | buoyancy:sinks
 
+## puddle.png   ✅ DONE
+Rain puddle.
+PROMPT: flat cartoon clipart, cute rain puddle, flat blue water splash, gentle ripple rings, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: class:object | alive:non-living | state:liquid | moisture:wet
+
+## mountain.png   ✅ DONE
+Mountain with a snowy peak.
+PROMPT: flat cartoon clipart, cute mountain with a snowy peak, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:non-living | class:object | state:solid
+
+## waterfall.png   ✅ DONE
+Waterfall falling down rocks into a pool.
+PROMPT: flat cartoon clipart, cute waterfall falling down rocks into a pool, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:non-living | class:object | state:liquid
+
+## island.png   ✅ DONE
+Small island with sand and one palm tree in blue water.
+PROMPT: flat cartoon clipart, cute small island with sand and one palm tree in blue water, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:non-living | class:object | state:solid
+
+## seed.png   ✅ DONE
+Seed sprouting with two small green leaves.
+PROMPT: flat cartoon clipart, cute seed sprouting with two small green leaves, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+TAGS: alive:living | class:plant
+
 ============================================================
-TO CREATE (2)
+TO CREATE (1)
 ============================================================
 
 ## steam.png
 Rising white steam.
-PROMPT: flat cartoon clipart, cute rising white steam, soft wavy curling wisps, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
+PROMPT: flat cartoon clipart, cute rising white steam, soft wavy curling wisps, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no background scenery, no extra leaves or plants around it, no grass, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
 TAGS: class:object | alive:non-living | state:gas | temp:hot | moisture:wet
-
-## puddle.png
-Rain puddle.
-PROMPT: flat cartoon clipart, cute rain puddle, flat blue water splash, gentle ripple rings, transparent background, bold black outline, bright flat colors, full body, front view, centered, children's worksheet style, ABSOLUTELY NO SHADOW, no ground shadow, no drop shadow, no cast shadow, no shadow under the feet, no floor, no ground, sticker style fully isolated on plain transparent background, no leaves, no plants, no grass, no flowers, no branches, no props, no extra objects, only the single subject alone and nothing else, no text, square 1:1 frame, subject centered, even margin all sides, subject fills 80 percent of canvas, 1024x1024 pixels resolution PNG
-TAGS: class:object | alive:non-living | state:liquid | moisture:wet

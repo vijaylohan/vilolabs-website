@@ -123,6 +123,14 @@ function colorSvg(folder) {
 const TMP = DEST + '.tmp';
 if (fs.existsSync(TMP)) fs.rmSync(TMP, { recursive: true });
 
+// FROZEN EMOJI SET (2026-10-09): only items listed in emoji-allowlist.json may
+// get a Fluent emoji. Auto-matched emoji were often wrong (beer mug for "mug",
+// champagne for "glass") and let planned-but-undrawn items appear on sheets as
+// low-quality placeholders. New items now reach worksheets ONLY via a real PNG.
+// To allow a new emoji: review it visually, then add "cat/name" to the list.
+const ALLOW = new Set(require('./emoji-allowlist.json').items);
+const notAllowed = [];
+
 let copied = 0; const missing = [];
 for (const cat of fs.readdirSync(LIB)) {
   const catDir = path.join(LIB, cat);
@@ -134,6 +142,7 @@ for (const cat of fs.readdirSync(LIB)) {
                   .map(m => m[1].replace(/\.png$/, ''));
   for (const name of names) {
     if (NEGATIVE.has(name)) { missing.push(cat + '/' + name + ' (NEGATIVE list)'); continue; }
+    if (!ALLOW.has(cat + '/' + name)) { notAllowed.push(cat + '/' + name); continue; }
     const folder = findFolder(name);
     const src = folder && colorSvg(folder);
     if (!src) { missing.push(cat + '/' + name); continue; }
@@ -205,6 +214,7 @@ fs.renameSync(TMP, DEST);
 
 console.log('Emoji SVGs copied : ' + copied + ' / ' + (copied + missing.length));
 console.log('No emoji match    : ' + missing.length);
+console.log('Not in allowlist  : ' + notAllowed.length + '  (frozen set — PNG only)');
 console.log('Destination       : assets/emoji/');
 if (missing.length) {
   console.log('\nUnmatched (likely no Fluent emoji exists):');
