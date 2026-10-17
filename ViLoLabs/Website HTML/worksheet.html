@@ -16,8 +16,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous"></script>
-<script src="assets/worksheet-seo.js?v=356accea"></script>
-<script src="assets/db.js?v=fde68ebc"></script>
+<script src="assets/worksheet-seo.js?v=6ff8c7c6"></script>
+<script src="assets/db.js?v=edd888e2"></script>
 <link rel="stylesheet" href="assets/share.css?v=5ea038de">
 <script src="assets/share.js?v=863dd2bd"></script>
 <style>
@@ -106,10 +106,10 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .ws-page{background:var(--bg);border-radius:16px;box-shadow:0 4px 24px rgba(61,43,31,.09);width:560px;margin:0 auto;overflow:hidden;display:none;border:1.5px solid #EDE4D6}
 .ws-page.act{display:block}
 .pg-hdr{background:var(--dark);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between}
-.pg-brand{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-weight:600;color:rgba(245,240,232,.7)}
+.pg-brand{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:600;color:#F7F3EE}
 .pg-brand em{font-style:normal;color:var(--gold)}
-.pg-num{font-size:.6rem;font-weight:700;color:rgba(245,240,232,.4);letter-spacing:.1em}
-.pg-meta{padding:.38rem 1rem;font-size:.58rem;color:#7a5a30;font-weight:700;display:flex;gap:.5rem;flex-wrap:wrap;border-bottom:1px solid #EDE4D6;background:#FDFAF5}
+.pg-num{font-size:.64rem;font-weight:800;color:#E8BC72;letter-spacing:.1em}
+.pg-meta{padding:.38rem 1rem;font-size:.64rem;color:#3D2B1F;font-weight:800;display:flex;gap:.5rem;flex-wrap:wrap;border-bottom:1px solid #EDE4D6;background:#FDFAF5}
 .pg-nameline{display:flex;gap:1.4rem;padding:.6rem 1rem .65rem;border-bottom:1.5px solid #EDE4D6;font-size:.82rem;font-weight:800;color:#3a2a12;align-items:flex-end}
 .nl{display:flex;align-items:flex-end;gap:.4rem}
 .nl-name{flex:2.4}.nl-date{flex:1.5}.nl-score{flex:1}
@@ -289,12 +289,66 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .lvl-btn.sudoku-btn{border-color:#B9A0FF!important;background:linear-gradient(145deg,#F2EEFF,#E6DCFF)!important;}
 .lvl-btn.sudoku-btn:hover,.lvl-btn.sudoku-btn.sel{border-color:#8A5CFF!important;background:linear-gradient(145deg,#DDCFFF,#C9B0FF)!important;}
 .lvl-btn.maze-btn{border-color:#88D4AB!important;background:linear-gradient(145deg,#E8F8F0,#D0F0E0)!important;}
+.lvl-btn.wsr-btn{border-color:#9EC5F0!important;background:linear-gradient(145deg,#EAF3FD,#D6E8FB)!important;}
+.lvl-btn.wsr-btn{position:relative;overflow:visible!important}
+/* NEW card: a glowing, blinking coral→gold ring (own layer — the card's !important
+   border rules can't be animated) + bright badge so it stands out */
+.lvl-btn.wsr-btn.is-new::after{content:'';position:absolute;inset:-4px;border-radius:16px;border:3px solid #FF8A4C;pointer-events:none;animation:wsrGlow 1.4s ease-in-out infinite}
+@keyframes wsrGlow{0%,100%{border-color:#FF6B4A;box-shadow:0 0 0 0 rgba(255,107,74,.6),0 0 14px rgba(255,138,76,.35);opacity:1}
+  50%{border-color:#F9C23C;box-shadow:0 0 0 8px rgba(255,107,74,0),0 0 22px rgba(249,194,60,.55);opacity:.55}}
+.lvl-new{position:absolute;top:-10px;right:-8px;background:linear-gradient(135deg,#FF4E50,#FF8A4C 55%,#F9D423);color:#fff;font-size:.6rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;padding:.26rem .58rem;border-radius:999px;box-shadow:0 4px 12px rgba(255,78,80,.5);border:2px solid #fff;text-shadow:0 1px 1px rgba(0,0,0,.25);animation:lvlNewBlink 1.1s ease-in-out infinite;pointer-events:none;z-index:2}
+html[lang=hi] .lvl-new{letter-spacing:0;text-transform:none}
+@keyframes lvlNewBlink{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:.72}}
+/* reduced-motion visitors: no growing/moving — just a calm colour blink so NEW still stands out */
+@media(prefers-reduced-motion:reduce){.lvl-new{animation:lvlNewFade 1.4s ease-in-out infinite}.lvl-btn.wsr-btn.is-new::after{animation:wsrFade 1.4s ease-in-out infinite}}
+@keyframes lvlNewFade{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes wsrFade{0%,100%{border-color:#FF6B4A;box-shadow:0 0 12px rgba(255,107,74,.45)}50%{border-color:#F9C23C;box-shadow:0 0 18px rgba(249,194,60,.55)}}
+.lvl-btn.wsr-btn:hover,.lvl-btn.wsr-btn.sel{border-color:#2B6CB0!important;background:linear-gradient(145deg,#CFE3FA,#B3D3F7)!important;}
+/* ── FIND THE WORD (word search) pages, 2026-10-16 ── */
+.wsr-words{display:flex;flex-wrap:wrap;gap:.45rem .5rem;justify-content:center;padding:.35rem 1.2rem .55rem}
+.wsr-chip{display:flex;align-items:center;gap:.4rem;border:2px solid #E6D9C6;border-radius:10px;padding:.28rem .6rem;background:#FFFDF8;font-weight:900;letter-spacing:.12em;font-size:.92rem;color:var(--dark)}
+.wsr-chip .wimg,.wsr-chip img{width:2.3rem!important;height:2.3rem!important;object-fit:contain;display:block}
+.wsr-box{width:.85rem;height:.85rem;border:2px solid #A07860;border-radius:3px;flex:none}
+.wsr-young .wsr-chip{font-size:1.2rem;padding:.35rem .75rem;gap:.55rem}
+.wsr-young .wsr-chip .wimg,.wsr-young .wsr-chip img{width:3.4rem!important;height:3.4rem!important}
+.wsr-young .wsr-box{width:1.05rem;height:1.05rem}
+.wsr-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;min-height:0;min-width:0;padding:.2rem .6rem;overflow:hidden}
+/* 'Words to know' strip (ages 9+) — sits in the spare space under the grid */
+.wsr-wtk{width:100%;max-width:680px;box-sizing:border-box;border:1.5px solid #E8BC72;border-radius:10px;background:#FFFBF2;padding:.45rem .9rem .5rem}
+.wsr-wtk-h{font-size:.82rem;font-weight:900;color:#8A5E17;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.15rem}
+html[lang=hi] .wsr-wtk-h{letter-spacing:0;text-transform:none}
+.wsr-wtk-i{font-size:1.1rem;line-height:1.35;color:#3D2B1F;font-weight:600}
+.wsr-wtk-i b{font-weight:900;letter-spacing:.06em;color:#1A1108}
+.wsr-key-cell{max-width:100%;min-width:0}
+.wsr-gridbox{position:relative;flex:none}
+.wsr-grid{display:grid;border:3px solid var(--dark);border-radius:10px;overflow:hidden;background:#fff}
+.wsr-cell{display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--dark);border-right:1px solid #EDE3D5;border-bottom:1px solid #EDE3D5;font-family:'Nunito',sans-serif;line-height:1}
+.wsr-gridbox svg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
+.wsr-tip{text-align:center;font-size:.62rem;color:#A07860;font-weight:700;font-style:italic;padding:.25rem 1rem .45rem}
+.wsr-mean{display:grid;grid-template-columns:1fr 1fr;gap:0 1.5rem;padding:.3rem 1.4rem .3rem;align-content:start;flex:1;min-height:0}
+.wsr-mean-item{font-size:.94rem;line-height:1.32;color:#3D2B1F;font-weight:600;border-bottom:1px dotted #E6D9C6;padding:.32rem 0;min-width:0}
+.wsr-mean-item b{display:block;color:var(--dark);font-weight:900;letter-spacing:.08em;font-size:1.04rem}
+.wsr-key{display:grid;gap:.7rem 1rem;padding:.5rem 1rem;justify-content:center;align-content:start;flex:1}
+.wsr-key-cell{display:flex;flex-direction:column;align-items:center}
+.wsr-key-cell h4{margin:0 0 .25rem;font-size:.66rem;color:#A07860;font-weight:900;letter-spacing:.04em}
 .lvl-btn.maze-btn:hover,.lvl-btn.maze-btn.sel{border-color:#2E9E62!important;background:linear-gradient(145deg,#C0EDD4,#A0E0C0)!important;}
 .lvl-btn.math-btn{border-color:#F5A623!important;background:linear-gradient(145deg,#FFF8EC,#FFEECE)!important;}
 .lvl-btn.math-btn:hover,.lvl-btn.math-btn.sel{border-color:#D4800A!important;background:linear-gradient(145deg,#FFE8A0,#FFD060)!important;}
 .math-diff-grid{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem}
 .math-diff-btn{flex:1;min-width:80px;padding:.55rem .4rem;border:2px solid #F5A623;border-radius:12px;background:#FFF8EC;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:700;color:#8B5E00;text-align:center;line-height:1.3;transition:all .15s}
 .math-diff-btn:hover,.math-diff-btn.sel{border-color:#D4800A;background:linear-gradient(145deg,#FFE8A0,#FFD060);color:#5C3A00}
+/* ── SELECTED = unmistakable (2026-10-16): lift + dark ring + gold glow + ✓ badge, and the
+   other cards fade back a little, so parents always see what they picked ── */
+.lvl-btn.sel,.math-diff-btn.sel{position:relative;transform:translateY(-3px) scale(1.04);box-shadow:0 0 0 3px #1A1108,0 0 0 6px rgba(200,150,60,.55),0 12px 26px rgba(26,17,8,.28)!important;z-index:1}
+.lvl-btn.sel::before,.math-diff-btn.sel::before{content:'✓';position:absolute;top:-10px;left:-10px;width:24px;height:24px;border-radius:50%;background:#1A1108;color:#E8BC72;font-size:.8rem;font-weight:900;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.25);z-index:3}
+.lvl-grid.has-sel .lvl-btn:not(.sel){opacity:.62;filter:saturate(.75)}
+.lvl-grid.has-sel .lvl-btn:not(.sel):hover{opacity:1;filter:none}
+.math-diff-grid.has-sel .math-diff-btn:not(.sel){opacity:.62}
+.math-diff-grid.has-sel .math-diff-btn:not(.sel):hover{opacity:1}
+@media(prefers-reduced-motion:reduce){.lvl-btn.sel,.math-diff-btn.sel{transform:none}}
+.pc-note{display:none;text-align:center;font-size:.72rem;font-weight:800;color:#8A5E17;margin-top:.35rem}
+.pc-wrap.pc-locked .pc-note{display:block}
+.pc-wrap.pc-locked .pc-track{opacity:.55;pointer-events:none}
 .nc-box{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;border:2.5px solid #888;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;background:#fff;color:#222;padding:0 4px}
 .nc-box.given{border-color:#C8963C;background:#FFF8EC;color:#8B5E00}
 .nc-op{font-size:.78rem;font-weight:700;color:#666;padding:0 .1rem;white-space:nowrap}
@@ -394,6 +448,74 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 .page-info .see-more-btn.mg-floating:hover{background:var(--gold2);border-color:var(--gold2)}
 .page-info .made-in{font-size:0.82rem;color:var(--brown);opacity:0.78;text-align:center;margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(200,150,60,.15);font-style:italic}
 @media print{.page-info{display:none!important}}
+/* ── WHAT'S NEW banner + popup, SHARE-THE-LOVE card (2026-10-16) ───────────── */
+.wn-bar{position:relative;overflow:hidden;display:flex;align-items:center;gap:.85rem;width:100%;max-width:620px;margin:0 auto 1.2rem;padding:.7rem .75rem .7rem .85rem;background:linear-gradient(120deg,#1A1108 0%,#2E2014 55%,#3A2814 100%);border:1px solid rgba(200,150,60,.55);border-radius:16px;cursor:pointer;font-family:'Nunito',sans-serif;color:#F7F3EE;text-align:left;box-shadow:0 8px 24px rgba(26,17,8,.22),inset 0 1px 0 rgba(232,188,114,.18);transition:transform .2s,box-shadow .2s}
+.wn-bar::after{content:'';position:absolute;top:0;bottom:0;left:-40%;width:35%;background:linear-gradient(100deg,transparent,rgba(232,188,114,.18),transparent);transform:skewX(-18deg);animation:wnShine 5.5s ease-in-out 1.2s infinite;pointer-events:none}
+.wn-bar:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(26,17,8,.3),inset 0 1px 0 rgba(232,188,114,.22)}
+.wn-bar:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wn-chip{flex:none;display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,#E8BC72,#C8963C);color:#1A1108;font-size:.6rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;padding:.34rem .65rem;border-radius:999px;white-space:nowrap;box-shadow:0 2px 8px rgba(200,150,60,.35)}
+.wn-dot{width:7px;height:7px;border-radius:50%;background:#1A1108;box-shadow:0 0 0 0 rgba(26,17,8,.55);animation:wnPulse 1.8s ease-out infinite}
+.wn-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:.12rem}
+.wn-l1{font-size:.86rem;font-weight:800;line-height:1.3;color:#F7F3EE}
+.wn-l2{font-size:.7rem;font-weight:700;line-height:1.3;color:var(--gold2);letter-spacing:.02em}
+.wn-go{flex:none;display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:900;color:#1A1108;background:#F7F3EE;padding:.42rem .75rem;border-radius:999px;white-space:nowrap;transition:background .2s}
+.wn-bar:hover .wn-go{background:#fff}
+@keyframes wnShine{0%{left:-40%}55%,100%{left:130%}}
+@keyframes wnPulse{0%{box-shadow:0 0 0 0 rgba(26,17,8,.55)}70%{box-shadow:0 0 0 7px rgba(26,17,8,0)}100%{box-shadow:0 0 0 0 rgba(26,17,8,0)}}
+@media(prefers-reduced-motion:reduce){.wn-bar::after,.wn-dot{animation:none}}
+/* Hindi: letter-spacing breaks Devanagari joins → keep it at 0 for all tracked labels */
+html[lang=hi] .wn-chip,html[lang=hi] .wn-kicker,html[lang=hi] .love-lbl{letter-spacing:0;text-transform:none}
+html[lang=hi] #sharePop [data-i18n=shareTitle]{letter-spacing:0!important;text-transform:none!important}
+/* stacked: badge + button on top, text below (the setup column is narrow on every screen) */
+.wn-bar{flex-wrap:wrap;gap:.55rem .7rem;padding:.75rem .85rem .8rem}
+.wn-txt{flex-basis:100%;order:3}.wn-go{margin-left:auto}
+.wn-modal{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(26,17,8,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.wn-modal.on{display:flex;animation:wnFade .2s ease}
+.wn-card{position:relative;width:100%;max-width:440px;max-height:calc(100vh - 32px);overflow:auto;background:var(--bg);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.35);padding:1.55rem 1.45rem 1.3rem;border-top:4px solid var(--gold);animation:wnPop .28s cubic-bezier(.23,1,.32,1)}
+.wn-x{position:absolute;top:.65rem;right:.65rem;width:34px;height:34px;border-radius:50%;border:none;background:rgba(26,17,8,.06);color:var(--dark);font-size:1.15rem;line-height:1;cursor:pointer;transition:background .2s}
+.wn-x:hover{background:rgba(26,17,8,.12)}
+.wn-kicker{font-size:.64rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#8A5E17}
+.wn-h{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;line-height:1.1;margin:.25rem 2rem .35rem 0;color:var(--dark)}
+.wn-sub{font-size:.84rem;color:var(--brown);margin-bottom:1.05rem;line-height:1.45}
+.wn-list{list-style:none;margin:0 0 1.25rem;padding:0;display:grid;gap:.6rem}
+.wn-list li{display:flex;gap:.7rem;align-items:center;font-size:.87rem;font-weight:800;line-height:1.35;color:var(--dark)}
+.wn-ic{flex:none;width:30px;height:30px;border-radius:9px;background:rgba(200,150,60,.14);border:1px solid rgba(200,150,60,.25);display:flex;align-items:center;justify-content:center;font-size:.92rem}
+.wn-feature{position:relative;margin:.35rem 0 1rem;padding:1rem .95rem .85rem;border-radius:14px;background:linear-gradient(135deg,#FFF4EC,#FFF9E6);border:2px solid #FF8A4C;box-shadow:0 6px 18px rgba(255,107,74,.18)}
+.wn-feature-tag{position:absolute;top:-11px;left:14px;background:linear-gradient(135deg,#FF4E50,#FF8A4C 55%,#F9D423);color:#fff;font-size:.6rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .65rem;border-radius:999px;border:2px solid #fff;box-shadow:0 3px 10px rgba(255,78,80,.4);text-shadow:0 1px 1px rgba(0,0,0,.2)}
+html[lang=hi] .wn-feature-tag{letter-spacing:0;text-transform:none}
+.wn-feature-row{display:flex;gap:.7rem;align-items:flex-start}
+.wn-feature-ic{flex:none;width:38px;height:38px;border-radius:11px;background:#fff;border:1px solid rgba(255,138,76,.4);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.wn-feature-txt{display:flex;flex-direction:column;gap:.15rem;font-size:.82rem;line-height:1.45;color:var(--brown);font-weight:700}
+.wn-feature-txt b{font-size:1rem;color:var(--dark);font-weight:900}
+.wn-feature-btn{display:block;margin:.7rem 0 0 auto;border:none;border-radius:999px;padding:.5rem 1rem;background:linear-gradient(135deg,#FF6B4A,#F7A23C);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:.8rem;cursor:pointer;box-shadow:0 4px 12px rgba(255,107,74,.35);transition:transform .15s}
+.wn-feature-btn:hover{transform:translateY(-1px)}
+.wn-share{display:flex;align-items:center;gap:.8rem;margin:0 0 1rem;padding:.8rem .85rem;border-radius:12px;background:rgba(200,150,60,.08);border:1px dashed rgba(200,150,60,.5)}
+.wn-share p{flex:1;margin:0;font-size:.8rem;font-weight:700;color:var(--brown);line-height:1.45}
+.wn-share-row{flex:none;display:flex;gap:.4rem}
+.wn-share .love-btn{width:34px;height:34px}.wn-share .love-btn svg{width:18px;height:18px}
+@media(max-width:380px){.wn-share{flex-direction:column;align-items:flex-start}}
+.wn-cta{display:block;width:100%;padding:.78rem;border:none;border-radius:12px;background:var(--dark);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:.88rem;letter-spacing:.02em;cursor:pointer;transition:background .2s}
+.wn-cta:hover{background:#2E2014}
+@keyframes wnFade{from{opacity:0}to{opacity:1}}
+@keyframes wnPop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.love-card{position:fixed;right:16px;bottom:16px;z-index:1100;width:min(340px,calc(100vw - 32px));background:#fff;border-radius:16px;box-shadow:0 14px 40px rgba(26,17,8,.28);padding:.85rem .95rem .95rem;border-left:4px solid var(--gold);font-family:'Nunito',sans-serif;transform:translateY(150%);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.23,1,.32,1),opacity .3s;overflow:hidden}
+.love-card.on{transform:none;opacity:1;pointer-events:auto}
+.love-msg{font-size:.86rem;font-weight:800;line-height:1.35;color:var(--dark);padding-right:1.5rem}
+.love-row{display:flex;align-items:center;gap:.5rem;margin-top:.65rem}
+.love-lbl{font-size:.64rem;font-weight:900;color:var(--brown);text-transform:uppercase;letter-spacing:.08em;margin-right:.15rem}
+.love-btn{width:38px;height:38px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;padding:0}
+.love-btn:hover{transform:scale(1.08)}
+.love-btn svg{width:20px;height:20px}
+.love-wa{background:#25D366}.love-fb{background:#1877F2}
+.love-ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+.love-x{position:absolute;top:.35rem;right:.4rem;width:30px;height:30px;border:none;background:none;font-size:1.05rem;color:#9C8A7A;cursor:pointer;border-radius:50%}
+.love-x:hover{background:rgba(26,17,8,.06)}
+.love-bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--gold);transform-origin:left;transform:scaleX(1)}
+.love-card.on .love-bar{animation:loveT 10s linear forwards}
+.love-card.on:hover .love-bar,.love-card.hold .love-bar{animation-play-state:paused}
+@keyframes loveT{to{transform:scaleX(0)}}
+@media(max-width:520px){.love-card{left:12px;right:12px;width:auto;bottom:12px}}
+@media print{.wn-modal,.love-card,.wn-bar{display:none!important}}
 .pdfmode .page-info{display:none!important}
 </style>
 <link rel="canonical" href="https://vilolabs.in/worksheet">
@@ -435,9 +557,64 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
 </div>
 <div class="toast" id="toast"></div>
 
+<!-- WHAT'S NEW popup (2026-10-16) — opened from the banner on the setup screen -->
+<div class="wn-modal" id="wnModal" role="dialog" aria-modal="true" aria-labelledby="wnTitle" onclick="if(event.target===this)closeWhatsNew()">
+  <div class="wn-card">
+    <button class="wn-x" type="button" onclick="closeWhatsNew()" aria-label="Close">×</button>
+    <div class="wn-kicker" data-i18n="wnKicker">Just upgraded</div>
+    <h2 class="wn-h" id="wnTitle" data-i18n="wnTitle">What's new in ViLo Worksheets</h2>
+    <div class="wn-feature">
+      <span class="wn-feature-tag" data-i18n="wnNewTag">New section</span>
+      <div class="wn-feature-row">
+        <span class="wn-feature-ic">🔍</span>
+        <div class="wn-feature-txt"><b data-i18n="wnFeatTitle">Find the Word</b><span data-i18n="wnFeatText">Word-search puzzles for ages 6–12+, with picture clues for little ones and an answer key. Enjoy our new section!</span></div>
+      </div>
+      <button class="wn-feature-btn" type="button" onclick="wnTryWordSearch()" data-i18n="wnTry">Try it →</button>
+    </div>
+    <p class="wn-sub" data-i18n="wnSub">We've upgraded the engine behind every worksheet.</p>
+    <ul class="wn-list">
+      <li><span class="wn-ic">🖼️</span><span data-i18n="wn1">Smarter picture engine for fresher, more varied worksheets</span></li>
+      <li><span class="wn-ic">🧠</span><span data-i18n="wn2">Intelligent question builder, tuned to every class level</span></li>
+      <li><span class="wn-ic">🧩</span><span data-i18n="wn3">New thinking skills: sorting, grouping and real-world reasoning</span></li>
+      <li><span class="wn-ic">🔍</span><span data-i18n="wn4">Sharper visual puzzles that build true observation skills</span></li>
+      <li><span class="wn-ic">💛</span><span data-i18n="wn6">Same promise: free, private and sign-up free</span></li>
+    </ul>
+    <div class="wn-share">
+      <p data-i18n="wnShare">💛 Sharing is caring — help us grow and reach a bigger community of parents.</p>
+      <div class="wn-share-row">
+        <button class="love-btn love-wa" type="button" onclick="loveShare('wa')" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="#fff"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89a11.82 11.82 0 0 0-3.48-8.41Z"/></svg></button>
+        <button class="love-btn love-ig" type="button" onclick="loveShare('ig')" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="#fff" stroke="none"/></svg></button>
+        <button class="love-btn love-fb" type="button" onclick="loveShare('fb')" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="#fff"><path d="M14 8h3V4h-3c-2.8 0-5 2.2-5 5v2H7v4h2v9h4v-9h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg></button>
+      </div>
+    </div>
+    <button class="wn-cta" type="button" onclick="closeWhatsNew()" data-i18n="wnCta">Start creating</button>
+  </div>
+</div>
+
+<!-- SHARE-THE-LOVE card (2026-10-16) — slides in while a worksheet is being built -->
+<div class="love-card" id="loveCard" role="status" aria-live="polite">
+  <button class="love-x" type="button" onclick="closeLove()" aria-label="Close">×</button>
+  <div class="love-msg" id="loveMsg"></div>
+  <div class="love-row">
+    <span class="love-lbl" data-i18n="loveOn">Share on</span>
+    <button class="love-btn love-wa" type="button" onclick="loveShare('wa')" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="#fff"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89a11.82 11.82 0 0 0-3.48-8.41Z"/></svg></button>
+    <button class="love-btn love-ig" type="button" onclick="loveShare('ig')" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="#fff" stroke="none"/></svg></button>
+    <button class="love-btn love-fb" type="button" onclick="loveShare('fb')" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="#fff"><path d="M14 8h3V4h-3c-2.8 0-5 2.2-5 5v2H7v4h2v9h4v-9h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg></button>
+  </div>
+  <div class="love-bar" id="loveBar"></div>
+</div>
+
 <!-- SETUP -->
 <div class="screen active" id="setupScreen">
 <div class="setup">
+  <button class="wn-bar" id="wnBar" type="button" onclick="openWhatsNew()" aria-haspopup="dialog">
+    <span class="wn-chip"><span class="wn-dot"></span><span data-i18n="wnChip">New update</span></span>
+    <span class="wn-txt">
+      <span class="wn-l1" data-i18n="wnBar">We've upgraded the engine behind every worksheet</span>
+      <span class="wn-l2" data-i18n="wnBar2">Smarter pictures · Intelligent questions · New thinking skills</span>
+    </span>
+    <span class="wn-go"><span data-i18n="wnGo">See what's new</span> →</span>
+  </button>
   <div class="s-hero">
     <span class="s-emoji">📝</span>
     <h1 class="s-h">ViLo <em>Worksheets</em></h1>
@@ -456,6 +633,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
     <button class="lvl-btn sudoku-btn" data-level="sudoku" onclick="selLvl(this)"><span class="lvl-e">🧩</span><span class="lvl-n">Sudoku</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
     <button class="lvl-btn maze-btn" data-level="maze" onclick="selLvl(this)"><span class="lvl-e">🌀</span><span class="lvl-n">Maze</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
     <button class="lvl-btn math-btn" data-level="mathmaster" onclick="selLvl(this)"><span class="lvl-e">🧮</span><span class="lvl-n">Math Master</span><span class="lvl-d" data-i18n="allAges">All ages</span></button>
+    <button class="lvl-btn wsr-btn is-new" data-level="wordsearch" onclick="selLvl(this)"><span class="lvl-new" data-i18n="newBadge">New</span><span class="lvl-e">🔍</span><span class="lvl-n" data-i18n="wsrCard">Find the Word</span><span class="lvl-d" data-i18n="wsrAges">Age 6–12+</span></button>
   </div>
   <div id="topicSec" style="display:none">
     <p class="step-lbl" style="margin-top:1.5rem" data-i18n="step2Topic">② Choose a topic</p>
@@ -490,6 +668,32 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
       </label>
     </div>
   </div>
+  <div id="wsrOptsSec" style="display:none">
+    <p class="step-lbl" style="margin-top:1.4rem" data-i18n="step2Wsr">② Customise your word search</p>
+    <div class="mz-row">
+      <div class="mz-lbl" data-i18n="mazeWho">👶 Who is it for?</div>
+      <input type="range" class="mz-slider" id="wsrAge" min="6" max="12" step="1" value="7" oninput="updateWsrAge(this.value)">
+      <div class="mz-age-badge" id="wsrAgeVal"><b>Age 7</b><span>⭐ Beginner</span></div>
+    </div>
+    <div class="mz-row">
+      <label class="mz-ak-row" for="wsrAK">
+        <input type="checkbox" id="wsrAK" checked onchange="updateWsrAK()">
+        <div>
+          <div class="mz-ak-lbl" data-i18n="wsrAKLabel">Include Answer Key page</div>
+          <div class="mz-ak-note" data-i18n="wsrAKNote">Adds answer pages with every hidden word circled</div>
+        </div>
+      </label>
+    </div>
+    <div class="mz-row" id="wsrWMRow" style="display:none">
+      <label class="mz-ak-row" for="wsrWM">
+        <input type="checkbox" id="wsrWM" onchange="updateWsrWM()">
+        <div>
+          <div class="mz-ak-lbl" data-i18n="wsrWMLabel">Add a ‘Tricky words’ meanings page</div>
+          <div class="mz-ak-note" data-i18n="wsrWMNote">1 extra page with simple meanings for up to 30 of the harder words on your sheet. Easy words (like apple) are not listed.</div>
+        </div>
+      </label>
+    </div>
+  </div>
   <div id="suOptsSec" style="display:none">
     <p class="step-lbl" style="margin-top:1.4rem" data-i18n="step2Sudoku">② Choose difficulty</p>
     <div class="math-diff-grid" id="suSizeGrid">
@@ -516,6 +720,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
       <input type="range" id="pcRange" min="5" max="15" step="1" value="5" oninput="onPcChange(this.value)">
       <span class="pc-bubble" id="pcBubble">5</span>
     </div>
+    <div class="pc-note" data-i18n="wsrPcNote">Ages 6–7: 5 pages, so every word stays fresh</div>
   </div>
   <div class="gen-wrap">
     <button class="gen-btn" id="genBtn" onclick="generate()" disabled>
@@ -768,7 +973,7 @@ en:{
   btnNew:'🔀 New',btnBack:'← Back',btnShare:'↗ Share',
   shareTitle:'Share this worksheet',shareCopy:'⎘ Copy Link',shareCopied:'✓ Copied!',
   name:'Name:',date:'Date:',score:'Score:',page:'Page',ansKey:'Answer Key',
-  footerCol:'ViLoLabs.in · Free Colouring Page · ',footerSud:'ViLoLabs.in · Free Picture Sudoku · ',footerMaze:'ViLoLabs.in · Free Printable Maze · ',
+  footerCol:'ViLoLabs.in · Free Colouring Page',footerSud:'ViLoLabs.in · Free Picture Sudoku',footerMaze:'ViLoLabs.in · Free Printable Maze',
   agePrefix:'Age',
   diff_Beginner:'Beginner',diff_Easy:'Easy',diff_Medium:'Medium',diff_Hard:'Hard',diff_Expert:'Expert',diff_Master:'Master',
   shLbl_square:'Maze',shLbl_circle:'Circle Maze',shLbl_triangle:'Triangle Maze',shLbl_heart:'Heart Maze',shLbl_star:'Star Maze',shLbl_diamond:'Diamond Maze',shLbl_hexagon:'Hexagon Maze',
@@ -831,6 +1036,22 @@ en:{
   t_shapeMatch:'🔷 Match the Shapes',i_shapeMatch:'Draw a line to join the same shapes.',
   t_shapeName:'🔤 Shape Names',i_shapeName:'Draw a line from each shape to its name.',
   t_shapeReal:'🏠 Shapes Around Us',i_shapeReal:'Draw a line from each thing to its shape.',i_shapeRealSub:'✏️ Look at the outline.',
+  wnChip:'New update',wnBar:"We've upgraded the engine behind every worksheet",wnBar2:'Smarter pictures · Intelligent questions · New thinking skills',wnGo:"See what's new",
+  wnKicker:'Just upgraded',wnTitle:"What's new in ViLo Worksheets",wnSub:"We've upgraded the engine behind every worksheet.",
+  wn1:'Smarter picture engine for fresher, more varied worksheets',wn2:'Intelligent question builder, tuned to every class level',
+  wn3:'New thinking skills: sorting, grouping and real-world reasoning',wn4:'Sharper visual puzzles that build true observation skills',
+  wn5:'Find the Word: age-adaptive word-search puzzles',wnNewTag:'New section',wnFeatTitle:'Find the Word',wnFeatText:'Word-search puzzles for ages 6–12+, with picture clues for little ones and an answer key. Enjoy our new section!',wnTry:'Try it →',wn6:'Same promise: free, private and sign-up free',wnCta:'Start creating',
+  love1:'💛 Free for every child. Share it with a parent friend.',love2:"💛 Know a parent who'd love this? Share it.",love3:'💛 One share helps one more child learn.',love4:'💛 Sharing is caring — help us reach more parents.',
+  wnShare:'💛 Sharing is caring — help us grow and reach a bigger community of parents.',
+  newBadge:'New',wsrWTK:'📖 Words to know',wsrWMLabel:'Add a ‘Tricky words’ meanings page',wsrWMNote:'1 extra page with simple meanings for up to 30 of the harder words on your sheet. Easy words (like apple) are not listed.',wsrWMTitle:'📖 Tricky Words — What They Mean',wsrWMSub:'{n} of the harder words from this sheet, A to Z. Easy words are not listed.',wsrWMTip:'ⓘ Simple meanings for children — a dictionary has fuller definitions.',wsrWMHdr:'Tricky words',wsrPcNote:'Ages 6–7: 5 pages, so every word stays fresh',wsrCard:'Find the Word',wsrAges:'Age 6–12+',step2Wsr:'② Customise your word search',wsrGen:'🔍 Generate Word Search!',
+  wsrAKLabel:'Include Answer Key page',wsrAKNote:'Adds answer pages with every hidden word circled',
+  wsrTitle:'Find the Word',wsrInstr:'Find each word in the grid and draw a circle around it. Tick the box when you find it!',
+  wsrDir2:'ⓘ Words read forwards only — left to right or top to bottom.',
+  wsrDir3:'ⓘ Words read forwards only — left to right, top to bottom or diagonally down.',
+  wsrDir4:'ⓘ Words read forwards only — left to right, top to bottom, or diagonally up or down.',
+  wsrKeyTitle:'✅ Answer Key',wsrKeyNote:'Every hidden word is circled',wsrKeyCell:'Page {n}',footerWsr:'ViLoLabs.in · Free Word Search',
+  shareCare:'💛 Sharing is caring — help us grow and reach more parents.',shareNudge:'Sharing is caring 💛 Help another parent and help us grow — share this worksheet.',shareThanks:'💛 Thank you — sharing is caring!',
+  loveOn:'Share on',loveCopied:'Link copied — paste it on Instagram 💛',
   t_category:'📦 What Category?',i_category:'Draw a line from each picture to its group.',i_categorySub:'✏️ Match every picture to the right box.',
   step2Math:'② Pick class / age',mmLkgAge:'Age 3–4',mmUkgAge:'Age 4–5',mmCl1:'Class 1',mmCl1Age:'Age 6',mmCl2:'Class 2',mmCl2Age:'Age 7',mmCl3:'Class 3',mmCl3Age:'Age 8',mmCl4:'Class 4',mmCl4Age:'Age 9',mmCl5:'Class 5',mmCl5Age:'Age 10',
   mm_picAddT:'🧮 Picture Addition',mm_picAddI:'Count each group. Write the number. Add them up!',mm_picAddSub:'⭕ Fill every empty box.',
@@ -868,7 +1089,7 @@ hi:{
   btnNew:'🔀 नई',btnBack:'← वापस',btnShare:'↗ शेयर',
   shareTitle:'यह वर्कशीट शेयर करें',shareCopy:'⎘ लिंक कॉपी करें',shareCopied:'✓ कॉपी हो गया!',
   name:'नाम:',date:'डेट:',score:'स्कोर:',page:'पेज',ansKey:'आंसर की',
-  footerCol:'ViLoLabs.in · फ्री कलरिंग पेज · ',footerSud:'ViLoLabs.in · फ्री पिक्चर सुडोकू · ',footerMaze:'ViLoLabs.in · फ्री प्रिंटेबल मेज़ · ',
+  footerCol:'ViLoLabs.in · फ्री कलरिंग पेज',footerSud:'ViLoLabs.in · फ्री पिक्चर सुडोकू',footerMaze:'ViLoLabs.in · फ्री प्रिंटेबल मेज़',
   agePrefix:'उम्र',
   diff_Beginner:'बिगिनर',diff_Easy:'आसान',diff_Medium:'मीडियम',diff_Hard:'हार्ड',diff_Expert:'एक्सपर्ट',diff_Master:'मास्टर',
   shLbl_square:'मेज़',shLbl_circle:'सर्कल मेज़',shLbl_triangle:'ट्राइएंगल मेज़',shLbl_heart:'हार्ट मेज़',shLbl_star:'स्टार मेज़',shLbl_diamond:'डायमंड मेज़',shLbl_hexagon:'हेक्सागन मेज़',
@@ -931,6 +1152,22 @@ hi:{
   t_shapeMatch:'🔷 शेप मिलाओ',i_shapeMatch:'एक जैसी शेप को लाइन से मिलाओ।',
   t_shapeName:'🔤 शेप के नाम',i_shapeName:'हर शेप को उसके नाम से लाइन से जोड़ो।',
   t_shapeReal:'🏠 हमारे आस-पास की शेप',i_shapeReal:'हर चीज़ को उसकी शेप से लाइन से जोड़ो।',i_shapeRealSub:'✏️ चीज़ का बाहरी आकार देखो।',
+  wnChip:'नया अपडेट',wnBar:'हमने हर वर्कशीट के पीछे का इंजन अपग्रेड किया है',wnBar2:'स्मार्ट तस्वीरें · समझदार सवाल · सोचने की नई कुशलताएँ',wnGo:'देखें क्या नया है',
+  wnKicker:'नया अपग्रेड',wnTitle:'ViLo वर्कशीट में क्या नया है',wnSub:'हमने हर वर्कशीट के पीछे का इंजन अपग्रेड किया है।',
+  wn1:'ताज़ा और विविध वर्कशीट के लिए स्मार्ट पिक्चर इंजन',wn2:'हर कक्षा के हिसाब से समझदार सवाल-निर्माता',
+  wn3:'सोचने की नई कुशलताएँ: छाँटना, समूह बनाना और रोज़मर्रा की समझ',wn4:'और तेज़ दृश्य पहेलियाँ, जो सच्ची परख सिखाती हैं',
+  wn5:'शब्द खोज: उम्र के हिसाब से बदलने वाली पहेलियाँ',wnNewTag:'नया सेक्शन',wnFeatTitle:'शब्द खोज',wnFeatText:'6 से 12+ साल के बच्चों के लिए शब्द खोज पहेलियाँ — छोटे बच्चों के लिए तस्वीरों के साथ, और आंसर की भी। हमारे नए सेक्शन का आनंद लें!',wnTry:'आज़माएँ →',wn6:'वही वादा: मुफ़्त, निजी और बिना साइन-अप',wnCta:'बनाना शुरू करें',
+  love1:'💛 हर बच्चे के लिए मुफ़्त। किसी दोस्त से शेयर करें।',love2:'💛 किसी माता-पिता को ये पसंद आएगा? शेयर करें।',love3:'💛 आपका एक शेयर, एक और बच्चे की पढ़ाई।',love4:'💛 शेयर करना ही केयर करना है — और माता-पिता तक पहुँचाएँ।',
+  wnShare:'💛 शेयर करना ही केयर करना है — हमें बढ़ने और माता-पिता के बड़े समुदाय तक पहुँचने में मदद करें।',
+  newBadge:'नया',wsrWTK:'📖 इन शब्दों को जानो',wsrWMLabel:'‘कठिन शब्द’ के अर्थ वाला पेज जोड़ें',wsrWMNote:'1 अतिरिक्त पेज — आपकी शीट के 30 तक कठिन शब्दों के आसान अर्थ (अंग्रेज़ी में)। आसान शब्द (जैसे apple) शामिल नहीं हैं।',wsrWMTitle:'📖 कठिन शब्द — उनके अर्थ',wsrWMSub:'इस शीट के {n} कठिन शब्द, A से Z तक। आसान शब्द शामिल नहीं हैं।',wsrWMTip:'ⓘ बच्चों के लिए आसान अर्थ — पूरी परिभाषा के लिए डिक्शनरी देखें।',wsrWMHdr:'कठिन शब्द',wsrPcNote:'उम्र 6–7: 5 पेज, ताकि हर शब्द नया रहे',wsrCard:'शब्द खोज',wsrAges:'उम्र 6–12+',step2Wsr:'② अपनी शब्द खोज चुनें',wsrGen:'🔍 शब्द खोज बनाओ!',
+  wsrAKLabel:'आंसर की पेज जोड़ें',wsrAKNote:'हर छिपे शब्द पर सर्कल वाले आंसर पेज जोड़ता है',
+  wsrTitle:'शब्द खोज',wsrInstr:'छिपे हुए शब्द ढूँढो और उन पर सर्कल बनाओ। मिलने पर बॉक्स में टिक करो!',
+  wsrDir2:'ⓘ शब्द सिर्फ़ आगे की ओर पढ़े जाते हैं — बाएँ से दाएँ या ऊपर से नीचे।',
+  wsrDir3:'ⓘ शब्द सिर्फ़ आगे की ओर — बाएँ से दाएँ, ऊपर से नीचे या तिरछे नीचे।',
+  wsrDir4:'ⓘ शब्द सिर्फ़ आगे की ओर — बाएँ से दाएँ, ऊपर से नीचे या तिरछे ऊपर/नीचे।',
+  wsrKeyTitle:'✅ आंसर की',wsrKeyNote:'हर छिपे शब्द पर सर्कल बना है',wsrKeyCell:'पेज {n}',footerWsr:'ViLoLabs.in · फ्री शब्द खोज',
+  shareCare:'💛 शेयर करना ही केयर करना है — हमें बढ़ने और ज़्यादा माता-पिता तक पहुँचने में मदद करें।',shareNudge:'शेयर करना ही केयर करना है 💛 किसी और पैरेंट की मदद करें और हमें बढ़ने दें — ये वर्कशीट शेयर करें।',shareThanks:'💛 धन्यवाद — शेयर करना ही केयर करना है!',
+  loveOn:'शेयर करें',loveCopied:'लिंक कॉपी हो गया — Instagram पर पेस्ट करें 💛',
   t_category:'📦 कौन-सा समूह?',i_category:'हर तस्वीर को उसके समूह से लाइन से जोड़ो।',i_categorySub:'✏️ हर तस्वीर को सही डिब्बे से मिलाओ।',
   step2Math:'② क्लास / उम्र चुनो',mmLkgAge:'उम्र 3–4',mmUkgAge:'उम्र 4–5',mmCl1:'क्लास 1',mmCl1Age:'उम्र 6',mmCl2:'क्लास 2',mmCl2Age:'उम्र 7',mmCl3:'क्लास 3',mmCl3Age:'उम्र 8',mmCl4:'क्लास 4',mmCl4Age:'उम्र 9',mmCl5:'क्लास 5',mmCl5Age:'उम्र 10',
   mm_picAddT:'🧮 तस्वीरों से जोड़',mm_picAddI:'हर ग्रुप गिनो। नंबर लिखो। फिर जोड़ो!',mm_picAddSub:'⭕ हर खाली बॉक्स भरो।',
@@ -1052,14 +1289,62 @@ const DB = {
 // `node -e "const l=require('./Website HTML/assets/library.json'); console.log([...new Set(l.items.map(i=>i.category))])"`
 // to verify available categories before adding new entries here.
 const LEVEL_TOPICS={
-  prekg:    ['animals','fruits','insects','nature','toys','clothing','fantasy'],
-  kg:       ['animals','fruits','vegetables','insects','nature','vehicles','toys','clothing','body-parts','birds','sea-creatures'],
-  '1':      ['animals','fruits','vegetables','vehicles','food','insects','instruments','nature','stationery','birds','sea-creatures','people','plants','dinosaurs','household'],
-  '2':      ['animals','food','vehicles','insects','instruments','nature','stationery','sports','plants','dinosaurs','household','tools','buildings','people'],
-  '3':      ['animals','food','vehicles','nature','stationery','sports','symbols','tools','buildings','people','household','sea-creatures'],
-  '4':      ['food','vehicles','nature','stationery','sports','symbols','tools','buildings','plants','dinosaurs','household'],
-  '5':      ['vehicles','nature','stationery','sports','symbols','tools','buildings','plants','people','food']
+  // 2026-10-16 freshness upgrade: every section that is now complete + age-suitable.
+  // Themes with <12 pictures (sports, dinosaurs, fantasy…) are skipped automatically.
+  prekg:    ['animals','fruits','vegetables','birds','sea-creatures','insects','toys','clothing','vehicles','food','nature','weather'],
+  kg:       ['animals','fruits','vegetables','birds','sea-creatures','insects','toys','clothing','vehicles','food','nature','weather','body-parts','people','household','space','buildings','instruments'],
+  '1':      ['animals','birds','sea-creatures','insects','fruits','vegetables','food','vehicles','toys','clothing','nature','weather','space','instruments','stationery','people','plants','household','buildings','body-parts','tools'],
+  '2':      ['animals','birds','sea-creatures','insects','food','fruits','vegetables','vehicles','nature','weather','space','instruments','stationery','sports','plants','household','tools','buildings','people','clothing'],
+  '3':      ['animals','birds','sea-creatures','food','vehicles','nature','weather','space','stationery','sports','symbols','tools','buildings','people','household','instruments','plants'],
+  '4':      ['animals','sea-creatures','food','vehicles','nature','weather','space','stationery','sports','symbols','tools','buildings','plants','household','instruments'],
+  '5':      ['animals','vehicles','nature','weather','space','stationery','sports','symbols','tools','buildings','plants','people','food','instruments']
 };
+// Theme FAMILIES — a bigger picture pool while the name stays true (birds ARE animals,
+// fruits ARE food). Every other theme uses just its own section.
+const THEME_MEMBERS={animals:['animals','birds','sea-creatures','insects'],food:['food','fruits','vegetables']};
+// 2026-10-16: theme COMBOS are built automatically — any 2–3 themes from the class's list
+// (hundreds of mixes/names instead of a short fixed list). Two rules keep them sensible:
+// never two themes where one already contains the other (animals + birds), and never a
+// pair from this "odd together" list.
+const THEME_NEVER=[['tools','fruits'],['tools','food'],['tools','vegetables'],['body-parts','food'],['body-parts','fruits'],
+  ['body-parts','vegetables'],['space','insects'],['symbols','food'],['symbols','fruits'],['symbols','vegetables'],
+  ['tools','body-parts'],['symbols','body-parts']];
+function _themesFit(a,b){
+  if(a===b) return false;
+  const ma=THEME_MEMBERS[a]||[a], mb=THEME_MEMBERS[b]||[b];
+  if(ma.some(x=>mb.includes(x))) return false;                    // family overlap
+  return !THEME_NEVER.some(([x,y])=>(x===a&&y===b)||(x===b&&y===a));
+}
+// If a page runs short of pictures, top up from a RELATED section first.
+const THEME_RELATED={fruits:['vegetables','food'],vegetables:['fruits','food'],food:['fruits','vegetables'],birds:['animals','insects'],
+  'sea-creatures':['animals'],insects:['animals','plants'],animals:['birds','sea-creatures'],toys:['clothing','household'],clothing:['toys','body-parts'],
+  vehicles:['buildings'],buildings:['vehicles','household'],nature:['weather','plants'],weather:['nature','space'],space:['weather','nature'],
+  plants:['nature','fruits'],people:['body-parts','clothing'],'body-parts':['people','clothing'],household:['toys','tools'],tools:['household','buildings'],
+  stationery:['toys','household'],instruments:['toys'],symbols:['stationery'],sports:['toys']};
+const _WS_THEMED_LVLS=['prekg','kg','1','2','3','4','5'];
+function _themeKeys(cat){return (!cat||cat==='mix')?[]:String(cat).split('+').filter(Boolean);}
+const _themePoolCache={};
+function _themePool(key,mode){
+  if(!LIB) return [];
+  const ck=key+'|'+mode+'|'+LIB.length;           // LIB never changes after load → cache
+  if(_themePoolCache[ck]) return _themePoolCache[ck].slice();
+  const mem=THEME_MEMBERS[key]||[key];
+  const out=LIB.filter(it=>!LIB_EXCLUDE.has(it.id)&&mem.includes(it.category)&&(mode==='png'?it.png:it.emoji)).map(it=>libItem(it,mode));
+  _themePoolCache[ck]=out;
+  return out.slice();
+}
+function _themeLabel(cat){
+  const k=_themeKeys(cat);
+  if(!k.length) return 'Fun Mix';
+  const l=k.map(x=>(TOPIC_META[x]&&TOPIC_META[x].l)||x);
+  return l.length===1?l[0]:l.slice(0,-1).join(', ')+' & '+l[l.length-1];
+}
+// Themes with enough pictures (≥12 in picture OR emoji style) for this class.
+function _wsThemesViable(level){
+  const all=(LEVEL_TOPICS&&LEVEL_TOPICS[level])||[];
+  if(!LIB||!LIB.length) return all;
+  return all.filter(k=>_themePool(k,'png').length>=12||_themePool(k,'emoji').length>=12);
+}
 
 // TOPIC_META — emoji + label shown in UI for each real category.
 const TOPIC_META={
@@ -1085,12 +1370,14 @@ const TOPIC_META={
   tools:        {e:'🔧',l:'Tools'},
   toys:         {e:'🧸',l:'Toys'},
   vegetables:   {e:'🥦',l:'Vegetables'},
-  vehicles:     {e:'🚗',l:'Transport'}
+  vehicles:     {e:'🚗',l:'Transport'},
+  weather:      {e:'⛅',l:'Weather'},
+  space:        {e:'🚀',l:'Space'}
 };
 
 const COL_TOPICS={all:{e:'🎨',l:'All Subjects'},animals:{e:'🐾',l:'Animals'},fruits:{e:'🍎',l:'Fruits & Food'},objects:{e:'🏠',l:'Objects & Nature'}};
 
-const LEVEL_NAMES={prekg:'Pre-KG',kg:'Kindergarten','1':'Class 1','2':'Class 2','3':'Class 3','4':'Class 4','5':'Class 5',colouring:'Colouring Book',sudoku:'Sudoku',maze:'Maze','mm-lkg':'Math Master · LKG','mm-ukg':'Math Master · UKG','mm-1':'Math Master · Class 1','mm-2':'Math Master · Class 2','mm-3':'Math Master · Class 3','mm-4':'Math Master · Class 4','mm-5':'Math Master · Class 5'};
+const LEVEL_NAMES={prekg:'Pre-KG',kg:'Kindergarten','1':'Class 1','2':'Class 2','3':'Class 3','4':'Class 4','5':'Class 5',colouring:'Colouring Book',sudoku:'Sudoku',maze:'Maze',wordsearch:'Find the Word','mm-lkg':'Math Master · LKG','mm-ukg':'Math Master · UKG','mm-1':'Math Master · Class 1','mm-2':'Math Master · Class 2','mm-3':'Math Master · Class 3','mm-4':'Math Master · Class 4','mm-5':'Math Master · Class 5'};
 
 // EMOJI SIZES per level — main/grid/small (sized generously for children)
 const ESIZES={prekg:{m:'7rem',g:'6.5rem',s:'4.2rem',cnt:'3rem',box:90},
@@ -1599,7 +1886,7 @@ function updateMzAge(v){
   if(mzAge>=9){document.getElementById('mzAK').checked=true;mzAK=true;}
 }
 function selMzShape(b){document.querySelectorAll('.mz-shape-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');mzShape=b.dataset.shape;}
-function selSuSize(b){document.querySelectorAll('#suSizeGrid .math-diff-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');suSize=parseInt(b.dataset.size,10)||4;}
+function selSuSize(b){document.querySelectorAll('#suSizeGrid .math-diff-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');b.parentElement.classList.add('has-sel');suSize=parseInt(b.dataset.size,10)||4;}
 function updateMzAK(){mzAK=document.getElementById('mzAK').checked;}
 // ── Seeded RNG wrapper ────────────────────────────────────────────
 // When wsSetSeed(n) is called BEFORE generate(), every shuffle/rnd/
@@ -1798,7 +2085,8 @@ window.LIB_MAZE_PAIRS=null;    // narrative seeker→goal pairs from library.jso
 let curMode='emoji';           // render style of current worksheet: 'png' | 'emoji'
 fetch('assets/library.json').then(r=>r.json())
   .then(d=>{
-    LIB=(d.items||[]).filter(it=>it.png||it.emoji);
+    // LIB_EXCLUDE removed here, once, so no activity can ever pick them.
+    LIB=(d.items||[]).filter(it=>(it.png||it.emoji)&&!LIB_EXCLUDE.has(it.id));
     LIB_VERSION=d.libraryVersion||null;
     // Page assets that actually have files on disk — used by the colouring
     // worksheet to pick from the high-quality PNG pages first, falling back
@@ -1822,7 +2110,8 @@ function libItem(it,mode){
 // Items deliberately excluded from worksheet rendering — the asset stays in the
 // library for catalog/search but never lands on a generated sheet. Add an id here
 // to retire it from kids' worksheets without deleting the file.
-const LIB_EXCLUDE=new Set(['tools/screw']);
+// festivals/ganesh: a god's picture is not used for puzzles/games (owner's call, 2026-10-17).
+const LIB_EXCLUDE=new Set(['tools/screw','festivals/ganesh']);
 function libPool(mode){
   return LIB.filter(it=>!LIB_EXCLUDE.has(it.id) && (mode==='png'?it.png:it.emoji)).map(it=>libItem(it,mode));
 }
@@ -1969,13 +2258,16 @@ function selLvl(btn){
   document.querySelectorAll('.lvl-btn').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
   curLvl=btn.dataset.level;
+  document.getElementById('lvlGrid').classList.add('has-sel');
   ES=ESIZES[curLvl]||ESIZES['3'];
+  setTimeout(_wsrPagesLock,0);
   const topicSec=document.getElementById('topicSec');
   const topicGrid=document.getElementById('topicGrid');
 
   document.getElementById('mazeOptsSec').style.display='none';
   document.getElementById('mathOptsSec').style.display='none';
   document.getElementById('suOptsSec').style.display='none';
+  document.getElementById('wsrOptsSec').style.display='none';
   if(curLvl==='colouring'){
     curTopic='mixed';
     topicSec.style.display='none';
@@ -1987,6 +2279,12 @@ function selLvl(btn){
     document.getElementById('mazeOptsSec').style.display='block';
     document.getElementById('genBtn').disabled=false;
     document.getElementById('genBtnTxt').textContent='🌀 Generate Maze!';
+  } else if(curLvl==='wordsearch'){
+    curTopic='mixed';
+    topicSec.style.display='none';
+    document.getElementById('wsrOptsSec').style.display='block';
+    document.getElementById('genBtn').disabled=false;
+    document.getElementById('genBtnTxt').textContent=T('wsrGen');
   } else if(curLvl==='sudoku'){
     curTopic='mixed';
     topicSec.style.display='none';
@@ -2001,6 +2299,7 @@ function selLvl(btn){
     document.getElementById('genBtnTxt').textContent='🧮 Generate Math Sheet!';
     // reset diff selection
     document.querySelectorAll('.math-diff-btn').forEach(b=>b.classList.remove('sel'));
+    document.querySelectorAll('.math-diff-grid').forEach(g=>g.classList.remove('has-sel'));
   } else {
     curTopic='mixed';
     topicSec.style.display='none';
@@ -2011,6 +2310,7 @@ function selLvl(btn){
 function selMathDiff(btn){
   document.querySelectorAll('.math-diff-btn').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
+  btn.parentElement.classList.add('has-sel');
   curLvl='mm-'+btn.dataset.diff;
   ES=ESIZES[curLvl]||ESIZES['2'];
   document.getElementById('genBtn').disabled=false;
@@ -2174,8 +2474,22 @@ function onPcChange(v){
   }
 }
 window.addEventListener('load',()=>onPcChange(5));
-function doBrowserPrint(){
-  if(!_wsReady){showToast('Almost there — the worksheet is still loading. Try again in a second.');return;}
+// 2026-10-16: PDF/Print no longer refuse while pictures are still being prepared — they
+// wait (with a friendly note) and start by themselves the moment the sheet is ready.
+let _wsWaitingFor=null;
+function _wsWhenReady(what){
+  if(_wsReady) return Promise.resolve(true);
+  if(_wsWaitingFor) return Promise.resolve(false);          // already waiting — ignore double taps
+  _wsWaitingFor=what;
+  showToast(curLang==='hi'?'बस एक पल — वर्कशीट तैयार होते ही अपने-आप शुरू होगा…':'One moment — it will start automatically when the sheet is ready…');
+  return new Promise(res=>{
+    const t0=Date.now(), iv=setInterval(()=>{
+      if(_wsReady||Date.now()-t0>20000){clearInterval(iv);_wsWaitingFor=null;res(true);}
+    },150);
+  });
+}
+async function doBrowserPrint(){
+  if(!_wsReady && !(await _wsWhenReady('print'))) return;
   _wsPushIfCommitted();
   _wsMaybeCapture();   // fire-and-forget snapshot (own render; safe — no PDF running)
   document.querySelectorAll('.ws-page').forEach(p=>p.style.display='block');
@@ -2184,18 +2498,76 @@ function doBrowserPrint(){
     setTimeout(()=>{document.querySelectorAll('.ws-page').forEach((p,i)=>{p.style.display='';p.classList.toggle('act',i===curPage);});},600);
   },200);
 }
+// ── VISIT MEMORY (2026-10-16) — every Generate in one visit should feel new ──────────
+// Remembers (this browser only) the pictures, themes and question types of the last few
+// sheets. A fresh Generate tries a few seeds in a dry run and keeps the one that repeats
+// the least. The sheet is still 100% decided by its seed, so share links rebuild exactly
+// (memory only chooses WHICH seed; restoring a link never reads it).
+const _WS_MEM_KEY='vl-ws-recent';
+function _wsMemLoad(){try{const m=JSON.parse(localStorage.getItem(_WS_MEM_KEY));if(m&&m.pics)return m;}catch(e){}return {pics:[],themes:[],acts:[]};}
+function _wsMemRemember(){
+  const fp=window._wsLastPrint;if(!fp)return;
+  const m=_wsMemLoad();
+  m.pics=[...fp.pics,...m.pics.filter(x=>!fp.pics.has(x))].slice(0,600);
+  m.themes=[...fp.themes,...m.themes].slice(0,6);
+  m.acts=[...fp.acts,...m.acts.filter(a=>!fp.acts.has(a))].slice(0,40);
+  try{localStorage.setItem(_WS_MEM_KEY,JSON.stringify(m));}catch(e){}
+}
+function _wsDryRun(seed){
+  const keepMode=curMode;
+  try{
+    wsSetSeed(seed);
+    rnd(0,5);                 // mirrors showLoader()'s single draw — generate()/regen() call it right after wsSetSeed
+    window._wsDry=true;
+    if(curLvl==='wordsearch') buildWordSearchAll(null,null);
+    else { _wsCfg=null;_wsCurrentConfig(); buildWorksheetAll(null,null,'',''); }   // mirrors buildAll()'s topicName line
+    return window._wsLastPrint;
+  }catch(e){return null;}
+  finally{window._wsDry=false;_wsCfg=null;curMode=keepMode;window._wsLastPrint=null;}
+}
+function _wsFreshSeed(){
+  const raw=()=>window.WSeo?WSeo.newSeed():((Math.random()*0x100000000)>>>0);
+  // Word search: age + answer-key switch ride in the seed's low 5 bits → a shared link
+  // reopens at the same difficulty (slug stays clean: word-search-puzzles-for-kids-<id>).
+  const mk=curLvl==='wordsearch'?()=>(((raw()&~63)|((wsrAge-6)&15)|(wsrAK?16:0)|(wsrWM&&wsrAge>=9?32:0))>>>0):raw;
+  const canShop=curLvl==='wordsearch'?!!WSR_WORDS:(LIB&&LIB.length&&_WS_THEMED_LVLS.includes(curLvl));
+  if(!canShop) return mk();
+  const mem=_wsMemLoad();
+  if(!mem.pics.length&&!mem.themes.length) return mk();
+  const seenP=new Set(mem.pics), seenT=new Set(mem.themes), seenA=new Set(mem.acts);
+  let best=mk(), bestScore=Infinity; const t0=performance.now();
+  for(let k=0;k<12;k++){
+    const sd=k===0?best:mk(), fp=_wsDryRun(sd);
+    if(!fp) break;
+    let score=0;
+    fp.pics.forEach(x=>{if(seenP.has(x))score++;});
+    fp.themes.forEach(t=>{if(seenT.has(t))score+=25;});
+    fp.acts.forEach(a=>{if(seenA.has(a))score+=0.5;});
+    if(score<bestScore){bestScore=score;best=sd;}
+    // never let it make Generate feel slow: stop before the next try would pass ~200 ms
+    const spent=performance.now()-t0, per=spent/(k+1);
+    if(spent+per>200) break;
+  }
+  wsClearSeed();
+  return best;
+}
 function generate(opts){
   if(!curLvl)return;
   if(curLvl==='colouring'&&!curTopic)return;
   opts=opts||{};
   const pcEl=document.getElementById('pcRange');
   if(pcEl)curPageCount=Math.max(5,Math.min(15,+pcEl.value||5));
+  if(curLvl==='wordsearch'&&wsrAge<=7) curPageCount=5;
   // Seed: if URL provided one, use it; else fresh.
-  const seed=(opts.seed!=null)?opts.seed:(window.WSeo?WSeo.newSeed():((Math.random()*0x100000000)>>>0));
+  if(opts.seed==null) _wsForcedCat=null;   // a fresh sheet is never bound to an old link's theme
+  const seed=(opts.seed!=null)?opts.seed:_wsFreshSeed();
   wsSetSeed(seed);
   showLoader();
+  if(opts.seed==null) _loveNudge();   // not when opening someone's shared link
   setTimeout(async ()=>{
+    if(curLvl==='wordsearch') await _wsrReady;
     buildAll();
+    _wsMemRemember();
     // Build the slug/URL/_wsCurrentMeta BEFORE the sheet becomes interactive,
     // so an immediate Share/Print always has the real /worksheets/<slug> link
     // and registers in Supabase (keywords are preloaded → this is ~instant).
@@ -2207,11 +2579,15 @@ function generate(opts){
 }
 function regen(){
   // "Generate another" — fresh seed, same level/topic
-  const seed=window.WSeo?WSeo.newSeed():((Math.random()*0x100000000)>>>0);
+  _wsForcedCat=null;
+  const seed=_wsFreshSeed();
   wsSetSeed(seed);
   showLoader();
+  _loveNudge();
   setTimeout(async ()=>{
+    if(curLvl==='wordsearch') await _wsrReady;
     buildAll();
+    _wsMemRemember();
     await _wsUpdateUrlAfterGenerate(seed);   // slug/URL/save ready before interactive
     hideLoader();
     showPage(0);
@@ -2228,14 +2604,16 @@ function regen(){
 // Reverse map (_MM_GRADE_REV) restores the exact mm-* level from a shared URL.
 const _MM_GRADE   = {'mm-lkg':'prekg','mm-ukg':'kg','mm-1':'1','mm-2':'2','mm-3':'3','mm-4':'4','mm-5':'5'};
 const _MM_GRADE_REV = {'prekg':'mm-lkg','kg':'mm-ukg','1':'mm-1','2':'mm-2','3':'mm-3','4':'mm-4','5':'mm-5'};
+let _wsCfg=null, _wsForcedCat=null;
 function _wsCurrentConfig(){
+  if(_wsCfg) return _wsCfg;
   // Math Master → its own 'math' activity + mapped school grade, category always mix.
   if(isMathMaster()){
-    return {activity:'math', grade:(_MM_GRADE[curLvl]||'1'), category:'mix'};
+    return (_wsCfg={activity:'math', grade:(_MM_GRADE[curLvl]||'1'), category:'mix'});
   }
   // GRADE
   let gradeKey;
-  if(curLvl==='colouring'||curLvl==='sudoku'||curLvl==='maze') gradeKey=curLvl;
+  if(curLvl==='colouring'||curLvl==='sudoku'||curLvl==='maze'||curLvl==='wordsearch') gradeKey=curLvl;
   else gradeKey=curLvl; // 'prekg','kg','1'..'5'
   // ACTIVITY (headline) — HONESTY: only modes that genuinely build a single-activity
   // worksheet get a specific activity in the URL. Grade 1-5 worksheets contain ~20
@@ -2246,35 +2624,36 @@ function _wsCurrentConfig(){
   if(curLvl==='colouring') activityKey='colouring';
   else if(curLvl==='sudoku') activityKey='sudoku';
   else if(curLvl==='maze') activityKey='maze';
+  else if(curLvl==='wordsearch') activityKey='wordsearch';
   else activityKey='mix';  // prekg, kg, 1-5 all build mixed-activity sheets
-  // CATEGORY — honest: only set if mode genuinely uses ONE theme.
-  // We filter LEVEL_TOPICS down to only categories that actually have
-  // enough items in LIB (≥12) for a 5-page themed worksheet. Otherwise
-  // the slug would claim a theme that the content can't honor.
-  function _wsThemesViable(level){
-    const all=(LEVEL_TOPICS && LEVEL_TOPICS[level])||[];
-    if(!LIB||!LIB.length) return all; // pre-load: trust the config
-    return all.filter(cat=>{
-      const png=LIB.filter(i=>i.category===cat&&i.png).length;
-      const emo=LIB.filter(i=>i.category===cat&&i.emoji).length;
-      return png>=12 || emo>=12;
-    });
-  }
+  // CATEGORY — ONE decision per build, cached in _wsCfg (reset by buildAll). The old code
+  // drew the theme again when building the share link, so URL, header and pictures could
+  // disagree (bug found 2026-10-15). Now pictures, header, slug and preview all read this.
+  // 2026-10-16: a sheet is ONE theme, a hand-picked COMBO of 2–3 themes ('animals+fruits'),
+  // or fully mixed. Always exactly two wsRand() draws → stable for share links.
   let categoryKey='mix';
   if(curLvl==='colouring' && curTopic) categoryKey=curTopic; // user picked it
-  // Pre-KG/KG always themed (younger kids retain better with one focus topic).
-  else if(curLvl==='prekg'||curLvl==='kg'){
+  else if(_WS_THEMED_LVLS.includes(curLvl)){
     const t=_wsThemesViable(curLvl);
-    if(t.length) categoryKey=t[Math.floor(wsRand()*t.length)];
+    const r=wsRand(), r2=wsRand();
+    const young=(curLvl==='prekg'||curLvl==='kg');       // little ones: always themed
+    const pSingle=young?0.40:0.30, pCombo=young?1:0.75;   // Class 1-5: ~25% fully mixed
+    if(t.length){
+      if(r<pSingle||t.length<2) categoryKey=t[Math.floor(r2*t.length)];
+      else if(r<pCombo){
+        // automatic combo: half the time 3 themes, else 2 — first fitting themes in a seeded shuffle
+        const want=r2<0.5?3:2, pick=[];
+        for(const k of shuffle(t)){ if(pick.length>=want) break; if(pick.every(p=>_themesFit(p,k))) pick.push(k); }
+        categoryKey=pick.length?pick.join('+'):t[Math.floor(r2*t.length)];
+      }
+    }
+    // Opening a shared link: the theme named in the link wins (old links stay honest).
+    if(_wsForcedCat){
+      const fk=_themeKeys(_wsForcedCat);
+      if(fk.length&&fk.every(k=>_themePool(k,'png').length+_themePool(k,'emoji').length>0)) categoryKey=fk.join('+');
+    }
   }
-  // Class 1-5: 65% chance themed, 35% chance mixed. Themed = variety in SEO
-  // slugs (one URL per theme per grade) + lets new PNG categories surface.
-  // Mixed = the classic random-mix worksheet for parents who want everything.
-  else {
-    const t=_wsThemesViable(curLvl);
-    if(t.length && wsRand()<0.65) categoryKey=t[Math.floor(wsRand()*t.length)];
-  }
-  return {activity:activityKey,grade:gradeKey,category:categoryKey};
+  return (_wsCfg={activity:activityKey,grade:gradeKey,category:categoryKey});
 }
 
 // Sync every SEO meta tag to the currently-displayed worksheet. Called from
@@ -2322,14 +2701,14 @@ async function _wsUpdateUrlAfterGenerate(seed){
   console.log('[WSeo] config:',cfg);
   const a=kw.activities[cfg.activity]||kw.activities.mix;
   const g=kw.grades[cfg.grade]||kw.grades['1'];
-  const c=kw.categories[cfg.category]||kw.categories.mix;
-  if(!a||!g||!c){console.warn('[WSeo] missing lookup',{a,g,c});return;}
+  const catSlug=WSeo.categorySlug?WSeo.categorySlug(cfg.category,kw):((kw.categories[cfg.category]||{}).slug||'mix');
+  if(!a||!g){console.warn('[WSeo] missing lookup',{a,g});return;}
   const id=WSeo.encodeId(seed);
   const slug=WSeo.buildSlug({
     activitySlug:a.slug,
     gradeSlug:g.slug,
     // pass 'mix' (the key) when category is mixed — buildSlug drops it from URL
-    categorySlug:(cfg.category==='mix'?'mix':c.slug),
+    categorySlug:catSlug,
     id:id
   });
   const newUrl='/worksheets/'+slug;
@@ -2368,9 +2747,7 @@ function _showGenNudge(){
   const el=document.getElementById('genNudge');
   if(!el||!window.ViloShare) return;
   el.style.display='block';
-  _mountShare('#genNudge', curLang==='hi'
-    ? 'वर्कशीट तैयार है! किसी और पैरेंट की मदद करें — शेयर करें 💛'
-    : 'Made a worksheet? Help another parent — share it 💛');
+  _mountShare('#genNudge', T('shareNudge'));
 }
 
 // ── Commit-time push: called from doPrint() and shareTo() ──────
@@ -2397,7 +2774,7 @@ function _wsPushIfCommitted(){
 // Math Master (mm-*) → 'math'. It now has an honest slug identity (activity
 // 'math' + mapped school grade via _MM_GRADE), so the image is labelled truthfully
 // and the "Make this worksheet" link regenerates the same Math Master level.
-const _WS_CAP_SINGLE = new Set(['colouring','maze','sudoku']);
+const _WS_CAP_SINGLE = new Set(['colouring','maze','sudoku','wordsearch']);   // wordsearch added 2026-10-16 (DB CHECK must allow it too)
 const _WS_CAP_GRADES = new Set(['prekg','kg','1','2','3','4','5']);
 // Normalized capture type — also the DB `activity` value. null = not eligible.
 function _wsCaptureType(){
@@ -2414,6 +2791,8 @@ function _wsCaptureEligible(){
 // Maze/sudoku → null (the slug-derived description is clean enough).
 function _wsCaptureSubject(el){
   if(curLvl==='colouring') return _wsPageSubject(el);
+  // Find the Word → "Find the Word puzzle, age 9" → alt "… a free printable word search worksheet (sample page)"
+  if(curLvl==='wordsearch') return _wsrCapturePhrase();
   if(_WS_CAP_GRADES.has(curLvl)) return (typeof LEVEL_NAMES!=='undefined' && LEVEL_NAMES[curLvl]) || null;
   // Math Master: strip the "Math Master · " prefix → clean grade lead ("Class 1").
   if(isMathMaster()) return ((typeof LEVEL_NAMES!=='undefined' && LEVEL_NAMES[curLvl])||'').replace('Math Master · ','') || null;
@@ -2429,6 +2808,7 @@ function _wsFileLabel(){
   }
   if(curLvl==='sudoku') return 'Sudoku';
   if(curLvl==='maze') return 'Maze';
+  if(curLvl==='wordsearch') return 'Word-Search';
   const nm=(typeof LEVEL_NAMES!=='undefined' && LEVEL_NAMES[curLvl]) ? LEVEL_NAMES[curLvl] : 'Worksheet';
   return clean(nm) || 'Worksheet';
 }
@@ -2566,6 +2946,7 @@ function onToolbarShare(){
   _wsMaybeCapture();   // fire-and-forget snapshot on Share intent (own render)
   if(window.ViloShare && ViloShare.canNative()){
     ViloShare.nativeShare({url:_currentSheetUrl(), title:document.title, text:_shareMsg(), tail:_shareTail(), before:_wsPushIfCommitted});
+    showToast(T('shareThanks'));   // phones: the system share sheet has no room for our line
   } else {
     toggleSharePop();
   }
@@ -2574,7 +2955,7 @@ function toggleSharePop(){
   const pop=document.getElementById('sharePop');
   const show=(pop.style.display==='none'||!pop.style.display);
   pop.style.display=show?'block':'none';
-  if(show) _mountShare('#sheetShare', '', true);   // desktop: explicit row only
+  if(show) _mountShare('#sheetShare', T('shareCare'), true);   // desktop: explicit row only
 }
 // Close popover when clicking outside
 document.addEventListener('click',e=>{
@@ -2622,6 +3003,7 @@ if(window.WSeo && WSeo.loadKeywords){ try{ WSeo.loadKeywords(); }catch(e){} }
     curLvl = (cfg.activity==='math') ? (_MM_GRADE_REV[cfg.grade]||'mm-1') : cfg.grade;
     if(cfg.grade==='colouring') curTopic=cfg.category||'mixed';
     else curTopic='mixed';
+    _wsForcedCat=(cfg.activity==='mix'&&cfg.category&&cfg.category!=='mix')?cfg.category:null;
     // Sudoku landing pages (/worksheets/sudoku) deep-link a specific grid size
     // via &size=2|4|6 so the "6×6 Hard" card actually lands on a 6×6 sheet.
     // Only meaningful for sudoku; ignored everywhere else. Does NOT touch
@@ -2636,6 +3018,7 @@ if(window.WSeo && WSeo.loadKeywords){ try{ WSeo.loadKeywords(); }catch(e){} }
     // Maze landing page (/worksheets/maze) deep-links a shape via &shape=<name>
     // and an optional difficulty via &age=4..12, so a "Star maze" card really
     // lands on a star-shaped maze. Same pattern as sudoku above; ignored elsewhere.
+    if(curLvl==='wordsearch'){ const sd=cfg.seed>>>0; _wsrSetUi(6+Math.min(6,sd&15), !!(sd&16), !!(sd&32)); }
     if(curLvl==='maze'){
       const q=new URLSearchParams(location.search);
       const shp=q.get('shape');
@@ -2658,11 +3041,13 @@ if(window.WSeo && WSeo.loadKeywords){ try{ WSeo.loadKeywords(); }catch(e){} }
 
 function buildAll(){
   const lvlName=LEVEL_NAMES[curLvl];
-  const topicName=curLvl==='colouring'?(COL_TOPICS[curTopic]?.l||'Colouring'):'Fun Mix';
+  _wsCfg=null; window._wsLastPrint=null;   // one fresh theme decision per build
+  const topicName=curLvl==='colouring'?(COL_TOPICS[curTopic]?.l||'Colouring'):(_WS_THEMED_LVLS.includes(curLvl)?_themeLabel(_wsCurrentConfig().category):'Fun Mix');
   document.getElementById('tbLbl').textContent=lvlName;
   document.getElementById('tbTitle').textContent=
     curLvl==='colouring'?(topicName+' '+T('colBook')):
     curLvl==='sudoku'?T('sudokuLabel'):
+    curLvl==='wordsearch'?(T('wsrTitle')+' · '+T('agePrefix')+' '+_wsrAgeTxt()):
     curLvl==='maze'?((T('shLbl_'+mzShape)||T('shLbl_square'))+' · '+T('agePrefix')+' '+(mzAge>=12?'12+':mzAge)):
     (topicName+' '+T('worksheetLabel'));
   const container=document.getElementById('wsContainer');
@@ -2672,6 +3057,7 @@ function buildAll(){
   if(curLvl==='colouring'){buildColouringAll(container,nav,lvlName,topicName);}
   else if(curLvl==='sudoku'){buildSudokuAll(container,nav);}
   else if(curLvl==='maze'){buildMazeAll(container,nav);}
+  else if(curLvl==='wordsearch'){buildWordSearchAll(container,nav);}
   else{buildWorksheetAll(container,nav,lvlName,topicName);}
   curPage=0;
   fitPreviewWidth();                       // fix preview scale BEFORE measuring
@@ -2742,8 +3128,8 @@ function buildColouringPagePng(idx,page,lvlName,topicName){
     <div class="col-main-wrap col-png-wrap">
       <img src="/${page.file}" alt="${subjectLabel}" class="col-png">
     </div>
-    <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600">
-      ${T('footerCol')}${date}
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800">
+      ${T('footerCol')}
     </div>`;
 }
 
@@ -2775,8 +3161,8 @@ function buildColouringPage(idx,subj,lvlName,topicName){
     <div class="col-crayon-row">
       <span class="col-crayon-lbl">${T('suggestedColours')}</span>${palRow}
     </div>
-    <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600">
-      ${T('footerCol')}${date}
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800">
+      ${T('footerCol')}
     </div>`;
 }
 
@@ -2959,7 +3345,7 @@ function buildSudokuPage(idx){
       <div style="font-size:.72rem;font-weight:800;color:#A07860;text-align:center">${T('sudokuCut')}</div>
       <div class="su-cut">${cut}</div>
     </div>
-    <div style="padding:.4rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">${T('footerSud')}${date}</div>`;
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800;border-top:1px solid #EDE4D6">${T('footerSud')}</div>`;
 }
 
 // ── MAZE ENGINE (recursive-backtracker — perfect maze, one unique solution path)
@@ -3155,6 +3541,295 @@ function mazesPerPage(size){
   if(size<=14) return 2;   // small/medium (age 6-8) — stacked pair
   return 1;                // big mazes (age 9-12+) — one per page
 }
+// ══ FIND THE WORD (word search) — 2026-10-16, to-be-built.md W6 ══════════════════════
+// Forward-only words (→ ↓ ↘, + ↗ from age 10), mixed vocabulary, picture clues for ages
+// 6–7, every word appears EXACTLY once, filler never spells a blocked word, no word
+// repeats within a sheet, visit memory avoids recent words. 100% seed-driven.
+let wsrAge=7, wsrAK=true, wsrWM=false, WSR_WORDS=null, WSR_MEAN=null;
+const _wsrReady=Promise.all([
+  fetch('/assets/word-search-words.json').then(r=>r.json()).then(j=>{WSR_WORDS=j;}).catch(()=>{}),
+  fetch('/assets/word-meanings.json').then(r=>r.json()).then(j=>{WSR_MEAN=j.meanings||{};}).catch(()=>{})
+]);
+const WSR_AGE={
+  6:{n:6,k:5,len:[3,3],dirs:['R','D'],pics:true,stars:'⭐',diff:'Beginner'},
+  7:{n:7,k:6,len:[3,4],dirs:['R','D'],pics:true,stars:'⭐',diff:'Beginner'},
+  8:{n:8,k:8,diag:2,len:[3,5],dirs:['R','D','DR'],stars:'⭐⭐',diff:'Easy'},
+  9:{n:10,k:10,diag:3,len:[4,5],dirs:['R','D','DR'],stars:'⭐⭐⭐',diff:'Medium'},
+  10:{n:11,k:12,diag:4,len:[4,6],dirs:['R','D','DR','UR'],stars:'⭐⭐⭐',diff:'Medium'},
+  11:{n:12,k:12,diag:4,len:[6,7],dirs:['R','D','DR','UR'],stars:'⭐⭐⭐⭐',diff:'Hard'},
+  12:{n:15,k:15,diag:5,len:[6,8],dirs:['R','D','DR','UR'],stars:'🔥🔥',diff:'Expert'}};   // 2026-10-16: 8-letter words + 15×15 for 12+
+const WSR_DIR={R:[0,1],D:[1,0],DR:[1,1],UR:[-1,1]};
+const WSR_ALL8=[[0,1],[1,0],[1,1],[-1,1],[0,-1],[-1,0],[-1,-1],[1,-1]];
+// filler must never spell these (any direction) — a hit that uses a filler letter re-rolls
+const WSR_BLOCK=['ASS','ARSE','SEX','SEXY','FUK','FUC','FUCK','SHIT','CUNT','TWAT','DICK','COCK','PRICK','WANK','PISS','TIT','TITS','BOOB','BRA','FAG','HOMO','GAY','NAZI','KKK','NIG','JEW','POO','POOP','PEE','PUKE','FART','BUM','BUTT','PORN','NUDE','SLUT','SLAG','WHORE','HOE','RAPE','KILL','DIE','DEAD','GUN','WAR','BOMB','HELL','DAMN','CRAP','WTF','SUCK','HATE','DRUG','LSD','BEER','WINE','ANAL','ANUS','PENIS','PUSSY','BITCH','SPAZ','DUMB','UGLY','FAT','IDIOT','LOSER','STUPID','XXX'];
+const WSR_FILL='ABCDEFGHIJKLMNOPRSTUVWY';
+const WSR_FALLBACK={easy3:'cat dog sun bee hen pig bus cup box fox owl ant cow bag bed cap car egg fan hat jam key leg map net pan pen pot sea sky toy van web'.split(' '),easy4:'tree star fish bird frog cake milk boat duck lion bear ball bell book corn deer doll door drum farm flag gift goat hand kite leaf moon nest nose rain ring rose ship sock tent wing wolf'.split(' '),easy5:'apple tiger horse plant house train zebra panda snake mouse sheep grape lemon mango bread chair clock cloud crown eagle fruit grass heart juice koala'.split(' ')};
+function updateWsrAge(v){
+  wsrAge=Math.max(6,Math.min(12,+v||7));
+  const A=WSR_AGE[wsrAge];
+  const el=document.getElementById('wsrAgeVal');
+  _wsrPagesLock();
+  const wr=document.getElementById('wsrWMRow'); if(wr) wr.style.display=wsrAge>=9?'':'none';   // meanings page: ages 9+
+  if(el) el.innerHTML='<b>'+T('agePrefix')+' '+_wsrAgeTxt()+'</b><span>'+A.stars+' '+T('diff_'+A.diff)+'</span>';
+}
+// Ages 6–7 word search: always exactly 5 pages (enough picture words → no repeats)
+function _wsrPagesLock(){
+  const w=document.getElementById('pcWrap'), r=document.getElementById('pcRange');
+  const lock=curLvl==='wordsearch'&&wsrAge<=7;
+  if(w) w.classList.toggle('pc-locked',lock);
+  if(lock&&r){ r.value=5; onPcChange(5); }
+}
+// Google-Images description for a captured word search: natural search phrasings, matched
+// to the sheet's age, picked by the sheet's seed (same sheet → same description, but the
+// gallery as a whole covers many ways parents search). Honest: every phrase is true.
+function _wsrCapturePhrase(){
+  const a=_wsrAgeTxt(), n=wsrAge>=12?'12':String(wsrAge);
+  const P=wsrAge<=7
+    ? ['Picture word search for kids, age '+a,'Easy word search with pictures for '+n+' year olds','First word search for kids, age '+a,'Find the Word picture puzzle, age '+a]
+    : wsrAge<=10
+    ? ['Printable word search for '+n+' year olds','Word search puzzle for kids, age '+a,'Spelling word search for kids, age '+a,'Word find puzzle for '+n+' year olds','Find the Word puzzle, age '+a]
+    : ['Challenging word search for '+n+' year olds','Hard word search puzzle for kids, age '+a,'Printable word search for older kids, age '+a,'Find the Word puzzle, age '+a];
+  const sd=(_wsCurrentMeta&&_wsCurrentMeta.seed)>>>0;
+  return P[(sd>>>6)%P.length];   // low 6 bits hold age/key/meanings — use the random part
+}
+function _wsrAgeTxt(){return wsrAge>=12?'12+':String(wsrAge);}   // top of the slider = 12 and older
+function updateWsrWM(){const c=document.getElementById('wsrWM');wsrWM=!!(c&&c.checked);}
+function updateWsrAK(){const c=document.getElementById('wsrAK');wsrAK=!!(c&&c.checked);}
+function _wsrSetUi(age,ak,wm){
+  if(wm!=null){const w=document.getElementById('wsrWM');if(w) w.checked=wm; wsrWM=!!wm;}
+  const s=document.getElementById('wsrAge');if(s) s.value=age;
+  updateWsrAge(age);
+  const c=document.getElementById('wsrAK');if(c) c.checked=ak;
+  wsrAK=ak;
+}
+function _wsrPicMap(){
+  const m={};
+  if(LIB) for(const it of LIB) if(it.png&&!LIB_EXCLUDE.has(it.id)&&!m[it.name]) m[it.name]=it.png;
+  return m;
+}
+function _wsrSafe(w){const u=w.toUpperCase();return !WSR_BLOCK.includes(u);}
+function _wsrPool(age){
+  const W=WSR_WORDS||WSR_FALLBACK, g=k=>(W[k]||[]);
+  if(age<=7){
+    const pics=_wsrPicMap(), base=age===6?g('pic3'):[...g('pic3'),...g('pic4')];
+    const withPic=base.filter(w=>pics[w]&&_wsrSafe(w));
+    // hand-checked emoji for words with no library picture (2026-10-16) — used on their
+    // OWN pages only, after the real pictures run out (never mixed on one page)
+    const ep=(WSR_WORDS&&WSR_WORDS.emojiPics)||{}, emo=[];
+    for(const w of Object.keys(ep)){ if(pics[w]||!_wsrSafe(w)) continue; if(age===6?w.length===3:(w.length===3||w.length===4)){ emo.push(w); pics[w]=ep[w]; } }
+    if(withPic.length>=12) return {words:withPic,emoWords:emo,pics};
+    return {words:age===6?g('easy3'):[...g('easy3'),...g('easy4')],emoWords:[],pics:null};
+  }
+  // ages 10–12+ also use the big US/UK/India school vocabulary (adv5–adv7, 2026-10-16)
+  const lists=age===8?['easy3','easy4','easy5']:age===9?['easy4','easy5','more4','more5']:age===10?['easy4','easy5','more4','more5','more6','adv5','adv6']:age===11?['more5','more6','more7','adv5','adv6','adv7']:['more6','more7','adv6','adv7','adv8'];   // 11–12+: no everyday words (2026-10-16)
+  return {words:[...new Set(lists.flatMap(g))].filter(_wsrSafe),pics:null};
+}
+function _wsrRev(w){return w.split('').reverse().join('');}
+// Fast version: every grid line in the 4 forward directions joined with '|' (so a word can
+// never run across two lines); backward readings are found by searching the reversed word.
+function _wsrLines(g,N){
+  const out=[];
+  for(const [dr,dc] of [[0,1],[1,0],[1,1],[-1,1]])
+    for(let i=0;i<N;i++)for(let j=0;j<N;j++){const pi=i-dr,pj=j-dc;if(pi>=0&&pi<N&&pj>=0&&pj<N)continue;let l='';for(let y=i,x=j;y>=0&&y<N&&x>=0&&x<N;y+=dr,x+=dc)l+=g[y][x];out.push(l);}
+  return out.join('|');
+}
+function _wsrOcc(big,w){let c=0,at=big.indexOf(w);while(at>=0){c++;at=big.indexOf(w,at+1);}return c;}
+function _wsrCountFast(big,w){const r=_wsrRev(w);return r===w?2*_wsrOcc(big,w):_wsrOcc(big,w)+_wsrOcc(big,r);}
+function _wsrCount(g,N,w){
+  let c=0;
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++)for(const [dr,dc] of WSR_ALL8){
+    let k=0;for(;k<w.length;k++){const y=i+dr*k,x=j+dc*k;if(y<0||y>=N||x<0||x>=N||g[y][x]!==w[k])break;}
+    if(k===w.length)c++;
+  }
+  return c;
+}
+// A blocked string anywhere in the grid (8 directions) re-rolls the filler — unless it is
+// simply part of ONE real listed word read the same way (e.g. "ASS" inside GLASS). Catches
+// filler accidents AND strings formed where two real words meet. (2026-10-16 stricter rule)
+function _wsrInsideWord(placed,i,j,dr,dc,len){
+  for(const p of placed){
+    if(p.dr!==dr||p.dc!==dc) continue;
+    for(let o=0;o+len<=p.w.length;o++) if(p.sr+dr*o===i&&p.sc+dc*o===j) return true;
+  }
+  return false;
+}
+function _wsrBlockHit(g,fill,N,placed){
+  // Fast scan: build every line of the grid in the 4 forward directions once, then look for
+  // each blocked string AND its reverse (= the 4 backward directions) with indexOf.
+  for(const [dr,dc] of [[0,1],[1,0],[1,1],[-1,1]]){
+    const starts=[];
+    for(let i=0;i<N;i++)for(let j=0;j<N;j++){const pi=i-dr,pj=j-dc;if(pi<0||pi>=N||pj<0||pj>=N) starts.push([i,j]);}
+    for(const [si,sj] of starts){
+      let line='';const cells=[];
+      for(let i=si,j=sj;i>=0&&i<N&&j>=0&&j<N;i+=dr,j+=dc){line+=g[i][j];cells.push([i,j]);}
+      if(line.length<3) continue;
+      for(const b of WSR_BLOCK){
+        if(b.length>line.length) continue;
+        let at=line.indexOf(b);
+        while(at>=0){const [ci,cj]=cells[at]; if(!_wsrInsideWord(placed||[],ci,cj,dr,dc,b.length)) return true; at=line.indexOf(b,at+1);}
+        const rb=_wsrRev(b); if(rb===b) continue;
+        at=line.indexOf(rb);
+        while(at>=0){const [ci,cj]=cells[at+b.length-1]; if(!_wsrInsideWord(placed||[],ci,cj,-dr,-dc,b.length)) return true; at=line.indexOf(rb,at+1);}
+      }
+    }
+  }
+  return false;
+}
+function _wsrMake(A,words,used,young){
+  const N=A.n;
+  for(let want=A.k;want>=Math.max(3,A.k-3);want--){
+    for(let attempt=0;attempt<40;attempt++){
+      const g=Array.from({length:N},()=>Array(N).fill('')),placed=[];
+      let diagUsed=0;   // 2026-10-16: cap diagonal words per page (A.diag) so no page feels impossible
+      const fit=words.filter(w=>w.length>=A.len[0]&&w.length<=A.len[1]);
+      const fresh=shuffle(fit.filter(w=>!used.has(w))), old=shuffle(fit.filter(w=>used.has(w)));
+      for(const w0 of [...fresh,...old]){
+        if(placed.length>=want) break;
+        const w=w0.toUpperCase(), rw=_wsrRev(w);
+        // never a word inside another (CAT in CATCH) → would be found twice
+        if(placed.some(p=>p.w.includes(w)||w.includes(p.w)||p.w.includes(rw)||rw.includes(p.w))) continue;
+        for(let t=0;t<60;t++){
+          const dirsNow=(A.diag!=null&&diagUsed>=A.diag)?A.dirs.filter(x=>x==='R'||x==='D'):A.dirs;
+          const d=dirsNow[rnd(0,dirsNow.length-1)],[dr,dc]=WSR_DIR[d];
+          const sr=rnd(0,N-1),sc=rnd(0,N-1),er=sr+dr*(w.length-1),ec=sc+dc*(w.length-1);
+          if(er<0||er>=N||ec<0||ec>=N) continue;
+          let okk=true;
+          for(let i=0;i<w.length;i++){const c=g[sr+dr*i][sc+dc*i];if(c&&(young||c!==w[i])){okk=false;break;}}
+          if(!okk) continue;
+          for(let i=0;i<w.length;i++) g[sr+dr*i][sc+dc*i]=w[i];
+          placed.push({w,w0,sr,sc,dr,dc}); if(dr!==0&&dc!==0) diagUsed++;
+          break;
+        }
+      }
+      if(placed.length<want) continue;
+      for(let refill=0;refill<6;refill++){
+        const gg=g.map(r=>r.slice()), fill=g.map(r=>r.map(c=>!c));
+        for(let i=0;i<N;i++)for(let j=0;j<N;j++) if(fill[i][j]) gg[i][j]=WSR_FILL[rnd(0,WSR_FILL.length-1)];
+        const big=_wsrLines(gg,N);
+        if(placed.some(p=>_wsrCountFast(big,p.w)!==(p.w===_wsrRev(p.w)?2:1))) continue;   // each word exactly once
+        if(_wsrBlockHit(gg,fill,N,placed)) continue;
+        return {g:gg,placed,N};
+      }
+    }
+  }
+  return null;
+}
+function _wsrGridHtml(P,cell,showAns){
+  // SVG so the grid always scales to fit its page (narrow screens, preview zoom) and
+  // prints crisp; cell = the full-size (A4) cell in px, used as the design size.
+  const {g,N,placed}=P, size=cell*N, b=3, W=size+b*2;
+  let h='<svg class="wsr-svg" viewBox="0 0 '+W+' '+W+'" style="width:'+W+'px;max-width:100%;height:auto;display:block">';
+  h+='<rect x="'+(b/2)+'" y="'+(b/2)+'" width="'+(W-b)+'" height="'+(W-b)+'" rx="10" fill="#fff" stroke="#1A1108" stroke-width="'+b+'"/>';
+  let lines='';
+  for(let i=1;i<N;i++){const p=b+i*cell;lines+='M'+p+' '+b+'V'+(W-b)+'M'+b+' '+p+'H'+(W-b);}
+  h+='<path d="'+lines+'" stroke="#EDE3D5" stroke-width="1"/>';
+  const fs=Math.round(cell*0.55);
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++)
+    h+='<text x="'+(b+j*cell+cell/2)+'" y="'+(b+i*cell+cell/2+fs*0.36).toFixed(1)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="'+fs+'" fill="#1A1108">'+g[i][j]+'</text>';
+  if(showAns) placed.forEach((p,k)=>{
+    const x1=b+p.sc*cell+cell/2,y1=b+p.sr*cell+cell/2,x2=x1+p.dc*cell*(p.w.length-1),y2=y1+p.dr*cell*(p.w.length-1);
+    const len=Math.hypot(x2-x1,y2-y1)+cell*0.86,ang=Math.atan2(y2-y1,x2-x1)*180/Math.PI,cx=(x1+x2)/2,cy=(y1+y2)/2;
+    h+='<rect x="'+(cx-len/2).toFixed(1)+'" y="'+(cy-cell*0.42).toFixed(1)+'" width="'+len.toFixed(1)+'" height="'+(cell*0.84).toFixed(1)+'" rx="'+(cell*0.42).toFixed(1)+'" fill="none" stroke="'+WS_LINE_COLORS[k%WS_LINE_COLORS.length]+'" stroke-width="'+Math.max(1.6,cell*0.1).toFixed(1)+'" transform="rotate('+ang.toFixed(1)+' '+cx.toFixed(1)+' '+cy.toFixed(1)+')"/>';
+  });
+  return h+'</svg>';
+}
+// Up to 3 'Words to know' per puzzle page (ages 9+) — the page's hardest words with a meaning.
+function _wsrWordsToKnow(P){
+  if(wsrAge<9||!WSR_MEAN) return '';
+  const w=P.placed.map(x=>x.w0).filter(x=>WSR_MEAN[x]).sort((a,b)=>_wsrHardness(b)-_wsrHardness(a)||a.localeCompare(b)).slice(0,3);
+  if(!w.length) return '';
+  return '<div class="wsr-wtk"><div class="wsr-wtk-h">'+T('wsrWTK')+'</div>'+w.map(x=>'<div class="wsr-wtk-i"><b>'+x.toUpperCase()+'</b> — '+WSR_MEAN[x]+'</div>').join('')+'</div>';
+}
+function _wsrPageHtml(P,A,idx,pics){
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const words=[...P.placed].sort((a,b)=>a.w0.localeCompare(b.w0));
+  const chips=words.map(p=>'<div class="wsr-chip">'+(pics&&pics[p.w0]?'<img src="'+pics[p.w0]+'" class="wimg" alt="">':'')+'<span>'+p.w+'</span><span class="wsr-box"></span></div>').join('');
+  // big, print-friendly cells: 6×6 → 96 px, 14×14 → 45 px (fits A4 width + height)
+  const cell=Math.min(96,Math.floor(640/P.N));
+  const dirKey=A.dirs.includes('UR')?'wsrDir4':A.dirs.includes('DR')?'wsrDir3':'wsrDir2';
+  return `
+    <div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> ${T('wsrTitle')}</span><span class="pg-num">${T('page')} ${idx+1} / ${curPageCount}</span></div>
+    <div class="pg-nameline"><div class="nl nl-name"><span>${T('name')}</span><div class="nl-line"></div></div><div class="nl nl-date"><span>${T('date')}</span><div class="nl-line"></div></div></div>
+    <div class="mz-page-title">🔍 ${T('wsrTitle')} &nbsp;<span style="font-size:.85rem;font-weight:700">${T('agePrefix')} ${_wsrAgeTxt()} · ${A.stars} ${T('diff_'+A.diff)}</span></div>
+    <div class="mz-page-instr">${T('wsrInstr')}</div>
+    <div class="wsr-words${wsrAge<8?" wsr-young":""}">${chips}</div>
+    <div class="wsr-wrap">${_wsrGridHtml(P,cell,false)}${_wsrWordsToKnow(P)}</div>
+    <div class="wsr-tip">${T(dirKey)}</div>
+    <div style="padding:.35rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800;border-top:1px solid #EDE4D6">${T('footerWsr')}</div>`;
+}
+function _wsrKeyHtml(list,start,last){
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const cols=list.length<=2?list.length:3, colW=cols===1?440:cols===2?330:236;
+  const cells=list.map((P,i)=>'<div class="wsr-key-cell"><h4>'+Tf('wsrKeyCell','n',start+i+1)+'</h4>'+_wsrGridHtml(P,Math.min(cols===3?38:52,Math.floor(colW/P.N)),true)+'</div>').join('');
+  return `<div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> ${T('wsrTitle')}</span><span class="pg-num">${T('ansKey')}</span></div>
+    <div style="text-align:center;padding:.5rem 0 .1rem;font-size:1.25rem;font-weight:900;color:var(--dark)">${T('wsrKeyTitle')}</div>
+    <div style="text-align:center;font-size:.72rem;font-weight:800;color:#A07860;padding-bottom:.4rem">${T('wsrKeyNote')}</div>
+    <div class="wsr-key" style="grid-template-columns:repeat(${cols},minmax(0,auto))">${cells}</div>
+    ${last?'<div style="padding:.4rem 1rem .6rem;display:flex;justify-content:center;min-width:0"><div class="wsr-promo" style="flex:1 1 auto;max-width:100%;min-width:0;box-sizing:border-box;border:2px dashed #C8963C;border-radius:12px;background:#FFFDF0;padding:.6rem .75rem;display:flex">'+buildPromoBlock(window._wsrMeanPromo)+'</div></div>':''}
+    <div style="padding:.35rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800;border-top:1px solid #EDE4D6">${T('footerWsr')}</div>`;
+}
+// Tricky-words page: the ~40 hardest words of the sheet that have a meaning, A–Z.
+function _wsrHardness(w){
+  const W=WSR_WORDS||{}, has=k=>(W[k]||[]).includes(w);
+  const tier=has('adv8')?5:(has('adv7')||has('more7'))?4:(has('adv6')||has('more6'))?3:(has('adv5')||has('more5'))?2:has('more4')?1:0;
+  return tier*10+w.length;
+}
+const _WSR_PROMO_BOX='<div style="padding:.4rem 1rem .6rem;display:flex;justify-content:center;min-width:0"><div class="wsr-promo" style="flex:1 1 auto;max-width:100%;min-width:0;box-sizing:border-box;border:2px dashed #C8963C;border-radius:12px;background:#FFFDF0;padding:.6rem .75rem;display:flex">';
+function _wsrMeaningsHtml(words){
+  const items=words.map(w=>'<div class="wsr-mean-item"><b>'+w.toUpperCase()+'</b>'+WSR_MEAN[w]+'</div>').join('');
+  return `<div class="pg-hdr"><span class="pg-brand">ViLo<em>Labs</em> ${T('wsrTitle')}</span><span class="pg-num">${T('wsrWMHdr')}</span></div>
+    <div class="mz-page-title">${T('wsrWMTitle')}</div>
+    <div class="mz-page-instr">${Tf('wsrWMSub','n',words.length)}</div>
+    <div class="wsr-mean">${items}</div>
+    <div class="wsr-tip">${T('wsrWMTip')}</div>
+    ${_WSR_PROMO_BOX}${buildPromoBlock()}</div></div>
+    <div style="padding:.35rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800;border-top:1px solid #EDE4D6">${T('footerWsr')}</div>`;
+}
+function buildWordSearchAll(container,nav){
+  const A=WSR_AGE[wsrAge]||WSR_AGE[7], young=wsrAge<8;
+  if(young) curPageCount=Math.min(curPageCount,5);   // ages 6–7: 5 pages max
+  const {words,emoWords,pics}=_wsrPool(wsrAge);
+  const used=new Set(), puzzles=[], printed=new Set();
+  for(let p=0;p<curPageCount;p++){
+    // one picture style per page: real pictures while enough unused ones remain, then
+    // emoji-only pages, then (very long sheets) back to real pictures with repeats
+    const fresh=a=>a.filter(w=>!used.has(w)).length;
+    const pagePool=(emoWords&&emoWords.length&&fresh(words)<A.k&&fresh(emoWords)>=A.k)?emoWords:words;
+    const P=_wsrMake(A,pagePool,used,young);
+    if(!P) continue;
+    P.placed.forEach(x=>{used.add(x.w0);printed.add('w:'+x.w0);});
+    puzzles.push(P);
+    if(window._wsDry) continue;
+    const pg=document.createElement('div');
+    pg.className='ws-page'+(p===0?' act':'');pg.id='pg'+p;
+    pg.innerHTML=_wsrPageHtml(P,A,p,pics);container.appendChild(pg);
+    const dot=document.createElement('button');
+    dot.className='pg-dot'+(p===0?' act':'');dot.textContent=p+1;dot.onclick=()=>showPage(p);nav.appendChild(dot);
+  }
+  window._wsLastPrint={pics:printed,acts:new Set(),themes:[]};
+  if(window._wsDry||!puzzles.length) return;
+  // optional 'Tricky words' page (ages 9+) — BEFORE the answer key, so the key stays last
+  let extra=0; window._wsrMeanPromo=null;
+  if(wsrWM&&wsrAge>=9&&WSR_MEAN){
+    const sheetWords=[...new Set(puzzles.flatMap(P=>P.placed.map(x=>x.w0)))].filter(w=>WSR_MEAN[w]);
+    const pick=sheetWords.sort((a,b)=>_wsrHardness(b)-_wsrHardness(a)||a.localeCompare(b)).slice(0,30).sort((a,b)=>a.localeCompare(b));   // max 30 so the text can be big
+    if(pick.length){
+      const idx=curPageCount;
+      const pg=document.createElement('div');pg.className='ws-page';pg.id='pg'+idx;
+      pg.innerHTML=_wsrMeaningsHtml(pick);window._wsrMeanPromo=window._lastPromo;container.appendChild(pg);
+      const dot=document.createElement('button');dot.className='pg-dot';dot.innerHTML='📖';dot.title=T('wsrWMHdr');dot.onclick=()=>showPage(idx);nav.appendChild(dot);
+      extra=1;
+    }
+  }
+  if(!wsrAK) return;
+  // answer key: up to 6 grids per page; the last key page carries the promo block
+  for(let i=0,k=0;i<puzzles.length;i+=6,k++){
+    const idx=curPageCount+extra+k, last=i+6>=puzzles.length;
+    const pg=document.createElement('div');pg.className='ws-page';pg.id='pg'+idx;
+    pg.innerHTML=_wsrKeyHtml(puzzles.slice(i,i+6),i,last);container.appendChild(pg);
+    const dot=document.createElement('button');dot.className='pg-dot';dot.innerHTML='🗝️';dot.onclick=()=>showPage(idx);nav.appendChild(dot);
+  }
+}
 function buildMazeAll(container,nav){
   const mzDataArr=[];
   const sp=ageSpec(mzAge);
@@ -3246,7 +3921,7 @@ function buildMazePage(idx,sp,shape,per){
     <div class="mz-page-title">🌀 ${T('shLbl_'+shape)||T('shLbl_square')} &nbsp;<span style="font-size:.85rem;font-weight:700">${ageTxt} · ${diff}</span></div>
     <div class="mz-page-instr">${instr}</div>
     ${body}
-    <div style="padding:.35rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">${T('footerMaze')}${date}</div>`;
+    <div style="padding:.35rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800;border-top:1px solid #EDE4D6">${T('footerMaze')}</div>`;
   return{mazes,html};
 }
 function buildMazeKeyPage(arr){
@@ -3272,7 +3947,7 @@ function buildMazeKeyPage(arr){
     <div style="text-align:center;padding:.5rem 0 .1rem;font-size:1.25rem;font-weight:900;color:var(--dark)">${T('mazeKeyTitle')}</div>
     <div style="text-align:center;font-size:.72rem;font-weight:800;color:#A07860;padding-bottom:.4rem">${T('mazeKeyNote')}</div>
     <div class="mzk-grid" style="grid-template-columns:repeat(${cols},1fr)">${cells.join('')}</div>
-    <div style="padding:.35rem 1rem;text-align:center;font-size:.55rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">${T('footerMaze')}${date}</div>`;
+    <div style="padding:.35rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800;border-top:1px solid #EDE4D6">${T('footerMaze')}</div>`;
 }
 
 // ── WORKSHEET PAGES
@@ -3284,40 +3959,23 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
   // switch to emoji only when the PNG pool is too small (themed category with
   // <12 PNGs, or global PNG pool <10).
   curMode='png';
-  let srcItems;
+  // 2026-10-16: one picture pool PER THEME (1–3 themes). Multi-theme sheets take turns
+  // page by page, so each page stays focused and every named theme really appears.
+  const cfg=_wsCurrentConfig();
+  const themeKeys=(LIB&&LIB.length)?_themeKeys(cfg.category):[];
+  let sets;
   if(LIB&&LIB.length){
-    // ── Theme the worksheet first: if a category is set, force curMode to
-    //    the side that actually has ≥12 items, so the slug never lies.
-    //    e.g. vehicles/toys/tools/vegetables currently have 0 PNGs but
-    //    plenty of emoji — picking those themes forces emoji mode.
-    const cfg=_wsCurrentConfig();
-    if(cfg.category && cfg.category!=='mix'){
-      const inCat=LIB.filter(it=>it.category===cfg.category);
-      const pngCount=inCat.filter(it=>it.png).length;
-      const emoCount=inCat.filter(it=>it.emoji).length;
-      if(curMode==='png' && pngCount<12 && emoCount>=12) curMode='emoji';
-      else if(curMode==='emoji' && emoCount<12 && pngCount>=12) curMode='png';
-    }
+    // one style for the whole sheet: emoji only if a theme lacks pictures
+    if(themeKeys.some(k=>_themePool(k,'png').length<12&&_themePool(k,'emoji').length>=12)) curMode='emoji';
     let lp=libPool(curMode);
     if(lp.length<10){curMode=(curMode==='png'?'emoji':'png');lp=libPool(curMode);}
-    // ── Actually filter the pool to the chosen category. New PNGs in
-    //    stationery / symbols / household / buildings / etc. now correctly
-    //    populate their own themed worksheets.
-    if(cfg.category && cfg.category!=='mix'){
-      const themed=LIB.filter(it=>it.category===cfg.category)
-                      .filter(it=>curMode==='png'?it.png:it.emoji)
-                      .map(it=>libItem(it,curMode));
-      // Only narrow if we have enough for a 5-page worksheet (≈16 per page).
-      // If not, fall back to mix so the user always gets a usable sheet.
-      if(themed.length>=12) lp=themed;
-    }
-    srcItems=lp;
-  } else { srcItems=Object.values(DB).flat(); }
-  // Each page needs up to 16 items (4 activities × 4 each). With 5 pages
-  // that's 80. Pull a generous pool so per-page slices stay distinct and the
-  // same image doesn't repeat across activities on a single page.
-  const POOL_TARGET = Math.min(80, srcItems.length);
-  const allItems=pick(shuffle(srcItems),POOL_TARGET);
+    sets=themeKeys.map(k=>({key:k,src:_themePool(k,curMode)})).filter(x=>x.src.length>=12);
+    if(!sets.length) sets=[{key:null,src:lp}];
+  } else sets=[{key:null,src:Object.values(DB).flat()}];
+  // Each page needs up to 16 items (4 activities × 4 each). Pull a generous pool per
+  // theme so per-page slices stay distinct.
+  for(const st of sets){st.n=Math.min(80,st.src.length);st.items=pick(shuffle(st.src),st.n);}
+  const _printPics=new Set(), _printActs=new Set();
   // Track (acttype + sorted item ids) signatures across the WHOLE sheet so the
   // same activity never reuses the same 4-image combination on another page.
   // Per-activity buildAct() may not actually use the items we hand it (e.g. math
@@ -3334,14 +3992,18 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
     while(pageActs.length<4)pageActs.push(pool[rnd(0,pool.length-1)]);
     // Each page gets a fresh 16-item slice from the larger pool. With more
     // pages than the pool can cleanly support, mod-cycle.
-    const start=(p*16)%Math.max(POOL_TARGET-15,1);
+    const st=sets[p%sets.length], allItems=st.items, POOL_TARGET=st.n;
+    const pageLabel=st.key?_themeLabel(st.key):topicName;
+    const start=(Math.floor(p/sets.length)*16)%Math.max(POOL_TARGET-15,1);
     // FIX 2026-10-15: pools smaller than 16 used to wrap around and re-add the same pictures
     // (duplicates on one page → e.g. 4 identical 'odd one out'). De-duplicate, then top up
     // from the whole library (same png/emoji mode) so every page has 16 DIFFERENT pictures.
     let baseSlice=_uniqPics(allItems.slice(start,start+16).concat(allItems.slice(0,Math.max(0,16-(POOL_TARGET-start)))));
     if(baseSlice.length<16){
       const have=new Set(baseSlice.map(_picKey));
-      const extra=_uniqPics(shuffle((LIB?libPool(curMode):Object.values(DB).flat()).filter(x=>!have.has(_picKey(x)))));
+      // top up from RELATED sections first (fruits → vegetables…), then the whole library
+      const rel=(LIB&&st.key)?(THEME_RELATED[st.key]||[]).flatMap(k=>_themePool(k,curMode)):[];
+      const extra=_uniqPics([...shuffle(rel),...shuffle(LIB?libPool(curMode):Object.values(DB).flat())].filter(x=>!have.has(_picKey(x))));
       baseSlice=baseSlice.concat(extra.slice(0,16-baseSlice.length));
     }
     let pageItems=shuffle(baseSlice);
@@ -3367,16 +4029,22 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
       if(!_IMG_ACTS.has(act)) continue;
       _sheetUsed.add(_sliceSig(act,pageItems.slice(i*4,i*4+4)));
     }
+    const pgHtml=buildPage(p,pageActs,pageItems,lvlName,pageLabel);
+    for(const m of pgHtml.matchAll(/src="([^"]+)"/g)) if(!m[1].startsWith('data:')) _printPics.add(m[1]);
+    pageActs.forEach(a=>_printActs.add(a));
+    if(window._wsDry) continue;   // dry run (visit memory): same RNG path, no DOM
     const pg=document.createElement('div');
     pg.className='ws-page'+(p===0?' act':'');
     pg.id='pg'+p;
-    pg.innerHTML=buildPage(p,pageActs,pageItems,lvlName,topicName);
+    pg.innerHTML=pgHtml;
     container.appendChild(pg);
     const dot=document.createElement('button');
     dot.className='pg-dot'+(p===0?' act':'');
     dot.textContent=p+1;dot.onclick=()=>showPage(p);
     nav.appendChild(dot);
   }
+  window._wsLastPrint={pics:_printPics,acts:_printActs,themes:sets.map(x=>x.key||'mix')};
+  if(window._wsDry) return;
   // ── Math Master Answer Key page (Class 4 & 5 only) ──
   if((curLvl==='mm-4'||curLvl==='mm-5') && window._mmPuzzleCache && window._mmPuzzleCache.length){
     const akIdx = curPageCount;
@@ -3397,7 +4065,7 @@ function buildWorksheetAll(container,nav,lvlName,topicName){
         <div class="bstrip bstrip-r">${borderStrip(th,17)}</div>
         ${bodyHTML}
       </div>
-      <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.in · Free for classroom &amp; home use</div>`;
+      <div style="padding:.4rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800;border-top:1px solid #EDE4D6">ViLoLabs.in · Free for classroom &amp; home use</div>`;
     const pg=document.createElement('div');
     pg.className='ws-page';
     pg.id='pg'+akIdx;
@@ -3471,8 +4139,9 @@ const PROMOS=[
    desc:'Lightweight Android apps for kids’ learning and everyday tools. See what’s launching first.',
    path:'/app.html'}
 ];
-function buildPromoBlock(){
-  const p=PROMOS[rnd(0,PROMOS.length-1)];
+function buildPromoBlock(avoid){
+  let i=rnd(0,PROMOS.length-1); if(avoid&&PROMOS[i].name===avoid) i=(i+1)%PROMOS.length;
+  const p=PROMOS[i]; window._lastPromo=p.name;
   const url=PROMO_BASE+p.path;
   let qr='';
   try{
@@ -3530,7 +4199,7 @@ function buildPage(idx,acts,items,lvlName,topicName){
       <div class="bstrip bstrip-r">${borderStrip(th,17)}</div>
       ${bodyHTML}
     </div>
-    <div style="padding:.4rem 1rem;text-align:center;font-size:.52rem;color:#C4B8AC;font-weight:600;border-top:1px solid #EDE4D6">ViLoLabs.in · Free for classroom &amp; home use</div>`;
+    <div style="padding:.4rem 1rem;text-align:center;font-size:.62rem;color:#3D2B1F;font-weight:800;border-top:1px solid #EDE4D6">ViLoLabs.in · Free for classroom &amp; home use</div>`;
 }
 
 // ── Math Master — ONE full-page puzzle per page ──
@@ -5175,9 +5844,10 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('on'),2800);
 }
 // PDF — generate & download directly (100% client-side, no server, no print dialog)
-function doPrint(){
+async function doPrint(){
   if(_pdfBusy){ showToast('Your PDF is being prepared — one moment…'); return; }
-  if(!_wsReady){ showToast('Almost there — the worksheet is still loading. Try again in a second.'); return; }
+  if(!_wsReady && !(await _wsWhenReady('pdf'))) return;
+  if(_pdfBusy) return;
   // User committed → register worksheet in DB (once per generation).
   _wsPushIfCommitted();
   if(window.jspdf&&window.html2canvas){generatePDF();return;}
@@ -5250,6 +5920,58 @@ async function generatePDF(){
   if(lt)lt.textContent=T('loading');
   hideLoader();
   _pdfBusy=false;                // release the re-entrancy lock
+}
+// ── WHAT'S NEW banner + SHARE-THE-LOVE card (2026-10-16) ──────────────────────
+// Banner: shows on every visit until the visitor opens "See what's new" — then hidden from
+// their NEXT visit on (user decision 2026-10-16). Retires itself after _WN_UNTIL. Uses Math.random, never wsRand —
+// these must not touch the seeded worksheet stream.
+const _WN_KEY='vl-wn-2026-10', _WN_UNTIL=new Date('2026-11-17T00:00:00+05:30');
+function _lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function _lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+// NEW badge + glowing ring on Find the Word: shown for one month after launch (until the
+// same date as the What's-new banner), then removed automatically.
+(function _newBadgeInit(){ if(new Date()>_WN_UNTIL){ document.querySelectorAll('.lvl-new').forEach(e=>e.remove()); document.querySelectorAll('.lvl-btn.is-new').forEach(e=>e.classList.remove('is-new')); } })();
+(function _wnInit(){
+  const b=document.getElementById('wnBar');
+  if(b&&(new Date()>_WN_UNTIL||_lsGet(_WN_KEY)==='seen')) b.style.display='none';
+})();
+function openWhatsNew(){
+  const m=document.getElementById('wnModal');if(!m)return;
+  m.classList.add('on');_lsSet(_WN_KEY,'seen');
+  setTimeout(()=>{const x=m.querySelector('.wn-cta');if(x)x.focus();},60);
+}
+// 'Try it' in the popup → pick the Find the Word card and show its options
+function wnTryWordSearch(){
+  closeWhatsNew();
+  const b=document.querySelector('.lvl-btn[data-level="wordsearch"]');
+  if(b){ selLvl(b); const o=document.getElementById('wsrOptsSec'); if(o) setTimeout(()=>o.scrollIntoView({behavior:'smooth',block:'center'}),60); }
+}
+function closeWhatsNew(){const m=document.getElementById('wnModal');if(m)m.classList.remove('on');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeWhatsNew();});
+// Share card: on every Generate/New (user decision 2026-10-16), 10 s on screen (keeps going after the sheet is ready),
+// pauses while hovered/touched, never covers the sheet (bottom corner), never printed.
+function _loveNudge(){
+  const c=document.getElementById('loveCard');if(!c)return;
+  document.getElementById('loveMsg').textContent=T('love'+(1+Math.floor(Math.random()*4)));
+  c.classList.remove('on');void c.offsetWidth;c.classList.add('on');
+}
+function closeLove(){const c=document.getElementById('loveCard');if(c)c.classList.remove('on','hold');}
+(function _loveInit(){
+  const c=document.getElementById('loveCard'),bar=document.getElementById('loveBar');if(!c||!bar)return;
+  bar.addEventListener('animationend',closeLove);
+  c.addEventListener('touchstart',()=>c.classList.add('hold'),{passive:true});
+  c.addEventListener('touchend',()=>setTimeout(()=>c.classList.remove('hold'),1500),{passive:true});
+})();
+function loveShare(net){
+  const url='https://vilolabs.in/worksheet', msg=_shareMsg();
+  if(net==='wa') window.open('https://wa.me/?text='+encodeURIComponent(msg+'\n'+url),'_blank','noopener');
+  else if(net==='fb') window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),'_blank','noopener');
+  else{
+    // Instagram has no web share link: phones → system share sheet; desktop → copy link.
+    if(navigator.share&&/Android|iPhone|iPad|Mobi/i.test(navigator.userAgent)){navigator.share({title:'ViLo Worksheets',text:msg,url}).catch(()=>{});}
+    else{(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>showToast(T('loveCopied'))).catch(()=>showToast(url));}
+  }
+  closeLove();
 }
 applyLang();
 </script>

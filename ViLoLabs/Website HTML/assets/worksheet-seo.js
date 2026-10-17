@@ -65,6 +65,50 @@
     return parseInt(id, 36) >>> 0;
   }
 
+
+  /* ── multi-theme categories (2026-10-16) ──────────────────────────────
+   * A sheet can have 1–3 themes. Internally 'animals+fruits+vehicles'; in the URL
+   * "animals-fruits-and-transport"; in titles "Animal, Fruit & Transport".
+   * Single-theme and mix slugs parse exactly as before (old share links keep working). */
+  function catEntries(kw) {
+    return Object.entries(kw.categories)
+      .filter(([k, v]) => !k.startsWith('_') && k !== 'mix' && v && v.slug)
+      .map(([key, v]) => ({ key, toks: v.slug.split('-') }));
+  }
+  function categorySlug(cat, kw) {
+    if (!cat || cat === 'mix') return 'mix';
+    const slugs = String(cat).split('+').map(k => kw.categories[k] && kw.categories[k].slug).filter(Boolean);
+    if (!slugs.length) return 'mix';
+    return slugs.length === 1 ? slugs[0] : slugs.slice(0, -1).join('-') + '-and-' + slugs[slugs.length - 1];
+  }
+  function parseCategory(rest, kw) {
+    if (!rest) return 'mix';
+    const single = Object.entries(kw.categories).filter(([k, v]) => !k.startsWith('_') && v && v.slug).find(([, v]) => v.slug === rest);
+    if (single) return single[0];
+    const toks = rest.split('-'), cats = catEntries(kw);
+    // first match per slug wins (e.g. 'transport' → vehicles, the real library key)
+    const seen = new Set(), uniq = cats.filter(c => { const k = c.toks.join('-'); if (seen.has(k)) return false; seen.add(k); return true; });
+    function walk(i, acc) {
+      if (i === toks.length) return acc.length >= 2 && acc.length <= 3 ? acc : null;
+      let j = i;
+      if (acc.length && toks[j] === 'and') j++;          // optional "and" between themes
+      for (const c of uniq) {
+        if (c.toks.every((t, n) => toks[j + n] === t)) {
+          const r = walk(j + c.toks.length, acc.concat(c.key));
+          if (r) return r;
+        }
+      }
+      return null;
+    }
+    const found = walk(0, []);
+    return found ? found.join('+') : 'mix';
+  }
+  function categoryNames(cat, kw, pickFn) {
+    const keys = (!cat || cat === 'mix') ? ['mix'] : String(cat).split('+');
+    const names = keys.map((k, i) => { const c = kw.categories[k] || kw.categories['mix']; return pickFn(c.names, i); });
+    return names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' & ' + names[names.length - 1];
+  }
+
   /* ── slug build / parse ── */
   // SLUG SHAPE:  {activitySlug}-{gradeSlug}-{categorySlug}-{id4}
   // categorySlug is optional in URL (used to be cleaner). When absent, parser
@@ -129,12 +173,8 @@
     if (!gradeMatch) return null;
     rest = rest.slice(gradeMatch.slug.length).replace(/^-/, '');
 
-    // 3. remainder (if any) is category slug
-    let catKey = 'mix';
-    if (rest) {
-      const found = Object.entries(kw.categories).find(([, v]) => v.slug === rest);
-      if (found) catKey = found[0];
-    }
+    // 3. remainder (if any) is the category slug — one theme, or 2–3 joined with "and"
+    const catKey = parseCategory(rest, kw);
 
     return {
       activity: actMatch.key,
@@ -159,7 +199,7 @@
     // its grade slug with the other two AND has key === activity key, so the
     // parseSlugWith tie-break can always resolve correctly. If you ADD a new grade
     // to this slug, add its key here too — and make sure it matches an activity.
-    const ALLOWED_TIE = { 'for-kids': new Set(['colouring', 'sudoku', 'maze']) };
+    const ALLOWED_TIE = { 'for-kids': new Set(['colouring', 'sudoku', 'maze', 'wordsearch']) };
     const bySlug = {};
     for (const [k, v] of Object.entries(kw.grades)) {
       if (k.startsWith('_') || !v || !v.slug) continue;
@@ -212,7 +252,7 @@
     return {
       activity: pickFrom(a.names, seed, 1),
       grade:    pickFrom(g.names, seed, 2),
-      category: pickFrom(c.names, seed, 3),
+      category: categoryNames(config.category, kw, (arr, i) => pickFrom(arr, seed, 3 + i)),
       ages:     g.ages || ''
     };
   }
@@ -263,6 +303,8 @@
     buildSlug,
     parseSlug,
     parseSlugWith,
+    categorySlug,
+    parseCategory,
     loadKeywords,
     renderTitle,
     renderDesc,

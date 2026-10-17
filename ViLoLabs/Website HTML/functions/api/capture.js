@@ -23,7 +23,7 @@
 // colouring/maze/sudoku = single-focus; worksheet = a class-wise mix sheet
 // (Pre-KG–Class 5); math = Math Master. The client normalizes curLvl to one of
 // these before sending. Must stay in sync with the DB CHECK constraint.
-const ALLOWED   = new Set(['colouring', 'maze', 'sudoku', 'worksheet', 'math']);
+const ALLOWED   = new Set(['colouring', 'maze', 'sudoku', 'worksheet', 'math', 'wordsearch']);
 const DAILY_CAP = 5;
 const TOTAL_CAP = 500;
 const MAX_BYTES = 500 * 1024;
@@ -167,7 +167,7 @@ function countFrom(res) {
 // back to a slug-derived description for pages with no clear subject (maze/sudoku).
 function buildAlt(slug, activity, subject) {
   // '' → the word "worksheet" alone (grade mixes aren't a single activity).
-  const label = { colouring: 'colouring ', maze: 'maze ', sudoku: 'sudoku ', worksheet: '', math: 'math ' }[activity];
+  const label = { colouring: 'colouring ', maze: 'maze ', sudoku: 'sudoku ', worksheet: '', math: 'math ', wordsearch: 'puzzle ' }[activity];
   const lbl = label != null ? label : (activity + ' ');
   const clean = sanitizeSubject(subject);
   if (clean) {

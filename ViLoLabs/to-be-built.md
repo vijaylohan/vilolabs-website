@@ -80,7 +80,8 @@ Everything below is ready or planned locally; nothing is live until this push.
       readable — e.g. wrap the hint pictures in a flex row with `display:inline-block` and a
       real size (~24–28px), or drop the hint line (the big row above already shows the
       pattern). Check pattern-abc and any other line that puts `.e` pictures inside text.
-- [ ] **FRESHNESS UPGRADE — every Generate click in one visit must feel new** (agreed
+- [x] **BUILT locally 2026-10-16:** one cached theme decision (_wsCfg) drives pictures + header + page labels + slug (mismatch bug FIXED); 1–3 themes, AUTOMATIC combos (user 2026-10-16: any 2–3 themes from the class list, rules THEME_NEVER + no family overlap; ~200+ different combos per class; KG/Pre-KG ~39% one / 30% two / 31% three themes; Class 1-5 ~30/22/23% + ~25% mixed; pages take turns); families animals/food (THEME_MEMBERS); LEVEL_TOPICS expanded (+weather, space, people, buildings…; weather added to seo-keywords.json); related top-up (THEME_RELATED); visit memory = seed shopping (localStorage vl-ws-recent, up to 12 dry runs ≈11 ms each, picks the least-repeating seed — sheet stays 100% seed-decided, share links exact); multi-theme slugs `…-birds-fruits-and-transport-<id>` in worksheet-seo.js + functions/worksheets/[slug].js (old slugs parse as before; an old link's named theme now wins on restore). 6-sheet visit repeats: Pre-KG 36%→15%, KG 47%→35%, Cl1 44%→34%, Cl3 41%→25%; theme repeats → 0. Remaining repeats come from fixed small pools (fruit-or-veg, shapes, pairs…).
+- [x] **FRESHNESS UPGRADE — every Generate click in one visit must feel new** (agreed
       2026-10-12; generator logic only, no page/UI change). Problem measured: library has
       588 pictures / 28 sections, but a themed sheet draws from ~25 pictures (10 pages ≈ 160
       slots → heavy repeats), and LEVEL_TOPICS (~line 1034) never offers many sections
@@ -165,33 +166,41 @@ Everything below is ready or planned locally; nothing is live until this push.
 - [x] **New question types W7–W11** (below) — at least W7 Land/Water/Air and W5 Day/Night — W7 + W5 DONE locally 2026-10-15
       (W8–W11 follow in a later update.)
 - [x] **Fair picture mixing** (2026-10-15, local) — `shuffle()` was a biased sort; now seeded Fisher-Yates so new pictures (end of library.json) get picked. Old share links regenerate with different pictures (same level/type) — user accepted.
-- [ ] **"What's new" banner + popup** (requested 2026-10-16; approved front-end change).
+- [x] **BUILT locally 2026-10-16** — banner `#wnBar`, popup `#wnModal`, card `#loveCard`
+      (worksheet.html; JS block before the final `applyLang()`). Banner shows every visit until
+      "See what's new" is opened, then hidden from the next visit (user decision 2026-10-16) and retires 2026-11-17. Card: on EVERY Generate/New
+      (user decision 2026-10-16), 10 s, pauses on hover/touch, not shown
+      when opening a shared link. Find-the-Word line `#wnWord` is hidden — un-hide when
+      word search ships. Shares the `/worksheet` hub link (wa.me, facebook sharer,
+      Instagram = phone share sheet / desktop copy-link).
+- [x] **"What's new" banner + popup** (requested 2026-10-16; approved front-end change).
       Slim gold banner at the TOP of the worksheet generator page (not on printed sheets /
       PDF, not on `/worksheets/<slug>` share-restore views? → decide). Click → small, clean
       popup listing the upgrades in plain words, in the language picked at the top (EN/HI).
       Close button + click-outside + Esc; remember "seen" in localStorage (try/catch) so the
       banner shrinks/hides after the visitor has read it; banner retired after ~30 days.
       Must meet the professional UI bar. Draft wording:
-      - Banner EN: "✨ New: smarter worksheets — fresh pictures and new questions every time. See what's new →"
-      - Banner HI: "✨ नया: और भी स्मार्ट वर्कशीट — हर बार नई तस्वीरें और नए सवाल। देखें क्या नया है →"
+      - Banner EN (v2, dark update bar): badge "● NEW UPDATE" · "We've upgraded the engine behind every worksheet" · "Smarter pictures · Intelligent questions · New thinking skills" · button "See what's new →"
+      - Banner HI (v2): "नया अपडेट" · "हमने हर वर्कशीट के पीछे का इंजन अपग्रेड किया है" · "स्मार्ट तस्वीरें · समझदार सवाल · सोचने की नई कुशलताएँ" · "देखें क्या नया है →"
       - Popup title EN: "What's new in ViLo Worksheets" · HI: "ViLo वर्कशीट में क्या नया है"
-      - Popup subtitle EN: "We've rebuilt the engine behind every worksheet."
-        HI: "हमने हर वर्कशीट के पीछे का इंजन नए सिरे से बनाया है।"
+      - Popup subtitle EN: "We've upgraded the engine behind every worksheet."
+        HI: "हमने हर वर्कशीट के पीछे का इंजन अपग्रेड किया है।"
+      - Popup (2026-10-16): highlighted "New section" box at the top — Find the Word + "Enjoy our new section!" + Try it → button (selects the card); separate list line removed.
       - Popup points EN (v3 — headline-only, all bold, no explanation lines):
         • **Smarter picture engine for fresher, more varied worksheets**
         • **Intelligent question builder, tuned to every class level**
         • **New thinking skills: sorting, grouping and real-world reasoning**
         • **Sharper visual puzzles that build true observation skills**
         • **Find the Word: age-adaptive word-search puzzles** (only if it ships)
-        • **Same promise: always free, private and sign-up free**
+        • **Same promise: free, private and sign-up free**
       - Popup points HI:
         • **ताज़ा और विविध वर्कशीट के लिए स्मार्ट पिक्चर इंजन**
         • **हर कक्षा के हिसाब से समझदार सवाल-निर्माता**
         • **सोचने की नई कुशलताएँ: छाँटना, समूह बनाना और रोज़मर्रा की समझ**
         • **और तेज़ दृश्य पहेलियाँ, जो सच्ची परख सिखाती हैं**
         • **शब्द खोज: उम्र के हिसाब से बदलने वाली पहेलियाँ** (अगर तैयार हो)
-        • **वही वादा: हमेशा मुफ़्त, निजी और बिना साइन-अप**
-- [ ] **"Share the love" nudge during generation** (requested 2026-10-16; approved front-end
+        • **वही वादा: मुफ़्त, निजी और बिना साइन-अप**
+- [x] **"Share the love" nudge during generation** (requested 2026-10-16; approved front-end
       change). While the progress bar runs, a small card slides in at the side/bottom — never
       covering the worksheet, never blocking, auto-fades, closable, NOT in print/PDF. Don't
       show it on every generate (e.g. 1 in 3, or once per visit) so it stays warm, not naggy.
@@ -211,7 +220,11 @@ Everything below is ready or planned locally; nothing is live until this push.
       - HI: "💛 हर बच्चे के लिए मुफ़्त। किसी दोस्त से शेयर करें।"
       - HI: "💛 किसी माता-पिता को ये पसंद आएगा? शेयर करें।"
       - HI: "💛 आपका एक शेयर, एक और बच्चे की पढ़ाई।"
-- [ ] **Find the Word (word search) mode** — build W6 below: new mode card + age slider
+      - EN/HI #4 (2026-10-16): "💛 Sharing is caring — help us reach more parents." / "💛 शेयर करना ही केयर करना है — और माता-पिता तक पहुँचाएँ।"
+      - What's-new popup also has a share box above "Start creating": "💛 Sharing is caring — help us grow and reach a bigger community of parents." + WhatsApp/Instagram/Facebook buttons
+      - Generator page share boxes (2026-10-16): Share-button box headline = "💛 Sharing is caring — help us grow and reach more parents."; box under the worksheet = "Sharing is caring 💛 Help another parent and help us grow — share this worksheet." (keys shareCare / shareNudge, EN+HI); phones get a "💛 Thank you — sharing is caring!" toast with the system share sheet.
+- [x] **BUILT locally 2026-10-16** — mode card "Find the Word" + age slider 6–12 + answer-key switch (#wsrOptsSec); buildWordSearchAll + _wsrMake in worksheet.html; word library assets/word-search-words.json (FINAL 2026-10-17 after Claude review on Vijay's request: 2,125 words, 796 meanings; also removed angel, troop, pirate, county. Earlier 2,129 words after 2026-10-16 difficulty review: age 11 = 6–7 letters, no everyday lists; age 12+ = 15×15, 6–8 letters incl. adv8 (154 eight-letter words, all with meanings); naval/quart/gallon removed; avg word length 9→12+: 4.6/5.2/6.4/6.6; word-meanings.json = 796. Earlier: 1,978 words: + adv5/adv6/adv7 big US/UK/India school vocabulary for ages 10–12+ added 2026-10-16 → age 10 ≈1,430, age 11–12+ ≈1,630 words, 100+ pages before a repeat; no -ise/-ize, no country-specific meanings; knight+title also removed. Earlier: 823 words after 2026-10-16 safety review removed ginger, beaver, nuts, weed, knife, tank, temple; pic3/pic4 picture words for ages 6–7, easy3–5, more4–7); every word exactly once (8-direction scan), blocklist WSR_BLOCK (~70 rude/unkind/violent strings) — strict rule: a blocked string anywhere in 8 directions re-rolls unless it lies inside ONE listed word read the same way (catches filler accidents AND word-meets-word); 2,100-puzzle independent check = 0 hits, no word-inside-word, young ages no overlaps, forward-only (↗ from 10); no repeats within a sheet (age 6: 36 picture words + 16 hand-checked Fluent emoji (MIT) in assets/emoji/wordsearch/ — emoji used on their OWN pages after real pictures run out, never mixed on a page; 15-page age-6 repeats 39 → 24 of 75; age 7: 100 picture words + 21 emoji spare). DIAGONAL CAP (2026-10-17): max diagonal words per page = age 8:2, 9:3, 10:4, 11:4, 12+:5 (WSR_AGE.diag) — before, a page could have 9 of 10 diagonal (frustrating). Word counts per page reviewed = comfortable vs school norms. WORDS TO KNOW strip (2026-10-16): every puzzle page ages 9+ shows the page's 3 hardest words + meanings in the spare space under the grid (grid size unchanged; measured ≥167px spare). TRICKY WORDS PAGE (option D, 2026-10-16): switch "Add a ‘Tricky words’ meanings page" (ages 9+, default off, seed bit 32) → ONE extra page before the answer key: up to 30 hardest words of the sheet (cap lowered 2026-10-16 so text can be big: word 1.04rem, meaning .94rem) that have a meaning (assets/word-meanings.json, 644 hand-written child-friendly meanings, no UK/US spelling), A–Z, subtitle "N of the harder words… Easy words are not listed", honesty tip, own promo (never the same tool as the key page). Fits A4 at 30 (longest meaning ≤50 chars → one line). Meanings reviewed: ONE clear meaning each (no "x, or y"), abstract words given simple examples. Ages 6–7 are LOCKED to 5 pages (user 2026-10-16; slider greyed + note) → no repeats at all. Setup screen: selected card/class button = lift + dark ring + gold glow + ✓ badge, other cards fade.; visit memory via seed shopping; age + answer-key ride in the seed low 5 bits → share links reopen identical; slug word-search-puzzles-for-kids-<id> (word-search-for-kids is taken by the mixed-sheet activity); seo-keywords activity+grade wordsearch, ALLOWED_TIE += wordsearch; EN+HI. NOT in Google-Images auto-capture yet: functions/api/capture.js ALLOWED + the DB check constraint on captured_worksheets.activity must both allow "wordsearch" first (needs a Supabase SQL change by Vijay).
+- [x] **Find the Word (word search) mode** — build W6 below: new mode card + age slider
       (6 → 12), forward-only words, picture clues ages 6–7, answer page with circles +
       promo, EN + HI instructions, no-repeat memory. Includes the **word library**
       (`assets/word-search-words.json`, ~300–500 words per age band) — Vijay skims the

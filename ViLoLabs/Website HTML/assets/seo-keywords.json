@@ -68,6 +68,11 @@
       "slug": "for-kids",
       "names": ["Kids", "Children"],
       "ages": "Ages 5-12"
+    },
+    "wordsearch": {
+      "slug": "for-kids",
+      "names": ["Kids", "Children"],
+      "ages": "Ages 6-12"
     }
   },
 
@@ -100,6 +105,7 @@
     "_legacy_comment": "Kept below for any pre-2026-05-26 worksheet URLs that used the older fake-category names. Safe to remove after Search Console shows no traffic to those slugs.",
     "transport":     { "slug": "transport",       "names": ["Transport", "Vehicle"] },
     "school":        { "slug": "school",          "names": ["School", "Back to School"] },
+    "weather":       { "slug": "weather",         "names": ["Weather", "Seasons and Weather", "Weather Theme"] },
     "space":         { "slug": "space",           "names": ["Space", "Solar System", "Astronomy"] },
     "objects":       { "slug": "objects",         "names": ["Everyday Object", "Household"] }
   },
@@ -107,6 +113,7 @@
   "_activityComment": "Each activity has: slug=URL phrase that matches real search volume, names=display names for titles. Slugs come directly from observed top-ranking worksheet URLs.",
   "activities": {
     "maze":            { "slug": "maze-worksheets",         "names": ["Maze", "Maze Puzzle"] },
+    "wordsearch":      { "slug": "word-search-puzzles",     "names": ["Word Search", "Word Search Puzzle", "Find the Word Puzzle", "Printable Word Search", "Word Find Puzzle", "Spelling Word Search"] },
     "sudoku":          { "slug": "sudoku",                  "names": ["Sudoku", "Picture Sudoku"] },
     "colouring":       { "slug": "coloring-pages",          "names": ["Coloring", "Coloring Page"] },
     "math":            { "slug": "math-worksheets",         "names": ["Math", "Maths", "Math Practice"] },

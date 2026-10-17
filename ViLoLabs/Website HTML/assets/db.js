@@ -57,6 +57,11 @@
         },
         body: JSON.stringify(row)
       });
+      // Multi-theme sheets (2026-10-16) store e.g. 'birds+fruits+vehicles'. If the table
+      // ever rejects that value, retry once with the first theme so the row still saves.
+      if (res.status === 400 && category && String(category).includes('+')) {
+        return saveWorksheet(slug, activity, grade, String(category).split('+')[0], seed, libraryVersion);
+      }
       // 409 = duplicate slug (already saved) — non-fatal.
       if (!res.ok && res.status !== 409) {
         console.warn('[ViloDB] saveWorksheet HTTP ' + res.status);

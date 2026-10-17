@@ -99,7 +99,7 @@ Preview is also wired up in Claude Code via `.claude/launch.json` — use the Pr
 - **ViLo Apps** (Android apps) — `app.html`, "Coming Soon" card
 - **Newsletter form** — has frosted overlay, not functional yet (branded "ViLo Pulse" — Pulse/Signal are the same)
 - **Contact form** — has frosted overlay, not functional yet
-- **hello@vilolabs.com** — marked "soon", not active
+- ~~hello@vilolabs.com~~ → contact email is now **support@vilolabs.in** (live 2026-10-17; home Contact section, footer, privacy/terms/cookies, Organization JSON-LD)
 - **Social media** (Twitter/X, LinkedIn, Instagram) — all marked "soon"
 
 ## What's Live and Working
@@ -144,7 +144,7 @@ Preview is also wired up in Claude Code via `.claude/launch.json` — use the Pr
 **Why this exact combination matters:** Cloudflare Pages discovers `functions/` at the ROOT DIRECTORY, not the build output. Setting root directory to empty (repo root) while functions live at `ViLoLabs/Website HTML/functions/` means Cloudflare never finds them — all Function URLs return the site's static 404 page silently. This wasted ~5 hours on 2026-07-03 debugging what looked like a Function CODE bug but was actually a dashboard SETTINGS bug (share URLs 404ed in production for weeks; every code fix appeared to work in local wrangler because local wrangler discovers functions/ relative to the dev command's cwd, not via the Pages settings). Symptoms of this being broken again: any `functions/foo.js` returns 404 at `/foo` instead of running. Fix: set Root directory to `ViLoLabs/Website HTML` and Build output to `.` in the Pages project settings, then trigger a fresh deploy.
 
 ## Domain
-- **Live on `vilolabs.in`** (TLD `.in`). Email: `hello@vilolabs.in` (not provisioned yet — alias still TBD).
+- **Live on `vilolabs.in`** (TLD `.in`). Contact email: **`support@vilolabs.in`** (active 2026-10-17). No phone/WhatsApp on the site by choice.
 - Launched + domain-switched: commit `219be47` — every `vilolabs.netlify.app` → `vilolabs.in` across sitemap, JSON-LD, canonicals, og:url, og:image.
 - DNS on Cloudflare (free). Registrar = Porkbun / Hostinger (Cloudflare Registrar does NOT sell `.in`).
 - Three roles stay separate: **Registrar** (who you renew with) ≠ **DNS** (Cloudflare) ≠ **Host** (Cloudflare Pages).
@@ -277,7 +277,7 @@ The static site has the following in place — keep them in place during any reb
 5. Contact form backend — Cloudflare Pages Function (`functions/contact.js`) or Formspree.
 6. Newsletter backend — Mailchimp or ConvertKit free tier.
 7. Social media URLs — when accounts are created. Drop URLs into the `sameAs` array of the homepage Organization JSON-LD (clear template + activation note already embedded in `index.html` head — search for "TO ACTIVATE SOCIAL PROFILES"). Also flip the hidden `display:none` on the footer + contact "Follow" blocks. ONLY add real, claimed URLs that link back; fake/speculative `sameAs` hurts knowledge-panel trust.
-8. Real email (`hello@vilolabs.in`) — when email is set up.
+8. ✅ Real email — **support@vilolabs.in** live on the site (2026-10-17).
 9. ✅ Pinterest domain verification — meta tag in `<head>` of `index.html` (commit `a447985`). Account claim still TODO inside the Pinterest dashboard.
 10. **🚨 BIGGEST OPEN SEO GAP — server-rendered per-slug meta.** No `functions/` folder exists yet. Without it, every `/worksheets/<slug>` URL serves identical static HTML; per-slug meta is JS-only. This is what's causing Pinterest's spam classifier to flag pin destinations as duplicates, AND what's keeping Google from indexing curated slugs as distinct pages. See pSEO section — building `functions/worksheets/[slug].js` is the single highest-leverage SEO work left.
 
