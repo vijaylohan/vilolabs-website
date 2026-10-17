@@ -215,6 +215,16 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);o
   .col-png-wrap{padding:0!important;flex:1!important;}
   .col-png{max-width:100%!important;max-height:100%!important;}
 }
+/* PDF + print ONLY (fixed A4 page height): the picture must fit the space LEFT on
+   the page, never grow it — a tall PNG's natural height pushed the footer and the
+   bottom ~15% of the drawing off the page (2026-10-17). Not applied on screen,
+   where pages have no fixed height and an absolute image would collapse to 0. */
+.pdfmode .col-png-wrap{min-height:0!important;position:relative!important;}
+.pdfmode .col-png{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;padding:inherit!important;box-sizing:border-box!important;}
+@media print{
+  .col-png-wrap{min-height:0!important;position:relative!important;}
+  .col-png{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;padding:inherit!important;box-sizing:border-box!important;}
+}
 .col-act-svg{width:100%;height:auto;border:2.5px dashed var(--border);border-radius:12px;background:#FFFAF4;display:block;}
 .col-crayon-row{padding:.4rem 1rem;display:flex;gap:.5rem;align-items:center;border-top:1px solid #EDE4D6;background:#FDFAF5;flex-wrap:wrap}
 .col-crayon-lbl{font-size:.58rem;font-weight:900;color:var(--brown)}
@@ -398,6 +408,7 @@ html[lang=hi] .wsr-wtk-h{letter-spacing:0;text-transform:none}
   .act-body{min-height:0!important;min-width:0!important;overflow:hidden!important;}
   .col-page-inner{flex:1!important;display:flex!important;flex-direction:column!important;}
   .col-main-wrap{flex:1!important;min-height:auto!important;}
+  .col-main-wrap.col-png-wrap{min-height:0!important;}
   .col-main-svg{max-width:none!important;width:100%!important;max-height:none!important;}
   .col-act-svg{max-height:none!important;flex:1!important;min-height:0!important;}
 }
